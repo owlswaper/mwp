@@ -1,0 +1,7 @@
+{
+    "require": {
+        "mjkhajeh/wporm": "^2.4",
+        "mjkhajeh/whitebox": "^2.0",
+        "mjkhajeh/wporm-extra-casts": "^1.0"
+    }
+}

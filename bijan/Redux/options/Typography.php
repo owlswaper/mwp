@@ -1,0 +1,522 @@
+<?php
+
+use Bijan\Utils;
+
+defined( 'ABSPATH' ) || exit;
+
+$fonts = Utils::fonts();
+$weights = [
+	'400'	=> __( 'Normal', 'bijan' ),
+	'100'	=> __( 'Thin', 'bijan' ),
+	'200'	=> __( 'ExtraLight', 'bijan' ),
+	'300'	=> __( 'Light', 'bijan' ),
+	'500'	=> __( 'Medium', 'bijan' ),
+	'600'	=> __( 'SemiBold', 'bijan' ),
+	'700'	=> __( 'Bold', 'bijan' ),
+	'800'	=> __( 'ExtraBold', 'bijan' ),
+	'900'	=> __( 'Black', 'bijan' ),
+];
+
+$fonts_fields = [];
+$is_rtl = is_rtl();
+foreach( $fonts as $font => $font_name ) {
+	$fonts_fields[] = [
+		'id'		=> "font_{$font}",
+		'title'		=> $is_rtl ? $font_name['fa'] : $font_name['en'],
+		'type'		=> 'switch',
+		'on'		=> esc_html__( 'Enabled', 'bijan' ),
+		'off'		=> esc_html__( 'Disabled', 'bijan' ),
+		'default'	=> in_array( $font, Utils::default_active_fonts() ),
+	];
+}
+
+Redux::set_section( // Active Fonts
+	$opt_name,
+	array(
+		'title'			=> esc_html__( 'Active Fonts', 'bijan' ),
+		'id'			=> 'fonts-typography-section',
+		'subsection'	=> true,
+		'fields'		=> $fonts_fields
+	)
+);
+
+Redux::set_section( // Main
+	$opt_name,
+	array(
+		'title'			=> esc_html__( 'Main', 'bijan' ),
+		'id'			=> 'main-typography-section',
+		'subsection'	=> true,
+		'fields'		=> array(
+			[ // main-typography
+				'id'				=> 'main-typography',
+				'type'				=> 'typography',
+				'title'				=> esc_html__( 'Main font', 'bijan' ),
+				'compiler'			=> true,
+				'fonts'				=> $fonts,
+				'font-size-unit'	=> 'px',
+				'line-height-unit'	=> '%',
+				'weights'			=> $weights,
+				'subsets'			=> false,
+				'color'				=> false,
+				'preview'			=> false,
+				'text-align'		=> false,
+				'default'			=> [
+					'font-family'	=> 'IRANYekanXFANum',
+				],
+			],
+			[ // breadcrumb-typography
+				'id'				=> 'breadcrumb-typography',
+				'type'				=> 'typography',
+				'title'				=> esc_html__( 'Breadcrumb', 'bijan' ),
+				'compiler'			=> true,
+				'fonts'				=> $fonts,
+				'units'				=> 'rem',
+				'line-height-unit'	=> '%',
+				'weights'			=> $weights,
+				'subsets'			=> false,
+				'color'				=> false,
+				'preview'			=> false,
+				'text-align'		=> false,
+			],
+			[ // post-title-single-typography
+				'id'				=> 'archive-title-typography',
+				'type'				=> 'typography',
+				'title'				=> esc_html__( 'Page/Archive title', 'bijan' ),
+				'compiler'			=> true,
+				'fonts'				=> $fonts,
+				'units'				=> 'rem',
+				'line-height-unit'	=> '%',
+				'weights'			=> $weights,
+				'subsets'			=> false,
+				'color'				=> false,
+				'preview'			=> false,
+				'text-align'		=> false,
+			],
+			[ // post-title-typography
+				'id'				=> 'post-title-typography',
+				'type'				=> 'typography',
+				'title'				=> esc_html__( 'Post title (single)', 'bijan' ),
+				'compiler'			=> true,
+				'fonts'				=> $fonts,
+				'units'				=> 'rem',
+				'line-height-unit'	=> '%',
+				'weights'			=> $weights,
+				'subsets'			=> false,
+				'color'				=> false,
+				'preview'			=> false,
+				'text-align'		=> false,
+			],
+		),
+	)
+);
+
+Redux::set_section( // Headings
+	$opt_name,
+	array(
+		'title'			=> esc_html__( 'Headings', 'bijan' ),
+		'id'			=> 'headings-typography-section',
+		'subsection'	=> true,
+		'fields'		=> array(
+			[ // h1-typography
+				'id'				=> 'h1-typography',
+				'type'				=> 'typography',
+				'title'				=> esc_html__( 'H1', 'bijan' ),
+				'compiler'			=> true,
+				'fonts'				=> $fonts,
+				'font-size-unit'	=> 'rem',
+				'line-height-unit'	=> '%',
+				'weights'			=> $weights,
+				'subsets'			=> false,
+				'color'				=> false,
+				'preview'			=> false,
+				'text-align'		=> false,
+			],
+			[ // h2-typography
+				'id'				=> 'h2-typography',
+				'type'				=> 'typography',
+				'title'				=> esc_html__( 'H2', 'bijan' ),
+				'compiler'			=> true,
+				'fonts'				=> $fonts,
+				'font-size-unit'	=> 'rem',
+				'line-height-unit'	=> '%',
+				'weights'			=> $weights,
+				'subsets'			=> false,
+				'color'				=> false,
+				'preview'			=> false,
+				'text-align'		=> false,
+			],
+			[ // h3-typography
+				'id'				=> 'h3-typography',
+				'type'				=> 'typography',
+				'title'				=> esc_html__( 'H3', 'bijan' ),
+				'compiler'			=> true,
+				'fonts'				=> $fonts,
+				'font-size-unit'	=> 'rem',
+				'line-height-unit'	=> '%',
+				'weights'			=> $weights,
+				'subsets'			=> false,
+				'color'				=> false,
+				'preview'			=> false,
+				'text-align'		=> false,
+			],
+			[ // h4-typography
+				'id'				=> 'h4-typography',
+				'type'				=> 'typography',
+				'title'				=> esc_html__( 'H4', 'bijan' ),
+				'compiler'			=> true,
+				'fonts'				=> $fonts,
+				'font-size-unit'	=> 'rem',
+				'line-height-unit'	=> '%',
+				'weights'			=> $weights,
+				'subsets'			=> false,
+				'color'				=> false,
+				'preview'			=> false,
+				'text-align'		=> false,
+			],
+			[ // h5-typography
+				'id'				=> 'h5-typography',
+				'type'				=> 'typography',
+				'title'				=> esc_html__( 'H5', 'bijan' ),
+				'compiler'			=> true,
+				'fonts'				=> $fonts,
+				'font-size-unit'	=> 'rem',
+				'line-height-unit'	=> '%',
+				'weights'			=> $weights,
+				'subsets'			=> false,
+				'color'				=> false,
+				'preview'			=> false,
+				'text-align'		=> false,
+			],
+			[ // h6-typography
+				'id'				=> 'h6-typography',
+				'type'				=> 'typography',
+				'title'				=> esc_html__( 'H6', 'bijan' ),
+				'compiler'			=> true,
+				'fonts'				=> $fonts,
+				'font-size-unit'	=> 'rem',
+				'line-height-unit'	=> '%',
+				'weights'			=> $weights,
+				'subsets'			=> false,
+				'color'				=> false,
+				'preview'			=> false,
+				'text-align'		=> false,
+			],
+		),
+	)
+);
+
+Redux::set_section( // Header
+	$opt_name,
+	array(
+		'title'			=> esc_html__( 'Header', 'bijan' ),
+		'id'			=> 'header-typography-section',
+		'subsection'	=> true,
+		'fields'		=> array(
+			[ // header-logo-typography
+				'id'				=> 'header-logo-typography',
+				'type'				=> 'typography',
+				'title'				=> esc_html__( 'Logo', 'bijan' ),
+				'compiler'			=> true,
+				'fonts'				=> $fonts,
+				'units'				=> 'rem',
+				'line-height-unit'	=> '%',
+				'weights'			=> $weights,
+				'subsets'			=> false,
+				'color'				=> false,
+				'preview'			=> false,
+				'text-align'		=> false,
+			],
+			[ // header-menu-1-typography
+				'id'				=> 'header-menu-1-typography',
+				'type'				=> 'typography',
+				'title'				=> esc_html__( 'Menu 1', 'bijan' ),
+				'compiler'			=> true,
+				'fonts'				=> $fonts,
+				'units'				=> 'rem',
+				'line-height-unit'	=> '%',
+				'weights'			=> $weights,
+				'subsets'			=> false,
+				'color'				=> false,
+				'preview'			=> false,
+				'text-align'		=> false,
+			],
+			[ // header-menu-2-typography
+				'id'				=> 'header-menu-2-typography',
+				'type'				=> 'typography',
+				'title'				=> esc_html__( 'Menu 2', 'bijan' ),
+				'compiler'			=> true,
+				'fonts'				=> $fonts,
+				'units'				=> 'rem',
+				'line-height-unit'	=> '%',
+				'weights'			=> $weights,
+				'subsets'			=> false,
+				'color'				=> false,
+				'preview'			=> false,
+				'text-align'		=> false,
+			],
+		),
+	)
+);
+
+Redux::set_section( // Forms
+	$opt_name,
+	array(
+		'title'			=> esc_html__( 'Forms', 'bijan' ),
+		'id'			=> 'forms-typography-section',
+		'subsection'	=> true,
+		'fields'		=> array(
+			[ // forms-btn-typography
+				'id'				=> 'forms-btn-typography',
+				'type'				=> 'typography',
+				'title'				=> esc_html__( 'Buttons', 'bijan' ),
+				'compiler'			=> true,
+				'fonts'				=> $fonts,
+				'units'				=> 'rem',
+				'line-height-unit'	=> '%',
+				'weights'			=> $weights,
+				'subsets'			=> false,
+				'color'				=> false,
+				'preview'			=> false,
+				'text-align'		=> false,
+			],
+			[ // forms-input-typography
+				'id'				=> 'forms-input-typography',
+				'type'				=> 'typography',
+				'title'				=> esc_html__( 'Inputs', 'bijan' ),
+				'compiler'			=> true,
+				'fonts'				=> $fonts,
+				'units'				=> 'rem',
+				'line-height-unit'	=> '%',
+				'weights'			=> $weights,
+				'subsets'			=> false,
+				'color'				=> false,
+				'preview'			=> false,
+				'text-align'		=> false,
+			],
+		),
+	)
+);
+
+Redux::set_section( // Shop
+	$opt_name,
+	array(
+		'title'			=> esc_html__( 'Shop', 'bijan' ),
+		'id'			=> 'shop-typography-section',
+		'subsection'	=> true,
+		'fields'		=> array(
+			[ // shop-regular-price-typography
+				'id'				=> 'shop-regular-price-typography',
+				'type'				=> 'typography',
+				'title'				=> esc_html__( 'Regular Price', 'bijan' ),
+				'compiler'			=> true,
+				'fonts'				=> $fonts,
+				'units'				=> 'rem',
+				'line-height-unit'	=> '%',
+				'weights'			=> $weights,
+				'subsets'			=> false,
+				'color'				=> false,
+				'preview'			=> false,
+				'text-align'		=> false,
+			],
+			[ // shop-sale-price-typography
+				'id'				=> 'shop-sale-price-typography',
+				'type'				=> 'typography',
+				'title'				=> esc_html__( 'Sale Price', 'bijan' ),
+				'compiler'			=> true,
+				'fonts'				=> $fonts,
+				'units'				=> 'rem',
+				'line-height-unit'	=> '%',
+				'weights'			=> $weights,
+				'subsets'			=> false,
+				'color'				=> false,
+				'preview'			=> false,
+				'text-align'		=> false,
+			],
+		),
+	)
+);
+
+Redux::set_section( // Footer
+	$opt_name,
+	array(
+		'title'			=> esc_html__( 'Footer', 'bijan' ),
+		'id'			=> 'footer-typography-section',
+		'subsection'	=> true,
+		'fields'		=> array(
+			[ // footer-menu-1-typography
+				'id'				=> 'footer-menu-1-typography',
+				'type'				=> 'typography',
+				'title'				=> esc_html__( 'Menu 1', 'bijan' ),
+				'compiler'			=> true,
+				'fonts'				=> $fonts,
+				'units'				=> 'rem',
+				'line-height-unit'	=> '%',
+				'weights'			=> $weights,
+				'subsets'			=> false,
+				'color'				=> false,
+				'preview'			=> false,
+				'text-align'		=> false,
+				'required'			=> [
+					[
+						'footer_show_menu1',
+						'=',
+						true
+					],
+				],
+			],
+			[ // footer-menu-2-typography
+				'id'				=> 'footer-menu-2-typography',
+				'type'				=> 'typography',
+				'title'				=> esc_html__( 'Menu 2', 'bijan' ),
+				'compiler'			=> true,
+				'fonts'				=> $fonts,
+				'units'				=> 'rem',
+				'line-height-unit'	=> '%',
+				'weights'			=> $weights,
+				'subsets'			=> false,
+				'color'				=> false,
+				'preview'			=> false,
+				'text-align'		=> false,
+				'required'			=> [
+					[
+						'footer_show_menu1',
+						'=',
+						true
+					],
+				],
+			],
+			[ // footer-about-typography
+				'id'				=> 'footer-about-typography',
+				'type'				=> 'typography',
+				'title'				=> esc_html__( 'About text', 'bijan' ),
+				'compiler'			=> true,
+				'fonts'				=> $fonts,
+				'units'				=> 'rem',
+				'line-height-unit'	=> '%',
+				'weights'			=> $weights,
+				'subsets'			=> false,
+				'color'				=> false,
+				'preview'			=> false,
+				'text-align'		=> false,
+			],
+			[ // footer-more_info_title-typography
+				'id'				=> 'footer-more_info_title-typography',
+				'type'				=> 'typography',
+				'title'				=> esc_html__( 'Contact section title', 'bijan' ),
+				'compiler'			=> true,
+				'fonts'				=> $fonts,
+				'units'				=> 'rem',
+				'line-height-unit'	=> '%',
+				'weights'			=> $weights,
+				'subsets'			=> false,
+				'color'				=> false,
+				'preview'			=> false,
+				'text-align'		=> false,
+			],
+			[ // footer-more_info_subtitle-typography
+				'id'				=> 'footer-more_info_subtitle-typography',
+				'type'				=> 'typography',
+				'title'				=> esc_html__( 'Contact section subtitle', 'bijan' ),
+				'compiler'			=> true,
+				'fonts'				=> $fonts,
+				'units'				=> 'rem',
+				'line-height-unit'	=> '%',
+				'weights'			=> $weights,
+				'subsets'			=> false,
+				'color'				=> false,
+				'preview'			=> false,
+				'text-align'		=> false,
+			],
+			[ // footer-phones-typography
+				'id'				=> 'footer-phones-typography',
+				'type'				=> 'typography',
+				'title'				=> esc_html__( 'Contact info', 'bijan' ),
+				'subtitle'			=> esc_html__( 'Phone, email, etc.', 'bijan' ),
+				'compiler'			=> true,
+				'fonts'				=> $fonts,
+				'units'				=> 'rem',
+				'line-height-unit'	=> '%',
+				'weights'			=> $weights,
+				'subsets'			=> false,
+				'color'				=> false,
+				'preview'			=> false,
+				'text-align'		=> false,
+			],
+			[ // footer-contact_subtitle-typography
+				'id'				=> 'footer-contact_subtitle-typography',
+				'type'				=> 'typography',
+				'title'				=> esc_html__( 'Contact section bottom', 'bijan' ),
+				'compiler'			=> true,
+				'fonts'				=> $fonts,
+				'units'				=> 'rem',
+				'line-height-unit'	=> '%',
+				'weights'			=> $weights,
+				'subsets'			=> false,
+				'color'				=> false,
+				'preview'			=> false,
+				'text-align'		=> false,
+			],
+			[ // footer-copyright-typography
+				'id'				=> 'footer-copyright-typography',
+				'type'				=> 'typography',
+				'title'				=> esc_html__( 'Copyright', 'bijan' ),
+				'compiler'			=> true,
+				'fonts'				=> $fonts,
+				'units'				=> 'rem',
+				'line-height-unit'	=> '%',
+				'weights'			=> $weights,
+				'subsets'			=> false,
+				'color'				=> false,
+				'preview'			=> false,
+				'text-align'		=> false,
+			],
+		),
+	)
+);
+
+Redux::set_section( // WP Dashboard
+	$opt_name,
+	array(
+		'title'			=> esc_html__( 'WP Dashboard', 'bijan' ),
+		'id'			=> 'wp-dashboard-typography-section',
+		'subsection'	=> true,
+		'fields'		=> array(
+			[ // wp-dashboard-font-change
+				'id'		=> "wp-dashboard-font-change",
+				'title'		=> esc_html__( "Change dashboard font", 'bijan' ),
+				'subtitle'	=> esc_html__( "If you have customized the WordPress dashboard or are using a theme for the dashboard, please disable this option.", 'bijan' ),
+				'type'		=> 'switch',
+				'on'		=> esc_html__( 'Enabled', 'bijan' ),
+				'off'		=> esc_html__( 'Disabled', 'bijan' ),
+				'default'	=> true,
+			],
+			[ // wp-dashboard-font
+				'id'				=> 'wp-dashboard-font',
+				'type'				=> 'typography',
+				'title'				=> esc_html__( 'Dashboard', 'bijan' ),
+				'compiler'			=> true,
+				'fonts'				=> $fonts,
+				'units'				=> 'px',
+				'line-height-unit'	=> '%',
+				'font-style'		=> false,
+				'font-weight'		=> false,
+				'subsets'			=> false,
+				'font-size'			=> false,
+				'line-height'		=> false,
+				'color'				=> false,
+				'preview'			=> false,
+				'text-align'		=> false,
+				'default'			=> [
+					'font-family'	=> 'IRANYekanXFANum',
+				],
+				'required'			=> [
+					[
+						'wp-dashboard-font-change',
+						'=',
+						true
+					],
+				]
+			],
+		),
+	)
+);

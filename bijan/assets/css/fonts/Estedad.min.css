@@ -1,0 +1,23 @@
+@font-face{
+    font-family:"Estedad";
+    font-style:normal;
+    font-weight:400;
+    font-display:swap;
+    src:url("../../fonts/estedad-regular.woff2") format("woff2");
+}
+
+@font-face{
+    font-family:"Estedad";
+    font-style:normal;
+    font-weight:500;
+    font-display:swap;
+    src:url("../../fonts/estedad-medium.woff2") format("woff2");
+}
+
+@font-face{
+    font-family:"Estedad";
+    font-style:normal;
+    font-weight:700;
+    font-display:swap;
+    src:url("../../fonts/estedad-bold.woff2") format("woff2");
+}

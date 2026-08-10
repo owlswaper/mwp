@@ -1,0 +1,1 @@
+#customer_login,.lost_reset_password{grid-column:1/-1}#customer_login .button,.lost_reset_password .button{margin-top:16px}#customer_login{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:32px}#customer_login .col-1,#customer_login .col-2{width:100%}.woocommerce-form-login__rememberme{display:flex;align-items:center;gap:8px;margin-top:16px}

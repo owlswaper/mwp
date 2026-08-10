@@ -1,0 +1,23 @@
+@font-face{
+    font-family:"RokhFANum";
+    font-style:normal;
+    font-weight:400;
+    font-display:swap;
+    src:url("../../fonts/rokhfanum-regular.woff2") format("woff2");
+}
+
+@font-face{
+    font-family:"RokhFANum";
+    font-style:normal;
+    font-weight:500;
+    font-display:swap;
+    src:url("../../fonts/rokhfanum-medium.woff2") format("woff2");
+}
+
+@font-face{
+    font-family:"RokhFANum";
+    font-style:normal;
+    font-weight:700;
+    font-display:swap;
+    src:url("../../fonts/rokhfanum-bold.woff2") format("woff2");
+}

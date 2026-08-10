@@ -1,0 +1,5229 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Bijan\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-02-25 13:22+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: \n"
+"Language: \n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Loco https://localise.biz/\n"
+"X-Loco-Version: 2.6.11; wp-6.6.2\n"
+"X-Domain: bijan"
+
+#: single.php:53
+msgid "% comment"
+msgstr ""
+
+#: inc/Utils/SMS.php:190 inc/Utils/SMS.php:191 inc/Utils/SMS.php:192
+#: inc/Utils/SMS.php:193 inc/Utils/SMS.php:194 inc/Utils/SMS.php:195
+msgid "%d hour before"
+msgstr ""
+
+#: woocommerce/Functions/Single.php:48
+msgid "%d score"
+msgstr ""
+
+#: templates/archives/post.php:20
+#, php-format
+msgid "%s ago"
+msgstr ""
+
+#: inc/AJAX.php:345
+#, php-format
+msgid "%s are required"
+msgstr ""
+
+#: woocommerce/Functions/Single.php:64
+#, php-format
+msgid "%s comment"
+msgstr ""
+
+#: woocommerce/myaccount/coupons.php:32
+#, php-format
+msgid "%s percent"
+msgstr ""
+
+#: woocommerce/Functions/Archive.php:169
+#, php-format
+msgid "%s remaining"
+msgstr ""
+
+#: inc/Elementor/Button.php:90
+#, php-format
+msgid "%s style"
+msgstr ""
+
+#: single.php:53
+msgid "0 comment"
+msgstr ""
+
+#: single.php:53
+msgid "1 comment"
+msgstr ""
+
+#: inc/Utils/SMS.php:189
+msgid "1 hour before"
+msgstr ""
+
+#: inc/Utils/SMS.php:196
+msgid "2 days before"
+msgstr ""
+
+#: inc/Elementor/AraxSlider.php:219 inc/Elementor/AraxSlider.php:231
+#: inc/Elementor/AraxSlider.php:243 inc/Elementor/AraxSlider.php:255
+msgid "20% discount"
+msgstr ""
+
+#: inc/Utils/SMS.php:188
+msgid "30 minutes before"
+msgstr ""
+
+#: Functions/Archive.php:74 Functions/Archive.php:174
+msgid "404"
+msgstr ""
+
+#: Redux/options/General.php:61
+msgid "404 Image"
+msgstr ""
+
+#: Redux/options/General.php:80
+msgid "404 Page subtitle"
+msgstr ""
+
+#: Redux/options/General.php:73
+msgid "404 Page title"
+msgstr ""
+
+#: Redux/options/General.php:54
+msgid "404 settings"
+msgstr ""
+
+#: inc/Utils/Product.php:235
+msgid "7 days a week, 24 hours"
+msgstr ""
+
+#: inc/Backend/Metaboxes/Product/Inventory.php:30
+msgid "<strong>Remaining</strong> instant discount quantity"
+msgstr ""
+
+#: inc/Backend/Metaboxes/Product/Inventory.php:18
+msgid "<strong>Total</strong> instant discount quantity"
+msgstr ""
+
+#: inc/Elementor/CTA1.php:75
+msgid "A large store with great facilities"
+msgstr ""
+
+#: inc/Backend/Pages/SMS/SettingsAuth.php:261
+msgid "A new password will automatically be generated and set for the user."
+msgstr ""
+
+#: footer.php:43 Redux/options/Footer.php:445 Redux/options/Footer.php:446
+msgid "A real hypermarket!"
+msgstr ""
+
+#: inc/Utils.php:47
+msgid "Abi"
+msgstr ""
+
+#: inc/Utils.php:43
+msgid "AbiFANum"
+msgstr ""
+
+#: Redux/options/Footer.php:309
+msgid "About"
+msgstr ""
+
+#: Redux/options/Footer.php:350 Redux/options/Footer.php:353
+#: Redux/options/Footer.php:645
+msgid "About column"
+msgstr ""
+
+#: Redux/options/Typography.php:391 Redux/options/Footer.php:316
+msgid "About text"
+msgstr ""
+
+#: Redux/options/Header.php:508
+msgid "Account button"
+msgstr ""
+
+#: inc/Elementor/AccountBtn.php:13
+msgid "Account button (Bijan)"
+msgstr ""
+
+#: Redux/options/Header.php:598
+msgid "Account items"
+msgstr ""
+
+#: Redux/options/BottomNav.php:124 Redux/options/BottomNav.php:206
+#: Redux/options/BottomNav.php:288 Redux/options/BottomNav.php:370
+#: Redux/options/BottomNav.php:452
+msgid "Account menu"
+msgstr ""
+
+#: Functions/Init.php:30
+msgid "Account menu (Logged in users)"
+msgstr ""
+
+#: Redux/options/WooCommerce.php:206
+msgid "Account page"
+msgstr ""
+
+#: Redux/options/WooCommerce.php:320
+msgid "Account welcome text"
+msgstr ""
+
+#: inc/MenuItem.php:86
+msgid "Activate mega menu"
+msgstr ""
+
+#: Redux/options/SingleProduct.php:46
+msgid "Activate product price history feature"
+msgstr ""
+
+#: Redux/options/WooCommerce.php:354
+msgid "Activate products compare feature"
+msgstr ""
+
+#: Redux/options/Typography.php:36
+msgid "Active Fonts"
+msgstr ""
+
+#: inc/Backend/Pages/SMS/SettingsAuth.php:27
+msgid "Active login with mobile"
+msgstr ""
+
+#: inc/Backend/Pages/SMS/SettingsAuth.php:222
+msgid "Active lost password with mobile"
+msgstr ""
+
+#: inc/Backend/Pages/SMS/SettingsAuth.php:115
+msgid "Active register with mobile"
+msgstr ""
+
+#: woocommerce/myaccount/my-address.php:82
+msgid "Add address"
+msgstr ""
+
+#: inc/PostTypes/Notification.php:15 inc/PostTypes/Notification.php:16
+msgid "Add New notification"
+msgstr ""
+
+#: inc/PostTypes/Story.php:16 inc/PostTypes/Story.php:17
+msgid "Add New story"
+msgstr ""
+
+#: inc/Widgets/Socials.php:69
+#, php-format
+msgid "Add some social accounts from <a href=\"%s\">settings</a>"
+msgstr ""
+
+#: inc/AJAX/Compare.php:172 inc/AJAX/Compare.php:247
+#: woocommerce/Functions/Single.php:390 Redux/options/Texts.php:33
+#: Redux/options/Texts.php:35
+msgid "Add to cart"
+msgstr ""
+
+#: Redux/options/Texts.php:32
+msgid "Add to cart (Single) text"
+msgstr ""
+
+#: inc/Elementor/Products3.php:197 inc/Elementor/Products4.php:169
+#: inc/Elementor/Products.php:222 inc/Elementor/Products2.php:220
+msgid "Add to cart button style"
+msgstr ""
+
+#: inc/Utils/UI.php:162
+msgid "Added to wishlist."
+msgstr ""
+
+#: woocommerce/InstantDiscount.php:34
+#, php-format
+msgid "Adjusted instant discount quantity for %s: From(%d) &rarr; To(%d)"
+msgstr ""
+
+#: inc/Elementor/SpecialProducts.php:321
+msgid "After"
+msgstr ""
+
+#: Redux/options/SingleProduct.php:167
+msgid "After action buttons"
+msgstr ""
+
+#: Redux/options/SingleProduct.php:168
+msgid "After featured attributes"
+msgstr ""
+
+#: Redux/options/Footer.php:578
+msgid "After market buttons"
+msgstr ""
+
+#: Redux/options/Footer.php:410
+msgid "After organizations logo"
+msgstr ""
+
+#: Redux/options/SingleProduct.php:169
+msgid "After variation options"
+msgstr ""
+
+#: templates/header/search-empty.php:6
+msgctxt "Ajax search"
+msgid "No results found"
+msgstr ""
+
+#: inc/Elementor/AJAXSearch.php:12
+msgid "AJAX Search (Bijan)"
+msgstr ""
+
+#: inc/Elementor/SectionTitle2.php:109
+msgid "Alignment"
+msgstr ""
+
+#: inc/Elementor/SpecialProducts.php:287 templates/header/search-results.php:9
+msgid "All"
+msgstr ""
+
+#: inc/Elementor/CTA3.php:75
+msgid "All Bijan services will be in your hands..."
+msgstr ""
+
+#: inc/AJAX/IconPicker.php:32
+msgid "All icons"
+msgstr ""
+
+#: Redux/options/Footer.php:481
+msgid "All items"
+msgstr ""
+
+#: inc/PostTypes/Notification.php:19
+msgid "All notifications"
+msgstr ""
+
+#. 1: dashboard link.
+#: inc/TGM/tgm.php:188
+#, php-format
+msgid "All plugins installed and activated successfully. %1$s"
+msgstr ""
+
+#: footer.php:92
+msgid "All rights of this website belong to Bijan store"
+msgstr ""
+
+#: Redux/options/Footer.php:613 Redux/options/Footer.php:614
+msgid "All rights of this website belong to Bijan store."
+msgstr ""
+
+#: inc/PostTypes/Story.php:20
+msgid "All stories"
+msgstr ""
+
+#: woocommerce/single-product/price_history_popup.php:133
+msgid "All times"
+msgstr ""
+
+#: inc/MenuItem.php:53 inc/PostTypes/Notification.php:57
+#: inc/Backend/Metaboxes/Notification/Users.php:47
+#: inc/Backend/Metaboxes/Page/Settings.php:115
+#: inc/Backend/Metaboxes/Page/Settings.php:216
+msgid "All users"
+msgstr ""
+
+#: Redux/options/BottomNav.php:43 Redux/options/Header.php:44
+msgid "Always show"
+msgstr ""
+
+#: inc/Utils.php:16
+msgid "Anardoni"
+msgstr ""
+
+#: inc/Backend/WCAttributeFields.php:127 inc/Backend/WCAttributeFields.php:247
+msgid "Angle"
+msgstr ""
+
+#: inc/Elementor/Video.php:42
+msgid "Aparat"
+msgstr ""
+
+#: inc/Elementor/Video.php:130
+msgid "Aparat settings"
+msgstr ""
+
+#: inc/Backend/Pages/SMS/Gateways.php:58
+msgid "API Key"
+msgstr ""
+
+#: inc/Utils.php:14
+msgid "Apple App Store"
+msgstr ""
+
+#: inc/Elementor/CTA3.php:46
+msgid "Application <span>Bijan</span>"
+msgstr ""
+
+#: inc/Utils/AdminUI.php:11
+msgid "Apply"
+msgstr ""
+
+#: inc/Elementor/AraxSlider.php:13
+msgid "Arax Slider (Bijan)"
+msgstr ""
+
+#: inc/Elementor/Archive.php:13
+msgid "Archive (Bijan)"
+msgstr ""
+
+#: Redux/options/SEO.php:40
+msgid "Archive page title"
+msgstr ""
+
+#: Redux/options/Posts.php:10
+msgid "Archive settings"
+msgstr ""
+
+#: Redux/options/Posts.php:52
+msgid "Archive sidebar"
+msgstr ""
+
+#: inc/Utils/Archive.php:60
+msgctxt "Archive sort item"
+msgid "Ascending title"
+msgstr ""
+
+#: inc/Utils/Archive.php:61
+msgctxt "Archive sort item"
+msgid "Descending title"
+msgstr ""
+
+#: inc/Utils/Archive.php:59
+msgctxt "Archive sort item"
+msgid "Most visited"
+msgstr ""
+
+#: inc/Utils/Archive.php:57 Redux/options/Posts.php:18
+msgctxt "Archive sort item"
+msgid "Newest"
+msgstr ""
+
+#: inc/Utils/Archive.php:58
+msgctxt "Archive sort item"
+msgid "Oldest"
+msgstr ""
+
+#: inc/Utils/SMS.php:85
+msgid "Asanak"
+msgstr ""
+
+#: inc/Elementor/Story.php:131 inc/Elementor/SpecialProducts.php:357
+msgid "ASC"
+msgstr ""
+
+#: inc/Backend/Metaboxes/Story/Settings.php:77
+msgid "Attachment"
+msgstr ""
+
+#: inc/Backend/WCAttributeFields.php:13 inc/Backend/WCAttributeFields.php:31
+msgid "Attribute display type"
+msgstr ""
+
+#: inc/Elementor/FeaturedAttributes.php:103
+msgid "Attribute title"
+msgstr ""
+
+#: inc/Elementor/FeaturedAttributes.php:104
+msgid "Attribute value"
+msgstr ""
+
+#: Redux/Options.php:263
+msgid "Auth modal"
+msgstr ""
+
+#: Redux/options/Auth.php:24
+msgid "Authentication by SMS"
+msgstr ""
+
+#: inc/AJAX/Auth.php:50 inc/AJAX/Auth.php:94 inc/AJAX/Auth.php:134
+#: inc/AJAX/Auth.php:186 inc/AJAX/Auth.php:259
+msgid "Authentication is disabled"
+msgstr ""
+
+#: Redux/options/Auth.php:14
+msgid "Authentication modal"
+msgstr ""
+
+#: Redux/options/Auth.php:149
+msgid "Authentication with email/username"
+msgstr ""
+
+#: inc/Elementor/SpecialProducts.php:215
+msgid "Author"
+msgstr ""
+
+#: Redux/options/BottomNav.php:38
+msgid "Auto hide bottom navigation"
+msgstr ""
+
+#: Redux/options/Header.php:39
+msgid "Auto hide header"
+msgstr ""
+
+#: Redux/options/BottomNav.php:39 Redux/options/BottomNav.php:42
+#: Redux/options/Header.php:40 Redux/options/Header.php:43
+msgid "Auto-hide"
+msgstr ""
+
+#: inc/Elementor/Video.php:142
+msgid "Autoplay"
+msgstr ""
+
+#: woocommerce/Functions/Archive.php:192
+msgid "Average rating"
+msgstr ""
+
+#: 404.php:39
+msgid "Back to home page"
+msgstr ""
+
+#: templates/modals/auth/lost_password.php:32
+msgid "Back to login"
+msgstr ""
+
+#: 404.php:32
+msgid "Back to previous page"
+msgstr ""
+
+#: inc/Elementor/Products.php:135 inc/Elementor/Testimonials.php:177
+msgid "Background color"
+msgstr ""
+
+#: inc/Elementor/AraxSlider.php:125
+msgid "Badge bottom text"
+msgstr ""
+
+#: inc/Elementor/AraxSlider.php:294
+msgid "Badge image"
+msgstr ""
+
+#: inc/Elementor/AraxSlider.php:144
+msgid "Badge position"
+msgstr ""
+
+#: inc/Elementor/AraxSlider.php:178
+msgid "Badge rotate"
+msgstr ""
+
+#: inc/Elementor/AraxSlider.php:106
+msgid "Badge top text"
+msgstr ""
+
+#: Redux/options/Header.php:735
+msgid "Banner height"
+msgstr ""
+
+#: Redux/options/Header.php:814
+msgid "Banner height (mobile)"
+msgstr ""
+
+#: Redux/options/Header.php:774
+msgid "Banner height (tablet)"
+msgstr ""
+
+#: Redux/options/Header.php:721
+msgid "Banner image file"
+msgstr ""
+
+#: Redux/options/Header.php:799
+msgid "Banner image file (mobile)"
+msgstr ""
+
+#: Redux/options/Header.php:759
+msgid "Banner image file (tablet)"
+msgstr ""
+
+#: inc/Elementor/SpecialProducts.php:304
+msgid "Before"
+msgstr ""
+
+#: Redux/options/Footer.php:518
+msgid "Before market buttons"
+msgstr ""
+
+#: Redux/options/Footer.php:363
+msgid "Before organizations logo"
+msgstr ""
+
+#: inc/TGM/tgm.php:175
+msgid "Begin activating plugin"
+msgid_plural "Begin activating plugins"
+msgstr[0] ""
+msgstr[1] ""
+
+#: inc/TGM/tgm.php:165
+msgid "Begin installing plugin"
+msgid_plural "Begin installing plugins"
+msgstr[0] ""
+msgstr[1] ""
+
+#: inc/TGM/tgm.php:170
+msgid "Begin updating plugin"
+msgid_plural "Begin updating plugins"
+msgstr[0] ""
+msgstr[1] ""
+
+#. Name of the theme
+#: Functions/Elementor.php:10
+msgid "Bijan"
+msgstr ""
+
+#: Functions/Elementor.php:18
+msgid "Bijan - Single Product"
+msgstr ""
+
+#. Base ID
+#: inc/Widgets/Socials.php:18
+msgid "Bijan - Socials"
+msgstr ""
+
+#: inc/Elementor/CTA1.php:46
+msgid "Bijan <span>club</span>"
+msgstr ""
+
+#: inc/Changelogs/Changelog.php:129
+#, php-format
+msgid "Bijan has been successfully updated. View the changelog for version %s:"
+msgstr ""
+
+#: Redux/options/WooCommerce.php:179 Redux/options/WooCommerce.php:194
+#: Redux/options/WooCommerce.php:335 Redux/options/Socials.php:34
+#: Redux/options/SingleProduct.php:331 Redux/options/BottomNav.php:83
+#: Redux/options/BottomNav.php:165 Redux/options/BottomNav.php:247
+#: Redux/options/BottomNav.php:329 Redux/options/BottomNav.php:411
+#: Redux/options/BottomNav.php:504 Redux/options/Header.php:363
+#: Redux/options/Header.php:476 Redux/options/Header.php:534
+#: Redux/options/Header.php:635 Redux/options/Header.php:676
+#: Redux/options/Footer.php:81 Redux/options/Footer.php:168
+#: Redux/options/Footer.php:224 Redux/options/Footer.php:280
+#: Redux/options/Footer.php:670
+msgid "Bijan icons"
+msgstr ""
+
+#: Redux/Options.php:61 Redux/Options.php:64
+msgid "Bijan options"
+msgstr ""
+
+#: Redux/options/Typography.php:17
+msgid "Black"
+msgstr ""
+
+#: Functions/Archive.php:116
+msgid "Blog"
+msgstr ""
+
+#: inc/Elementor/BlogGrid.php:13
+msgid "Blog Grid (Bijan)"
+msgstr ""
+
+#: sidebar-blog.php:18
+msgid "Blog Sidebar"
+msgstr ""
+
+#: Functions/Init.php:67 Redux/options/Posts.php:53
+msgid "Blog sidebar"
+msgstr ""
+
+#: sidebar-blog.php:19
+msgid "Blog Widgets"
+msgstr ""
+
+#: inc/Backend/Metaboxes/Page/Settings.php:41
+msgid "Body"
+msgstr ""
+
+#: Redux/options/Colors.php:14
+msgid "Body color"
+msgstr ""
+
+#: Redux/options/Typography.php:15
+msgid "Bold"
+msgstr ""
+
+#: inc/Elementor/Products2.php:164
+msgid "Border color"
+msgstr ""
+
+#: inc/Elementor/CTA3.php:116
+msgid "Border mode"
+msgstr ""
+
+#: inc/Elementor/Products2.php:149
+msgid "Border Width"
+msgstr ""
+
+#: inc/Elementor/ProIcon.php:100 Redux/options/WooCommerce.php:119
+#: Redux/options/WooCommerce.php:120 Redux/options/SingleProduct.php:73
+msgid "Bottom"
+msgstr ""
+
+#: inc/Elementor/AraxSlider.php:158
+msgid "Bottom - Center"
+msgstr ""
+
+#: inc/Elementor/AraxSlider.php:159
+msgid "Bottom - End"
+msgstr ""
+
+#: inc/Elementor/AraxSlider.php:157
+msgid "Bottom - Start"
+msgstr ""
+
+#: Redux/options/Footer.php:644
+msgid "Bottom copyright text"
+msgstr ""
+
+#: Redux/options/Header.php:89
+msgid "Bottom header"
+msgstr ""
+
+#: Redux/options/Header.php:119
+msgid "Bottom header background"
+msgstr ""
+
+#: Redux/options/Header.php:96
+msgid "Bottom header status"
+msgstr ""
+
+#: Redux/options/Header.php:106
+msgid "Bottom header type"
+msgstr ""
+
+#: Redux/options/BottomNav.php:21
+msgid "Bottom navigation"
+msgstr ""
+
+#: inc/Elementor/Brands.php:41
+msgid "Brand logo"
+msgstr ""
+
+#: inc/Elementor/Brands.php:12
+msgid "Brands (Bijan)"
+msgstr ""
+
+#: Redux/options/Typography.php:70
+msgid "Breadcrumb"
+msgstr ""
+
+#: inc/Elementor/CTA3.php:121 inc/Elementor/SpecialOffer.php:186
+#: inc/Elementor/CTA1.php:189
+msgid "Button"
+msgstr ""
+
+#: inc/Elementor/Button.php:14
+msgid "Button (Bijan)"
+msgstr ""
+
+#: Redux/options/Header.php:569
+msgid "Button background"
+msgstr ""
+
+#: Redux/options/Header.php:527
+msgid "Button icon"
+msgstr ""
+
+#: Redux/options/Header.php:582
+msgid "Button icon color"
+msgstr ""
+
+#: Redux/options/Footer.php:561
+msgid "Button link"
+msgstr ""
+
+#: inc/Elementor/Button.php:36 inc/Elementor/CartButton.php:93
+#: inc/Elementor/MarketButton.php:51
+msgid "Button style"
+msgstr ""
+
+#: inc/Elementor/SpecialOffer.php:202 inc/Elementor/CTA1.php:205
+msgid "Button text"
+msgstr ""
+
+#: Redux/options/Header.php:545
+msgid "Button URL"
+msgstr ""
+
+#: inc/Elementor/CTA3.php:106 Redux/options/Typography.php:271
+msgid "Buttons"
+msgstr ""
+
+#: footer.php:67 inc/ElementorControls.php:49 inc/Utils.php:10
+msgid "Cafebazar"
+msgstr ""
+
+#: woocommerce/cart/cart-shipping.php:32
+msgid "Calculate shipping"
+msgstr ""
+
+#: inc/Elementor/CTA1.php:15
+msgid "Call to Action 1 (Bijan)"
+msgstr ""
+
+#: inc/Elementor/CTA2.php:14
+msgid "Call to Action 2 (Bijan)"
+msgstr ""
+
+#: inc/Elementor/CTA3.php:15
+msgid "Call to Action 3 (Bijan)"
+msgstr ""
+
+#: woocommerce/myaccount/dashboard.php:48
+msgid "Canceled orders"
+msgstr ""
+
+#: Functions/Init.php:238 Redux/options/BottomNav.php:178
+#: Redux/options/BottomNav.php:179
+msgid "Cart"
+msgstr ""
+
+#: inc/Elementor/CartButton.php:114
+msgid "Cart amount currency"
+msgstr ""
+
+#: inc/Elementor/CartButton.php:113
+msgid "Cart amount total"
+msgstr ""
+
+#: Redux/options/Header.php:446
+msgid "Cart button"
+msgstr ""
+
+#: Redux/options/Header.php:469
+msgid "Cart button icon"
+msgstr ""
+
+#: inc/Elementor/CartButton.php:112
+msgid "Cart count label"
+msgstr ""
+
+#: inc/Elementor/CartButton.php:111
+msgid "Cart count number"
+msgstr ""
+
+#: inc/Elementor/CartButton.php:110
+msgid "Cart empty text"
+msgstr ""
+
+#: Redux/options/BottomNav.php:122 Redux/options/BottomNav.php:204
+#: Redux/options/BottomNav.php:286 Redux/options/BottomNav.php:368
+#: Redux/options/BottomNav.php:450
+msgid "Cart menu"
+msgstr ""
+
+#: inc/Utils/Product.php:228
+msgid "Cash on delivery"
+msgstr ""
+
+#: single.php:96 Functions/Init.php:244 Redux/options/BottomNav.php:260
+#: Redux/options/BottomNav.php:261
+msgid "Categories"
+msgstr ""
+
+#: Redux/options/BottomNav.php:123 Redux/options/BottomNav.php:205
+#: Redux/options/BottomNav.php:287 Redux/options/BottomNav.php:369
+#: Redux/options/BottomNav.php:451
+msgid "Categories menu"
+msgstr ""
+
+#: inc/Elementor/CategoriesSlider.php:14
+msgid "Categories Slider (Bijan)"
+msgstr ""
+
+#: inc/Elementor/SpecialProducts.php:118 inc/Elementor/SpecialProducts.php:234
+msgid "Category"
+msgstr ""
+
+#: inc/Elementor/CategoriesSlider.php:188
+msgid "Category icon style"
+msgstr ""
+
+#: inc/Elementor/CategoriesSlider.php:264
+msgid "Category title"
+msgstr ""
+
+#: Redux/options/WooCommerce.php:131
+msgid "Caution: Enabling this feature may slow down the site speed."
+msgstr ""
+
+#: inc/Elementor/ProIcon.php:96 inc/Elementor/SectionTitle2.php:117
+msgid "Center"
+msgstr ""
+
+#: inc/Elementor/AraxSlider.php:154
+msgid "Center - Center"
+msgstr ""
+
+#: inc/Elementor/AraxSlider.php:155
+msgid "Center - End"
+msgstr ""
+
+#: inc/Elementor/AraxSlider.php:153
+msgid "Center - Start"
+msgstr ""
+
+#: Redux/options/Typography.php:486
+msgid "Change dashboard font"
+msgstr ""
+
+#: templates/modals/auth/otp.php:56
+msgid "Change number"
+msgstr ""
+
+#. $parent_slug:string,
+#. $page_title:string,
+#: inc/Changelogs/Changelog.php:8 inc/Changelogs/Changelog.php:9
+msgid "Changelogs"
+msgstr ""
+
+#: woocommerce/single-product/price_history_popup.php:124
+msgctxt "chart"
+msgid "Price change:"
+msgstr ""
+
+#: inc/Scripts.php:215
+msgctxt "chart"
+msgid "Price increase"
+msgstr ""
+
+#: inc/Scripts.php:216
+msgctxt "chart"
+msgid "Price reduction"
+msgstr ""
+
+#: woocommerce/single-product/price_history_popup.php:113
+msgctxt "chart"
+msgid "Price:"
+msgstr ""
+
+#: inc/Backend/Metaboxes/Page/Settings.php:130
+msgid "Check the checkbox to set the page to fullwidth"
+msgstr ""
+
+#: inc/Backend/Metaboxes/Page/Settings.php:144
+msgid "Check the checkbox to show breadcrumb"
+msgstr ""
+
+#: inc/Backend/Metaboxes/Page/Settings.php:160
+msgid "Check the checkbox to show sidebar"
+msgstr ""
+
+#: inc/Backend/Metaboxes/Page/Settings.php:152
+msgid "Check the checkbox to show title of the page"
+msgstr ""
+
+#: inc/Backend/Metaboxes/Page/Settings.php:137
+msgid ""
+"Check the checkbox to use default styles for content(background, border and "
+"others). If you want just show the content, uncheck this"
+msgstr ""
+
+#: Redux/options/Texts.php:57
+msgid "Checkout"
+msgstr ""
+
+#: inc/Elementor/CartButton.php:167
+msgid "Checkout button"
+msgstr ""
+
+#: Redux/options/Texts.php:56
+msgid "Checkout button text"
+msgstr ""
+
+#: inc/Elementor/SpecialProducts.php:306 inc/Elementor/SpecialProducts.php:323
+msgid "Choose"
+msgstr ""
+
+#: inc/Elementor/CTA3.php:89 inc/Elementor/CTA1.php:89
+msgid "Choose Image"
+msgstr ""
+
+#: inc/Elementor/CTA2.php:124
+msgid "Choose image"
+msgstr ""
+
+#: inc/Elementor/CTA2.php:41
+msgid "Choose logo"
+msgstr ""
+
+#: inc/Scripts.php:294
+msgid "Close"
+msgstr ""
+
+#: inc/Elementor/Products.php:164 inc/Utils/WC.php:215
+msgid "Color"
+msgstr ""
+
+#: inc/Backend/WCAttributeFields.php:59 inc/Backend/WCAttributeFields.php:113
+#: inc/Backend/WCAttributeFields.php:145 inc/Backend/WCAttributeFields.php:225
+msgid "Color 1"
+msgstr ""
+
+#: inc/Backend/WCAttributeFields.php:66 inc/Backend/WCAttributeFields.php:120
+#: inc/Backend/WCAttributeFields.php:156 inc/Backend/WCAttributeFields.php:236
+msgid "Color 2"
+msgstr ""
+
+#: Redux/Options.php:233
+msgid "Colors"
+msgstr ""
+
+#: inc/Utils/Archive.php:71
+msgid "Comment Count"
+msgstr ""
+
+#: woocommerce/single-product/product-image.php:86
+#: Redux/options/WooCommerce.php:347
+msgid "Compare"
+msgstr ""
+
+#: inc/AJAX/Compare.php:135
+#, php-format
+msgctxt "Compare"
+msgid "%s : <span>%s</span> items left"
+msgstr ""
+
+#: inc/AJAX/Compare.php:125
+#, php-format
+msgctxt "Compare"
+msgid "<span>%s</span> items left"
+msgstr ""
+
+#: inc/AJAX/Compare.php:321
+msgctxt "compare"
+msgid "Remove from list"
+msgstr ""
+
+#: templates/modals/compare/head.php:5
+msgid "Compare products"
+msgstr ""
+
+#: woocommerce/myaccount/dashboard.php:30
+msgid "Completed orders"
+msgstr ""
+
+#: Redux/options/Footer.php:354 Redux/options/Footer.php:646
+msgid "Contact column"
+msgstr ""
+
+#: Redux/options/Typography.php:433 Redux/options/Footer.php:464
+msgid "Contact info"
+msgstr ""
+
+#: Redux/options/Footer.php:474
+msgid "Contact info color types"
+msgstr ""
+
+#: Redux/options/Footer.php:437
+msgid "Contact section"
+msgstr ""
+
+#: Redux/options/Typography.php:448
+msgid "Contact section bottom"
+msgstr ""
+
+#: Redux/options/Footer.php:488
+msgid "Contact section bottom text"
+msgstr ""
+
+#: Redux/options/Typography.php:419 Redux/options/Footer.php:454
+msgid "Contact section subtitle"
+msgstr ""
+
+#: Redux/options/Typography.php:405 Redux/options/Footer.php:444
+msgid "Contact section title"
+msgstr ""
+
+#: footer.php:27 Redux/options/Footer.php:238 Redux/options/Footer.php:239
+#: Redux/options/Footer.php:294 Redux/options/Footer.php:295
+msgid "Contact us"
+msgstr ""
+
+#: Redux/options/Typography.php:462 Redux/options/Footer.php:605
+msgid "Copyright"
+msgstr ""
+
+#: Redux/options/Footer.php:612
+msgid "Copyright text"
+msgstr ""
+
+#: inc/Elementor/Story.php:89
+msgid "Count"
+msgstr ""
+
+#: woocommerce/myaccount/coupons.php:17
+msgid "Coupon"
+msgstr ""
+
+#: woocommerce/myaccount/coupons.php:20
+msgid "Coupon amount"
+msgstr ""
+
+#: inc/Utils/User.php:79
+msgid "Coupons"
+msgstr ""
+
+#: inc/Elementor/Video.php:100 inc/Elementor/Video.php:112
+msgid "Cover"
+msgstr ""
+
+#: woocommerce/myaccount/form-edit-account.php:70
+msgid "Current password"
+msgstr ""
+
+#: inc/Elementor/SpecialProducts.php:58
+msgid "Current Query"
+msgstr ""
+
+#: inc/Changelogs/Changelog.php:52
+#, php-format
+msgid "Current version: %s"
+msgstr ""
+
+#: inc/Elementor/CTA2.php:224
+msgid "Curve arrow"
+msgstr ""
+
+#: inc/Elementor/SpecialProducts.php:57 inc/Elementor/SpecialProducts.php:293
+#: inc/Utils/SMS.php:232 Redux/options/WooCommerce.php:240
+#: Redux/options/Auth.php:69 Redux/options/Header.php:178
+#: inc/Backend/Metaboxes/Product/Icons.php:74
+msgid "Custom"
+msgstr ""
+
+#: Redux/options/General.php:8
+msgid "Custom codes"
+msgstr ""
+
+#: inc/ElementorControls.php:22
+msgid "Custom icon"
+msgstr ""
+
+#: inc/Utils.php:18
+msgid "Custom market"
+msgstr ""
+
+#: inc/Backend/Pages/SMS/Security.php:25
+msgid "Custom text"
+msgstr ""
+
+#: Redux/options/WooCommerce.php:51
+msgid "Custom toman"
+msgstr ""
+
+#: inc/Utils/User.php:69 Redux/options/Typography.php:496
+msgid "Dashboard"
+msgstr ""
+
+#: inc/Elementor/SpecialProducts.php:281 inc/Utils/Archive.php:68
+#: inc/Utils/Archive.php:79
+msgid "Date"
+msgstr ""
+
+#: inc/Utils.php:165
+msgctxt "Date picker"
+msgid "Submit"
+msgstr ""
+
+#: inc/Backend/Metaboxes/Product/Icons.php:73
+msgid "Default"
+msgstr ""
+
+#: Redux/options/Posts.php:17
+msgid "Default archive sort"
+msgstr ""
+
+#: inc/Elementor/Testimonials.php:43
+msgid "Default image"
+msgstr ""
+
+#: Redux/options/WooCommerce.php:14
+msgid "Default products card style"
+msgstr ""
+
+#: Redux/options/WooCommerce.php:15
+msgid ""
+"Default products card style in shop, product categories, product tags, "
+"search and other general pages"
+msgstr ""
+
+#: woocommerce/Functions/Archive.php:190
+msgid "Default sorting"
+msgstr ""
+
+#: Redux/options/Colors.php:24
+msgid "Default text color"
+msgstr ""
+
+#: Redux/options/Posts.php:18 Redux/options/Posts.php:26
+#: Redux/options/Posts.php:35 Redux/options/Posts.php:44
+#: Redux/options/Posts.php:53 Redux/options/Posts.php:64
+#: Redux/options/Posts.php:73 Redux/options/Posts.php:82
+#: Redux/options/Posts.php:91 Redux/options/Posts.php:100
+#: Redux/options/Posts.php:109 Redux/options/WooCommerce.php:36
+#: Redux/options/WooCommerce.php:52 Redux/options/WooCommerce.php:63
+#: Redux/options/WooCommerce.php:98 Redux/options/WooCommerce.php:119
+#: Redux/options/WooCommerce.php:131 Redux/options/WooCommerce.php:140
+#: Redux/options/WooCommerce.php:155 Redux/options/WooCommerce.php:164
+#: Redux/options/WooCommerce.php:173 Redux/options/WooCommerce.php:188
+#: Redux/options/WooCommerce.php:214 Redux/options/WooCommerce.php:223
+#: Redux/options/WooCommerce.php:237 Redux/options/WooCommerce.php:290
+#: Redux/options/WooCommerce.php:309 Redux/options/WooCommerce.php:321
+#: Redux/options/WooCommerce.php:329 Redux/options/WooCommerce.php:355
+#: Redux/options/WooCommerce.php:364 Redux/options/WooCommerce.php:376
+#: Redux/options/WooCommerce.php:388 Redux/options/WooCommerce.php:400
+#: Redux/options/WooCommerce.php:412 Redux/options/WooCommerce.php:424
+#: Redux/options/WooCommerce.php:436 Redux/options/Auth.php:15
+#: Redux/options/Auth.php:25 Redux/options/Auth.php:39
+#: Redux/options/Auth.php:51 Redux/options/Auth.php:66
+#: Redux/options/Auth.php:110 Redux/options/Auth.php:126
+#: Redux/options/Auth.php:150 Redux/options/General.php:74
+#: Redux/options/General.php:81 Redux/options/SingleProduct.php:18
+#: Redux/options/SingleProduct.php:27 Redux/options/SingleProduct.php:47
+#: Redux/options/SingleProduct.php:67 Redux/options/SingleProduct.php:85
+#: Redux/options/SingleProduct.php:94 Redux/options/SingleProduct.php:106
+#: Redux/options/SingleProduct.php:118 Redux/options/SingleProduct.php:130
+#: Redux/options/SingleProduct.php:153 Redux/options/SingleProduct.php:162
+#: Redux/options/SingleProduct.php:182 Redux/options/SingleProduct.php:199
+#: Redux/options/SingleProduct.php:217 Redux/options/SingleProduct.php:245
+#: Redux/options/SingleProduct.php:256 Redux/options/SingleProduct.php:267
+#: Redux/options/SingleProduct.php:305 Redux/options/SingleProduct.php:314
+#: Redux/options/SingleProduct.php:325 Redux/options/SingleProduct.php:343
+#: Redux/options/SingleProduct.php:354 Redux/options/SingleProduct.php:366
+#: Redux/options/BottomNav.php:29 Redux/options/BottomNav.php:39
+#: Redux/options/BottomNav.php:64 Redux/options/BottomNav.php:77
+#: Redux/options/BottomNav.php:96 Redux/options/BottomNav.php:107
+#: Redux/options/BottomNav.php:146 Redux/options/BottomNav.php:159
+#: Redux/options/BottomNav.php:178 Redux/options/BottomNav.php:189
+#: Redux/options/BottomNav.php:228 Redux/options/BottomNav.php:241
+#: Redux/options/BottomNav.php:260 Redux/options/BottomNav.php:271
+#: Redux/options/BottomNav.php:310 Redux/options/BottomNav.php:323
+#: Redux/options/BottomNav.php:342 Redux/options/BottomNav.php:353
+#: Redux/options/BottomNav.php:392 Redux/options/BottomNav.php:405
+#: Redux/options/BottomNav.php:424 Redux/options/BottomNav.php:435
+#: Redux/options/BottomNav.php:474 Redux/options/BottomNav.php:487
+#: Redux/options/BottomNav.php:498 Redux/options/Header.php:40
+#: Redux/options/Header.php:55 Redux/options/Header.php:71
+#: Redux/options/Header.php:97 Redux/options/Header.php:107
+#: Redux/options/Header.php:120 Redux/options/Header.php:143
+#: Redux/options/Header.php:157 Redux/options/Header.php:175
+#: Redux/options/Header.php:236 Redux/options/Header.php:259
+#: Redux/options/Header.php:275 Redux/options/Header.php:297
+#: Redux/options/Header.php:333 Redux/options/Header.php:346
+#: Redux/options/Header.php:357 Redux/options/Header.php:454
+#: Redux/options/Header.php:470 Redux/options/Header.php:492
+#: Redux/options/Header.php:516 Redux/options/Header.php:528
+#: Redux/options/Header.php:546 Redux/options/Header.php:558
+#: Redux/options/Header.php:570 Redux/options/Header.php:583
+#: Redux/options/Header.php:606 Redux/options/Header.php:618
+#: Redux/options/Header.php:629 Redux/options/Header.php:647
+#: Redux/options/Header.php:659 Redux/options/Header.php:670
+#: Redux/options/Header.php:705 Redux/options/Header.php:736
+#: Redux/options/Header.php:748 Redux/options/Header.php:775
+#: Redux/options/Header.php:788 Redux/options/Header.php:815
+#: Redux/options/Header.php:837 Redux/options/Header.php:849
+#: Redux/options/Colors.php:15 Redux/options/Colors.php:25
+#: Redux/options/Colors.php:46 Redux/options/Colors.php:56
+#: Redux/options/Colors.php:66 Redux/options/Colors.php:76
+#: Redux/options/Colors.php:86 Redux/options/Colors.php:96
+#: Redux/options/Colors.php:117 Redux/options/Colors.php:127
+#: Redux/options/Colors.php:137 Redux/options/Colors.php:147
+#: Redux/options/Colors.php:157 Redux/options/Colors.php:167
+#: Redux/options/Colors.php:188 Redux/options/Colors.php:198
+#: Redux/options/Colors.php:208 Redux/options/Colors.php:218
+#: Redux/options/Colors.php:228 Redux/options/Colors.php:249
+#: Redux/options/Colors.php:259 Redux/options/Colors.php:269
+#: Redux/options/Colors.php:279 Redux/options/Colors.php:289
+#: Redux/options/Colors.php:299 Redux/options/Colors.php:309
+#: Redux/options/Colors.php:330 Redux/options/Colors.php:340
+#: Redux/options/Colors.php:350 Redux/options/Colors.php:360
+#: Redux/options/Colors.php:370 Redux/options/Colors.php:380
+#: Redux/options/Colors.php:401 Redux/options/Colors.php:411
+#: Redux/options/Colors.php:432 Redux/options/Colors.php:442
+#: Redux/options/Colors.php:452 Redux/options/Colors.php:462
+#: Redux/options/Colors.php:472 Redux/options/Colors.php:493
+#: Redux/options/Colors.php:503 Redux/options/Colors.php:513
+#: Redux/options/Notifications.php:15 Redux/options/Texts.php:33
+#: Redux/options/Texts.php:41 Redux/options/Texts.php:49
+#: Redux/options/Texts.php:57 Redux/options/Texts.php:65
+#: Redux/options/Texts.php:73 Redux/options/Texts.php:81
+#: Redux/options/Texts.php:89 Redux/options/Texts.php:97
+#: Redux/options/Texts.php:105 Redux/options/Texts.php:113
+#: Redux/options/Texts.php:121 Redux/options/Wishlist.php:15
+#: Redux/options/Wishlist.php:24 Redux/options/SMS.php:15
+#: Redux/options/Footer.php:21 Redux/options/Footer.php:43
+#: Redux/options/Footer.php:63 Redux/options/Footer.php:75
+#: Redux/options/Footer.php:94 Redux/options/Footer.php:105
+#: Redux/options/Footer.php:116 Redux/options/Footer.php:127
+#: Redux/options/Footer.php:149 Redux/options/Footer.php:162
+#: Redux/options/Footer.php:182 Redux/options/Footer.php:205
+#: Redux/options/Footer.php:218 Redux/options/Footer.php:238
+#: Redux/options/Footer.php:261 Redux/options/Footer.php:274
+#: Redux/options/Footer.php:294 Redux/options/Footer.php:341
+#: Redux/options/Footer.php:350 Redux/options/Footer.php:445
+#: Redux/options/Footer.php:455 Redux/options/Footer.php:475
+#: Redux/options/Footer.php:489 Redux/options/Footer.php:510
+#: Redux/options/Footer.php:631 Redux/options/Footer.php:640
+#, php-format
+msgid "Default: %s"
+msgstr ""
+
+#: Redux/options/Footer.php:317 Redux/options/Footer.php:613
+#, php-format
+msgid "Default:<br>%s"
+msgstr ""
+
+#: inc/Backend/WCAttributeFields.php:129 inc/Backend/WCAttributeFields.php:252
+msgid "Degree"
+msgstr ""
+
+#: inc/Utils/Product.php:222
+msgid "Delivery in less than 2 hours"
+msgstr ""
+
+#: inc/Elementor/Story.php:132 inc/Elementor/SpecialProducts.php:358
+msgid "DESC"
+msgstr ""
+
+#: inc/Elementor/CTA2.php:113 inc/Elementor/CTA1.php:102
+#: inc/Elementor/CTA1.php:179 inc/AJAX/Compare.php:223
+msgid "Description"
+msgstr ""
+
+#: inc/Elementor/CTA2.php:203
+msgid "Description style"
+msgstr ""
+
+#: Redux/options/WooCommerce.php:118
+msgid "Descriptions position"
+msgstr ""
+
+#: inc/Elementor/Brands.php:111
+msgid "Desktop Column counts"
+msgstr ""
+
+#: Redux/options/Posts.php:63
+msgid "Desktop columns"
+msgstr ""
+
+#: inc/Elementor/Brands.php:131
+msgid "Desktop columns gap"
+msgstr ""
+
+#: Redux/options/Posts.php:72
+msgid "Desktop gap (px)"
+msgstr ""
+
+#: inc/Elementor/Brands.php:121
+msgid "Desktop rows gap"
+msgstr ""
+
+#: inc/Elementor/ThumbnailSlider.php:136
+msgid "Desktop slider height (px)"
+msgstr ""
+
+#: inc/Elementor/AraxSlider.php:287
+msgid "Desktop visible slides thumbnails"
+msgstr ""
+
+#: inc/AJAX/Compare.php:241
+msgid "Dimensions"
+msgstr ""
+
+#: inc/Backend/WCAttributeFields.php:73 inc/Backend/WCAttributeFields.php:167
+msgid "Direction"
+msgstr ""
+
+#: inc/Backend/Metaboxes/Page/Settings.php:213
+msgid "Disable footer for specific users"
+msgstr ""
+
+#: inc/Backend/Metaboxes/Page/Settings.php:208
+msgid "Disable footer in this page"
+msgstr ""
+
+#: inc/Backend/Metaboxes/Page/Settings.php:112
+msgid "Disable header for specific users"
+msgstr ""
+
+#: inc/Backend/Metaboxes/Page/Settings.php:107
+msgid "Disable header in this page"
+msgstr ""
+
+#: inc/Utils/SMS.php:228 Redux/options/Posts.php:28 Redux/options/Posts.php:37
+#: Redux/options/Posts.php:46 Redux/options/WooCommerce.php:39
+#: Redux/options/Auth.php:18 Redux/options/Auth.php:28
+#: Redux/options/Auth.php:152 Redux/options/Typography.php:28
+#: Redux/options/Typography.php:490 Redux/options/Header.php:436
+#: Redux/options/Notifications.php:17 Redux/options/Wishlist.php:17
+#: Redux/options/SMS.php:18
+msgid "Disabled"
+msgstr ""
+
+#: inc/Elementor/AraxSlider.php:222 inc/Elementor/AraxSlider.php:234
+#: inc/Elementor/AraxSlider.php:246 inc/Elementor/AraxSlider.php:258
+msgid "Discount"
+msgstr ""
+
+#: woocommerce/myaccount/coupons.php:18
+msgid "Discount type"
+msgstr ""
+
+#: inc/TGM/tgm.php:189
+msgid "Dismiss this notice"
+msgstr ""
+
+#: inc/MenuItem.php:51
+msgid "Display condition"
+msgstr ""
+
+#: inc/Elementor/Video.php:157
+msgid "Display video titles and player icons"
+msgstr ""
+
+#: Redux/Options.php:194 Redux/options/SEO.php:11
+msgid "div"
+msgstr ""
+
+#: templates/modals/auth/login.php:57
+msgid "Don't have an account? <span>Signup now</span>"
+msgstr ""
+
+#: footer.php:61 footer.php:62 inc/ElementorControls.php:35
+#: Redux/options/Footer.php:555
+msgid "Download from"
+msgstr ""
+
+#: inc/Utils/WC.php:214
+msgid "Dropdown list"
+msgstr ""
+
+#: woocommerce/myaccount/my-address.php:82
+msgid "Edit address"
+msgstr ""
+
+#: inc/PostTypes/Notification.php:18
+msgid "Edit notification"
+msgstr ""
+
+#: inc/PostTypes/Story.php:19
+msgid "Edit story"
+msgstr ""
+
+#: templates/modals/auth/signup.php:25
+msgid "Email"
+msgstr ""
+
+#: Redux/options/Auth.php:142
+msgid "Email/Username"
+msgstr ""
+
+#: inc/Elementor/CartButton.php:66 Redux/options/Texts.php:40
+msgid "Empty cart text"
+msgstr ""
+
+#: Redux/options/Texts.php:104
+msgid "Empty coupons page text"
+msgstr ""
+
+#: Redux/options/Texts.php:88
+msgid "Empty downloads page text"
+msgstr ""
+
+#: Redux/options/Texts.php:112
+msgid "Empty notifications page text"
+msgstr ""
+
+#: Redux/options/Texts.php:80
+msgid "Empty orders page text"
+msgstr ""
+
+#: Redux/options/Texts.php:96
+msgid "Empty shop page text"
+msgstr ""
+
+#: Redux/options/Texts.php:120
+msgid "Empty wishlist page text"
+msgstr ""
+
+#: Redux/options/Auth.php:26
+msgid "Enable or disable the Authentication by SMS."
+msgstr ""
+
+#: Redux/options/SMS.php:16
+msgid "Enable or disable the SMS service."
+msgstr ""
+
+#: Redux/options/Posts.php:26 Redux/options/Posts.php:27
+#: Redux/options/Posts.php:35 Redux/options/Posts.php:36
+#: Redux/options/Posts.php:44 Redux/options/Posts.php:45
+#: Redux/options/WooCommerce.php:36 Redux/options/WooCommerce.php:38
+#: Redux/options/Auth.php:15 Redux/options/Auth.php:17
+#: Redux/options/Auth.php:25 Redux/options/Auth.php:27
+#: Redux/options/Auth.php:150 Redux/options/Auth.php:151
+#: Redux/options/Typography.php:27 Redux/options/Typography.php:489
+#: Redux/options/Header.php:435 Redux/options/Notifications.php:15
+#: Redux/options/Notifications.php:16 Redux/options/Wishlist.php:15
+#: Redux/options/Wishlist.php:16 Redux/options/SMS.php:15
+#: Redux/options/SMS.php:17
+msgid "Enabled"
+msgstr ""
+
+#: Redux/options/SingleProduct.php:297
+msgid "End products"
+msgstr ""
+
+#: Redux/options/SingleProduct.php:313
+msgid "End products title"
+msgstr ""
+
+#: Redux/options/SingleProduct.php:324
+msgid "End products title icon"
+msgstr ""
+
+#: Redux/options/SingleProduct.php:342
+msgid "End products title tag"
+msgstr ""
+
+#: Redux/options/SingleProduct.php:365
+msgid "End products type"
+msgstr ""
+
+#: inc/Elementor/SpecialOffer.php:60
+msgid "End time"
+msgstr ""
+
+#: inc/MenuItem.php:71
+msgid "Enter the class of the icon you want to show before the item name"
+msgstr ""
+
+#: templates/modals/auth/lost_password.php:7
+msgid ""
+"Enter your <strong>mobile</strong> or <strong>username</strong> or <strong>"
+"email</strong>. A new password will be sent to you."
+msgstr ""
+
+#: templates/modals/auth/lost_password.php:9
+msgid ""
+"Enter your <strong>username</strong> or <strong>email</strong>. A new "
+"password will be sent to you."
+msgstr ""
+
+#: templates/modals/auth/mobile.php:12
+msgid "Enter your mobile number:"
+msgstr ""
+
+#: inc/Backend/Pages/SMS/SettingsAuth.php:68
+#: inc/Backend/Pages/SMS/SettingsAuth.php:156
+#: inc/Backend/Pages/SMS/SettingsAuth.php:266
+msgid ""
+"Enter your variables in your provider settings in the order you used them in "
+"the pattern text. Separate each variable with ; example: {otp};{name}"
+msgstr ""
+
+#: templates/modals/auth/otp.php:12
+msgid "Enter your verification code:"
+msgstr ""
+
+#: inc/Utils.php:67
+msgid "Estedad"
+msgstr ""
+
+#: inc/Utils.php:71
+msgid "EstedadFANum"
+msgstr ""
+
+#: Redux/options/Footer.php:387
+msgid "Example: enamad and etc."
+msgstr ""
+
+#: Redux/options/Footer.php:465
+msgid "Example: Phone numbers, email address, etc."
+msgstr ""
+
+#: Redux/options/General.php:42
+msgid "Exclude post types"
+msgstr ""
+
+#: inc/Elementor/SpecialProducts.php:164
+msgid "Excludes"
+msgstr ""
+
+#: woocommerce/myaccount/coupons.php:19
+msgid "Expiry date"
+msgstr ""
+
+#: inc/Utils/Product.php:221
+msgid "Express delivery"
+msgstr ""
+
+#: Redux/options/Typography.php:16
+msgid "ExtraBold"
+msgstr ""
+
+#: Redux/options/Typography.php:11
+msgid "ExtraLight"
+msgstr ""
+
+#: Functions/Archive.php:39
+msgid "Facebook"
+msgstr ""
+
+#: inc/Utils/SMS.php:70
+msgid "Farapayamak"
+msgstr ""
+
+#: inc/Utils/SMS.php:55
+msgid "Farazsms"
+msgstr ""
+
+#: woocommerce/myaccount/dashboard.php:36
+msgid "Favorite products"
+msgstr ""
+
+#: inc/Elementor/FeaturedAttributes.php:98
+msgid "Feature row"
+msgstr ""
+
+#: inc/Backend/Metaboxes/Product/Attribute.php:19
+msgid "Featured attribute"
+msgstr ""
+
+#: inc/Elementor/FeaturedAttributes.php:12
+msgid "Featured attributes (Bijan)"
+msgstr ""
+
+#: inc/MenuItem.php:77
+msgid "Featured item"
+msgstr ""
+
+#: inc/Elementor/Video.php:41 inc/Elementor/Video.php:51
+msgid "File"
+msgstr ""
+
+#: Redux/options/WooCommerce.php:187
+msgid "Filter close icon (mobile)"
+msgstr ""
+
+#: Redux/options/WooCommerce.php:172
+msgid "Filter opener icon (mobile)"
+msgstr ""
+
+#: inc/ElementorControls.php:75
+msgid "Fit content width"
+msgstr ""
+
+#: Functions/Init.php:27 Redux/Options.php:283 Redux/options/General.php:23
+#: Redux/options/Typography.php:342 Redux/options/Footer.php:13
+#: inc/Backend/Metaboxes/Page/Settings.php:42
+msgid "Footer"
+msgstr ""
+
+#: Functions/Init.php:28
+msgid "Footer (Contacts)"
+msgstr ""
+
+#: Redux/options/Footer.php:29
+msgid "Footer background"
+msgstr ""
+
+#: inc/Elementor/FooterMenu.php:13
+msgid "Footer menu (Bijan)"
+msgstr ""
+
+#: Functions/Init.php:29
+msgid "Footer Menu 3"
+msgstr ""
+
+#: Redux/options/Footer.php:42
+msgid "Footer menus count"
+msgstr ""
+
+#: Redux/options/Footer.php:20
+msgid "Footer status"
+msgstr ""
+
+#: Redux/options/Header.php:760
+msgid "For screens with a width between 768 pixels and 1024 pixels"
+msgstr ""
+
+#: Redux/options/Header.php:722
+msgid "For screens with a width larger than 1025 pixels"
+msgstr ""
+
+#: Redux/options/Header.php:800
+msgid "For screens with a width lower than 767 pixels"
+msgstr ""
+
+#: Redux/options/Colors.php:393
+msgid "Form colors"
+msgstr ""
+
+#: inc/Elementor/AJAXSearch.php:94
+msgid "Form style"
+msgstr ""
+
+#: Redux/options/Typography.php:264
+msgid "Forms"
+msgstr ""
+
+#: inc/Backend/Metaboxes/Product/Icons.php:72
+msgid "From settings"
+msgstr ""
+
+#: Redux/options/Footer.php:640 Redux/options/Footer.php:643
+msgid "Front copyright text"
+msgstr ""
+
+#: inc/ElementorControls.php:74
+msgid "Full width"
+msgstr ""
+
+#. Name of the template
+#: page_fullwidth.php:1
+msgid "Fullwidth"
+msgstr ""
+
+#: inc/Utils.php:13
+msgid "Galaxy Store"
+msgstr ""
+
+#: Redux/options/SingleProduct.php:59
+msgid "Gallery settings"
+msgstr ""
+
+#: Redux/options/SingleProduct.php:66
+msgid "Gallery thumbnail position"
+msgstr ""
+
+#: Redux/Options.php:213 Redux/options/Texts.php:7
+msgid "General"
+msgstr ""
+
+#: Redux/options/Colors.php:7
+msgid "General colors"
+msgstr ""
+
+#: Functions/Init.php:49
+msgid "General sidebar"
+msgstr ""
+
+#: inc/Backend/Pages/SMS/SettingsAuth.php:259
+msgid "Generated password"
+msgstr ""
+
+#: footer.php:17 Redux/options/Footer.php:105 Redux/options/Footer.php:106
+msgid "Get the latest notifications"
+msgstr ""
+
+#: inc/Elementor/CTA1.php:140
+msgid "Go to club"
+msgstr ""
+
+#: inc/Utils.php:12
+msgid "Google Play"
+msgstr ""
+
+#: inc/Utils/WC.php:219
+msgid "Gradient"
+msgstr ""
+
+#: Redux/options/Colors.php:248
+msgid "Gray 1"
+msgstr ""
+
+#: Redux/options/Colors.php:258
+msgid "Gray 2"
+msgstr ""
+
+#: Redux/options/Colors.php:268
+msgid "Gray 3"
+msgstr ""
+
+#: Redux/options/Colors.php:278
+msgid "Gray 4"
+msgstr ""
+
+#: Redux/options/Colors.php:288
+msgid "Gray 5"
+msgstr ""
+
+#: Redux/options/Colors.php:298
+msgid "Gray 6"
+msgstr ""
+
+#: Redux/options/Colors.php:308
+msgid "Gray 7"
+msgstr ""
+
+#: Redux/options/Colors.php:241
+msgid "Gray colors"
+msgstr ""
+
+#: inc/Elementor/Story.php:77
+msgid "Grayscale images"
+msgstr ""
+
+#: inc/Elementor/ThumbnailSlider.php:180
+msgid "Grayscale thumbnails"
+msgstr ""
+
+#: inc/MenuItem.php:54 inc/Backend/Metaboxes/Page/Settings.php:116
+#: inc/Backend/Metaboxes/Page/Settings.php:217
+msgid "Guests only"
+msgstr ""
+
+#: Redux/Options.php:188 Redux/options/SEO.php:5
+#: Redux/options/Typography.php:123
+msgid "H1"
+msgstr ""
+
+#: Redux/Options.php:189 Redux/options/SEO.php:6
+#: Redux/options/Typography.php:137
+msgid "H2"
+msgstr ""
+
+#: Redux/Options.php:190 Redux/options/SEO.php:7
+#: Redux/options/Typography.php:151 Redux/options/SingleProduct.php:343
+msgid "H3"
+msgstr ""
+
+#: Redux/Options.php:191 Redux/options/SEO.php:8
+#: Redux/options/Typography.php:165
+msgid "H4"
+msgstr ""
+
+#: Redux/Options.php:192 Redux/options/SEO.php:9
+#: Redux/options/Typography.php:179
+msgid "H5"
+msgstr ""
+
+#: Redux/Options.php:193 Redux/options/SEO.php:10
+#: Redux/options/Typography.php:193
+msgid "H6"
+msgstr ""
+
+#: templates/modals/auth/signup.php:81
+msgid "Have an account? <span>Login now</span>"
+msgstr ""
+
+#: Redux/Options.php:243 Redux/options/General.php:15
+#: Redux/options/Typography.php:211 Redux/options/Header.php:7
+#: inc/Backend/Metaboxes/Page/Settings.php:40
+msgid "Header"
+msgstr ""
+
+#: Functions/Init.php:23
+msgid "Header (Main menu)"
+msgstr ""
+
+#: Functions/Init.php:24
+msgid "Header - Second menu"
+msgstr ""
+
+#: Redux/options/Header.php:54
+msgid "Header background"
+msgstr ""
+
+#: Redux/options/Header.php:697
+msgid "Header banner"
+msgstr ""
+
+#: Redux/options/Header.php:836
+msgid "Header banner link"
+msgstr ""
+
+#: Redux/options/Header.php:713
+msgid "Header banner title"
+msgstr ""
+
+#: templates/header/action-mini_cart.php:21 woocommerce/Functions/Cart.php:27
+msgctxt "Header cart count label"
+msgid "Product"
+msgstr ""
+
+#: inc/Elementor/HeaderMenu.php:12
+msgid "Header menu (Bijan)"
+msgstr ""
+
+#: Redux/options/Header.php:70
+msgid "Header padding"
+msgstr ""
+
+#: Redux/options/Header.php:375
+msgid "Header search post types"
+msgstr ""
+
+#: Redux/options/Header.php:14
+msgid "Header status"
+msgstr ""
+
+#: Redux/options/Header.php:23
+msgid "Header type"
+msgstr ""
+
+#: Redux/options/Typography.php:116
+msgid "Headings"
+msgstr ""
+
+#: inc/Elementor/SpecialOffer.php:81 inc/Elementor/SpecialOffer.php:93
+#: inc/Elementor/CartButton.php:57 inc/Elementor/CTA2.php:150
+#: inc/Elementor/Testimonials.php:150 inc/Elementor/FeaturedAttributes.php:59
+#: inc/Elementor/CTA1.php:117 Redux/options/WooCommerce.php:100
+#: Redux/options/WooCommerce.php:142 Redux/options/WooCommerce.php:166
+#: Redux/options/WooCommerce.php:216 Redux/options/Auth.php:41
+#: Redux/options/SingleProduct.php:20 Redux/options/SingleProduct.php:202
+#: Redux/options/SingleProduct.php:219 Redux/options/BottomNav.php:32
+#: Redux/options/BottomNav.php:67 Redux/options/BottomNav.php:149
+#: Redux/options/BottomNav.php:231 Redux/options/BottomNav.php:313
+#: Redux/options/BottomNav.php:395 Redux/options/BottomNav.php:477
+#: Redux/options/Header.php:17 Redux/options/Header.php:100
+#: Redux/options/Header.php:145 Redux/options/Header.php:336
+#: Redux/options/Header.php:401 Redux/options/Header.php:413
+#: Redux/options/Header.php:456 Redux/options/Header.php:494
+#: Redux/options/Header.php:518 Redux/options/Header.php:608
+#: Redux/options/Header.php:649 Redux/options/Header.php:705
+#: Redux/options/Header.php:707 Redux/options/Header.php:750
+#: Redux/options/Header.php:790 Redux/options/Footer.php:23
+#: Redux/options/Footer.php:65 Redux/options/Footer.php:151
+#: Redux/options/Footer.php:207 Redux/options/Footer.php:263
+#: Redux/options/Footer.php:343 Redux/options/Footer.php:512
+#: Redux/options/Footer.php:633
+msgid "Hide"
+msgstr ""
+
+#: inc/Backend/Pages/SMS/Security.php:11
+msgid "Hide user mobile number"
+msgstr ""
+
+#: Functions/Init.php:232 Redux/options/BottomNav.php:96
+#: Redux/options/BottomNav.php:97
+msgid "Home"
+msgstr ""
+
+#: Redux/options/SEO.php:26
+msgid "Home page site title"
+msgstr ""
+
+#: inc/Backend/WCAttributeFields.php:76 inc/Backend/WCAttributeFields.php:172
+msgid "Horizontal"
+msgstr ""
+
+#: inc/ElementorControls.php:119 inc/Elementor/CategoriesSlider.php:115
+#: inc/Elementor/CategoriesSlider.php:164
+#: inc/Elementor/CategoriesSlider.php:217 inc/Elementor/Button.php:64
+#: inc/Elementor/Button.php:119 inc/Elementor/Team.php:152
+#: inc/Elementor/ProIcon.php:225 inc/Elementor/ProIcon.php:278
+#: inc/Elementor/ProIcon.php:334 inc/Elementor/SectionTitle2.php:65
+#: inc/Elementor/MarketButton.php:77 inc/Elementor/MarketButton.php:127
+#: inc/Elementor/InstantDiscount.php:115 inc/Elementor/Story.php:175
+#: inc/Elementor/Story.php:224 inc/Elementor/Slider.php:154
+msgid "Hover"
+msgstr ""
+
+#: inc/Elementor/ProIcon.php:176
+msgid "Hover effect"
+msgstr ""
+
+#: inc/ElementorControls.php:36 inc/ElementorControls.php:50
+#: inc/Elementor/ProIcon2.php:95 inc/Elementor/ProIcon2.php:113
+#: inc/Elementor/ProIcon.php:119 inc/Elementor/ProIcon.php:148
+#: inc/Elementor/CTA3.php:43 inc/Elementor/CTA3.php:72
+#: inc/Elementor/Ribbon.php:42 inc/Elementor/CTA2.php:54
+#: inc/Elementor/CTA2.php:83 inc/Elementor/CTA2.php:114
+#: inc/Elementor/SectionTitle2.php:95 inc/Elementor/CTA1.php:43
+#: inc/Elementor/CTA1.php:72 inc/Elementor/CTA1.php:103
+#: inc/ElementorControls/SectionTitle.php:58
+#: inc/ElementorControls/SectionTitle.php:72
+msgid "HTML tags allowed"
+msgstr ""
+
+#. Author URI of the theme
+msgid "https://www.rtl-theme.com/author/ironatoms2/"
+msgstr ""
+
+#. URI of the theme
+msgid "https://www.rtl-theme.com/bijan-wordpress-theme/"
+msgstr ""
+
+#: inc/Utils.php:17
+msgid "iApps"
+msgstr ""
+
+#: inc/MenuItem.php:62 inc/Elementor/FooterMenu.php:58
+#: inc/Elementor/AJAXSearch.php:69 inc/Elementor/Button.php:142
+#: inc/Elementor/ProIcon2.php:51 inc/Elementor/ProIcon2.php:79
+#: inc/Elementor/ProIcon2.php:293 inc/Elementor/ProIcon.php:48
+#: inc/Elementor/ProIcon.php:76 inc/Elementor/AccountBtn.php:41
+#: inc/Elementor/Ribbon.php:71 inc/Elementor/Ribbon.php:148
+#: inc/Elementor/CartButton.php:41 inc/Backend/WCAttributeFields.php:200
+#: inc/Utils/WC.php:218 Redux/options/Socials.php:27
+#: Redux/options/Footer.php:74 Redux/options/Footer.php:161
+#: Redux/options/Footer.php:217 Redux/options/Footer.php:273
+#: Redux/options/Footer.php:663
+msgid "Icon"
+msgstr ""
+
+#: inc/Elementor/ProIcon.php:88
+msgid "Icon align"
+msgstr ""
+
+#: inc/Elementor/AJAXSearch.php:128 inc/Elementor/ProIcon.php:302
+#: inc/Elementor/AccountBtn.php:78 inc/Elementor/CartButton.php:105
+msgid "Icon style"
+msgstr ""
+
+#: inc/Elementor/ProIcon2.php:43 inc/Elementor/ProIcon.php:40
+#: inc/Backend/Metaboxes/Product/Icons.php:65
+msgid "Icon type"
+msgstr ""
+
+#: inc/Elementor/ProIcon.php:199
+msgid "Icon wrap style"
+msgstr ""
+
+#. id
+#: inc/Backend/Metaboxes/Product/Icons.php:40
+msgid "Icons"
+msgstr ""
+
+#: inc/Utils/Archive.php:76
+msgid "ID"
+msgstr ""
+
+#: Redux/options/BottomNav.php:118 Redux/options/BottomNav.php:200
+#: Redux/options/BottomNav.php:282 Redux/options/BottomNav.php:364
+#: Redux/options/BottomNav.php:446
+msgid "If this item should do special thing. Select one of actions."
+msgstr ""
+
+#: inc/Backend/Pages/SMS/SettingsAuth.php:195
+msgid ""
+"If you check one form mode, Login and register will used by a single form "
+"but you can change the settings for login or register."
+msgstr ""
+
+#: Redux/options/Typography.php:487
+msgid ""
+"If you have customized the WordPress dashboard or are using a theme for the "
+"dashboard, please disable this option."
+msgstr ""
+
+#: Redux/options/Auth.php:16
+msgid ""
+"If you want to use third-party authentication plugins(Like: Digits), disable "
+"this."
+msgstr ""
+
+#: inc/Elementor/SpecialProducts.php:174
+msgid "Ignore sticky posts"
+msgstr ""
+
+#: inc/Elementor/ProIcon2.php:47 inc/Elementor/ProIcon2.php:63
+#: inc/Elementor/ProIcon2.php:305 inc/Elementor/Team.php:41
+#: inc/Elementor/ProIcon.php:44 inc/Elementor/ProIcon.php:60
+#: inc/Elementor/ThumbnailSlider.php:43 inc/Elementor/CTA3.php:199
+#: inc/Elementor/CTA2.php:212 inc/Elementor/Slider.php:43
+#: inc/Elementor/AraxSlider.php:42 inc/Elementor/CTA1.php:173
+#: inc/Backend/WCAttributeFields.php:182 inc/Utils/WC.php:216
+#: Redux/options/WooCommerce.php:223 Redux/options/WooCommerce.php:226
+#: Redux/options/Auth.php:51 Redux/options/Auth.php:54
+#: Redux/options/Header.php:157 Redux/options/Header.php:160
+msgid "Image"
+msgstr ""
+
+#: inc/Elementor/ThumbnailSlider.php:45 inc/Elementor/Slider.php:45
+msgid "Image height: 358px"
+msgstr ""
+
+#: inc/Elementor/Slider.php:60
+msgid "Image height: 618px"
+msgstr ""
+
+#: inc/Elementor/AraxSlider.php:44
+msgid "Image size: 444px*444px"
+msgstr ""
+
+#: inc/Elementor/AraxSlider.php:59
+msgid "Image size: 80px*80px"
+msgstr ""
+
+#: inc/Elementor/Team.php:127 inc/Elementor/ProIcon.php:249
+#: inc/Elementor/MarketButton.php:102 inc/Elementor/Story.php:148
+#: inc/Elementor/Slider.php:127
+msgid "Image style"
+msgstr ""
+
+#: inc/Backend/Pages/SMS.php:72
+msgid "In this section, you can configure Bijan's SMS settings."
+msgstr ""
+
+#: inc/Elementor/SpecialProducts.php:69
+msgid "Includes"
+msgstr ""
+
+#: inc/Elementor/Video.php:172
+msgid "Initial playback should be silent"
+msgstr ""
+
+#: Redux/options/Colors.php:400
+msgid "Input background"
+msgstr ""
+
+#: inc/Elementor/AJAXSearch.php:105
+msgid "Input style"
+msgstr ""
+
+#: Redux/options/Colors.php:410
+msgid "Input text color"
+msgstr ""
+
+#: Redux/options/Typography.php:285
+msgid "Inputs"
+msgstr ""
+
+#: inc/Widgets/Socials.php:30 inc/Widgets/Socials.php:89
+msgid "Instagram"
+msgstr ""
+
+#: inc/TGM/tgm.php:123
+msgid "Install Plugins"
+msgstr ""
+
+#: inc/TGM/tgm.php:122
+msgid "Install Required Plugins"
+msgstr ""
+
+#. %s: plugin name.
+#: inc/TGM/tgm.php:125
+#, php-format
+msgid "Installing Plugin: %s"
+msgstr ""
+
+#: inc/Elementor/InstantDiscount.php:45
+msgid "Instant Discount"
+msgstr ""
+
+#: inc/Elementor/InstantDiscount.php:15
+msgid "Instant Discount (Bijan)"
+msgstr ""
+
+#: woocommerce/Functions/Filters.php:11
+msgid "Instock products"
+msgstr ""
+
+#: inc/SMS/Gateway.php:99
+msgid "Invalid message type"
+msgstr ""
+
+#: inc/Utils.php:35
+msgid "IRANYekanX"
+msgstr ""
+
+#: inc/Utils.php:39
+msgid "IRANYekanXFANum"
+msgstr ""
+
+#: inc/Elementor/CategoriesSlider.php:57
+msgid "Item"
+msgstr ""
+
+#: Redux/options/BottomNav.php:56
+msgid "Item 1"
+msgstr ""
+
+#: Redux/options/BottomNav.php:76
+msgid "Item 1 - Icon"
+msgstr ""
+
+#: Redux/options/BottomNav.php:95
+msgid "Item 1 - Text"
+msgstr ""
+
+#: Redux/options/BottomNav.php:117
+msgid "Item 1 - Type"
+msgstr ""
+
+#: Redux/options/BottomNav.php:106
+msgid "Item 1 - URL"
+msgstr ""
+
+#: Redux/options/BottomNav.php:138
+msgid "Item 2"
+msgstr ""
+
+#: Redux/options/BottomNav.php:158
+msgid "Item 2 - Icon"
+msgstr ""
+
+#: Redux/options/BottomNav.php:177
+msgid "Item 2 - Text"
+msgstr ""
+
+#: Redux/options/BottomNav.php:199
+msgid "Item 2 - Type"
+msgstr ""
+
+#: Redux/options/BottomNav.php:188
+msgid "Item 2 - URL"
+msgstr ""
+
+#: Redux/options/BottomNav.php:220
+msgid "Item 3"
+msgstr ""
+
+#: Redux/options/BottomNav.php:240
+msgid "Item 3 - Icon"
+msgstr ""
+
+#: Redux/options/BottomNav.php:259
+msgid "Item 3 - Text"
+msgstr ""
+
+#: Redux/options/BottomNav.php:281
+msgid "Item 3 - Type"
+msgstr ""
+
+#: Redux/options/BottomNav.php:270
+msgid "Item 3 - URL"
+msgstr ""
+
+#: Redux/options/BottomNav.php:302
+msgid "Item 4"
+msgstr ""
+
+#: Redux/options/BottomNav.php:322
+msgid "Item 4 - Icon"
+msgstr ""
+
+#: Redux/options/BottomNav.php:341
+msgid "Item 4 - Text"
+msgstr ""
+
+#: Redux/options/BottomNav.php:363
+msgid "Item 4 - Type"
+msgstr ""
+
+#: Redux/options/BottomNav.php:352
+msgid "Item 4 - URL"
+msgstr ""
+
+#: Redux/options/BottomNav.php:384
+msgid "Item 5"
+msgstr ""
+
+#: Redux/options/BottomNav.php:404
+msgid "Item 5 - Icon"
+msgstr ""
+
+#: Redux/options/BottomNav.php:423
+msgid "Item 5 - Text"
+msgstr ""
+
+#: Redux/options/BottomNav.php:445
+msgid "Item 5 - Type"
+msgstr ""
+
+#: Redux/options/BottomNav.php:434
+msgid "Item 5 - URL"
+msgstr ""
+
+#: inc/Elementor/Testimonials.php:168
+msgid "Item background"
+msgstr ""
+
+#: inc/Elementor/CategoriesSlider.php:44
+msgid "Item icon"
+msgstr ""
+
+#: inc/Elementor/FooterMenu.php:120 inc/Elementor/HeaderMenu.php:73
+msgid "Item icon style"
+msgstr ""
+
+#: inc/Elementor/CartButton.php:122 Redux/options/SingleProduct.php:228
+msgid "Item image"
+msgstr ""
+
+#: inc/Elementor/Brands.php:226 inc/Elementor/Testimonials.php:202
+msgid "Item image style"
+msgstr ""
+
+#: inc/Elementor/CategoriesSlider.php:139
+msgid "Item inner style"
+msgstr ""
+
+#: Redux/options/SingleProduct.php:266
+msgid "Item link"
+msgstr ""
+
+#: inc/Elementor/CartButton.php:152
+msgid "Item remove button"
+msgstr ""
+
+#: inc/Elementor/CategoriesSlider.php:90 inc/Elementor/Brands.php:213
+msgid "Item style"
+msgstr ""
+
+#: Redux/options/SingleProduct.php:255
+msgid "Item subtitle"
+msgstr ""
+
+#: inc/Elementor/FooterMenu.php:131 inc/Elementor/HeaderMenu.php:84
+msgid "Item text style"
+msgstr ""
+
+#: inc/Elementor/Brands.php:232 inc/Elementor/CartButton.php:137
+#: inc/Elementor/Story.php:267 Redux/options/SingleProduct.php:244
+msgid "Item title"
+msgstr ""
+
+#: inc/Elementor/ProIcon2.php:281
+msgid "Item wrap"
+msgstr ""
+
+#: inc/Elementor/CategoriesSlider.php:33 inc/Elementor/CategoriesSlider.php:73
+#: inc/Elementor/ProIcon2.php:141 inc/Elementor/Brands.php:31
+#: inc/Elementor/Brands.php:88 inc/Elementor/Team.php:31
+#: inc/Elementor/Team.php:91 inc/Elementor/ThumbnailSlider.php:70
+#: inc/Elementor/Testimonials.php:33 inc/Elementor/Testimonials.php:110
+#: inc/Elementor/Story.php:35 inc/Elementor/Slider.php:85
+#: inc/Elementor/AraxSlider.php:210
+msgid "Items"
+msgstr ""
+
+#: Redux/options/Footer.php:475 Redux/options/Footer.php:478
+msgid "Just first item"
+msgstr ""
+
+#: Redux/options/Footer.php:480
+msgid "Just last item"
+msgstr ""
+
+#: Redux/options/Footer.php:479
+msgid "Just second item"
+msgstr ""
+
+#: inc/Utils/SMS.php:65
+msgid "Kavenegar"
+msgstr ""
+
+#: searchform.php:8 woocommerce/myaccount/wishlist.php:69
+msgctxt "label"
+msgid "Search for:"
+msgstr ""
+
+#: inc/Utils/Archive.php:70 inc/Utils/Archive.php:80
+msgid "Last Modified"
+msgstr ""
+
+#: woocommerce/Functions/Archive.php:193
+msgid "Latest"
+msgstr ""
+
+#: inc/Elementor/SpecialProducts.php:56 Redux/options/SingleProduct.php:370
+msgid "Latests products"
+msgstr ""
+
+#: inc/Elementor/Story.php:48
+msgid "Latests stories"
+msgstr ""
+
+#: Redux/options/WooCommerce.php:291 Redux/options/Auth.php:111
+#: Redux/options/Header.php:237
+msgid "Leave empty for full size"
+msgstr ""
+
+#: inc/Elementor/SectionTitle2.php:113 Redux/options/SingleProduct.php:67
+#: Redux/options/SingleProduct.php:70
+msgid "Left"
+msgstr ""
+
+#: Redux/options/Typography.php:12
+msgid "Light"
+msgstr ""
+
+#: inc/PostTypes/Story.php:45
+msgid "Likes"
+msgstr ""
+
+#: inc/ElementorControls.php:60 inc/Elementor/ProIcon2.php:127
+#: inc/Elementor/Brands.php:71 inc/Elementor/Team.php:79
+#: inc/Elementor/ProIcon.php:162 inc/Elementor/ThumbnailSlider.php:58
+#: inc/Elementor/AccountBtn.php:54 inc/Elementor/Ribbon.php:84
+#: inc/Elementor/CTA2.php:101 inc/Elementor/Slider.php:73
+#: inc/Elementor/AraxSlider.php:198 inc/ElementorControls/SectionTitle.php:82
+#: inc/Backend/Metaboxes/Product/Icons.php:130
+msgid "Link"
+msgstr ""
+
+#: inc/Widgets/Socials.php:31 inc/Widgets/Socials.php:90
+msgid "LinkedIn"
+msgstr ""
+
+#: Functions/Archive.php:31
+msgid "Linkedin"
+msgstr ""
+
+#: inc/MenuItem.php:55 inc/Backend/Metaboxes/Page/Settings.php:117
+#: inc/Backend/Metaboxes/Page/Settings.php:218
+msgid "Logged in users only"
+msgstr ""
+
+#: inc/Utils/User.php:49 Redux/options/Header.php:618
+#: Redux/options/Header.php:619 Redux/options/Header.php:620
+#: templates/modals/auth/mobile.php:6 templates/modals/auth/login.php:12
+#: templates/modals/auth/login.php:62
+msgid "Login"
+msgstr ""
+
+#: templates/modals/auth/mobile.php:4
+msgid "Login / Signup"
+msgstr ""
+
+#: Redux/options/Header.php:628
+msgid "Login icon"
+msgstr ""
+
+#: inc/Backend/Pages/SMS/SettingsAuth.php:52
+msgid "Login OTP message"
+msgstr ""
+
+#: inc/Backend/Pages/SMS/SettingsAuth.php:9
+msgid "Login settings"
+msgstr ""
+
+#: inc/AJAX/Auth.php:81 inc/AJAX/Auth.php:241
+msgid "Login successful. The page will reload."
+msgstr ""
+
+#: Redux/options/Header.php:617
+msgid "Login text"
+msgstr ""
+
+#: inc/AJAX/Auth.php:158 inc/AJAX/Auth.php:218
+msgid "Login via SMS is not active."
+msgstr ""
+
+#: templates/modals/auth/login.php:70
+msgid "Login with OTP"
+msgstr ""
+
+#: templates/modals/auth/mobile.php:32
+msgid "Login with username or email"
+msgstr ""
+
+#: inc/Elementor/CTA2.php:196 Redux/options/Typography.php:218
+#: Redux/options/Header.php:135
+msgid "Logo"
+msgstr ""
+
+#: Redux/options/WooCommerce.php:273 Redux/options/Auth.php:92
+#: Redux/options/Header.php:219
+msgid "Logo image file"
+msgstr ""
+
+#: Redux/options/WooCommerce.php:289 Redux/options/Auth.php:109
+#: Redux/options/Header.php:235
+msgid "Logo size"
+msgstr ""
+
+#: Redux/options/WooCommerce.php:255 Redux/options/Auth.php:81
+#: Redux/options/Header.php:197
+msgid "Logo text"
+msgstr ""
+
+#: Redux/options/Header.php:274
+msgid "Logo text color"
+msgstr ""
+
+#: Redux/options/Header.php:295
+msgid "Logo text color (sticky)"
+msgstr ""
+
+#: Redux/options/WooCommerce.php:222 Redux/options/Auth.php:50
+#: Redux/options/Header.php:156
+msgid "Logo type"
+msgstr ""
+
+#: Redux/options/WooCommerce.php:308 Redux/options/Auth.php:125
+#: Redux/options/Header.php:258
+msgid "Logo URL"
+msgstr ""
+
+#: inc/Elementor/CTA2.php:184
+msgid "Logo wrap"
+msgstr ""
+
+#: inc/Utils/User.php:84
+msgid "Logout"
+msgstr ""
+
+#: inc/Elementor/ThumbnailSlider.php:112 inc/Elementor/Testimonials.php:133
+msgid "Loop"
+msgstr ""
+
+#: inc/Elementor/ProIcon2.php:112 inc/Elementor/ProIcon2.php:160
+#: inc/Elementor/ProIcon2.php:176 inc/Elementor/ProIcon2.php:192
+#: inc/Elementor/ProIcon2.php:208 inc/Elementor/ProIcon2.php:224
+#: inc/Elementor/CTA2.php:57 inc/Elementor/SectionTitle2.php:98
+#: inc/ElementorControls/SectionTitle.php:57
+msgid "Lorem ipsum"
+msgstr ""
+
+#: inc/Elementor/CTA2.php:86
+msgid "Lorem ipsum dolor sit amet"
+msgstr ""
+
+#: footer.php:29 inc/Elementor/CTA2.php:117 inc/Elementor/CTA1.php:107
+#: Redux/options/Footer.php:317 Redux/options/Footer.php:318
+msgid ""
+"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod "
+"tempor incididunt ut labore et dolore magna aliqua."
+msgstr ""
+
+#: inc/Elementor/Testimonials.php:96
+msgid ""
+"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, "
+"luctus nec ullamcorper mattis, pulvinar dapibus leo."
+msgstr ""
+
+#: inc/Elementor/Ribbon.php:45 inc/ElementorControls/SectionTitle.php:71
+msgid "Lorem {ipsum}"
+msgstr ""
+
+#: Redux/options/Auth.php:162 templates/modals/auth/lost_password.php:13
+msgid "Lost password"
+msgstr ""
+
+#: Redux/options/Auth.php:169
+msgid "Lost password email subject"
+msgstr ""
+
+#: Redux/options/Auth.php:178
+msgid "Lost password email template"
+msgstr ""
+
+#: inc/Backend/Pages/SMS/SettingsAuth.php:205
+msgid "Lost password settings"
+msgstr ""
+
+#: templates/modals/auth/login.php:55
+msgid "Lost your password?"
+msgstr ""
+
+#: Redux/options/Typography.php:46
+msgid "Main"
+msgstr ""
+
+#: Redux/options/Typography.php:53
+msgid "Main font"
+msgstr ""
+
+#: inc/Elementor/ThumbnailSlider.php:204
+msgid "Main image style"
+msgstr ""
+
+#: inc/Elementor/AraxSlider.php:336
+msgid "Main slider image"
+msgstr ""
+
+#: inc/Elementor/AraxSlider.php:324
+msgid "Main slider item wrap"
+msgstr ""
+
+#: inc/Elementor/AraxSlider.php:313
+msgid "Main slider wrap"
+msgstr ""
+
+#: inc/Elementor/Story.php:49 inc/Elementor/SpecialProducts.php:59
+msgid "Manual Selection"
+msgstr ""
+
+#: inc/ElementorControls.php:16
+msgid "Market"
+msgstr ""
+
+#: inc/Elementor/CTA3.php:122
+msgid "Market button"
+msgstr ""
+
+#: inc/Elementor/MarketButton.php:12
+msgid "Market button (Bijan)"
+msgstr ""
+
+#: Redux/options/Footer.php:502 Redux/options/Footer.php:509
+#: Redux/options/Footer.php:541
+msgid "Market buttons"
+msgstr ""
+
+#: Redux/options/Footer.php:566
+msgid "Market icon"
+msgstr ""
+
+#: Redux/options/Typography.php:13
+msgid "Medium"
+msgstr ""
+
+#: Redux/options/Header.php:426 Redux/options/Header.php:433
+msgid "Megamenu"
+msgstr ""
+
+#: inc/Utils.php:27
+msgctxt "MegaMenu item column type"
+msgid "%d column"
+msgstr ""
+
+#: inc/Utils.php:24
+msgctxt "MegaMenu item column type"
+msgid "Auto"
+msgstr ""
+
+#: inc/Utils/SMS.php:50
+msgid "Melipayamak"
+msgstr ""
+
+#: inc/Utils/SMS.php:171
+msgid "Mentor name"
+msgstr ""
+
+#: footer.php:23 inc/Elementor/FooterMenu.php:50
+#: inc/Elementor/FooterMenu.php:72 inc/Elementor/HeaderMenu.php:48
+#: Redux/options/Header.php:391 Redux/options/Footer.php:182
+#: Redux/options/Footer.php:183
+msgid "Menu"
+msgstr ""
+
+#: Redux/options/Typography.php:232 Redux/options/Typography.php:349
+#: Redux/options/Footer.php:141
+msgid "Menu 1"
+msgstr ""
+
+#: Redux/options/Typography.php:246 Redux/options/Typography.php:370
+#: Redux/options/Footer.php:197
+msgid "Menu 2"
+msgstr ""
+
+#: Redux/options/Footer.php:253
+msgid "Menu 3"
+msgstr ""
+
+#: inc/Elementor/AccountBtn.php:123
+msgid "Menu item icon style"
+msgstr ""
+
+#: inc/Elementor/AccountBtn.php:111
+msgid "Menu item style"
+msgstr ""
+
+#: inc/Elementor/AccountBtn.php:135
+msgid "Menu item text style"
+msgstr ""
+
+#: Redux/options/WooCommerce.php:328
+msgid "Menu opener icon (mobile)"
+msgstr ""
+
+#: Redux/options/Footer.php:181 Redux/options/Footer.php:237
+#: Redux/options/Footer.php:293
+msgid "Menu title"
+msgstr ""
+
+#: inc/Elementor/CartButton.php:13
+msgid "Mini cart (Bijan)"
+msgstr ""
+
+#: templates/modals/auth/signup.php:43
+msgid "Mobile"
+msgstr ""
+
+#: Functions/Init.php:26
+msgid "Mobile - Second menu"
+msgstr ""
+
+#: Redux/Options.php:253
+msgid "Mobile Bottom navigation"
+msgstr ""
+
+#: inc/Elementor/Brands.php:173
+msgid "Mobile Column counts"
+msgstr ""
+
+#: Redux/options/Posts.php:99
+msgid "Mobile columns"
+msgstr ""
+
+#: inc/Elementor/Brands.php:193
+msgid "Mobile columns gap"
+msgstr ""
+
+#: Redux/options/Posts.php:108
+msgid "Mobile gap (px)"
+msgstr ""
+
+#: inc/Elementor/Slider.php:58
+msgid "Mobile Image"
+msgstr ""
+
+#: inc/Elementor/CTA2.php:135
+msgid "Mobile image"
+msgstr ""
+
+#: Redux/options/BottomNav.php:466
+msgid "Mobile menu"
+msgstr ""
+
+#: Functions/Init.php:25
+msgid "Mobile menu (Main menu)"
+msgstr ""
+
+#: inc/Elementor/Brands.php:183
+msgid "Mobile rows gap"
+msgstr ""
+
+#: Redux/options/Auth.php:7
+msgid "Modal"
+msgstr ""
+
+#. Author of the theme
+msgid "MohammadJafar Khajeh"
+msgstr ""
+
+#: Redux/options/WooCommerce.php:130
+msgid "Move out of stock products to the end of the list"
+msgstr ""
+
+#: inc/Utils/WC.php:92
+msgctxt "My Account Link"
+msgid "Coupons"
+msgstr ""
+
+#: inc/Utils/WC.php:93
+msgctxt "My Account Link"
+msgid "Notifications"
+msgstr ""
+
+#: inc/Utils/WC.php:91
+msgctxt "My Account Link"
+msgid "Wishlist"
+msgstr ""
+
+#: inc/Utils.php:11
+msgid "Myket"
+msgstr ""
+
+#: inc/Elementor/Brands.php:54 inc/Elementor/Brands.php:57
+#: inc/Elementor/Team.php:55 inc/Elementor/Testimonials.php:59
+#: inc/Elementor/Testimonials.php:62
+msgid "Name"
+msgstr ""
+
+#: inc/Elementor/Team.php:200 inc/Elementor/Testimonials.php:191
+msgid "Name style"
+msgstr ""
+
+#: inc/PostTypes/Notification.php:17
+msgid "New notification"
+msgstr ""
+
+#: inc/Backend/Pages/SMS/SettingsAuth.php:247
+msgid "New password message"
+msgstr ""
+
+#: inc/PostTypes/Story.php:18
+msgid "New story"
+msgstr ""
+
+#: Redux/options/Footer.php:55
+msgid "Newsletter"
+msgstr ""
+
+#: Redux/options/Footer.php:115
+msgid "Newsletter shortcode"
+msgstr ""
+
+#: Redux/options/Footer.php:126
+msgid "Newsletter SMS shortcode"
+msgstr ""
+
+#: Redux/options/Footer.php:104
+msgid "Newsletter subtitle"
+msgstr ""
+
+#: Redux/options/Footer.php:93
+msgid "Newsletter title"
+msgstr ""
+
+#: templates/archives/pagination-custom.php:19
+#: templates/archives/pagination.php:8
+msgid "Next page"
+msgstr ""
+
+#: inc/Elementor/Products3.php:79 inc/Elementor/Video.php:84
+#: inc/Elementor/Video.php:145 inc/Elementor/Video.php:160
+#: inc/Elementor/Video.php:175 inc/Elementor/Video.php:190
+#: inc/Elementor/AJAXSearch.php:59 inc/Elementor/Products4.php:79
+#: inc/Elementor/ProIcon.php:179 inc/Elementor/ThumbnailSlider.php:115
+#: inc/Elementor/ThumbnailSlider.php:127 inc/Elementor/ThumbnailSlider.php:183
+#: inc/Elementor/Products.php:79 inc/Elementor/Testimonials.php:136
+#: inc/Elementor/Story.php:80 inc/Elementor/Products2.php:79
+#: inc/Elementor/SpecialProducts.php:177 inc/Elementor/SpecialProducts.php:432
+#: inc/Elementor/AraxSlider.php:88 Redux/options/WooCommerce.php:56
+#: Redux/options/WooCommerce.php:131 Redux/options/WooCommerce.php:133
+#: Redux/options/WooCommerce.php:155 Redux/options/WooCommerce.php:157
+#: Redux/options/WooCommerce.php:357 Redux/options/WooCommerce.php:366
+#: Redux/options/WooCommerce.php:378 Redux/options/WooCommerce.php:390
+#: Redux/options/WooCommerce.php:402 Redux/options/WooCommerce.php:414
+#: Redux/options/WooCommerce.php:426 Redux/options/WooCommerce.php:438
+#: Redux/options/SingleProduct.php:29 Redux/options/SingleProduct.php:49
+#: Redux/options/SingleProduct.php:87 Redux/options/SingleProduct.php:96
+#: Redux/options/SingleProduct.php:108 Redux/options/SingleProduct.php:120
+#: Redux/options/SingleProduct.php:132 Redux/options/SingleProduct.php:155
+#: Redux/options/SingleProduct.php:307 Redux/options/Header.php:558
+#: Redux/options/Header.php:560 Redux/options/Header.php:849
+#: Redux/options/Header.php:851
+msgid "No"
+msgstr ""
+
+#. 1: plugin name.
+#: inc/TGM/tgm.php:184
+#, php-format
+msgid "No action taken. Plugin %1$s was already active."
+msgstr ""
+
+#: inc/PostTypes/Notification.php:21 inc/PostTypes/Notification.php:22
+msgid "No notification found"
+msgstr ""
+
+#: woocommerce/loop/no-products-found.php:23 Redux/options/Texts.php:97
+#: Redux/options/Texts.php:99
+msgid "No product was found."
+msgstr ""
+
+#: inc/Elementor/SpecialProducts.php:369
+msgid "No products Message"
+msgstr ""
+
+#: inc/Utils/SMS.php:197
+msgid "No reminder"
+msgstr ""
+
+#: inc/PostTypes/Story.php:22 inc/PostTypes/Story.php:23
+msgid "No story found"
+msgstr ""
+
+#: Redux/options/Footer.php:482
+msgid "None"
+msgstr ""
+
+#: inc/ElementorControls.php:103 inc/Elementor/CategoriesSlider.php:100
+#: inc/Elementor/CategoriesSlider.php:149
+#: inc/Elementor/CategoriesSlider.php:198 inc/Elementor/Button.php:46
+#: inc/Elementor/Button.php:100 inc/Elementor/Team.php:137
+#: inc/Elementor/ProIcon.php:209 inc/Elementor/ProIcon.php:262
+#: inc/Elementor/ProIcon.php:315 inc/Elementor/SectionTitle2.php:46
+#: inc/Elementor/MarketButton.php:61 inc/Elementor/MarketButton.php:112
+#: inc/Elementor/InstantDiscount.php:98 inc/Elementor/Story.php:158
+#: inc/Elementor/Story.php:211 inc/Elementor/Slider.php:137
+#: Redux/options/Typography.php:9
+msgid "Normal"
+msgstr ""
+
+#: Redux/options/BottomNav.php:121 Redux/options/BottomNav.php:203
+#: Redux/options/BottomNav.php:285 Redux/options/BottomNav.php:367
+#: Redux/options/BottomNav.php:449
+msgid "Normal item"
+msgstr ""
+
+#. id
+#: inc/Backend/Metaboxes/Product/Notes.php:14
+msgid "Notes"
+msgstr ""
+
+#: inc/PostTypes/Notification.php:12
+msgid "Notification"
+msgstr ""
+
+#: Redux/Options.php:343 inc/PostTypes/Notification.php:11
+#: inc/PostTypes/Notification.php:13 inc/PostTypes/Notification.php:14
+#: Redux/options/Notifications.php:7
+msgid "Notifications"
+msgstr ""
+
+#: Redux/options/Notifications.php:14
+msgid "Notifications status"
+msgstr ""
+
+#: inc/Elementor/Products3.php:60 inc/Elementor/Products4.php:60
+#: inc/Elementor/Products.php:60 inc/Elementor/Story.php:102
+#: inc/Elementor/Products2.php:60 inc/Elementor/SpecialProducts.php:413
+msgid "Offset"
+msgstr ""
+
+#: woocommerce/Functions/Filters.php:12
+msgid "On-sale products"
+msgstr ""
+
+#: inc/Backend/Pages/SMS/SettingsAuth.php:191
+msgid "One form for login and register."
+msgstr ""
+
+#: inc/Backend/Pages/SMS/SettingsAuth.php:181
+msgid "One form mode"
+msgstr ""
+
+#: woocommerce/single-product/price_history_popup.php:153
+msgid "One month ago"
+msgstr ""
+
+#: woocommerce/single-product/price_history_popup.php:143
+msgid "One week ago"
+msgstr ""
+
+#: woocommerce/single-product/price_history_popup.php:173
+msgid "One year ago"
+msgstr ""
+
+#: inc/Utils/Product.php:236
+msgid "Online support"
+msgstr ""
+
+#: inc/Backend/Metaboxes/Story/Settings.php:71
+msgid "Only image is supported"
+msgstr ""
+
+#: Redux/options/Header.php:848
+msgid "Open link in new tab"
+msgstr ""
+
+#: Redux/options/Header.php:557
+msgid "Open link in newtab"
+msgstr ""
+
+#: woocommerce/myaccount/navigation.php:46
+#: woocommerce/myaccount/navigation.php:47
+msgid "Open menu"
+msgstr ""
+
+#: sidebar-blog.php:12 sidebar-blog.php:13 sidebar-shop.php:12
+#: sidebar-shop.php:13 sidebar-single.php:12 sidebar-single.php:13
+#: sidebar.php:12 sidebar.php:13 sidebar-page.php:12 sidebar-page.php:13
+msgid "Open sidebar"
+msgstr ""
+
+#: inc/Elementor/Story.php:126 inc/Elementor/SpecialProducts.php:352
+msgid "Order"
+msgstr ""
+
+#: inc/Elementor/Story.php:115 inc/Elementor/SpecialProducts.php:338
+msgid "Order By"
+msgstr ""
+
+#: woocommerce/myaccount/dashboard.php:42
+msgid "Orders in progress"
+msgstr ""
+
+#: Redux/options/Footer.php:333 Redux/options/Footer.php:340
+msgid "Organizations Logo"
+msgstr ""
+
+#: Redux/options/Footer.php:386
+msgid "Organizations logo"
+msgstr ""
+
+#: Redux/options/Footer.php:349
+msgid "Organizations Logo position"
+msgstr ""
+
+#: Redux/options/SEO.php:33
+msgid "Other pages site title"
+msgstr ""
+
+#: inc/Backend/Pages/SMS/SettingsAuth.php:75
+#: inc/Backend/Pages/SMS/SettingsAuth.php:163
+msgid "OTP time"
+msgstr ""
+
+#: Redux/Options.php:195 Redux/options/SEO.php:12
+msgid "p"
+msgstr ""
+
+#. Hidden accessibility text.
+#: templates/archives/pagination-custom.php:33
+#: templates/archives/pagination.php:18
+msgid "Page"
+msgstr ""
+
+#: inc/Backend/Metaboxes/Page/Settings.php:167
+msgid "Page icon"
+msgstr ""
+
+#: sidebar-page.php:18
+msgid "Page Sidebar"
+msgstr ""
+
+#: Functions/Init.php:58
+msgid "Page sidebar"
+msgstr ""
+
+#: sidebar-page.php:19
+msgid "Page Widgets"
+msgstr ""
+
+#: Redux/options/Typography.php:84
+msgid "Page/Archive title"
+msgstr ""
+
+#: Redux/options/SEO.php:54
+msgid "Pages title"
+msgstr ""
+
+#: woocommerce/Functions/Archive.php:13
+msgctxt "Pagination"
+msgid "Next"
+msgstr ""
+
+#: woocommerce/Functions/Archive.php:12
+msgctxt "Pagination"
+msgid "Previous"
+msgstr ""
+
+#: inc/Elementor/Products3.php:33 inc/Elementor/Products4.php:33
+#: inc/Elementor/Products.php:33 inc/Elementor/Products2.php:33
+#: inc/Elementor/SpecialProducts.php:386
+msgid "Pagination settings"
+msgstr ""
+
+#: templates/modals/auth/login.php:32 templates/modals/auth/signup.php:63
+#: inc/Backend/Pages/SMS/Gateways.php:40
+msgid "Password"
+msgstr ""
+
+#: woocommerce/myaccount/form-edit-account.php:66
+msgid "Password change (leave blank to leave unchanged)"
+msgstr ""
+
+#: inc/Elementor/SpecialProducts.php:288
+msgid "Past Day"
+msgstr ""
+
+#: inc/Elementor/SpecialProducts.php:290
+msgid "Past Month"
+msgstr ""
+
+#: inc/Elementor/SpecialProducts.php:291
+msgid "Past Quarter"
+msgstr ""
+
+#: inc/Elementor/SpecialProducts.php:289
+msgid "Past Week"
+msgstr ""
+
+#: inc/Elementor/SpecialProducts.php:292
+msgid "Past Year"
+msgstr ""
+
+#: inc/Backend/Pages/SMS/SettingsAuth.php:36
+#: inc/Backend/Pages/SMS/SettingsAuth.php:124
+#: inc/Backend/Pages/SMS/SettingsAuth.php:231
+msgid "Pattern code"
+msgstr ""
+
+#: woocommerce/checkout/review-order.php:123 Redux/options/Texts.php:73
+#: Redux/options/Texts.php:75
+msgid "Pay and submit order"
+msgstr ""
+
+#: Redux/options/Texts.php:72
+msgid "Pay order button text"
+msgstr ""
+
+#: inc/Utils/SMS.php:75
+msgid "Payamresan"
+msgstr ""
+
+#: inc/Elementor/SpecialOffer.php:169
+msgid "Percentage"
+msgstr ""
+
+#: woocommerce/myaccount/dashboard.php:91
+msgid "Personal info"
+msgstr ""
+
+#: Redux/options/Typography.php:434
+msgid "Phone, email, etc."
+msgstr ""
+
+#: inc/Elementor/AJAXSearch.php:40
+msgid "Placeholder"
+msgstr ""
+
+#: woocommerce/myaccount/wishlist.php:69
+msgctxt "placeholder"
+msgid "Search in wishlist"
+msgstr ""
+
+#: searchform.php:8
+msgctxt "placeholder"
+msgid "Search…"
+msgstr ""
+
+#: inc/Elementor/AJAXSearch.php:110
+msgid "Placeholder color"
+msgstr ""
+
+#: inc/Utils/SMS.php:173
+msgid "Plan name"
+msgstr ""
+
+#: Redux/options/Footer.php:549
+msgid "Play Store"
+msgstr ""
+
+#: footer.php:66
+msgid "Play store"
+msgstr ""
+
+#: inc/TGM/tgm.php:191
+msgid "Please contact the administrator of this site for help."
+msgstr ""
+
+#: inc/TGM/tgm.php:181
+msgid "Plugin activated successfully."
+msgstr ""
+
+#. 1: plugin name.
+#: inc/TGM/tgm.php:186
+#, php-format
+msgid ""
+"Plugin not activated. A higher version of %s is needed for this theme. "
+"Please update the plugin."
+msgstr ""
+
+#: inc/Utils/User.php:74
+msgctxt "Plural"
+msgid "Wishlist"
+msgstr ""
+
+#: inc/Elementor/AJAXSearch.php:139 inc/Elementor/AccountBtn.php:89
+msgid "Popover style"
+msgstr ""
+
+#: inc/Utils/Archive.php:82 woocommerce/Functions/Archive.php:191
+msgid "Popularity"
+msgstr ""
+
+#: inc/Elementor/Team.php:67 inc/Elementor/Testimonials.php:76
+#: inc/Elementor/Testimonials.php:79
+msgid "Position"
+msgstr ""
+
+#: inc/Elementor/Team.php:201 inc/Elementor/Testimonials.php:192
+msgid "Position style"
+msgstr ""
+
+#: inc/Elementor/BlogGrid.php:81 inc/Elementor/Archive.php:94
+msgid "Post excerpt"
+msgstr ""
+
+#: inc/Elementor/BlogGrid.php:60 inc/Elementor/Archive.php:73
+msgid "Post image style"
+msgstr ""
+
+#: sidebar-single.php:18
+msgid "Post Sidebar"
+msgstr ""
+
+#: inc/Elementor/BlogGrid.php:47 inc/Elementor/Archive.php:60
+msgid "Post style"
+msgstr ""
+
+#: inc/Elementor/BlogGrid.php:80 inc/Elementor/Archive.php:93
+msgid "Post time"
+msgstr ""
+
+#: inc/Elementor/BlogGrid.php:79 inc/Elementor/Archive.php:92
+msgid "Post title"
+msgstr ""
+
+#: Redux/options/Typography.php:98
+msgid "Post title (single)"
+msgstr ""
+
+#: Redux/options/SingleProduct.php:353
+msgid "Post to show"
+msgstr ""
+
+#: single.php:61
+msgctxt "Post views count label"
+msgid "Views"
+msgstr ""
+
+#: sidebar-single.php:19
+msgid "Post Widgets"
+msgstr ""
+
+#: Redux/Options.php:223 inc/Utils/Archive.php:396
+msgid "Posts"
+msgstr ""
+
+#: templates/archives/pagination-custom.php:18
+#: templates/archives/pagination.php:7
+msgid "Previous page"
+msgstr ""
+
+#: inc/Utils/Archive.php:81 inc/AJAX/Compare.php:217
+#: woocommerce/single-product/price.php:26
+msgid "Price"
+msgstr ""
+
+#: woocommerce/single-product/product-image.php:95
+msgid "Price chart"
+msgstr ""
+
+#. id
+#: Redux/options/SingleProduct.php:39
+#: inc/Backend/Metaboxes/Product/PriceHistory.php:36
+msgid "Price history"
+msgstr ""
+
+#: woocommerce/WC.php:102
+msgctxt "Price range"
+msgid "From"
+msgstr ""
+
+#: woocommerce/WC.php:106
+msgctxt "Price range"
+msgid "To"
+msgstr ""
+
+#: woocommerce/Functions/Archive.php:195
+msgid "Price: high to low"
+msgstr ""
+
+#: woocommerce/Functions/Archive.php:194
+msgid "Price: low to high"
+msgstr ""
+
+#: Redux/options/Colors.php:45
+msgid "Primary"
+msgstr ""
+
+#: Redux/options/Colors.php:55
+msgid "Primary 2"
+msgstr ""
+
+#: Redux/options/Colors.php:65
+msgid "Primary 3"
+msgstr ""
+
+#: Redux/options/Colors.php:75
+msgid "Primary 4"
+msgstr ""
+
+#: Redux/options/Colors.php:85
+msgid "Primary 5"
+msgstr ""
+
+#: Redux/options/Colors.php:38
+msgid "Primary colors"
+msgstr ""
+
+#: Redux/options/Colors.php:95
+msgid "Primary hover"
+msgstr ""
+
+#: inc/Elementor/ProIcon.php:13
+msgid "Pro Icon (Bijan)"
+msgstr ""
+
+#: inc/Elementor/ProIcon2.php:14
+msgid "Pro Icon 2 (Bijan)"
+msgstr ""
+
+#: Redux/options/Texts.php:65
+msgid "Proceed to checkout"
+msgstr ""
+
+#: Redux/options/Texts.php:64
+msgid "Proceed to checkout button text"
+msgstr ""
+
+#: inc/Elementor/Products.php:126
+msgid "Product background"
+msgstr ""
+
+#: inc/Elementor/Products2.php:120
+msgid "Product border"
+msgstr ""
+
+#: Redux/options/SingleProduct.php:287
+msgid "Product features icons"
+msgstr ""
+
+#: inc/Elementor/Products.php:155
+msgid "Product hover curve"
+msgstr ""
+
+#: inc/Elementor/Products3.php:165 inc/Elementor/Products4.php:137
+#: inc/Elementor/Products.php:190 inc/Elementor/InstantDiscount.php:88
+#: inc/Elementor/Products2.php:188 inc/Elementor/SpecialProducts.php:521
+msgid "Product image style"
+msgstr ""
+
+#: inc/Utils/Archive.php:77
+msgid "Product name"
+msgstr ""
+
+#: inc/Elementor/InstantDiscount.php:148
+msgid "Product name style"
+msgstr ""
+
+#: Redux/Options.php:313 Redux/options/SingleProduct.php:10
+msgid "Product page"
+msgstr ""
+
+#: inc/Elementor/InstantDiscount.php:155
+msgid "Product price style"
+msgstr ""
+
+#: inc/Elementor/InstantDiscount.php:169 inc/Elementor/SpecialProducts.php:542
+msgid "Product progress line style"
+msgstr ""
+
+#: inc/Elementor/InstantDiscount.php:162 inc/Elementor/SpecialProducts.php:535
+msgid "Product progress style"
+msgstr ""
+
+#: inc/Elementor/Products3.php:187 inc/Elementor/Products4.php:159
+#: inc/Elementor/Products.php:212 inc/Elementor/Products2.php:210
+#: inc/Elementor/SpecialProducts.php:529
+msgid "Product regular price"
+msgstr ""
+
+#: inc/Utils/Product.php:242
+msgid "Product return guarantee"
+msgstr ""
+
+#: inc/Utils/Product.php:243
+msgid "Product return guarantee up to 7 days"
+msgstr ""
+
+#: inc/Elementor/Products3.php:186 inc/Elementor/Products4.php:158
+#: inc/Elementor/Products.php:211 inc/Elementor/Products2.php:209
+#: inc/Elementor/SpecialProducts.php:528
+msgid "Product sale price"
+msgstr ""
+
+#: inc/Elementor/Products3.php:135 inc/Elementor/SpecialProducts.php:491
+msgid "Product shadow"
+msgstr ""
+
+#: inc/Elementor/Products3.php:124 inc/Elementor/Products4.php:124
+#: inc/Elementor/Products.php:115 inc/Elementor/Products2.php:106
+#: inc/Elementor/SpecialProducts.php:480
+msgid "Product style"
+msgstr ""
+
+#: inc/Elementor/Products3.php:185 inc/Elementor/Products4.php:157
+#: inc/Elementor/Products.php:210 inc/Elementor/Products2.php:208
+#: inc/Elementor/SpecialProducts.php:527
+msgid "Product title"
+msgstr ""
+
+#: woocommerce/single-product/add-to-cart/variation.php:18
+msgctxt "Product total price"
+msgid "Total:"
+msgstr ""
+
+#: inc/Utils/Archive.php:78
+msgid "Product type"
+msgstr ""
+
+#: inc/Elementor/Products.php:14
+msgid "Products (Bijan)"
+msgstr ""
+
+#: inc/Elementor/Products2.php:14
+msgid "Products 2 (Bijan)"
+msgstr ""
+
+#: inc/Elementor/Products3.php:14
+msgid "Products 3 (Bijan)"
+msgstr ""
+
+#: inc/Elementor/Products4.php:14
+msgid "Products 4 (Grid) (Bijan)"
+msgstr ""
+
+#: inc/Elementor/Products3.php:44 inc/Elementor/Products4.php:44
+#: inc/Elementor/Products.php:44 inc/Elementor/Products2.php:44
+#: inc/Elementor/SpecialProducts.php:397
+msgid "Products count"
+msgstr ""
+
+#: Redux/options/Wishlist.php:23
+msgid "Products per page"
+msgstr ""
+
+#: Redux/options/WooCommerce.php:18
+msgid "Products style 1"
+msgstr ""
+
+#: Redux/options/WooCommerce.php:22
+msgid "Products style 2"
+msgstr ""
+
+#: Redux/options/WooCommerce.php:26
+msgid "Products style 3"
+msgstr ""
+
+#: Functions/Init.php:256 Redux/options/BottomNav.php:424
+#: Redux/options/BottomNav.php:425
+msgid "Profile"
+msgstr ""
+
+#: footer.php:63
+msgid "PWA version"
+msgstr ""
+
+#: inc/AJAX/Compare.php:229
+msgid "Quantity"
+msgstr ""
+
+#: inc/Elementor/SpecialProducts.php:33
+msgid "Query settings"
+msgstr ""
+
+#: inc/Elementor/Story.php:43 inc/Elementor/SpecialProducts.php:50
+msgid "Query type"
+msgstr ""
+
+#: inc/Utils/Archive.php:72 inc/Utils/Archive.php:85
+msgid "Random"
+msgstr ""
+
+#: inc/Utils/Archive.php:83
+msgid "Rating"
+msgstr ""
+
+#: inc/Utils/SMS.php:80
+msgid "Raygansms"
+msgstr ""
+
+#: inc/AJAX/Notifications.php:28 woocommerce/myaccount/notifications.php:28
+msgid "Read"
+msgstr ""
+
+#: inc/Backend/Pages/SMS/SettingsAuth.php:140
+msgid "Register OTP message"
+msgstr ""
+
+#: inc/Backend/Pages/SMS/SettingsAuth.php:97
+msgid "Register settings"
+msgstr ""
+
+#: inc/AJAX/Auth.php:166 inc/AJAX/Auth.php:225
+msgid "Register via SMS is not active."
+msgstr ""
+
+#: Redux/options/Typography.php:310
+msgid "Regular Price"
+msgstr ""
+
+#: inc/PostTypes/Story.php:44 inc/Backend/Metaboxes/Story/Settings.php:43
+msgid "Related post or product"
+msgstr ""
+
+#: single.php:150
+msgid "Related Posts"
+msgstr ""
+
+#: woocommerce/Functions/Single.php:640 Redux/options/SingleProduct.php:314
+#: Redux/options/SingleProduct.php:315 Redux/options/SingleProduct.php:316
+#: Redux/options/SingleProduct.php:366 Redux/options/SingleProduct.php:369
+msgid "Related products"
+msgstr ""
+
+#: templates/modals/auth/login.php:52
+msgid "Remember me"
+msgstr ""
+
+#: woocommerce/myaccount/wishlist.php:103
+msgid "Remove"
+msgstr ""
+
+#: inc/Backend/Metaboxes/Product/Video.php:43
+msgid "Remove video"
+msgstr ""
+
+#: inc/Utils/UI.php:163
+msgid "Removed from wishlist."
+msgstr ""
+
+#: templates/modals/auth/otp.php:34
+msgid "Resend code"
+msgstr ""
+
+#: templates/modals/auth/lost_password.php:36
+msgid "Restore password"
+msgstr ""
+
+#: templates/modals/compare/popup.php:13
+msgid "Retrieving information. Please wait..."
+msgstr ""
+
+#: inc/TGM/tgm.php:180
+msgid "Return to Required Plugins Installer"
+msgstr ""
+
+#: woocommerce/WC.php:91 Redux/options/Texts.php:49 Redux/options/Texts.php:51
+msgid "Return to shop"
+msgstr ""
+
+#: Redux/options/Texts.php:48
+msgid "Return to shop button text"
+msgstr ""
+
+#: inc/Elementor/Ribbon.php:134
+msgid "Ribbon"
+msgstr ""
+
+#: inc/Elementor/Ribbon.php:14
+msgid "Ribbon (Bijan)"
+msgstr ""
+
+#: inc/Elementor/SectionTitle2.php:121 Redux/options/SingleProduct.php:67
+#: Redux/options/SingleProduct.php:71
+msgid "Right"
+msgstr ""
+
+#: Redux/options/SingleProduct.php:166
+msgid "Right after title"
+msgstr ""
+
+#: inc/Utils.php:51
+msgid "Rokh"
+msgstr ""
+
+#: inc/Utils.php:55
+msgid "RokhFANum"
+msgstr ""
+
+#: Redux/options/Typography.php:324
+msgid "Sale Price"
+msgstr ""
+
+#: inc/Utils/Archive.php:84
+msgid "Sales"
+msgstr ""
+
+#: inc/Backend/Pages/SMS.php:120
+msgid "Save settings"
+msgstr ""
+
+#: Redux/options/Footer.php:375 Redux/options/Footer.php:399
+#: Redux/options/Footer.php:422 Redux/options/Footer.php:530
+#: Redux/options/Footer.php:590
+msgid "Script"
+msgstr ""
+
+#: Redux/options/Colors.php:512
+msgid "Scrollbar background color"
+msgstr ""
+
+#: Redux/options/Colors.php:485
+msgid "Scrollbar colors"
+msgstr ""
+
+#: Redux/options/Colors.php:502
+msgid "Scrollbar hover color"
+msgstr ""
+
+#: Redux/options/Colors.php:492
+msgid "Scrollbar normal color"
+msgstr ""
+
+#: inc/Elementor/ThumbnailSlider.php:228
+msgid "Scrollbar style"
+msgstr ""
+
+#: inc/Elementor/ThumbnailSlider.php:242
+msgid "Scrollbar track style"
+msgstr ""
+
+#: searchform.php:7 templates/components/ajax-search.php:70
+#: woocommerce/myaccount/wishlist.php:68
+msgid "Search"
+msgstr ""
+
+#: inc/Elementor/InstantDiscount.php:62 inc/Elementor/Story.php:57
+#: inc/Elementor/SpecialProducts.php:79 inc/Elementor/SpecialProducts.php:192
+msgid "Search & Select"
+msgstr ""
+
+#: Redux/options/Header.php:325
+msgid "Search bar"
+msgstr ""
+
+#: searchform.php:5 templates/components/ajax-search.php:63
+#: woocommerce/myaccount/wishlist.php:67
+msgid "Search for:"
+msgstr ""
+
+#: Redux/options/BottomNav.php:497 Redux/options/Header.php:356
+msgid "Search icon"
+msgstr ""
+
+#: Redux/options/Texts.php:14
+msgid "Search no results"
+msgstr ""
+
+#: inc/PostTypes/Notification.php:20
+msgid "Search notifications"
+msgstr ""
+
+#: Redux/options/BottomNav.php:486 Redux/options/Header.php:345
+msgid "Search placeholder"
+msgstr ""
+
+#: Redux/options/General.php:35
+msgid "Search settings"
+msgstr ""
+
+#: inc/PostTypes/Story.php:21
+msgid "Search stories"
+msgstr ""
+
+#: inc/Elementor/AJAXSearch.php:42 inc/AJAX/IconPicker.php:48
+#: templates/header/search.php:9 templates/components/ajax-search.php:9
+#: templates/bottom_nav/search.php:9 Redux/options/BottomNav.php:487
+#: Redux/options/BottomNav.php:488 Redux/options/Header.php:346
+#: Redux/options/Header.php:347
+msgid "Search..."
+msgstr ""
+
+#: templates/components/ajax-search.php:81
+msgid "Searching ... Please wait ..."
+msgstr ""
+
+#: Redux/options/Colors.php:116
+msgid "Secondary"
+msgstr ""
+
+#: Redux/options/Colors.php:126
+msgid "Secondary 2"
+msgstr ""
+
+#: Redux/options/Colors.php:136
+msgid "Secondary 3"
+msgstr ""
+
+#: Redux/options/Colors.php:146
+msgid "Secondary 4"
+msgstr ""
+
+#: Redux/options/Colors.php:156
+msgid "Secondary 5"
+msgstr ""
+
+#: Redux/options/Colors.php:109
+msgid "Secondary colors"
+msgstr ""
+
+#: Redux/options/Colors.php:166
+msgid "Secondary hover"
+msgstr ""
+
+#: inc/ElementorControls/SectionTitle.php:12
+msgid "Section title"
+msgstr ""
+
+#: inc/Elementor/SectionTitle.php:12
+msgid "Section Title (Bijan)"
+msgstr ""
+
+#: inc/Elementor/SectionTitle2.php:13
+msgid "Section Title 2 (Bijan)"
+msgstr ""
+
+#: inc/Elementor/SectionTitle3.php:12
+msgid "Section Title 3 (Bijan)"
+msgstr ""
+
+#: inc/Elementor/SectionTitle2.php:36
+msgid "Section title icon style"
+msgstr ""
+
+#: inc/AJAX.php:298
+msgid "Security error"
+msgstr ""
+
+#: inc/Utils/AdminUI.php:48
+msgid "Select"
+msgstr ""
+
+#: Redux/options/WooCommerce.php:148
+msgid "Select a page for brands archive"
+msgstr ""
+
+#: inc/Utils/AdminUI.php:160
+msgid "Select file"
+msgstr ""
+
+#: inc/MenuItem.php:203 inc/Backend/WCAttributeFields.php:94
+#: inc/Backend/WCAttributeFields.php:105 inc/Backend/WCAttributeFields.php:214
+#: inc/Backend/Metaboxes/Page/Settings.php:198
+msgid "Select icon"
+msgstr ""
+
+#: inc/Utils/WC.php:217
+msgid "Select options"
+msgstr ""
+
+#: inc/Elementor/SpecialProducts.php:193
+msgid "Select posts that you want to exclude"
+msgstr ""
+
+#: inc/Elementor/Story.php:58 inc/Elementor/SpecialProducts.php:80
+msgid "Select posts that you want to include"
+msgstr ""
+
+#: inc/Elementor/InstantDiscount.php:63
+msgid "Select products that you want to include"
+msgstr ""
+
+#: inc/Backend/Metaboxes/Page/Settings.php:181
+msgid "Select sidebar"
+msgstr ""
+
+#: inc/Backend/Pages/SMS/Gateways.php:2
+msgid "Select the SMS sending gateway"
+msgstr ""
+
+#: inc/Backend/Metaboxes/Product/Video.php:42
+msgid "Select video file"
+msgstr ""
+
+#: inc/MenuItem.php:201 inc/Backend/WCAttributeFields.php:103
+#: inc/Backend/WCAttributeFields.php:212
+#: inc/Backend/Metaboxes/Page/Settings.php:196
+msgid "Select your icon"
+msgstr ""
+
+#: inc/Widgets/Socials.php:55
+msgid "Select your socials to show in this widget"
+msgstr ""
+
+#: Redux/options/WooCommerce.php:62
+msgid "Select your Toman"
+msgstr ""
+
+#: inc/Elementor/SpecialProducts.php:99
+msgid "Seller"
+msgstr ""
+
+#: woocommerce/single-product/price_history_popup.php:96
+msgid "Selling price chart"
+msgstr ""
+
+#: Redux/options/Typography.php:14
+msgid "SemiBold"
+msgstr ""
+
+#: templates/modals/auth/mobile.php:38
+msgid "Send verification code"
+msgstr ""
+
+#: inc/Backend/Pages/SMS/Gateways.php:76
+msgid "Sender phone number"
+msgstr ""
+
+#: Redux/Options.php:333
+msgid "SEO"
+msgstr ""
+
+#: Redux/options/SingleProduct.php:172
+msgid "Separated box after product icons"
+msgstr ""
+
+#: Redux/options/SingleProduct.php:171
+msgid "Separated box before product icons"
+msgstr ""
+
+#: inc/Backend/Metaboxes/Product/Inventory.php:19
+#: inc/Backend/Metaboxes/Product/Inventory.php:31
+msgid "Set to 0 to disable"
+msgstr ""
+
+#: inc/Elementor/SpecialProducts.php:311
+msgid ""
+"Setting a ‘Before’ date will show all the posts published until the chosen "
+"date (inclusive)."
+msgstr ""
+
+#: inc/Elementor/SpecialProducts.php:331
+msgid ""
+"Setting an ‘After’ date will show all the posts published until the chosen "
+"date (inclusive)."
+msgstr ""
+
+#. id
+#: inc/Elementor/FooterMenu.php:32 inc/Elementor/AJAXSearch.php:31
+#: inc/Elementor/ProIcon2.php:33 inc/Elementor/Brands.php:103
+#: inc/Elementor/ProIcon.php:32 inc/Elementor/CTA3.php:34
+#: inc/Elementor/SpecialOffer.php:35 inc/Elementor/AccountBtn.php:32
+#: inc/Elementor/Ribbon.php:33 inc/Elementor/CartButton.php:32
+#: inc/Elementor/CTA2.php:33 inc/Elementor/HeaderMenu.php:31
+#: inc/Elementor/MarketButton.php:31 inc/Elementor/InstantDiscount.php:34
+#: inc/Elementor/FeaturedAttributes.php:31 inc/Elementor/CTA1.php:34
+#: inc/Backend/Metaboxes/Story/Settings.php:28
+#: inc/Backend/Metaboxes/Page/Settings.php:30
+msgid "Settings"
+msgstr ""
+
+#: inc/Utils/SMS.php:155
+msgid "Settings updated"
+msgstr ""
+
+#: inc/Elementor/Products.php:172
+msgid "Shadow Color"
+msgstr ""
+
+#: inc/Elementor/Products3.php:144 inc/Elementor/SpecialProducts.php:500
+msgid "Shadow color"
+msgstr ""
+
+#: single.php:73
+msgid "Share"
+msgstr ""
+
+#. $s shipping destination.
+#: woocommerce/cart/cart-shipping.php:58
+#, php-format
+msgid "Shipping %s."
+msgstr ""
+
+#: Functions/Archive.php:80 Functions/Archive.php:86 Functions/Archive.php:120
+#: Redux/options/Typography.php:303
+msgid "Shop"
+msgstr ""
+
+#: Redux/options/WooCommerce.php:90
+msgid "Shop archive"
+msgstr ""
+
+#: Redux/options/SEO.php:47
+msgid "Shop page title"
+msgstr ""
+
+#: sidebar-shop.php:18
+msgid "Shop Sidebar"
+msgstr ""
+
+#: sidebar-shop.php:19
+msgid "Shop Widgets"
+msgstr ""
+
+#: Redux/options/SingleProduct.php:181
+msgid "Short description color"
+msgstr ""
+
+#: Redux/options/SingleProduct.php:161
+msgid "Short description position"
+msgstr ""
+
+#: Redux/options/SingleProduct.php:145
+msgid "Short description settings"
+msgstr ""
+
+#: inc/Elementor/SpecialOffer.php:80 inc/Elementor/SpecialOffer.php:92
+#: inc/Elementor/CartButton.php:56 inc/Elementor/CTA2.php:149
+#: inc/Elementor/Testimonials.php:149 inc/Elementor/FeaturedAttributes.php:58
+#: inc/Elementor/CTA1.php:116 Redux/options/WooCommerce.php:98
+#: Redux/options/WooCommerce.php:99 Redux/options/WooCommerce.php:140
+#: Redux/options/WooCommerce.php:141 Redux/options/WooCommerce.php:164
+#: Redux/options/WooCommerce.php:165 Redux/options/WooCommerce.php:214
+#: Redux/options/WooCommerce.php:215 Redux/options/Auth.php:39
+#: Redux/options/Auth.php:40 Redux/options/SingleProduct.php:18
+#: Redux/options/SingleProduct.php:19 Redux/options/SingleProduct.php:199
+#: Redux/options/SingleProduct.php:201 Redux/options/SingleProduct.php:217
+#: Redux/options/SingleProduct.php:218 Redux/options/BottomNav.php:29
+#: Redux/options/BottomNav.php:31 Redux/options/BottomNav.php:64
+#: Redux/options/BottomNav.php:66 Redux/options/BottomNav.php:146
+#: Redux/options/BottomNav.php:148 Redux/options/BottomNav.php:228
+#: Redux/options/BottomNav.php:230 Redux/options/BottomNav.php:310
+#: Redux/options/BottomNav.php:312 Redux/options/BottomNav.php:392
+#: Redux/options/BottomNav.php:394 Redux/options/BottomNav.php:474
+#: Redux/options/BottomNav.php:476 Redux/options/Header.php:16
+#: Redux/options/Header.php:97 Redux/options/Header.php:99
+#: Redux/options/Header.php:143 Redux/options/Header.php:144
+#: Redux/options/Header.php:333 Redux/options/Header.php:335
+#: Redux/options/Header.php:400 Redux/options/Header.php:412
+#: Redux/options/Header.php:454 Redux/options/Header.php:455
+#: Redux/options/Header.php:492 Redux/options/Header.php:493
+#: Redux/options/Header.php:516 Redux/options/Header.php:517
+#: Redux/options/Header.php:606 Redux/options/Header.php:607
+#: Redux/options/Header.php:647 Redux/options/Header.php:648
+#: Redux/options/Header.php:706 Redux/options/Header.php:748
+#: Redux/options/Header.php:749 Redux/options/Header.php:788
+#: Redux/options/Header.php:789 Redux/options/Footer.php:21
+#: Redux/options/Footer.php:22 Redux/options/Footer.php:63
+#: Redux/options/Footer.php:64 Redux/options/Footer.php:149
+#: Redux/options/Footer.php:150 Redux/options/Footer.php:205
+#: Redux/options/Footer.php:206 Redux/options/Footer.php:261
+#: Redux/options/Footer.php:262 Redux/options/Footer.php:341
+#: Redux/options/Footer.php:342 Redux/options/Footer.php:510
+#: Redux/options/Footer.php:511 Redux/options/Footer.php:631
+#: Redux/options/Footer.php:632
+msgid "Show"
+msgstr ""
+
+#: Redux/options/Header.php:515
+msgid "Show account button"
+msgstr ""
+
+#: templates/header/search-results.php:36
+msgid "Show all"
+msgstr ""
+
+#: inc/Elementor/FeaturedAttributes.php:56
+msgid "Show all attributes button"
+msgstr ""
+
+#: inc/Elementor/FeaturedAttributes.php:68
+msgid "Show all attributes button text"
+msgstr ""
+
+#: Redux/options/WooCommerce.php:163
+msgid "Show archive order"
+msgstr ""
+
+#: Redux/options/Posts.php:43
+msgid "Show archive sidebar"
+msgstr ""
+
+#: Redux/options/Posts.php:34
+msgid "Show archive title"
+msgstr ""
+
+#: inc/Elementor/AraxSlider.php:86
+msgid "Show badge"
+msgstr ""
+
+#: Redux/options/BottomNav.php:28
+msgid "Show bottom navigation"
+msgstr ""
+
+#: Redux/options/Posts.php:25
+msgid "Show breadcrumb"
+msgstr ""
+
+#: inc/Elementor/SpecialOffer.php:90 inc/Elementor/CTA1.php:114
+msgid "Show button"
+msgstr ""
+
+#: Redux/options/Header.php:453
+msgid "Show cart icon"
+msgstr ""
+
+#: Redux/options/SingleProduct.php:26
+msgid "Show color instead of color name in attributes table"
+msgstr ""
+
+#: inc/Elementor/CTA2.php:147
+msgid "Show curve"
+msgstr ""
+
+#: Redux/options/WooCommerce.php:97
+msgid "Show description"
+msgstr ""
+
+#: Redux/options/SingleProduct.php:93
+msgid "Show download image button"
+msgstr ""
+
+#: Redux/options/SingleProduct.php:304
+msgid "Show end page products"
+msgstr ""
+
+#: Redux/options/SingleProduct.php:117
+msgid "Show fullscreen image button"
+msgstr ""
+
+#: Redux/options/Header.php:704
+msgid "Show header banner"
+msgstr ""
+
+#: Redux/options/Header.php:787
+msgid "Show header banner in mobile"
+msgstr ""
+
+#: Redux/options/Header.php:747
+msgid "Show header banner in tablet"
+msgstr ""
+
+#: Redux/options/BottomNav.php:63
+msgid "Show item 1"
+msgstr ""
+
+#: Redux/options/BottomNav.php:145
+msgid "Show item 2"
+msgstr ""
+
+#: Redux/options/BottomNav.php:227
+msgid "Show item 3"
+msgstr ""
+
+#: Redux/options/BottomNav.php:309
+msgid "Show item 4"
+msgstr ""
+
+#: Redux/options/BottomNav.php:391
+msgid "Show item 5"
+msgstr ""
+
+#: Redux/options/Header.php:605
+msgid "Show login item"
+msgstr ""
+
+#: Redux/options/WooCommerce.php:213 Redux/options/Auth.php:38
+#: Redux/options/Header.php:142
+msgid "Show logo in the header"
+msgstr ""
+
+#: Redux/options/Header.php:398
+msgid "Show main menu"
+msgstr ""
+
+#: Redux/options/Footer.php:148 Redux/options/Footer.php:204
+#: Redux/options/Footer.php:260
+msgid "Show menu"
+msgstr ""
+
+#: inc/Elementor/CartButton.php:54 Redux/options/Header.php:491
+msgid "Show mini cart"
+msgstr ""
+
+#: inc/Changelogs/Changelog.php:140
+msgid "Show more changelogs"
+msgstr ""
+
+#: inc/Elementor/Testimonials.php:147
+msgid "Show nav buttons"
+msgstr ""
+
+#: Redux/options/Footer.php:62
+msgid "Show newsletter section"
+msgstr ""
+
+#: woocommerce/myaccount/notifications.php:12
+msgid "Show only unread notifications"
+msgstr ""
+
+#: inc/Elementor/Video.php:187
+msgid "Show other videos from your channel at the end of the video"
+msgstr ""
+
+#: inc/Elementor/Products3.php:76 inc/Elementor/Products4.php:76
+#: inc/Elementor/Products.php:76 inc/Elementor/Products2.php:76
+#: inc/Elementor/SpecialProducts.php:429
+msgid "Show pagination"
+msgstr ""
+
+#: inc/Elementor/SpecialOffer.php:78
+msgid "Show percentage symbol"
+msgstr ""
+
+#: Redux/options/WooCommerce.php:435
+msgid "Show product add to cart button"
+msgstr ""
+
+#: Redux/options/WooCommerce.php:423
+msgid "Show product dimension"
+msgstr ""
+
+#: Redux/options/WooCommerce.php:387
+msgid "Show product excerpt"
+msgstr ""
+
+#: Redux/options/SingleProduct.php:216
+msgid "Show product feature icon %d"
+msgstr ""
+
+#: Redux/options/SingleProduct.php:198
+msgid "Show product feature icons"
+msgstr ""
+
+#: Redux/options/WooCommerce.php:363
+msgid "Show product image"
+msgstr ""
+
+#: Redux/options/WooCommerce.php:375
+msgid "Show product price"
+msgstr ""
+
+#: Redux/options/WooCommerce.php:399
+msgid "Show product quantity"
+msgstr ""
+
+#: Redux/options/WooCommerce.php:411
+msgid "Show product weight"
+msgstr ""
+
+#: Redux/options/SingleProduct.php:129
+msgid "Show rotate image button"
+msgstr ""
+
+#: inc/Elementor/ThumbnailSlider.php:124
+msgid "Show scrollbar"
+msgstr ""
+
+#: Redux/options/BottomNav.php:473 Redux/options/Header.php:332
+msgid "Show search bar"
+msgstr ""
+
+#: inc/Elementor/AJAXSearch.php:56
+msgid "Show search icon"
+msgstr ""
+
+#: Redux/options/WooCommerce.php:154
+msgid "Show second image on hover"
+msgstr ""
+
+#: Redux/options/Header.php:410
+msgid "Show second menu"
+msgstr ""
+
+#: Redux/options/SingleProduct.php:152
+msgid "Show short description"
+msgstr ""
+
+#: Redux/options/Header.php:646
+msgid "Show signup item"
+msgstr ""
+
+#: inc/Widgets/Socials.php:20
+msgid "Show social pages"
+msgstr ""
+
+#: Redux/options/WooCommerce.php:139
+msgid "Show stock status in product archives"
+msgstr ""
+
+#: Redux/options/SingleProduct.php:17
+msgid "Show stock status in product page"
+msgstr ""
+
+#: inc/MenuItem.php:57
+msgid "Show this item for specific users"
+msgstr ""
+
+#: inc/Backend/Metaboxes/Notification/Users.php:53
+msgid "Show this notification to all users"
+msgstr ""
+
+#: Redux/options/SingleProduct.php:105
+msgid "Show thumbnail images in lightbox"
+msgstr ""
+
+#: inc/Elementor/Video.php:81
+msgid "Show video controls"
+msgstr ""
+
+#: Redux/options/SingleProduct.php:200
+msgid "Showing express delivery and other icons"
+msgstr ""
+
+#: inc/Utils.php:15
+msgid "Sibapp"
+msgstr ""
+
+#: sidebar.php:18
+msgid "Sidebar"
+msgstr ""
+
+#: inc/Utils/User.php:52 Redux/options/Header.php:659
+#: Redux/options/Header.php:660 Redux/options/Header.php:661
+#: templates/modals/auth/mobile.php:47 templates/modals/auth/signup.php:5
+#: templates/modals/auth/signup.php:86
+msgid "Signup"
+msgstr ""
+
+#: Redux/options/Header.php:669
+msgid "Signup icon"
+msgstr ""
+
+#: Redux/options/Header.php:658
+msgid "Signup text"
+msgstr ""
+
+#: templates/modals/auth/signup.php:94
+msgid "Signup with OTP"
+msgstr ""
+
+#: Redux/options/SEO.php:61
+msgid "Single post title"
+msgstr ""
+
+#: Redux/options/SEO.php:68
+msgid "Single product title"
+msgstr ""
+
+#: Functions/Init.php:76
+msgid "Single sidebar"
+msgstr ""
+
+#: inc/Utils/SMS.php:231 Redux/options/WooCommerce.php:237
+#: Redux/options/WooCommerce.php:239 Redux/options/Auth.php:66
+#: Redux/options/Auth.php:68 Redux/options/Header.php:175
+#: Redux/options/Header.php:177
+msgid "Site title"
+msgstr ""
+
+#: inc/ElementorControls.php:70
+msgid "Size"
+msgstr ""
+
+#: inc/Elementor/CTA3.php:90 inc/Elementor/CTA1.php:90
+msgid "Size: 116px*116px"
+msgstr ""
+
+#: inc/Elementor/CTA2.php:42
+msgid "Size: 28px*28px"
+msgstr ""
+
+#: inc/Elementor/Brands.php:42
+msgid "Size: 58px*58px"
+msgstr ""
+
+#: inc/Elementor/ProIcon2.php:64 inc/Elementor/ProIcon.php:61
+msgid "Size: 72px*72px"
+msgstr ""
+
+#: inc/Elementor/Testimonials.php:44
+msgid "Size: 90px*90px"
+msgstr ""
+
+#: Redux/options/WooCommerce.php:35
+msgid "SKU status"
+msgstr ""
+
+#: inc/Elementor/Slider.php:14
+msgid "Slider (Bijan)"
+msgstr ""
+
+#: inc/Elementor/AraxSlider.php:348
+msgid "Slider badge"
+msgstr ""
+
+#: inc/Elementor/AraxSlider.php:372
+msgid "Slider badge bottom text"
+msgstr ""
+
+#: inc/Elementor/AraxSlider.php:360
+msgid "Slider badge top text"
+msgstr ""
+
+#: inc/Elementor/ThumbnailSlider.php:102 inc/Elementor/Testimonials.php:125
+msgid "Slider settings"
+msgstr ""
+
+#: inc/Elementor/ThumbnailSlider.php:33 inc/Elementor/Slider.php:33
+#: inc/Elementor/AraxSlider.php:32
+msgid "Slides"
+msgstr ""
+
+#: inc/PostTypes/Story.php:43 inc/Backend/Metaboxes/Story/Settings.php:60
+msgid "Small image"
+msgstr ""
+
+#: Redux/options/SMS.php:14
+msgid "SMS"
+msgstr ""
+
+#: inc/Backend/Pages/SMS/Gateways.php:17
+#, php-format
+msgctxt "SMS"
+msgid "%s settings"
+msgstr ""
+
+#: inc/Backend/Pages/SMS.php:54
+msgctxt "SMS"
+msgid "Authentication"
+msgstr ""
+
+#: inc/Backend/Pages/SMS.php:46
+msgctxt "SMS"
+msgid "Gateway"
+msgstr ""
+
+#: inc/Backend/Pages/SMS.php:50
+msgctxt "SMS"
+msgid "Messages settings"
+msgstr ""
+
+#: inc/Backend/Pages/SMS.php:60
+msgctxt "SMS"
+msgid "Security settings"
+msgstr ""
+
+#: Redux/Options.php:363 Redux/options/SMS.php:7
+msgid "SMS general settings"
+msgstr ""
+
+#: inc/AJAX/Auth.php:146
+msgid "SMS is not active."
+msgstr ""
+
+#. $parent_slug:string,
+#. $page_title:string,
+#: inc/Backend/Pages/SMS.php:34 inc/Backend/Pages/SMS.php:35
+msgid "SMS settings"
+msgstr ""
+
+#: inc/Utils/SMS.php:60
+msgid "SMS.ir"
+msgstr ""
+
+#: Redux/options/Footer.php:639
+msgid "Social icons position"
+msgstr ""
+
+#: Redux/options/Socials.php:14 Redux/options/Footer.php:655
+msgid "Social items"
+msgstr ""
+
+#: Redux/Options.php:273 Redux/options/Socials.php:7
+#: Redux/options/Footer.php:623 Redux/options/Footer.php:630
+msgid "Socials"
+msgstr ""
+
+#: inc/Elementor/FeaturedAttributes.php:42 woocommerce/Functions/Single.php:111
+msgid "Some product features:"
+msgstr ""
+
+#: inc/TGM/tgm.php:128
+msgid "Something went wrong with the plugin API."
+msgstr ""
+
+#: search.php:116 archive.php:82 Redux/options/Texts.php:16
+msgid ""
+"Sorry, but nothing matched your search terms. Please try again with some "
+"different keywords."
+msgstr ""
+
+#: templates/pages/title.php:42 woocommerce/loop/orderby.php:39
+msgid "Sort"
+msgstr ""
+
+#: Redux/Options.php:196 Redux/options/SEO.php:13
+msgid "span"
+msgstr ""
+
+#: inc/Elementor/SpecialOffer.php:46
+msgid "Special offer"
+msgstr ""
+
+#: inc/Elementor/SpecialOffer.php:16
+msgid "Special Offer (Bijan)"
+msgstr ""
+
+#: woocommerce/Functions/Archive.php:397
+msgid "Special offers"
+msgstr ""
+
+#: inc/Elementor/SpecialProducts.php:14
+msgid "Special Products (Bijan)"
+msgstr ""
+
+#: inc/Elementor/Ribbon.php:174
+msgid "Special text"
+msgstr ""
+
+#: Functions/Comments.php:50
+msgid "Stars"
+msgstr ""
+
+#: Redux/options/Header.php:26 Redux/options/Header.php:110
+msgid "Static"
+msgstr ""
+
+#: inc/Backend/Pages/SMS/SettingsAuth.php:16
+#: inc/Backend/Pages/SMS/SettingsAuth.php:104
+#: inc/Backend/Pages/SMS/SettingsAuth.php:212
+msgid "Status"
+msgstr ""
+
+#: Redux/options/Header.php:25 Redux/options/Header.php:107
+#: Redux/options/Header.php:109
+msgid "Sticky"
+msgstr ""
+
+#: inc/PostTypes/Story.php:12 inc/PostTypes/Story.php:14
+#: inc/PostTypes/Story.php:15
+msgid "Stories"
+msgstr ""
+
+#: inc/PostTypes/Story.php:13
+msgid "Story"
+msgstr ""
+
+#: inc/Elementor/Story.php:16
+msgid "Story (Bijan)"
+msgstr ""
+
+#: inc/Elementor/Story.php:201
+msgid "Story border style"
+msgstr ""
+
+#: inc/Elementor/HeaderMenu.php:108
+msgid "Submenu item icon style"
+msgstr ""
+
+#: inc/Elementor/HeaderMenu.php:119
+msgid "Submenu item text style"
+msgstr ""
+
+#: inc/Elementor/HeaderMenu.php:96
+msgid "Submenu style"
+msgstr ""
+
+#: inc/Changelogs/Changelog.php:71
+msgid "Submit your score"
+msgstr ""
+
+#: footer.php:16 Redux/options/Footer.php:94 Redux/options/Footer.php:95
+msgid "Subscribe to newsletter"
+msgstr ""
+
+#: inc/Elementor/ProIcon2.php:110 inc/Elementor/ProIcon2.php:341
+#: inc/Elementor/ProIcon.php:145 inc/Elementor/ProIcon.php:147
+#: inc/Elementor/CTA3.php:71 inc/Elementor/CTA3.php:190
+#: inc/Elementor/CTA2.php:82 inc/Elementor/SectionTitle2.php:94
+#: inc/Elementor/CTA1.php:71 inc/Elementor/CTA1.php:164
+#: inc/Backend/Metaboxes/Product/Icons.php:119
+msgid "Subtitle"
+msgstr ""
+
+#: inc/Elementor/ProIcon.php:361 inc/Elementor/CTA2.php:202
+#: inc/Elementor/SectionTitle2.php:142
+msgid "Subtitle style"
+msgstr ""
+
+#: inc/Elementor/Brands.php:142
+msgid "Tablet Column counts"
+msgstr ""
+
+#: Redux/options/Posts.php:81
+msgid "Tablet columns"
+msgstr ""
+
+#: inc/Elementor/Brands.php:162
+msgid "Tablet columns gap"
+msgstr ""
+
+#: Redux/options/Posts.php:90
+msgid "Tablet gap (px)"
+msgstr ""
+
+#: inc/Elementor/Brands.php:152
+msgid "Tablet rows gap"
+msgstr ""
+
+#: inc/Elementor/CTA3.php:61 inc/Elementor/CTA2.php:72
+#: inc/Elementor/SpecialProducts.php:140 inc/Elementor/SpecialProducts.php:256
+#: inc/Elementor/CTA1.php:61 inc/ElementorControls/SectionTitle.php:48
+msgid "Tag"
+msgstr ""
+
+#: single.php:108
+msgid "Tags"
+msgstr ""
+
+#: inc/Utils/Product.php:229
+msgid "Take delivery then pay"
+msgstr ""
+
+#: inc/Elementor/Team.php:12
+msgid "Team (Bijan)"
+msgstr ""
+
+#: Functions/Archive.php:13 inc/Widgets/Socials.php:32
+#: inc/Widgets/Socials.php:91
+msgid "Telegram"
+msgstr ""
+
+#: Redux/options/Colors.php:187
+msgid "Tertiary"
+msgstr ""
+
+#: Redux/options/Colors.php:197
+msgid "Tertiary 2"
+msgstr ""
+
+#: Redux/options/Colors.php:207
+msgid "Tertiary 3"
+msgstr ""
+
+#: Redux/options/Colors.php:217
+msgid "Tertiary 4"
+msgstr ""
+
+#: Redux/options/Colors.php:227
+msgid "Tertiary 5"
+msgstr ""
+
+#: Redux/options/Colors.php:180
+msgid "Tertiary colors"
+msgstr ""
+
+#: inc/Elementor/Testimonials.php:14
+msgid "Testimonials (Bijan)"
+msgstr ""
+
+#: inc/ElementorControls.php:47 inc/Elementor/Button.php:143
+#: inc/Elementor/Ribbon.php:160 inc/Elementor/Testimonials.php:93
+#: Redux/options/WooCommerce.php:225 Redux/options/Auth.php:53
+#: Redux/options/Header.php:159 Redux/options/Footer.php:548
+msgid "Text"
+msgstr ""
+
+#: Redux/options/Colors.php:329
+msgid "Text 1"
+msgstr ""
+
+#: Redux/options/Colors.php:339
+msgid "Text 2"
+msgstr ""
+
+#: Redux/options/Colors.php:349
+msgid "Text 3"
+msgstr ""
+
+#: Redux/options/Colors.php:359
+msgid "Text 4"
+msgstr ""
+
+#: Redux/options/Colors.php:369
+msgid "Text 5"
+msgstr ""
+
+#: Redux/options/Colors.php:379
+msgid "Text 6"
+msgstr ""
+
+#: Redux/options/Colors.php:322
+msgid "Text colors"
+msgstr ""
+
+#: inc/Elementor/Testimonials.php:193
+msgid "Text style"
+msgstr ""
+
+#: Redux/options/WooCommerce.php:236 Redux/options/Auth.php:65
+#: Redux/options/Header.php:174
+msgid "Text type"
+msgstr ""
+
+#: Redux/Options.php:323 inc/Elementor/ProIcon2.php:317
+msgid "Texts"
+msgstr ""
+
+#: inc/Elementor/BlogGrid.php:73 inc/Elementor/Team.php:195
+#: inc/Elementor/Archive.php:86
+msgid "Texts wrap style"
+msgstr ""
+
+#: inc/Backend/Metaboxes/Story/Settings.php:88
+msgid "The attachment aspect ratio should be 16:9 to show correctly"
+msgstr ""
+
+#. Description of the theme
+msgid ""
+"The Bijan WooCommerce theme offers features such as a custom mega menu, over "
+"30 exclusive Elementor widgets, highly customizable sign-up and login pop-"
+"ups, an AJAX search bar, the popular Redux framework, a custom notification "
+"system, a wishlist feature, and support for popular Iranian fonts like "
+"IranYekanX, Abi, Rokh, and Vazir."
+msgstr ""
+
+#: inc/Elementor/CartButton.php:69 templates/header/action-mini_cart.php:9
+#: woocommerce/Functions/Cart.php:30
+msgid "The cart is empty."
+msgstr ""
+
+#: 404.php:12 Redux/options/General.php:74 Redux/options/General.php:75
+msgid "The desired page was not found."
+msgstr ""
+
+#: inc/Utils/SMS.php:162 inc/Utils/SMS.php:174 inc/Utils/SMS.php:181
+msgid "The domain name"
+msgstr ""
+
+#: Redux/options/Auth.php:179
+msgid ""
+"The email structure does not support everything, and the email that is sent "
+"may differ from the content you have provided.<br>Use {password} to display "
+"the new password."
+msgstr ""
+
+#: inc/Utils/SMS.php:161
+msgid "The end time of the OTP code"
+msgstr ""
+
+#: Redux/options/General.php:16
+msgid "The following code will add to the <head> tag."
+msgstr ""
+
+#: Redux/options/General.php:24
+msgid ""
+"The following code will be added to the footer before the closing </body> "
+"tag."
+msgstr ""
+
+#: inc/TGM/tgm.php:141
+#, php-format
+msgid ""
+"The following plugin needs to be updated to its latest version to ensure "
+"maximum compatibility with this theme: %1$s."
+msgid_plural ""
+"The following plugins need to be updated to their latest version to ensure "
+"maximum compatibility with this theme: %1$s."
+msgstr[0] ""
+msgstr[1] ""
+
+#: inc/TGM/tgm.php:182
+msgid "The following plugin was activated successfully:"
+msgstr ""
+
+#: inc/TGM/tgm.php:159
+#, php-format
+msgid "The following recommended plugin is currently inactive: %1$s."
+msgid_plural "The following recommended plugins are currently inactive: %1$s."
+msgstr[0] ""
+msgstr[1] ""
+
+#: inc/TGM/tgm.php:153
+#, php-format
+msgid "The following required plugin is currently inactive: %1$s."
+msgid_plural "The following required plugins are currently inactive: %1$s."
+msgstr[0] ""
+msgstr[1] ""
+
+#: inc/SMS/SMS.php:24
+#, php-format
+msgid "The gateway class %s does not exist."
+msgstr ""
+
+#: inc/Backend/Metaboxes/Product/PriceHistory.php:48
+msgid "The list will be automatically sorted by time."
+msgstr ""
+
+#: Redux/options/Texts.php:113 Redux/options/Texts.php:115
+msgid "The notification list is empty."
+msgstr ""
+
+#: inc/Utils/SMS.php:160
+msgid "The OTP code"
+msgstr ""
+
+#: inc/AJAX/Compare.php:52
+msgid "The product comparison feature is currently disabled."
+msgstr ""
+
+#: inc/AJAX/Auth.php:173
+msgid "The verification code has been sent to your mobile number."
+msgstr ""
+
+#: inc/Utils/SMS.php:163 inc/Utils/SMS.php:175 inc/Utils/SMS.php:182
+msgid "The website name"
+msgstr ""
+
+#: Functions/Elementor.php:85
+msgid "Theme fonts"
+msgstr ""
+
+#: Redux/options/Texts.php:121 Redux/options/Texts.php:123
+msgid "There are no products in wishlist."
+msgstr ""
+
+#: inc/TGM/tgm.php:190
+msgid ""
+"There are one or more required or recommended plugins to install, update or "
+"activate."
+msgstr ""
+
+#: inc/TGM/tgm.php:147
+#, php-format
+msgid "There is an update available for: %1$s."
+msgid_plural "There are updates available for the following plugins: %1$s."
+msgstr[0] ""
+msgstr[1] ""
+
+#: Redux/options/Texts.php:105 Redux/options/Texts.php:107
+msgid "There is no coupon code."
+msgstr ""
+
+#: inc/AJAX/Wishlist.php:44
+msgid "There was an error while adding product to wishlist."
+msgstr ""
+
+#: inc/AJAX/Wishlist.php:46
+msgid "There was an error while removing product from wishlist."
+msgstr ""
+
+#: Redux/options/Typography.php:10
+msgid "Thin"
+msgstr ""
+
+#: inc/Backend/Metaboxes/Product/Attribute.php:25
+msgid "This attribute will show on top of single page as a featured attribute"
+msgstr ""
+
+#: inc/Backend/WCAttributeFields.php:19 inc/Backend/WCAttributeFields.php:40
+msgid "This option specifies how to display this feature in filters"
+msgstr ""
+
+#: inc/Backend/Metaboxes/Page/Settings.php:51
+#, php-format
+msgid ""
+"This page is set to archive page. Change the settings from <a href=\"%s\">"
+"options</a>"
+msgstr ""
+
+#: 404.php:13 Redux/options/General.php:81 Redux/options/General.php:82
+msgid "This page may not exist or has been deleted."
+msgstr ""
+
+#: inc/Backend/Metaboxes/Product/Notes.php:24
+msgid ""
+"This text will show on top of page and bottom of the add to cart section"
+msgstr ""
+
+#: inc/TGM/tgm.php:135
+#, php-format
+msgid "This theme recommends the following plugin: %1$s."
+msgid_plural "This theme recommends the following plugins: %1$s."
+msgstr[0] ""
+msgstr[1] ""
+
+#: inc/TGM/tgm.php:129
+#, php-format
+msgid "This theme requires the following plugin: %1$s."
+msgid_plural "This theme requires the following plugins: %1$s."
+msgstr[0] ""
+msgstr[1] ""
+
+#: inc/Elementor/SpecialProducts.php:43
+msgid "This widget show only on-sales products."
+msgstr ""
+
+#: woocommerce/single-product/price_history_popup.php:163
+msgid "Three month ago"
+msgstr ""
+
+#: inc/Elementor/AraxSlider.php:57
+msgid "Thumbnail Image"
+msgstr ""
+
+#: inc/Elementor/ThumbnailSlider.php:217
+msgid "Thumbnail image style"
+msgstr ""
+
+#: inc/Elementor/ThumbnailSlider.php:14
+msgid "Thumbnail Slider (Bijan)"
+msgstr ""
+
+#: inc/Elementor/AraxSlider.php:409
+msgid "Thumbnail slider image"
+msgstr ""
+
+#: inc/Elementor/AraxSlider.php:397
+msgid "Thumbnail slider item wrap"
+msgstr ""
+
+#: inc/Elementor/AraxSlider.php:421
+msgid "Thumbnail slider text"
+msgstr ""
+
+#: inc/Elementor/AraxSlider.php:386
+msgid "Thumbnail slider wrap"
+msgstr ""
+
+#: inc/Elementor/AraxSlider.php:70
+msgid "Thumbnail text"
+msgstr ""
+
+#: inc/Elementor/ThumbnailSlider.php:192
+msgid "Thumbnails settings"
+msgstr ""
+
+#: inc/Backend/Metaboxes/Product/PriceHistory.php:75
+msgid "Time"
+msgstr ""
+
+#: inc/Backend/Pages/SMS/SettingsAuth.php:87
+#: inc/Backend/Pages/SMS/SettingsAuth.php:175
+msgid "Time in seconds that the OTP is valid."
+msgstr ""
+
+#: inc/Elementor/SpecialOffer.php:132
+msgid "Timer"
+msgstr ""
+
+#: inc/Elementor/SpecialOffer.php:144
+msgid "Timer number"
+msgstr ""
+
+#: inc/Elementor/SpecialOffer.php:156
+msgid "Timer separator"
+msgstr ""
+
+#: inc/Elementor/FooterMenu.php:48 inc/Elementor/ProIcon2.php:92
+#: inc/Elementor/ProIcon2.php:94 inc/Elementor/ProIcon2.php:159
+#: inc/Elementor/ProIcon2.php:175 inc/Elementor/ProIcon2.php:191
+#: inc/Elementor/ProIcon2.php:207 inc/Elementor/ProIcon2.php:223
+#: inc/Elementor/ProIcon2.php:329 inc/Elementor/ProIcon.php:116
+#: inc/Elementor/ProIcon.php:118 inc/Elementor/CTA3.php:42
+#: inc/Elementor/CTA3.php:189 inc/Elementor/SpecialOffer.php:43
+#: inc/Elementor/SpecialOffer.php:124 inc/Elementor/Ribbon.php:41
+#: inc/Elementor/CTA2.php:53 inc/Elementor/InstantDiscount.php:42
+#: inc/Elementor/FeaturedAttributes.php:39
+#: inc/Elementor/FeaturedAttributes.php:91 inc/Elementor/CTA1.php:42
+#: inc/Elementor/CTA1.php:163 inc/Utils/Archive.php:69
+#: inc/Widgets/Socials.php:50 inc/ElementorControls/SectionTitle.php:69
+#: Redux/options/Socials.php:22 Redux/options/Footer.php:370
+#: Redux/options/Footer.php:394 Redux/options/Footer.php:417
+#: Redux/options/Footer.php:525 Redux/options/Footer.php:585
+#: inc/Backend/Metaboxes/Product/Icons.php:108
+msgid "Title"
+msgstr ""
+
+#: inc/Elementor/FooterMenu.php:97
+msgid "Title icon style"
+msgstr ""
+
+#: inc/Elementor/FooterMenu.php:108 inc/Elementor/ProIcon.php:360
+#: inc/Elementor/CTA2.php:201 inc/Elementor/SectionTitle2.php:135
+#: inc/Elementor/InstantDiscount.php:140
+msgid "Title style"
+msgstr ""
+
+#: inc/Elementor/ProIcon2.php:234 inc/Elementor/ProIcon.php:134
+#: inc/Elementor/Ribbon.php:60
+msgid "Title tag"
+msgstr ""
+
+#: Redux/options/SEO.php:19
+msgid "Title tags"
+msgstr ""
+
+#: inc/Elementor/Ribbon.php:42 inc/ElementorControls/SectionTitle.php:72
+msgid ""
+"To color a portion of text, enclose the text in { and }. Example: "
+"{percentage}"
+msgstr ""
+
+#: Redux/options/SMS.php:24
+#, php-format
+msgid "To configure the SMS, Please go to <a href='%s'>SMS Settings</a>"
+msgstr ""
+
+#: Redux/options/Header.php:687
+#, php-format
+msgid ""
+"To set items for logged in users, proceed through the <a href=\"%s\">"
+"menus</a>"
+msgstr ""
+
+#: inc/Utils.php:164
+msgid "Today"
+msgstr ""
+
+#: Redux/options/WooCommerce.php:63 Redux/options/WooCommerce.php:66
+msgid "Toman 1"
+msgstr ""
+
+#: Redux/options/WooCommerce.php:70
+msgid "Toman 2"
+msgstr ""
+
+#: Redux/options/WooCommerce.php:74
+msgid "Toman 3"
+msgstr ""
+
+#: inc/Elementor/ProIcon.php:92 Redux/options/WooCommerce.php:121
+#: Redux/options/SingleProduct.php:72
+msgid "Top"
+msgstr ""
+
+#: inc/Elementor/AraxSlider.php:150
+msgid "Top - Center"
+msgstr ""
+
+#: inc/Elementor/AraxSlider.php:151
+msgid "Top - End"
+msgstr ""
+
+#: inc/Elementor/AraxSlider.php:149
+msgid "Top - Start"
+msgstr ""
+
+#: inc/ElementorControls.php:33 inc/ElementorControls/SectionTitle.php:55
+#: Redux/options/Footer.php:554
+msgid "Top text"
+msgstr ""
+
+#: inc/Elementor/MarketButton.php:152 inc/Elementor/MarketButton.php:159
+msgid "Top text style"
+msgstr ""
+
+#: Redux/options/Header.php:71
+msgid "Top: 32px & Right: 0 & Bottom: 32px & Left: 0"
+msgstr ""
+
+#: inc/Elementor/Ribbon.php:120
+msgid "Triangles"
+msgstr ""
+
+#: Redux/Options.php:293
+msgid "Typography"
+msgstr ""
+
+#: Redux/options/SingleProduct.php:162 Redux/options/SingleProduct.php:165
+msgid "Under add to cart"
+msgstr ""
+
+#: Redux/options/SingleProduct.php:170
+msgid "Under gallery"
+msgstr ""
+
+#: woocommerce/myaccount/notifications.php:28
+msgid "Unread"
+msgstr ""
+
+#: woocommerce/myaccount/dashboard.php:94
+msgid "Update info"
+msgstr ""
+
+#. %s: plugin name.
+#: inc/TGM/tgm.php:127
+#, php-format
+msgid "Updating Plugin: %s"
+msgstr ""
+
+#: Redux/options/Socials.php:43 Redux/options/Footer.php:679
+msgid "URL"
+msgstr ""
+
+#: Redux/options/WooCommerce.php:53
+msgid "Use custom toman instead of normal toman"
+msgstr ""
+
+#: inc/AJAX/Auth.php:103
+msgid "User already exists"
+msgstr ""
+
+#: inc/Utils/SMS.php:172
+msgid "User name"
+msgstr ""
+
+#: inc/Elementor/AccountBtn.php:100
+msgid "User name style"
+msgstr ""
+
+#: inc/AJAX/Auth.php:64 inc/AJAX/Auth.php:311
+msgid "User not found"
+msgstr ""
+
+#: templates/modals/auth/signup.php:8 inc/Backend/Pages/SMS/Gateways.php:22
+msgid "Username"
+msgstr ""
+
+#: templates/modals/auth/login.php:8
+msgid "Username or email"
+msgstr ""
+
+#: templates/modals/auth/login.php:6
+msgid "Username or email or mobile number"
+msgstr ""
+
+#. id
+#: inc/PostTypes/Notification.php:42
+#: inc/Backend/Metaboxes/Notification/Users.php:32
+#: inc/Backend/Metaboxes/Notification/Users.php:60
+msgid "Users"
+msgstr ""
+
+#: inc/Backend/Metaboxes/Product/PriceHistory.php:84
+msgid "Value"
+msgstr ""
+
+#: inc/Elementor/VariationSelector.php:10
+msgid "Variation Selector (Bijan)"
+msgstr ""
+
+#: inc/Utils.php:59
+msgid "Vazirmatn"
+msgstr ""
+
+#: inc/Utils.php:63
+msgid "VazirmatnFANum"
+msgstr ""
+
+#: templates/modals/auth/otp.php:9
+msgid "Verification code"
+msgstr ""
+
+#: templates/modals/auth/otp.php:49
+msgid "Verify Code"
+msgstr ""
+
+#: inc/Backend/WCAttributeFields.php:75 inc/Backend/WCAttributeFields.php:171
+msgid "Vertical"
+msgstr ""
+
+#. id
+#: inc/Elementor/Video.php:29 inc/Backend/Metaboxes/Product/Video.php:28
+msgid "Video"
+msgstr ""
+
+#: inc/Elementor/Video.php:10
+msgid "Video (Bijan)"
+msgstr ""
+
+#: inc/Elementor/Video.php:66
+msgid "Video ID"
+msgstr ""
+
+#: inc/Elementor/Video.php:37
+msgid "Video source"
+msgstr ""
+
+#: inc/Elementor/Video.php:202
+msgid "Video start minute"
+msgstr ""
+
+#: inc/Elementor/Video.php:216
+msgid "Video start seconds"
+msgstr ""
+
+#: inc/Scripts.php:293 woocommerce/myaccount/wishlist.php:94
+#: woocommerce/myaccount/notifications.php:31
+msgid "View"
+msgstr ""
+
+#: single.php:156 single.php:175
+msgid "View All"
+msgstr ""
+
+#: inc/Elementor/SpecialOffer.php:116 woocommerce/single-product/related.php:60
+#: woocommerce/single-product/related.php:99
+msgid "View all"
+msgstr ""
+
+#: inc/Elementor/FeaturedAttributes.php:112
+msgid "View all attributes button"
+msgstr ""
+
+#: inc/Elementor/FeaturedAttributes.php:126
+msgid "View all attributes button text"
+msgstr ""
+
+#: inc/Elementor/FeaturedAttributes.php:71 woocommerce/Functions/Single.php:113
+msgid "View all features"
+msgstr ""
+
+#: inc/PostTypes/Story.php:46
+msgid "Views"
+msgstr ""
+
+#: footer.php:50 Redux/options/Footer.php:489 Redux/options/Footer.php:490
+msgid "We are available 24/7 to answer your questions."
+msgstr ""
+
+#: footer.php:68
+msgid "Webapp"
+msgstr ""
+
+#: inc/AJAX/Compare.php:235
+msgid "Weight"
+msgstr ""
+
+#: woocommerce/Functions/MyAccount.php:84 Redux/options/WooCommerce.php:321
+#: Redux/options/WooCommerce.php:323
+msgid "Welcome to Bijan store."
+msgstr ""
+
+#: Redux/options/BottomNav.php:40
+msgid ""
+"When scrolling down, the bottom navigation hides; when scrolling up, the "
+"bottom navigation reappears."
+msgstr ""
+
+#: Redux/options/Header.php:41
+msgid ""
+"When scrolling down, the header hides; when scrolling up, the header "
+"reappears."
+msgstr ""
+
+#: Redux/options/Colors.php:431
+msgid "Widget background"
+msgstr ""
+
+#: Redux/options/Colors.php:424
+msgid "Widget colors"
+msgstr ""
+
+#: Redux/options/Colors.php:471
+msgid "Widget links color"
+msgstr ""
+
+#: Redux/options/Colors.php:461
+msgid "Widget text color"
+msgstr ""
+
+#: Redux/options/Colors.php:441
+msgid "Widget title background color"
+msgstr ""
+
+#: Redux/options/Colors.php:451
+msgid "Widget title color"
+msgstr ""
+
+#: sidebar.php:19
+msgid "Widgets"
+msgstr ""
+
+#: Functions/Init.php:250 Redux/Options.php:353
+#: woocommerce/Functions/Single.php:81 Redux/options/BottomNav.php:342
+#: Redux/options/BottomNav.php:343 Redux/options/Wishlist.php:7
+msgid "Wishlist"
+msgstr ""
+
+#: inc/Elementor/Products3.php:179 inc/Elementor/Products4.php:151
+#: inc/Elementor/Products.php:204 inc/Elementor/Products2.php:202
+msgid "Wishlist button style"
+msgstr ""
+
+#: Redux/options/Wishlist.php:14
+msgid "Wishlist status"
+msgstr ""
+
+#: footer.php:44 Redux/options/Footer.php:455 Redux/options/Footer.php:456
+msgid "With a professional and powerful team, we will always be by your side."
+msgstr ""
+
+#: Redux/Options.php:303 Redux/options/WooCommerce.php:7
+#: Redux/options/Texts.php:25
+msgid "WooCommerce"
+msgstr ""
+
+#: Redux/options/Typography.php:480
+msgid "WP Dashboard"
+msgstr ""
+
+#: inc/Elementor/Ribbon.php:105
+msgid "Wrap"
+msgstr ""
+
+#: inc/Elementor/CTA3.php:180 inc/Elementor/CTA2.php:168
+#: inc/Elementor/CTA1.php:154
+msgid "Wrap style"
+msgstr ""
+
+#: Functions/Archive.php:22
+msgctxt "X social"
+msgid "X"
+msgstr ""
+
+#: inc/Elementor/Products3.php:78 inc/Elementor/Video.php:83
+#: inc/Elementor/Video.php:144 inc/Elementor/Video.php:159
+#: inc/Elementor/Video.php:174 inc/Elementor/Video.php:189
+#: inc/Elementor/AJAXSearch.php:58 inc/Elementor/Products4.php:78
+#: inc/Elementor/ProIcon.php:178 inc/Elementor/ThumbnailSlider.php:114
+#: inc/Elementor/ThumbnailSlider.php:126 inc/Elementor/ThumbnailSlider.php:182
+#: inc/Elementor/Products.php:78 inc/Elementor/Testimonials.php:135
+#: inc/Elementor/Story.php:79 inc/Elementor/Products2.php:78
+#: inc/Elementor/SpecialProducts.php:176 inc/Elementor/SpecialProducts.php:431
+#: inc/Elementor/AraxSlider.php:87 Redux/options/WooCommerce.php:52
+#: Redux/options/WooCommerce.php:55 Redux/options/WooCommerce.php:132
+#: Redux/options/WooCommerce.php:156 Redux/options/WooCommerce.php:355
+#: Redux/options/WooCommerce.php:356 Redux/options/WooCommerce.php:364
+#: Redux/options/WooCommerce.php:365 Redux/options/WooCommerce.php:376
+#: Redux/options/WooCommerce.php:377 Redux/options/WooCommerce.php:388
+#: Redux/options/WooCommerce.php:389 Redux/options/WooCommerce.php:400
+#: Redux/options/WooCommerce.php:401 Redux/options/WooCommerce.php:412
+#: Redux/options/WooCommerce.php:413 Redux/options/WooCommerce.php:424
+#: Redux/options/WooCommerce.php:425 Redux/options/WooCommerce.php:436
+#: Redux/options/WooCommerce.php:437 Redux/options/SingleProduct.php:27
+#: Redux/options/SingleProduct.php:28 Redux/options/SingleProduct.php:47
+#: Redux/options/SingleProduct.php:48 Redux/options/SingleProduct.php:85
+#: Redux/options/SingleProduct.php:86 Redux/options/SingleProduct.php:94
+#: Redux/options/SingleProduct.php:95 Redux/options/SingleProduct.php:106
+#: Redux/options/SingleProduct.php:107 Redux/options/SingleProduct.php:118
+#: Redux/options/SingleProduct.php:119 Redux/options/SingleProduct.php:130
+#: Redux/options/SingleProduct.php:131 Redux/options/SingleProduct.php:153
+#: Redux/options/SingleProduct.php:154 Redux/options/SingleProduct.php:305
+#: Redux/options/SingleProduct.php:306 Redux/options/Header.php:559
+#: Redux/options/Header.php:850
+msgid "Yes"
+msgstr ""
+
+#: inc/Backend/Metaboxes/Story/Settings.php:89
+msgid "You can select image or video"
+msgstr ""
+
+#: inc/Backend/Pages/SMS/SettingsAuth.php:62
+#: inc/Backend/Pages/SMS/SettingsAuth.php:150
+#: inc/Backend/Pages/SMS/SettingsAuth.php:257
+msgid "You can use these variables in the message"
+msgstr ""
+
+#: inc/AJAX/Auth.php:121
+msgid "Your account has been created. The page will reload."
+msgstr ""
+
+#: woocommerce/Functions/Cart.php:56 Redux/options/Texts.php:41
+#: Redux/options/Texts.php:43
+msgid "Your cart is empty!"
+msgstr ""
+
+#: Functions/Comments.php:95
+msgid "Your comment"
+msgstr ""
+
+#: inc/AJAX/Auth.php:305
+msgid "Your new password has been sent to your email address."
+msgstr ""
+
+#: inc/AJAX/Auth.php:281
+msgid "Your new password is: <strong>{password}</strong>"
+msgstr ""
+
+#: woocommerce/single-product-reviews.php:116 Functions/Comments.php:27
+msgid "Your score:"
+msgstr ""
+
+#: inc/Elementor/Video.php:43
+msgid "Youtube"
+msgstr ""
+
+#: Redux/options/SingleProduct.php:84
+msgid "Zoom gallery images"
+msgstr ""
+
+#: inc/Utils/SMS.php:42
+msgid "{name}'s user"
+msgstr ""

@@ -1,0 +1,140 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "415faa6b94571d8d46ffc6c3a0356c6d",
+    "packages": [
+        {
+            "name": "mjkhajeh/whitebox",
+            "version": "v2.2.10",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mjkhajeh/whitebox.git",
+                "reference": "470f81bd70f4ab4089c99620e8092bede0cbb5e9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mjkhajeh/whitebox/zipball/470f81bd70f4ab4089c99620e8092bede0cbb5e9",
+                "reference": "470f81bd70f4ab4089c99620e8092bede0cbb5e9",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MJ\\Whitebox\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "MohammadJafar Khajeh",
+                    "email": "iron.atoms2@gmail.com"
+                }
+            ],
+            "description": "Tools",
+            "support": {
+                "issues": "https://github.com/mjkhajeh/whitebox/issues",
+                "source": "https://github.com/mjkhajeh/whitebox/tree/v2.2.10"
+            },
+            "time": "2026-02-23T11:33:13+00:00"
+        },
+        {
+            "name": "mjkhajeh/wporm",
+            "version": "v2.10.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mjkhajeh/wporm.git",
+                "reference": "6f61c08310e0cf0dfb4e1f20eeb8ff3a25eccbff"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mjkhajeh/wporm/zipball/6f61c08310e0cf0dfb4e1f20eeb8ff3a25eccbff",
+                "reference": "6f61c08310e0cf0dfb4e1f20eeb8ff3a25eccbff",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MJ\\WPORM\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "MohammadJafar Khajeh",
+                    "email": "iron.atoms2@gmail.com"
+                }
+            ],
+            "description": "WPORM is a lightweight, Eloquent-inspired ORM for WordPress plugins and themes. It provides expressive, fluent query building, model relationships, schema management, attribute casting, and event hooks—while fully supporting the WordPress database API and table prefixing. WPORM makes it easy to build modern, maintainable database code in any WordPress project.",
+            "support": {
+                "issues": "https://github.com/mjkhajeh/wporm/issues",
+                "source": "https://github.com/mjkhajeh/wporm/tree/v2.10.2"
+            },
+            "time": "2026-02-24T21:09:12+00:00"
+        },
+        {
+            "name": "mjkhajeh/wporm-extra-casts",
+            "version": "v1.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mjkhajeh/wporm-extra-casts.git",
+                "reference": "f54c46fe601293668110e6804eda9b52c3aa20dc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mjkhajeh/wporm-extra-casts/zipball/f54c46fe601293668110e6804eda9b52c3aa20dc",
+                "reference": "f54c46fe601293668110e6804eda9b52c3aa20dc",
+                "shasum": ""
+            },
+            "require": {
+                "mjkhajeh/wporm": "^2.6",
+                "php": ">=7.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MJ\\WPROM\\ExtraCasts\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "MohammadJafar Khajeh",
+                    "email": "mjkhajehg@gmail.com"
+                }
+            ],
+            "description": "Extra type casts for WPORM models, providing advanced validation and sanitization using WordPress functions.",
+            "support": {
+                "issues": "https://github.com/mjkhajeh/wporm-extra-casts/issues",
+                "source": "https://github.com/mjkhajeh/wporm-extra-casts/tree/v1.1.1"
+            },
+            "time": "2025-09-26T16:36:08+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": {},
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": {},
+    "platform-dev": {},
+    "plugin-api-version": "2.6.0"
+}
