@@ -10,6 +10,9 @@ include( trailingslashit( get_stylesheet_directory() ) . 'ChildInit.php' );
 // Product reviews and Q&A (kept in the child theme so parent updates are safe).
 require_once trailingslashit( get_stylesheet_directory() ) . 'inc/product-community.php';
 
+// Stable 12-hour product shuffle for product category archives.
+require_once trailingslashit( get_stylesheet_directory() ) . 'inc/category-product-shuffle.php';
+
 /**************************************************************************
 ✅ START EDIT FROM HERE 👇🏻
 HAPPY CODING 😊

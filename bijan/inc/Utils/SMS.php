@@ -205,7 +205,7 @@ class SMS extends Utils {
 
 	public static function apply_variables( string $text, $to, string $type = '', array $custom_variables = [] ) {
 		if( strpos( $text, "{otp}" ) !== false ) {
-			$otp = random_int( 100000, 999999 );
+			$otp = random_int( 1000, 9999 );
 			$text = str_replace( "{otp}", $otp, $text );
 			
 			$timer = parent::get_nested_value( self::get_settings()['settings'], $type )['otp_timer'];
