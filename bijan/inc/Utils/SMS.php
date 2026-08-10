@@ -139,13 +139,13 @@ class SMS extends Utils {
 		// Auth: Login
 		$result_settings['settings']['auth']['login']['enabled'] = !empty( $messages_settings['auth']['login']['enabled'] );
 		$result_settings['settings']['auth']['login']['pattern'] = parent::convert_chars( $messages_settings['auth']['login']['pattern'] );
-		$result_settings['settings']['auth']['login']['otp_timer'] = parent::convert_chars( $messages_settings['auth']['login']['otp_timer'], true, 'absint' );
+			$result_settings['settings']['auth']['login']['otp_timer'] = min( 900, max( 60, parent::convert_chars( $messages_settings['auth']['login']['otp_timer'], true, 'absint' ) ) );
 		$result_settings['messages']['auth']['login'] = sanitize_textarea_field( $messages_settings['auth']['login']['message'] );
 
 		// Auth: Register
 		$result_settings['settings']['auth']['register']['enabled'] = !empty( $messages_settings['auth']['register']['enabled'] );
 		$result_settings['settings']['auth']['register']['pattern'] = parent::convert_chars( $messages_settings['auth']['register']['pattern'] );
-		$result_settings['settings']['auth']['register']['otp_timer'] = parent::convert_chars( $messages_settings['auth']['register']['otp_timer'], true, 'absint' );
+			$result_settings['settings']['auth']['register']['otp_timer'] = min( 900, max( 60, parent::convert_chars( $messages_settings['auth']['register']['otp_timer'], true, 'absint' ) ) );
 		$result_settings['messages']['auth']['register'] = sanitize_textarea_field( $messages_settings['auth']['register']['message'] );
 
 		$result_settings['settings']['auth']['one_form'] = $result_settings['settings']['auth']['login']['enabled'] && $result_settings['settings']['auth']['register']['enabled'] && !empty( $messages_settings['auth']['one_form'] );
@@ -205,7 +205,7 @@ class SMS extends Utils {
 
 	public static function apply_variables( string $text, $to, string $type = '', array $custom_variables = [] ) {
 		if( strpos( $text, "{otp}" ) !== false ) {
-			$otp = rand( 1000, 9999 );
+			$otp = random_int( 100000, 999999 );
 			$text = str_replace( "{otp}", $otp, $text );
 			
 			$timer = parent::get_nested_value( self::get_settings()['settings'], $type )['otp_timer'];

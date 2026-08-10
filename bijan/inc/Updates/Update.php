@@ -248,8 +248,6 @@ class Update {
 							$html = '';
 							if ( ! empty( $request ) && ! is_wp_error( $request ) && wp_remote_retrieve_response_code( $request ) === 200 ) {
 								$html = wp_remote_retrieve_body( $request );
-							} else {
-								$html = file_get_contents( $args->slug );
 							}
 							if ( ! empty( $html ) ) {
 								echo $html;

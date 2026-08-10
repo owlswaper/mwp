@@ -7,7 +7,118 @@ Description: Child theme for Bijan
 Version: 1.0.0.5
 Requires at least: 6.0
 Tested up to: 6.8
-Requires PHP: 7.3
+Requires PHP: 7.4
 Text Domain: bijan-child
 Template: bijan
 */
+
+/* Mobile slide-out menu: keep the search visible and scroll only the menu. */
+@media screen and (max-width: 1200px) {
+	#mobile-menu-container.mobile-menu-container {
+		top: 0;
+		bottom: 0;
+		left: auto;
+		right: 0;
+		width: min(88vw, 380px);
+		height: 100dvh;
+		padding: 0;
+		gap: 0;
+		border-radius: 0;
+		border-inline-start: 1px solid rgba(0, 0, 0, 0.06);
+		overflow: hidden;
+		box-shadow: -12px 0 36px rgba(0, 0, 0, 0.16);
+	}
+
+	html[dir="ltr"] #mobile-menu-container.mobile-menu-container {
+		left: 0;
+		right: auto;
+	}
+
+	#mobile-menu-container .mobile-menu-panel-title {
+		flex: 0 0 auto;
+		display: flex;
+		align-items: center;
+		min-height: 64px;
+		padding: env(safe-area-inset-top) 20px 0;
+		box-sizing: border-box;
+		border-bottom: 1px solid var(--gray-500);
+		color: var(--text-100);
+		font-size: 1rem;
+		font-weight: 700;
+	}
+
+	#mobile-menu-container .mobile-menu-search-wrap {
+		position: relative;
+		z-index: 2;
+		flex: 0 0 auto;
+		padding: 16px 20px;
+		border-bottom: 1px solid var(--gray-500);
+		background: #fff;
+	}
+
+	#mobile-menu-container .mobile-menu-search-wrap .bijan-search {
+		width: 100%;
+		min-width: 0;
+	}
+
+	#mobile-menu-container .mobile-menu-search-wrap .bijan-search-results,
+	#mobile-menu-container .mobile-menu-search-wrap .loading-wrap {
+		max-height: min(320px, 45dvh);
+	}
+
+	#mobile-menu-container .mobile-menu-scroll {
+		flex: 1 1 auto;
+		min-height: 0;
+		padding: 12px 12px calc(20px + env(safe-area-inset-bottom));
+		overflow-y: auto;
+		overscroll-behavior: contain;
+		-webkit-overflow-scrolling: touch;
+	}
+
+	#mobile-menu-container .mobile-menu-wrap ul {
+		gap: 4px;
+	}
+
+	#mobile-menu-container .mobile-menu-wrap + .mobile-menu-wrap {
+		margin-top: 16px;
+		padding-top: 16px;
+	}
+
+	#mobile-menu-container .mobile-menu-wrap a {
+		min-height: 48px;
+		padding: 10px 12px;
+		box-sizing: border-box;
+		border-radius: 12px;
+		font-size: .9375rem;
+		font-weight: 500;
+	}
+
+	#mobile-menu-container .mobile-menu-wrap > .menu > li > a {
+		background: #f8f9fb;
+	}
+
+	#mobile-menu-container .mobile-menu-wrap li.menu-item-has-children > a::after {
+		font-size: .875rem;
+	}
+
+	#mobile-menu-container .mobile-menu-wrap ul ul {
+		margin: 4px 8px 8px;
+		padding-inline-start: 16px;
+		border-inline-start: 2px solid var(--gray-500);
+	}
+
+	#mobile-menu-container .mobile-menu-wrap ul ul a {
+		min-height: 42px;
+		padding-block: 8px;
+		background: transparent;
+		font-size: .875rem;
+	}
+
+	#mobile-menu-container .mobile-menu-wrap li.megamenu-wrap {
+		margin-inline-start: 0;
+	}
+
+	#mobile-menu-container .mobile-menu-wrap li.megamenu-wrap > ul {
+		padding-inline-start: 24px;
+	}
+}

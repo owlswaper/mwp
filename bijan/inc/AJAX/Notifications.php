@@ -22,6 +22,14 @@ class Notifications extends AJAX {
 		$this->set_request_data();
 
 		$notif_id = Utils::convert_chars( $this->data['id'], true, 'absint' );
+		$this->check_nonce( "bijan_notification_read_{$notif_id}" );
+		$notification_ids = wp_list_pluck( UtilsNotifications::get_user_notifications( true ), 'ID' );
+		if ( ! in_array( $notif_id, $notification_ids, true ) ) {
+			$this->result( 'error', [
+				'code' => 'forbidden',
+				'message' => esc_html__( 'You do not have permission to access this notification.', 'bijan' ),
+			] );
+		}
 		UtilsNotifications::add_user_read( $notif_id );
 
 		$this->result( 'success', [

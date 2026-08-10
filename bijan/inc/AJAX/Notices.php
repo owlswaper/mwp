@@ -18,6 +18,9 @@ class Notices extends AJAX {
 	}
 
 	public function get() {
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_die( esc_html__( 'You do not have permission to perform this action.', 'bijan' ), 403 );
+		}
 		// Get messages from server
 		$url = "https://mjkhajeh.ir/api/mj/messages";
 		$url = add_query_arg( "product", 'bijan', $url );
@@ -28,14 +31,14 @@ class Notices extends AJAX {
 		if( !empty( $user_dismissed_messages ) ) {
 			$url = add_query_arg( 'excludes', implode( ",", $user_dismissed_messages ), $url );
 		}
-		$messages = wp_remote_get( $url );
-		if( !is_wp_error( $messages ) ) {
+		$messages = wp_remote_get( $url, [ 'timeout' => 5 ] );
+		if( !is_wp_error( $messages ) && wp_remote_retrieve_response_code( $messages ) === 200 ) {
 			$messages = json_decode( wp_remote_retrieve_body( $messages ) );
 			if( !empty( $messages ) ) {
 				foreach( $messages as $message ) {
 					?>
 					<div class="bijan_notice notice notice-<?php echo sanitize_html_class( $message->type ) ?><?php echo $message->dismissible ? ' is-dismissible' : '' ?>" data-id="<?php echo esc_attr( $message->id ) ?>">
-						<?php echo wpautop( $message->message ) ?>
+							<?php echo wpautop( wp_kses_post( $message->message ) ) ?>
 						<?php if( $message->dismissible ) { ?>
 							<button type="button" class="notice-dismiss"><span class="screen-reader-text">رد کردن این اخطار</span></button>
 						<?php } ?>

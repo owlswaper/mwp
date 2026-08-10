@@ -125,6 +125,7 @@ class SMS {
 	}
 
 	public static function save() {
+		if ( ! current_user_can( 'manage_options' ) ) return;
 		if( empty( $_POST ) || empty( $_POST[self::$PREFIX . "nonce"] ) ) return;
 
 		$nonce = Utils::convert_chars( $_POST[self::$PREFIX . 'nonce'] );

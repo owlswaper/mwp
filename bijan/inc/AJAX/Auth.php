@@ -13,6 +13,9 @@ use MJ\Whitebox\Utils\Sanitizers as WhiteboxSanitizers;
 use MJ\Whitebox\Utils\Date as WhiteboxDate;
 
 class Auth extends AJAX {
+	private const OTP_SEND_LIMIT = 3;
+	private const OTP_VERIFY_LIMIT = 5;
+	private const RATE_LIMIT_WINDOW = 900;
 	public static function get_instance() {
 		static $instance = null;
 		if( $instance === null ) {
@@ -39,6 +42,25 @@ class Auth extends AJAX {
 		return $user;
 	}
 
+	private function rate_limit_key( $action, $identifier = '' ) {
+		$ip = ! empty( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) : '';
+		return 'bijan_' . $action . '_' . md5( $identifier . '|' . $ip );
+	}
+
+	private function is_rate_limited( $action, $identifier, $limit ) {
+		return (int) get_transient( $this->rate_limit_key( $action, $identifier ) ) >= $limit;
+	}
+
+	private function record_rate_limit( $action, $identifier ) {
+		$key = $this->rate_limit_key( $action, $identifier );
+		$count = (int) get_transient( $key );
+		set_transient( $key, $count + 1, self::RATE_LIMIT_WINDOW );
+	}
+
+	private function clear_rate_limit( $action, $identifier ) {
+		delete_transient( $this->rate_limit_key( $action, $identifier ) );
+	}
+
 	public function login( $args = [] ) {
 		$options = Options::get_options( [
 			'auth-modal'	=> true,
@@ -57,13 +79,7 @@ class Auth extends AJAX {
 			$this->data = $args;
 		}
 
-		$username = sanitize_user( $this->data['username'] );
-		if( !$this->find_user_with_everything( $username ) ) {
-			$this->result( 'error', [
-				'code'	=> 'user_not_found',
-				'msg'	=> esc_html__( 'User not found', 'bijan' ),
-			] );
-		}
+		$username = sanitize_text_field( $this->data['username'] );
 
 		$login = wp_signon( [
 			'user_login'	=> $username,
@@ -72,8 +88,8 @@ class Auth extends AJAX {
 		] );
 		if( is_wp_error( $login ) ) {
 			$this->result( 'error', [
-				'code'	=> array_keys( $login->errors )[0],
-				'msg'	=> $login->get_error_message(),
+				'code'	=> 'invalid_credentials',
+				'msg'	=> esc_html__( 'The username, email address, or password is incorrect.', 'bijan' ),
 			] );
 		} else {
 			$this->result( 'success', [
@@ -150,6 +166,12 @@ class Auth extends AJAX {
 		$sms_settings = UtilsSMS::get_settings();
 
 		$mobile = WhiteboxSanitizers::phone( $this->data['mobile'] );
+		if ( ! $mobile || $this->is_rate_limited( 'otp_send', $mobile, self::OTP_SEND_LIMIT ) ) {
+			$this->result( 'error', [
+				'code' => 'rate_limited',
+				'msg' => esc_html__( 'Please wait before requesting another verification code.', 'bijan' ),
+			] );
+		}
 		$user = User::find_user_by_mobile( $mobile );
 		if( $user ) { // Login
 			if( empty( $sms_settings['settings']['auth']['login']['enabled'] ) ) {
@@ -158,7 +180,7 @@ class Auth extends AJAX {
 					'msg'	=> esc_html__( 'Login via SMS is not active.', 'bijan' ),
 				] );
 			}
-			SMS::send( $mobile, 'auth.login' );
+			$result = SMS::send( $mobile, 'auth.login' );
 		} else { // Register
 			if( empty( $sms_settings['settings']['auth']['register']['enabled'] ) ) {
 				$this->result( 'error', [
@@ -166,8 +188,12 @@ class Auth extends AJAX {
 					'msg'	=> esc_html__( 'Register via SMS is not active.', 'bijan' ),
 				] );
 			}
-			SMS::send( $mobile, 'auth.register' );
+			$result = SMS::send( $mobile, 'auth.register' );
 		}
+		if ( is_wp_error( $result ) ) {
+			$this->result( 'error', [ 'code' => 'sms_failed', 'msg' => esc_html__( 'Unable to send the verification code. Please try again later.', 'bijan' ) ] );
+		}
+		$this->record_rate_limit( 'otp_send', $mobile );
 		$this->result( 'success', [
 			'code'	=> 'otp_sent',
 			'msg'	=> esc_html__( 'The verification code has been sent to your mobile number.', 'bijan' ),
@@ -189,10 +215,14 @@ class Auth extends AJAX {
 
 		$this->set_request_data();
 
-		Utils::show_errors();
-
 		$mobile = WhiteboxSanitizers::phone( $this->data['mobile'] );
 		$otp = WhiteboxSanitizers::otp( $this->data['otp'] );
+		if ( ! $mobile || $this->is_rate_limited( 'otp_verify', $mobile, self::OTP_VERIFY_LIMIT ) ) {
+			$this->result( 'error', [
+				'code' => 'rate_limited',
+				'message' => esc_html__( 'Too many failed attempts. Please request a new verification code later.', 'bijan' ),
+			] );
+		}
 
 		$find_otp = OTP::query()->where( [
 			['mobile', $mobile],
@@ -202,6 +232,7 @@ class Auth extends AJAX {
 
 		// OTP expired
 		if( !$find_otp ) {
+			$this->record_rate_limit( 'otp_verify', $mobile );
 			$this->result( 'error', [
 				'code'		=> 'otp_not_match',
 				'message'	=> esc_html__( 'OTP code does not match', 'bijan' ),
@@ -227,14 +258,21 @@ class Auth extends AJAX {
 			}
 
 			$user_id = User::create_user( $mobile, '', '', $mobile );
+			if ( is_wp_error( $user_id ) ) {
+				$this->result( 'error', [
+					'code' => 'user_creation_failed',
+					'msg' => esc_html__( 'Unable to create your account. Please try again later.', 'bijan' ),
+				] );
+			}
 			$user = get_user_by( 'id', $user_id );
 		}
-		if( !is_wp_error( $user ) ) {
+		if( $user && ! is_wp_error( $user ) ) {
 			wp_set_current_user( $user->ID, $user->user_login );
 			wp_set_auth_cookie( $user->ID, true );
 			do_action( 'wp_login', $user->user_login, $user );
 
 			$find_otp->delete();
+			$this->clear_rate_limit( 'otp_verify', $mobile );
 
 			$this->result( 'success', [
 				'code'	=> 'login_success',
@@ -242,8 +280,8 @@ class Auth extends AJAX {
 			] );
 		} else {
 			$this->result( 'error', [
-				'code'	=> array_keys( $user_id->errors )[0],
-				'msg'	=> $user_id->get_error_message(),
+				'code'	=> 'user_creation_failed',
+				'msg'	=> esc_html__( 'Unable to create your account. Please try again later.', 'bijan' ),
 			] );
 		}
 	}
@@ -261,55 +299,17 @@ class Auth extends AJAX {
 		}
 		$this->set_request_data();
 
-		$user = $this->find_user_with_everything( $this->data['entry'] );
-		if( $user ) {
-			$user_id = $user->ID;
-			$new_password = wp_generate_password( 8, false );
-			$update = wp_update_user( [ 'ID' => $user_id, 'user_pass' => $new_password ] );
-			if( is_wp_error( $update ) ) {
-				$this->result( 'error', [
-					'code'	=> array_keys( $update->errors )[0],
-					'msg'	=> $update->get_error_message(),
-				] );
-			} else {
-				$options = Options::get_options( [
-					'lost-password-email-subject'	=> '',
-					'lost-password-email-template'	=> '',
-				] );
-
-				if( empty( $options['lost-password-email-template'] ) ) {
-					$options['lost-password-email-template'] = get_bloginfo( 'name' ) . "<br>" . __( 'Your new password is: <strong>{password}</strong>', 'bijan' );
-				}
-
-				$email_msg = str_replace( "{password}", $new_password, $options['lost-password-email-template'] );
-
-				if( $user->user_email ) {
-					wp_mail( $user->user_email, wp_strip_all_tags( $options['lost-password-email-subject'] ), $email_msg );
-				}
-
-				$options = Options::get_options( [
-					'sms'	=> true,
-				] );
-				if( Utils::to_bool( $options['sms'] ) ) {
-					$sms_settings = UtilsSMS::get_settings();
-					if( !empty( $sms_settings['settings']['auth']['lost_password']['enabled'] ) ) {
-						$mobile = User::get_user_mobile( $user_id );
-						if( $mobile ) {
-							SMS::send( User::get_user_mobile( $user_id ), 'auth.lost_password', [ 'password' => $new_password ] );
-						}
-					}
-				}
-
-				$this->result( 'success', [
-					'code'	=> 'new_password_sent',
-					'msg'	=> esc_html__( 'Your new password has been sent to your email address.', 'bijan' ),
-				] );
-			}
-		} else {
-			$this->result( 'error', [
-				'code'	=> 'user_not_found',
-				'msg'	=> esc_html__( 'User not found', 'bijan' ),
-			] );
+		$entry = sanitize_text_field( $this->data['entry'] );
+		if ( $this->is_rate_limited( 'password_reset', $entry, 3 ) ) {
+			$this->result( 'error', [ 'code' => 'rate_limited', 'msg' => esc_html__( 'Please wait before requesting another password reset email.', 'bijan' ) ] );
 		}
+		$user = $this->find_user_with_everything( $entry );
+		$login = $user ? $user->user_login : $entry;
+		retrieve_password( $login );
+		$this->record_rate_limit( 'password_reset', $entry );
+		$this->result( 'success', [
+			'code' => 'password_reset_requested',
+			'msg' => esc_html__( 'If an account matches this information, a password reset link has been sent.', 'bijan' ),
+		] );
 	}
 }

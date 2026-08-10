@@ -81,13 +81,38 @@ if( !function_exists( "bijan_change_avatar_url" ) ) {
 }
 add_filter( 'get_avatar_url', 'bijan_change_avatar_url', 10, 3 );
 
-function bijan_allow_users_upload_files() {
-    if ( ! current_user_can( 'upload_files' ) ) {
-        $user = wp_get_current_user();
-        $user->add_cap( 'upload_files' );
-    }
+/**
+ * Remove the legacy per-user upload capability that older versions granted to
+ * every logged-in user. Roles remain untouched; only an explicitly assigned
+ * capability is removed.
+ */
+function bijan_remove_legacy_upload_capability() {
+	if ( ! is_admin() || ! current_user_can( 'manage_options' ) || get_option( 'bijan_upload_capability_migrated' ) ) {
+		return;
+	}
+
+	$offset = absint( get_option( 'bijan_upload_capability_migration_offset', 0 ) );
+	$user_ids = get_users( [
+		'fields' => 'ID',
+		'number' => 200,
+		'offset' => $offset,
+	] );
+	foreach ( $user_ids as $user_id ) {
+		$user = new \WP_User( $user_id );
+		if ( array_key_exists( 'upload_files', (array) $user->caps ) ) {
+			$user->remove_cap( 'upload_files' );
+		}
+	}
+
+	if ( count( $user_ids ) === 200 ) {
+		update_option( 'bijan_upload_capability_migration_offset', $offset + 200, false );
+		return;
+	}
+
+	delete_option( 'bijan_upload_capability_migration_offset' );
+	update_option( 'bijan_upload_capability_migrated', BIJAN_VERSION, false );
 }
-add_action( 'init', 'bijan_allow_users_upload_files' );
+add_action( 'admin_init', 'bijan_remove_legacy_upload_capability' );
 
 if( !function_exists( "bijan_filter_attachments" ) ) {
 	function bijan_filter_attachments( $query ) {
@@ -105,52 +130,3 @@ if( !function_exists( "bijan_filter_attachments" ) ) {
 	}
 }
 add_action( 'pre_get_posts', 'bijan_filter_attachments' );
-
-///////// Bypass update user & set password when user registered with SMS
-if( !function_exists( "bijan_bypass_user_password" ) ) {
-	function bijan_bypass_user_password( $check, $password, $hash, $user_id ) {
-		if( class_exists( "Bijan\Utils\Options" ) ) {
-			$options = Options::get_options( [
-				'auth'  => true
-			] );
-		} else {
-			$options = get_option( 'bijan', [] );
-			if( !isset( $options['auth'] ) ) {
-				$options['auth'] = true;
-			}
-		}
-		if( !$options['auth'] ) return $check;
-		$has_password = get_user_meta( $user_id, 'has_password', true );
-		if( ( class_exists( "Bijan\Utils" ) && !Utils::to_bool( $has_password ) ) || ( $has_password === 'false' || $has_password === false || $has_password === "" || $has_password === 0 ) ) {
-			return !wp_doing_ajax(); // Don't return true on ajax functions
-		}
-
-		return $check;
-	}
-}
-add_filter( 'check_password', 'bijan_bypass_user_password', 10, 4 );
-
-if( !function_exists( "bijan_set_password_for_users_without_password" ) ) {
-	function bijan_set_password_for_users_without_password() {
-		if( empty( $_POST ) ) return;
-		if( ( is_admin() && !wp_doing_ajax() ) || is_admin() ) return;
-
-		// WC
-		if( !empty( $_POST['password_1'] ) && !empty( $_POST['password_2'] ) ) {
-			if( !Utils::to_bool( get_user_meta( get_current_user_id(), 'has_password', true ) ) ) {
-				$_POST['password_current'] = 'bijan_bypass';
-			}
-		}
-	}
-}
-add_action( 'init', 'bijan_set_password_for_users_without_password', 9 );
-
-if( !function_exists( "bijan_change_has_password" ) ) {
-	function bijan_change_has_password( $user_id, $userdata ) {
-		if( !empty( $userdata['user_pass'] ) ) {
-			update_user_meta( $user_id, 'has_password', true );
-		}
-	}
-}
-add_action( 'wp_update_user', 'bijan_change_has_password', 10, 2 );
-//////////////// END Bypass

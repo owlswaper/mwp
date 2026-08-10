@@ -23,7 +23,8 @@ class FindPost extends AJAX {
 
 		$args = [
 			's'					=> $this->data['text'],
-			'posts_per_page'	=> -1,
+			'posts_per_page'	=> 50,
+			'no_found_rows'		=> true,
 			'post_type'			=> 'any'
 		];
 		$query = new \WP_Query( $args );

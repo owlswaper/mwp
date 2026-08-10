@@ -35,7 +35,7 @@ $notifications = Notifications::get_user_notifications( empty( $_GET['only-unrea
 						</div>
 					</div>
 
-					<div class="notification-text"><?php echo wpautop( $notification->post_content ) ?></div>
+					<div class="notification-text"><?php echo wpautop( wp_kses_post( $notification->post_content ) ) ?></div>
 				</div>
 			<?php } ?>
 		</div>

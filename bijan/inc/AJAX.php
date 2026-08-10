@@ -46,6 +46,7 @@ class AJAX {
 			'function'		=> '',
 			'nonce'			=> '',
 			'requires'		=> [],
+			'capability'	=> '',
 		];
 		$actions = [
 			'update_mini_cart'	=> [
@@ -126,6 +127,7 @@ class AJAX {
 				'function'		=> 'query',
 				'nonce'			=> 'bijan-metabox-post-finder',
 				'requires'		=> ['text'],
+				'capability'	=> 'edit_posts',
 			],
 			'find_user' => [
 				'file'			=> 'FindUser',
@@ -136,6 +138,7 @@ class AJAX {
 				'function'		=> 'query',
 				'nonce'			=> 'bijan-metabox-user-finder',
 				'requires'		=> ['text'],
+				'capability'	=> 'edit_posts',
 			],
 			'story' => [
 				'file'			=> 'Story',
@@ -189,6 +192,7 @@ class AJAX {
 				'user'			=> true,
 				'need_login'	=> false,
 				'function'		=> 'get',
+				'capability'	=> 'manage_options',
 			],
 			'dismiss_notice'	=> [
 				'file'			=> 'Notices',
@@ -208,6 +212,7 @@ class AJAX {
 				'need_login'	=> false,
 				'function'		=> 'html',
 				'nonce'			=> 'bijan-icon-picker',
+				'capability'	=> 'edit_theme_options',
 			],
 			'compare_popup'		=> [
 				'file'			=> 'Compare',
@@ -259,6 +264,12 @@ class AJAX {
 
 		if( !empty( $action['requires'] ) ) {
 			$this->check_requires( $action['requires'] );
+		}
+		if ( ! empty( $action['capability'] ) && ! current_user_can( $action['capability'] ) ) {
+			$this->result( 'error', [
+				'code' => 'forbidden',
+				'message' => esc_html__( 'You do not have permission to perform this action.', 'bijan' ),
+			] );
 		}
 
 		if( $action['guest'] ) {

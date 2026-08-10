@@ -233,7 +233,7 @@ function display_category_intro_and_subcats() {
     <div class="cloz-category-intro-section">
         <?php if (!empty($category_intro)): ?>
             <div class="cloz-category-intro-text">
-                <?php echo wpautop($category_intro); ?>
+				<?php echo wpautop( wp_kses_post( $category_intro ) ); ?>
             </div>
         <?php endif; ?>
         

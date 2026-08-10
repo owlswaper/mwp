@@ -58,7 +58,7 @@ if( !$args['show_arrows'] ) {
 			$term = get_term( $item['term_id'] );
 			if( empty( $term ) || is_wp_error( $term ) ) continue;
 			?>
-			<a href="<?php echo get_term_link( $term ) ?>" class="category-item slider-slide swiper-slide" title="<?php echo esc_attr( $term->name ) ?>" data-id="<?php echo esc_attr( $term->term_id ) ?>">
+				<a href="<?php echo esc_url( get_term_link( $term ) ) ?>" class="category-item slider-slide swiper-slide" title="<?php echo esc_attr( $term->name ) ?>" data-id="<?php echo esc_attr( $term->term_id ) ?>">
 				<div class="category-item-wrap">
 					<div class="category-item-inner">
 						<?php echo WhiteboxUtils::get_icon( $item['icon'], 'category-icon' ) ?>

@@ -8,7 +8,8 @@
 					type: 'POST',
 					data: {
 						action: 'bijan_set_notification_read',
-						id: notification.attr('data-id')
+						id: notification.attr('data-id'),
+						nonce: bijanNotifs.nonces[notification.attr('data-id')]
 					},
 					success: function(res) {
 						if(res.success) {

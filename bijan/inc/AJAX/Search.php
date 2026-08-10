@@ -27,15 +27,24 @@ class Search extends AJAX {
 			'header-search-post-types'	=> ['post', 'product'],
 		] );
 
-		$available_post_types = $options['header-search-post-types'];
+		$available_post_types = array_filter( (array) $options['header-search-post-types'], function( $post_type ) {
+			$post_type_object = get_post_type_object( $post_type );
+			return $post_type_object && $post_type_object->publicly_queryable;
+		} );
 
 		if( !empty( $this->data['post_type'] ) ) {
-			$available_post_types = [$this->data['post_type']];
+			$requested_post_type = sanitize_key( $this->data['post_type'] );
+			if ( in_array( $requested_post_type, $available_post_types, true ) ) {
+				$available_post_types = [$requested_post_type];
+			}
 		}
 
 		$_post_types = [];
 		foreach( $available_post_types as $post_type ) {
-			$_post_types[$post_type] = get_post_type_object( $post_type )->labels->name;
+			$post_type_object = get_post_type_object( $post_type );
+			if ( $post_type_object ) {
+				$_post_types[$post_type] = $post_type_object->labels->name;
+			}
 		}
 
 		$args = [
@@ -48,7 +57,7 @@ class Search extends AJAX {
 			$_custom_args = json_decode( stripslashes( $this->data['args'] ), true );
 			$custom_args = [];
 			if( !empty( $_custom_args['exclude'] ) ) {
-				$custom_args['post__not_in'] = $_custom_args['exclude'];
+				$custom_args['post__not_in'] = array_filter( array_map( 'absint', (array) $_custom_args['exclude'] ) );
 			}
 			$args = Utils::check_default( $args, $custom_args );
 		}
