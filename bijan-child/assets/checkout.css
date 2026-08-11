@@ -1,0 +1,294 @@
+/**
+ * Modern classic-checkout presentation for the Bijan child theme.
+ * Scoped to the checkout page to avoid affecting account, cart or shop forms.
+ */
+
+body.woocommerce-checkout {
+	--clz-checkout-accent: var(--primary-100, #ff9800);
+	--clz-checkout-accent-soft: color-mix(in srgb, var(--clz-checkout-accent) 9%, #fff);
+	--clz-checkout-text: var(--text-200, #4e5364);
+	--clz-checkout-muted: var(--text-400, #9b9ca4);
+	--clz-checkout-border: #e8eaf0;
+	--clz-checkout-surface: #fff;
+	--clz-checkout-input: #f7f8fa;
+	--clz-checkout-shadow: 0 16px 45px rgba(35, 42, 55, 0.07);
+}
+
+/*
+ * Parent theme moved body-level Select2 dropdowns upward by the sticky-header
+ * height on desktop. That places results beneath the opening pointer and makes
+ * the same mouse action select/close them immediately.
+ */
+@media screen and (min-width: 1024px) {
+	body.woocommerce-checkout.sticky-header > .select2-container {
+		margin-top: 0 !important;
+	}
+}
+
+body.woocommerce-checkout .clz-country-field,
+body.woocommerce-checkout #billing_country_field,
+body.woocommerce-checkout #shipping_country_field {
+	display: none !important;
+}
+
+body.woocommerce-checkout form.checkout {
+	margin-top: 8px;
+}
+
+body.woocommerce-checkout form.checkout > .bijan-section,
+body.woocommerce-checkout #order_review > .bijan-section {
+	border: 1px solid var(--clz-checkout-border);
+	border-radius: 24px;
+	background: var(--clz-checkout-surface);
+	box-shadow: var(--clz-checkout-shadow);
+}
+
+body.woocommerce-checkout form.checkout > .bijan-section {
+	padding: clamp(20px, 3vw, 34px);
+}
+
+body.woocommerce-checkout #customer_details {
+	gap: clamp(26px, 4vw, 52px);
+}
+
+body.woocommerce-checkout #customer_details > .col-1,
+body.woocommerce-checkout #customer_details > .col-2 {
+	min-width: 0;
+}
+
+body.woocommerce-checkout .woocommerce-billing-fields > h3,
+body.woocommerce-checkout #ship-to-different-address,
+body.woocommerce-checkout #order_review_heading {
+	position: relative;
+	margin: 0 0 24px;
+	padding-inline-start: 18px;
+	color: var(--clz-checkout-text);
+	font-size: clamp(1rem, 1.6vw, 1.2rem);
+	font-weight: 750;
+}
+
+body.woocommerce-checkout .woocommerce-billing-fields > h3::before,
+body.woocommerce-checkout #ship-to-different-address::before,
+body.woocommerce-checkout #order_review_heading::before {
+	content: "";
+	position: absolute;
+	inset-inline-start: 0;
+	top: 50%;
+	width: 5px;
+	height: 24px;
+	border-radius: 8px;
+	background: var(--clz-checkout-accent);
+	transform: translateY(-50%);
+}
+
+body.woocommerce-checkout .woocommerce-billing-fields__field-wrapper,
+body.woocommerce-checkout .woocommerce-shipping-fields__field-wrapper {
+	gap: 18px 16px;
+	margin-bottom: 26px;
+}
+
+body.woocommerce-checkout .checkout p.form-row {
+	position: relative;
+	margin: 0;
+}
+
+body.woocommerce-checkout .checkout p.form-row label:not(.woocommerce-form__label-for-checkbox) {
+	margin: 0 4px 7px;
+	color: var(--clz-checkout-text);
+	font-size: .82rem;
+	font-weight: 650;
+}
+
+body.woocommerce-checkout .checkout .required {
+	color: #e74c5b;
+}
+
+body.woocommerce-checkout .checkout input.input-text,
+body.woocommerce-checkout .checkout textarea,
+body.woocommerce-checkout .checkout select {
+	min-height: 50px;
+	padding: 11px 15px;
+	border: 1px solid transparent;
+	border-radius: 14px;
+	outline: none;
+	background: var(--clz-checkout-input);
+	color: var(--clz-checkout-text);
+	box-shadow: none;
+	transition: border-color .18s ease, background-color .18s ease, box-shadow .18s ease;
+}
+
+body.woocommerce-checkout .checkout textarea {
+	min-height: 125px;
+	resize: vertical;
+}
+
+body.woocommerce-checkout .checkout input.input-text:focus,
+body.woocommerce-checkout .checkout textarea:focus,
+body.woocommerce-checkout .checkout select:focus {
+	border-color: color-mix(in srgb, var(--clz-checkout-accent) 55%, #fff);
+	background: #fff;
+	box-shadow: 0 0 0 4px var(--clz-checkout-accent-soft);
+}
+
+body.woocommerce-checkout .checkout .select2-container {
+	width: 100% !important;
+}
+
+body.woocommerce-checkout .checkout .select2-container .select2-selection--single {
+	min-height: 50px;
+	border: 1px solid transparent;
+	border-radius: 14px;
+	background: var(--clz-checkout-input);
+	transition: border-color .18s ease, background-color .18s ease, box-shadow .18s ease;
+}
+
+body.woocommerce-checkout .checkout .select2-container .select2-selection--single .select2-selection__rendered {
+	min-height: 50px;
+	padding-block: 9px;
+	padding-inline: 15px 42px;
+	color: var(--clz-checkout-text);
+	line-height: 30px;
+}
+
+body.woocommerce-checkout .checkout .select2-container .select2-selection--single .select2-selection__arrow {
+	inset-inline-end: 12px;
+	width: 24px;
+}
+
+body.woocommerce-checkout .checkout .select2-container--focus .select2-selection--single,
+body.woocommerce-checkout .checkout .select2-container--open .select2-selection--single {
+	border-color: color-mix(in srgb, var(--clz-checkout-accent) 55%, #fff);
+	background: #fff;
+	box-shadow: 0 0 0 4px var(--clz-checkout-accent-soft);
+}
+
+body.woocommerce-checkout > .select2-container .select2-dropdown {
+	margin-top: 7px;
+	padding: 7px;
+	border: 1px solid var(--clz-checkout-border) !important;
+	border-radius: 14px;
+	background: #fff;
+	box-shadow: 0 18px 48px rgba(30, 38, 52, 0.15);
+	overflow: hidden;
+}
+
+body.woocommerce-checkout > .select2-container .select2-search--dropdown {
+	padding: 4px;
+}
+
+body.woocommerce-checkout > .select2-container .select2-search__field {
+	min-height: 42px;
+	border: 1px solid var(--clz-checkout-border) !important;
+	border-radius: 10px;
+	outline: none;
+}
+
+body.woocommerce-checkout > .select2-container .select2-results__option {
+	min-height: 40px;
+	padding: 8px 11px;
+	border-radius: 9px;
+}
+
+body.woocommerce-checkout .woocommerce-invalid input.input-text,
+body.woocommerce-checkout .woocommerce-invalid .select2-selection--single {
+	border-color: #e74c5b !important;
+	background: #fff8f8 !important;
+}
+
+body.woocommerce-checkout .woocommerce-validated input.input-text,
+body.woocommerce-checkout .woocommerce-validated .select2-selection--single {
+	border-color: #58b982;
+}
+
+body.woocommerce-checkout #ship-to-different-address {
+	margin-bottom: 22px;
+}
+
+body.woocommerce-checkout #ship-to-different-address label {
+	min-height: 46px;
+	padding: 10px 13px;
+	border: 1px solid var(--clz-checkout-border);
+	border-radius: 13px;
+	background: #fafbfc;
+}
+
+body.woocommerce-checkout #order_review {
+	gap: 22px;
+	margin-top: 26px;
+}
+
+body.woocommerce-checkout #order_review > .bijan-section {
+	padding: clamp(20px, 2.5vw, 28px);
+}
+
+body.woocommerce-checkout #order_review .shop_table {
+	padding-inline-end: 5px;
+}
+
+body.woocommerce-checkout #order_review .shop_table tfoot {
+	border-radius: 15px;
+	box-shadow: 0 -8px 24px rgba(35, 42, 55, 0.06);
+}
+
+body.woocommerce-checkout #order_review .shop_table tr.order-total {
+	background: var(--clz-checkout-accent-soft);
+}
+
+body.woocommerce-checkout #place_order {
+	width: 100%;
+	min-height: 54px;
+	margin-top: 22px;
+	border-radius: 14px;
+	font-size: 1rem;
+	font-weight: 750;
+	box-shadow: 0 10px 25px color-mix(in srgb, var(--clz-checkout-accent) 25%, transparent);
+}
+
+@media screen and (max-width: 900px) {
+	body.woocommerce-checkout #customer_details {
+		grid-template-columns: 1fr;
+	}
+
+	body.woocommerce-checkout #customer_details > .col-2 {
+		padding-top: 26px;
+		border-top: 1px solid var(--clz-checkout-border);
+	}
+}
+
+@media screen and (max-width: 640px) {
+	body.woocommerce-checkout form.checkout > .bijan-section,
+	body.woocommerce-checkout #order_review > .bijan-section {
+		padding: 18px;
+		border-radius: 18px;
+	}
+
+	body.woocommerce-checkout .woocommerce-billing-fields__field-wrapper,
+	body.woocommerce-checkout .woocommerce-shipping-fields__field-wrapper {
+		grid-template-columns: 1fr;
+		gap: 14px;
+	}
+
+	body.woocommerce-checkout .woocommerce-billing-fields__field-wrapper p.form-row,
+	body.woocommerce-checkout .woocommerce-shipping-fields__field-wrapper p.form-row {
+		grid-column: 1 / -1;
+	}
+
+	body.woocommerce-checkout .checkout input.input-text,
+	body.woocommerce-checkout .checkout select,
+	body.woocommerce-checkout .checkout .select2-container .select2-selection--single {
+		min-height: 48px;
+	}
+
+	body.woocommerce-checkout #order_review {
+		margin-top: 18px;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	body.woocommerce-checkout .checkout input,
+	body.woocommerce-checkout .checkout textarea,
+	body.woocommerce-checkout .checkout select,
+	body.woocommerce-checkout .checkout .select2-selection--single {
+		transition: none;
+	}
+}

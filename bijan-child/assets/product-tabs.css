@@ -1,0 +1,256 @@
+/* Product details and the fixed Cloz fulfilment guide. */
+.woocommerce-tabs {
+	--cloz-tab-ink: var(--text-100, #252b35);
+	--cloz-tab-muted: var(--text-400, #6e7784);
+	--cloz-tab-line: #e6e9ee;
+	--cloz-tab-soft: #f7f8fa;
+	--cloz-tab-primary: var(--primary-100, #ef4056);
+}
+
+#tab-additional_information .woocommerce-product-attributes {
+	display: block;
+	width: 100%;
+	margin: 0;
+	border: 0;
+	border-collapse: separate;
+}
+
+#tab-additional_information .woocommerce-product-attributes tbody {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 12px;
+	width: 100%;
+}
+
+#tab-additional_information .woocommerce-product-attributes-item {
+	display: grid;
+	grid-template-columns: minmax(110px, .7fr) minmax(0, 1.3fr);
+	min-width: 0;
+	padding: 15px 16px;
+	border: 1px solid var(--cloz-tab-line);
+	border-radius: 15px;
+	align-items:center;
+	gap: 12px;
+	box-sizing: border-box;
+	background: linear-gradient(135deg, #fff, #fafbfc);
+	transition: border-color .18s ease, box-shadow .18s ease, transform .18s ease;
+}
+
+#tab-additional_information .woocommerce-product-attributes-item:hover {
+	border-color: #d4d9e1;
+	box-shadow: 0 8px 24px rgba(26, 34, 47, .06);
+	transform: translateY(-1px);
+}
+
+#tab-additional_information .woocommerce-product-attributes-item th,
+#tab-additional_information .woocommerce-product-attributes-item td {
+	display: block;
+	width: auto;
+	min-width: 0;
+	padding: 0;
+	border: 0;
+	font-size: .82rem;
+	line-height: 1.9;
+	text-align: start;
+}
+
+#tab-additional_information .woocommerce-product-attributes-item th {
+	color: var(--cloz-tab-muted);
+	font-weight: 650;
+}
+
+#tab-additional_information .woocommerce-product-attributes-item td {
+	color: var(--cloz-tab-ink);
+	font-weight: 750;
+	overflow-wrap: anywhere;
+}
+
+#tab-additional_information .woocommerce-product-attributes-item td p {
+	margin: 0 !important;
+}
+
+.cloz-fulfilment {
+	direction: rtl;
+	color: var(--cloz-tab-ink);
+}
+
+.cloz-fulfilment__hero {
+	display: grid;
+	grid-template-columns: 58px minmax(0, 1fr);
+	gap: 16px;
+	padding: 20px;
+	border: 1px solid #f1d9dd;
+	border-radius: 20px;
+	background: linear-gradient(135deg, #fff5f6 0%, #fff 65%);
+}
+
+.cloz-fulfilment__mark {
+	display: grid;
+	place-items: center;
+	width: 58px;
+	height: 58px;
+	border-radius: 17px;
+	background: var(--cloz-tab-primary);
+	box-shadow: 0 9px 24px rgba(239, 64, 86, .2);
+}
+
+.cloz-fulfilment__mark svg {
+	width: 29px;
+	height: 29px;
+	fill: #fff;
+}
+
+.cloz-fulfilment__hero span {
+	color: var(--cloz-tab-primary);
+	font-size: .72rem;
+	font-weight: 850;
+}
+
+.cloz-fulfilment__hero h2 {
+	margin: 3px 0 6px;
+	color: var(--cloz-tab-ink);
+	font-size: clamp(1.05rem, 2vw, 1.35rem);
+	line-height: 1.65;
+}
+
+.cloz-fulfilment__hero p {
+	max-width: 730px;
+	margin: 0;
+	color: var(--cloz-tab-muted);
+	font-size: .8rem;
+	line-height: 1.9;
+}
+
+.cloz-fulfilment__grid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 12px;
+	margin-top: 14px;
+}
+
+.cloz-policy-card {
+	display: grid;
+	grid-template-columns: 42px minmax(0, 1fr);
+	gap: 12px;
+	min-width: 0;
+	padding: 17px;
+	border: 1px solid var(--cloz-tab-line);
+	border-radius: 17px;
+	background: #fff;
+}
+
+.cloz-policy-card__icon {
+	display: grid;
+	place-items: center;
+	width: 42px;
+	height: 42px;
+	border-radius: 13px;
+	background: var(--cloz-tab-soft);
+	color: var(--cloz-tab-primary);
+	font-size: .78rem;
+	font-weight: 900;
+}
+
+.cloz-policy-card h3,
+.cloz-return-note h3 {
+	margin: 0 0 5px;
+	color: var(--cloz-tab-ink);
+	font-size: .86rem;
+	line-height: 1.7;
+}
+
+.cloz-policy-card p,
+.cloz-return-note p {
+	margin: 0;
+	color: var(--cloz-tab-muted);
+	font-size: .75rem;
+	line-height: 2;
+}
+
+.cloz-policy-card p strong {
+	color: var(--cloz-tab-ink);
+	font-weight: 800;
+}
+
+.cloz-return-note {
+	display: grid;
+	grid-template-columns: 46px minmax(0, 1fr);
+	gap: 13px;
+	margin-top: 14px;
+	padding: 17px 18px;
+	border: 1px solid #f1d4a4;
+	border-radius: 17px;
+	background: #fffaf0;
+}
+
+.cloz-return-note__icon {
+	display: grid;
+	place-items: center;
+	width: 46px;
+	height: 46px;
+	border-radius: 14px;
+	background: #fff;
+	color: #b87300;
+	font: 25px/1 Arial, sans-serif;
+	box-shadow: 0 4px 14px rgba(184, 115, 0, .09);
+}
+
+@media (max-width: 760px) {
+	#tab-additional_information .woocommerce-product-attributes tbody,
+	.cloz-fulfilment__grid {
+		grid-template-columns: 1fr;
+	}
+
+	#tab-additional_information .woocommerce-product-attributes-item {
+		grid-template-columns: minmax(100px, .65fr) minmax(0, 1.35fr);
+	}
+}
+
+@media (max-width: 480px) {
+	#tab-additional_information .woocommerce-product-attributes-item {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 4px;
+		padding: 13px 14px;
+	}
+
+	.cloz-fulfilment__hero {
+		grid-template-columns: 46px minmax(0, 1fr);
+		gap: 12px;
+		padding: 16px;
+	}
+
+	.cloz-fulfilment__mark {
+		width: 46px;
+		height: 46px;
+		border-radius: 14px;
+	}
+
+	.cloz-fulfilment__mark svg {
+		width: 24px;
+		height: 24px;
+	}
+
+	.cloz-policy-card,
+	.cloz-return-note {
+		grid-template-columns: 38px minmax(0, 1fr);
+		padding: 14px;
+	}
+
+	.cloz-policy-card__icon {
+		width: 38px;
+		height: 38px;
+	}
+
+	.cloz-return-note__icon {
+		width: 38px;
+		height: 38px;
+		font-size: 21px;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	#tab-additional_information .woocommerce-product-attributes-item {
+		transition: none;
+	}
+}

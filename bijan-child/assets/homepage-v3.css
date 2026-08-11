@@ -1,0 +1,1208 @@
+/**
+ * CLOZE homepage v3 — editorial commerce, warm and product-first.
+ * Loaded after the legacy inline bundle so this file is the visual source of truth.
+ */
+
+#cloze-home-v2 {
+	--clz-bg: #f6f3ee;
+	--clz-paper: #fffdfa;
+	--clz-ink: #1c1b1a;
+	--clz-muted: #77716a;
+	--clz-line: #ded8d0;
+	--clz-blue: #e86f35;
+	--clz-blue-dark: #b8481f;
+	--clz-ice: #eee9e2;
+	--clz-lilac: #e8e0ef;
+	--clz-mint: #e1ebe3;
+	--clz-rose: #f2deda;
+	--clz-orange: #f2763b;
+	--clz-orange-deep: #c94d20;
+	--clz-green: #245d43;
+	--clz-shadow: 0 28px 75px rgba(48, 39, 31, .13);
+	--clz-shadow-soft: 0 14px 38px rgba(48, 39, 31, .08);
+	--clz-max: 1440px;
+	background: var(--clz-bg);
+	color: var(--clz-ink);
+	overflow: clip;
+}
+
+#cloze-home-v2 .clz-container {
+	width: min(var(--clz-max), calc(100% - 64px));
+}
+
+#cloze-home-v2 .clz-section {
+	padding: clamp(72px, 8vw, 118px) 0;
+}
+
+#cloze-home-v2 .clz-section-index {
+	display: block;
+	margin-bottom: 10px;
+	color: var(--clz-orange-deep);
+	font-family: Arial, sans-serif;
+	font-size: 10px;
+	font-weight: 800;
+	letter-spacing: .08em;
+}
+
+#cloze-home-v2 .clz-heading {
+	align-items: flex-end;
+	margin-bottom: 38px;
+}
+
+#cloze-home-v2 .clz-heading h2 {
+	max-width: 920px;
+	font-size: clamp(30px, 4vw, 58px);
+	font-weight: 900;
+	line-height: 1.25;
+	letter-spacing: -.045em;
+}
+
+#cloze-home-v2 .clz-heading p {
+	max-width: 760px;
+	margin-top: 12px;
+	color: var(--clz-muted);
+	font-size: 13px;
+	line-height: 2;
+}
+
+#cloze-home-v2 .clz-link {
+	min-height: 44px;
+	padding: 7px 13px;
+	border-bottom: 1px solid currentColor;
+	color: var(--clz-ink);
+	font-size: 11px;
+	font-weight: 800;
+}
+
+#cloze-home-v2 .clz-link:hover {
+	gap: 14px;
+	color: var(--clz-orange-deep);
+}
+
+#cloze-home-v2 .clz-eyebrow {
+	padding: 8px 12px;
+	border-color: rgba(201, 77, 32, .17);
+	background: rgba(255, 253, 250, .68);
+	color: var(--clz-orange-deep);
+	font-size: 10px;
+	letter-spacing: .015em;
+}
+
+#cloze-home-v2 .clz-btn {
+	min-height: 56px;
+	padding-inline: 23px;
+	border-radius: 10px;
+	font-size: 12px;
+	font-weight: 800;
+}
+
+#cloze-home-v2 .clz-btn-primary {
+	background: var(--clz-ink);
+	box-shadow: 0 14px 32px rgba(28, 27, 26, .2);
+	color: #fff;
+}
+
+#cloze-home-v2 .clz-btn-primary:hover {
+	background: var(--clz-orange-deep);
+}
+
+#cloze-home-v2 .clz-btn-light {
+	border-color: #cbc3ba;
+	background: transparent;
+}
+
+/* Hero — a brand statement first, a product showcase second. */
+#cloze-home-v2 .clz-hero {
+	min-height: min(830px, calc(100vh - 80px));
+	padding: clamp(32px, 5vw, 70px) 0 clamp(70px, 8vw, 110px);
+	background:
+		linear-gradient(90deg, transparent 49.9%, rgba(28, 27, 26, .065) 50%, transparent 50.1%),
+		var(--clz-bg);
+}
+
+#cloze-home-v2 .clz-hero::before {
+	width: 520px;
+	height: 520px;
+	right: -270px;
+	top: -200px;
+	background: var(--clz-orange);
+	opacity: .12;
+	filter: blur(2px);
+}
+
+#cloze-home-v2 .clz-hero::after {
+	display: none;
+}
+
+#cloze-home-v2 .clz-hero-grid {
+	grid-template-columns: minmax(0, 1.06fr) minmax(470px, .94fr);
+	gap: clamp(42px, 7vw, 105px);
+}
+
+#cloze-home-v2 .clz-hero-copy {
+	padding: 35px 0;
+}
+
+#cloze-home-v2 .clz-hero h1 {
+	max-width: 850px;
+	margin: 22px 0 27px;
+	font-size: clamp(52px, 6.4vw, 96px);
+	font-weight: 950;
+	line-height: 1.06;
+	letter-spacing: -.065em;
+}
+
+#cloze-home-v2 .clz-hero h1 span {
+	display: inline;
+	color: var(--clz-orange-deep);
+}
+
+#cloze-home-v2 .clz-hero-copy > p {
+	max-width: 680px;
+	color: #665f58;
+	font-size: clamp(14px, 1.35vw, 17px);
+	line-height: 2.1;
+}
+
+#cloze-home-v2 .clz-hero-actions {
+	margin-top: 34px;
+}
+
+#cloze-home-v2 .clz-hero-assurances {
+	gap: 10px 18px;
+	margin-top: 30px;
+	color: #6d665f;
+	font-size: 10px;
+}
+
+#cloze-home-v2 .clz-hero-assurances i {
+	width: 23px;
+	height: 23px;
+	background: var(--clz-green);
+	color: #fff;
+}
+
+#cloze-home-v2 .clz-hero-showcase {
+	height: 620px;
+}
+
+#cloze-home-v2 .clz-hero-showcase::before {
+	inset: 24px 18px 30px 38px;
+	border: 1px solid rgba(255, 255, 255, .09);
+	border-radius: 32px;
+	background:
+		linear-gradient(160deg, rgba(255, 255, 255, .08), transparent 40%),
+		var(--clz-ink);
+	box-shadow: 0 38px 90px rgba(28, 27, 26, .19);
+}
+
+#cloze-home-v2 .clz-hero-glow {
+	width: 360px;
+	height: 360px;
+	right: 80px;
+	top: 95px;
+	background: var(--clz-orange);
+	opacity: .17;
+	filter: blur(55px);
+}
+
+#cloze-home-v2 .clz-hero-word {
+	left: 3px;
+	top: 48px;
+	font-size: 74px;
+	color: rgba(255, 255, 255, .075);
+}
+
+#cloze-home-v2 .clz-hero-main-product {
+	right: 60px;
+	top: 0;
+	width: min(70%, 440px);
+	height: 548px;
+	border: 0;
+	border-radius: 22px;
+	background: var(--clz-paper);
+	box-shadow: 0 32px 70px rgba(0, 0, 0, .28);
+	transform: rotate(1.5deg);
+}
+
+#cloze-home-v2 a.clz-hero-main-product:hover {
+	transform: translateY(-8px) rotate(.5deg);
+}
+
+#cloze-home-v2 .clz-hero-main-media {
+	height: 406px;
+	background: #e9e2da;
+}
+
+#cloze-home-v2 .clz-hero-product-label {
+	right: 14px;
+	top: 14px;
+	border-radius: 8px;
+	background: var(--clz-orange-deep);
+}
+
+#cloze-home-v2 .clz-hero-product-meta {
+	padding: 18px 20px;
+}
+
+#cloze-home-v2 .clz-hero-product-meta small {
+	color: var(--clz-orange-deep);
+	font-family: Arial, sans-serif;
+	letter-spacing: .1em;
+}
+
+#cloze-home-v2 .clz-hero-mini-product {
+	width: 166px;
+	padding: 8px;
+	border: 1px solid rgba(255, 255, 255, .45);
+	border-radius: 16px;
+	background: rgba(255, 253, 250, .94);
+	box-shadow: 0 18px 42px rgba(0, 0, 0, .22);
+}
+
+#cloze-home-v2 .clz-hero-mini-product img {
+	border-radius: 11px;
+	background: #e9e2da;
+}
+
+#cloze-home-v2 .clz-hero-mini-one {
+	left: -4px;
+	top: 110px;
+	transform: rotate(-4deg);
+}
+
+#cloze-home-v2 .clz-hero-mini-two {
+	left: 18px;
+	bottom: 12px;
+	transform: rotate(3deg);
+}
+
+#cloze-home-v2 .clz-hero-note {
+	right: 40px;
+	bottom: -7px;
+	border: 1px solid rgba(255, 255, 255, .12);
+	border-radius: 10px;
+	background: var(--clz-orange);
+	box-shadow: 0 14px 34px rgba(201, 77, 32, .25);
+}
+
+#cloze-home-v2 .clz-hero-note b {
+	color: #fff;
+}
+
+/* A plain-spoken brand promise breaks the usual storefront rhythm. */
+#cloze-home-v2 .clz-brand-statement {
+	background: var(--clz-ink);
+	color: #fff;
+}
+
+#cloze-home-v2 .clz-brand-statement-inner {
+	display: grid;
+	grid-template-columns: 150px minmax(0, 1fr) auto;
+	gap: clamp(28px, 5vw, 70px);
+	align-items: center;
+	min-height: 220px;
+	padding-block: 40px;
+}
+
+#cloze-home-v2 .clz-brand-code {
+	color: var(--clz-orange);
+	font-family: Arial, sans-serif;
+	font-size: 11px;
+	font-weight: 800;
+	letter-spacing: .12em;
+}
+
+#cloze-home-v2 .clz-brand-statement p {
+	max-width: 900px;
+	margin: 0;
+	color: rgba(255, 255, 255, .68);
+	font-size: clamp(16px, 2.1vw, 25px);
+	line-height: 1.85;
+}
+
+#cloze-home-v2 .clz-brand-statement p strong {
+	color: #fff;
+}
+
+#cloze-home-v2 .clz-brand-points {
+	display: grid;
+	gap: 8px;
+	font-size: 10px;
+	font-weight: 750;
+}
+
+#cloze-home-v2 .clz-brand-points span {
+	padding: 7px 11px;
+	border: 1px solid rgba(255, 255, 255, .12);
+	border-radius: 999px;
+	white-space: nowrap;
+}
+
+/* Categories */
+#cloze-home-v2 #clz-categories {
+	background: var(--clz-paper);
+}
+
+#cloze-home-v2 .clz-hscroll {
+	gap: 12px;
+	padding-block: 4px 20px;
+}
+
+#cloze-home-v2 .clz-category {
+	flex-basis: 168px;
+	padding: 9px 9px 15px;
+	border-color: transparent;
+	border-radius: 14px;
+	background: var(--clz-bg);
+	text-align: right;
+}
+
+#cloze-home-v2 .clz-category:hover {
+	border-color: var(--clz-line);
+	box-shadow: none;
+	transform: translateY(-4px);
+}
+
+#cloze-home-v2 .clz-category-media {
+	height: 140px;
+	border-radius: 10px;
+	background: #e6e0d8;
+}
+
+#cloze-home-v2 .clz-category strong {
+	margin: 12px 4px 2px;
+	font-size: 12px;
+}
+
+#cloze-home-v2 .clz-category small {
+	margin-inline-start: 4px;
+	font-size: 9px;
+}
+
+/* Product cards */
+#cloze-home-v2 .clz-products-latest {
+	background: var(--clz-bg);
+}
+
+#cloze-home-v2 .clz-product-shelf {
+	gap: 16px;
+	padding-bottom: 26px;
+}
+
+#cloze-home-v2 .clz-product-card {
+	flex-basis: calc((100% - 64px) / 5);
+	min-width: 228px;
+	border-color: transparent;
+	border-radius: 14px;
+	background: var(--clz-paper);
+	box-shadow: none;
+}
+
+#cloze-home-v2 .clz-product-card:hover {
+	border-color: #d4ccc3;
+	box-shadow: 0 20px 50px rgba(49, 39, 30, .1);
+	transform: translateY(-6px);
+}
+
+#cloze-home-v2 .clz-product-media {
+	background: #e9e3dc;
+}
+
+#cloze-home-v2 .clz-product-card:hover .clz-product-media img {
+	transform: scale(1.045);
+}
+
+#cloze-home-v2 .clz-badge {
+	right: 9px;
+	top: 9px;
+	border: 0;
+	border-radius: 7px;
+	background: rgba(28, 27, 26, .88);
+	color: #fff;
+}
+
+#cloze-home-v2 .clz-badge-sale {
+	background: var(--clz-orange-deep);
+	color: #fff;
+}
+
+#cloze-home-v2 .clz-product-body {
+	padding: 15px 14px 16px;
+}
+
+#cloze-home-v2 .clz-product-title {
+	height: 45px;
+	font-size: 12px;
+}
+
+#cloze-home-v2 .clz-rating {
+	color: #918980;
+	font-size: 9px;
+}
+
+#cloze-home-v2 .clz-rating span:first-child {
+	color: #9c6926;
+}
+
+#cloze-home-v2 .clz-price {
+	font-size: 13px;
+}
+
+#cloze-home-v2 .clz-view-dot {
+	border-radius: 7px;
+	background: #ebe5de;
+	color: var(--clz-ink);
+}
+
+#cloze-home-v2 .clz-product-card:hover .clz-view-dot {
+	background: var(--clz-orange);
+}
+
+#cloze-home-v2 .clz-product-grid {
+	gap: 16px;
+}
+
+#cloze-home-v2 .clz-popular-grid .clz-product-card:first-child {
+	min-height: 410px;
+	border-color: var(--clz-line);
+	background: var(--clz-ink);
+	color: #fff;
+}
+
+#cloze-home-v2 .clz-popular-grid .clz-product-card:first-child .clz-product-media {
+	min-height: 410px;
+}
+
+#cloze-home-v2 .clz-popular-grid .clz-product-card:first-child .clz-product-body {
+	padding: 30px;
+}
+
+#cloze-home-v2 .clz-popular-grid .clz-product-card:first-child .clz-product-title a,
+#cloze-home-v2 .clz-popular-grid .clz-product-card:first-child .clz-price {
+	color: #fff;
+}
+
+/* Honest sale area — no artificial countdown. */
+#cloze-home-v2 .clz-sale-section {
+	padding-top: 20px;
+	background: var(--clz-bg);
+}
+
+#cloze-home-v2 .clz-sale-wrap {
+	padding: clamp(24px, 4vw, 48px);
+	border-radius: 26px;
+	background:
+		radial-gradient(circle at 8% 0, rgba(242, 118, 59, .33), transparent 26rem),
+		var(--clz-ink);
+	box-shadow: 0 32px 80px rgba(28, 27, 26, .18);
+}
+
+#cloze-home-v2 .clz-sale-wrap::after {
+	border: 1px solid rgba(255, 255, 255, .07);
+	background: transparent;
+}
+
+#cloze-home-v2 .clz-sale-copy h2 {
+	max-width: 850px;
+	font-size: clamp(30px, 4.5vw, 58px);
+	letter-spacing: -.045em;
+}
+
+#cloze-home-v2 .clz-sale-copy p {
+	color: rgba(255, 255, 255, .6);
+}
+
+#cloze-home-v2 .clz-sale-wrap .clz-eyebrow {
+	color: #ffb08a;
+}
+
+#cloze-home-v2 .clz-sale-status {
+	position: relative;
+	z-index: 1;
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	padding: 9px 12px;
+	border: 1px solid rgba(255, 255, 255, .12);
+	border-radius: 999px;
+	color: rgba(255, 255, 255, .75);
+	font-size: 10px;
+	white-space: nowrap;
+}
+
+#cloze-home-v2 .clz-sale-status i {
+	width: 8px;
+	height: 8px;
+	border: 2px solid rgba(255, 255, 255, .35);
+	border-radius: 50%;
+	background: #4fd48b;
+}
+
+#cloze-home-v2 .clz-sale-wrap .clz-product-card {
+	border-radius: 12px;
+}
+
+/* Why CLOZE */
+#cloze-home-v2 #clz-why {
+	background: #e9e3dc;
+}
+
+#cloze-home-v2 .clz-why-grid {
+	grid-template-columns: repeat(12, 1fr);
+	gap: 12px;
+}
+
+#cloze-home-v2 .clz-why {
+	grid-column: span 3;
+	min-height: 270px;
+	padding: 25px;
+	border-color: transparent;
+	border-radius: 14px;
+	background: var(--clz-paper);
+	backdrop-filter: none;
+}
+
+#cloze-home-v2 .clz-why:nth-child(1),
+#cloze-home-v2 .clz-why:nth-child(4) {
+	background: var(--clz-ink);
+	color: #fff;
+}
+
+#cloze-home-v2 .clz-why:hover {
+	box-shadow: none;
+	transform: translateY(-5px);
+}
+
+#cloze-home-v2 .clz-why-icon,
+#cloze-home-v2 .clz-why:nth-child(n) .clz-why-icon {
+	width: auto;
+	height: auto;
+	margin-bottom: auto;
+	justify-content: flex-start;
+	background: transparent;
+	color: var(--clz-orange-deep);
+	font-family: Arial, sans-serif;
+	font-size: 38px;
+	font-weight: 900;
+	opacity: .65;
+}
+
+#cloze-home-v2 .clz-why:nth-child(1) .clz-why-icon,
+#cloze-home-v2 .clz-why:nth-child(4) .clz-why-icon {
+	color: var(--clz-orange);
+}
+
+#cloze-home-v2 .clz-why h3 {
+	margin: 65px 0 10px;
+	font-size: 16px;
+}
+
+#cloze-home-v2 .clz-why p {
+	color: var(--clz-muted);
+	font-size: 11px;
+}
+
+#cloze-home-v2 .clz-why:nth-child(1) p,
+#cloze-home-v2 .clz-why:nth-child(4) p {
+	color: rgba(255, 255, 255, .58);
+}
+
+/* Category bento */
+#cloze-home-v2 #clz-popular-categories {
+	background: var(--clz-paper);
+}
+
+#cloze-home-v2 .clz-bento {
+	grid-template-columns: 1.15fr .85fr .85fr;
+	grid-template-rows: 230px 210px;
+	gap: 12px;
+}
+
+#cloze-home-v2 .clz-bento-card {
+	padding: 24px;
+	border: 0;
+	border-radius: 16px;
+	background: #e7e0d8 !important;
+}
+
+#cloze-home-v2 .clz-bento-card:nth-child(2) {
+	background: #e3dce9 !important;
+}
+
+#cloze-home-v2 .clz-bento-card:nth-child(3) {
+	background: #dbe7dd !important;
+}
+
+#cloze-home-v2 .clz-bento-card:nth-child(4) {
+	background: #efdcd5 !important;
+}
+
+#cloze-home-v2 .clz-bento-card::after {
+	width: 290px;
+	height: 290px;
+	left: -36px;
+	top: -52px;
+	opacity: .42;
+	filter: saturate(.75) contrast(.95);
+}
+
+#cloze-home-v2 .clz-bento-card h3 {
+	font-size: clamp(21px, 2.4vw, 34px);
+}
+
+/* Support — direct, branded and impossible to miss. */
+#cloze-home-v2 #clz-support {
+	background: var(--clz-bg);
+}
+
+#cloze-home-v2 .clz-support {
+	min-height: 340px;
+	padding: clamp(28px, 5vw, 64px);
+	border: 0;
+	border-radius: 20px;
+	background: var(--clz-orange);
+	box-shadow: 0 28px 70px rgba(170, 65, 23, .18);
+}
+
+#cloze-home-v2 .clz-support::before {
+	content: "CLOZE?";
+	left: -18px;
+	top: 50%;
+	width: auto;
+	height: auto;
+	border-radius: 0;
+	background: transparent;
+	color: rgba(255, 255, 255, .1);
+	font-family: Arial, sans-serif;
+	font-size: clamp(90px, 15vw, 210px);
+	font-weight: 950;
+	line-height: 1;
+	transform: translateY(-50%);
+}
+
+#cloze-home-v2 .clz-support .clz-eyebrow {
+	border-color: rgba(255, 255, 255, .2);
+	background: rgba(255, 255, 255, .14);
+	color: #fff;
+}
+
+#cloze-home-v2 .clz-support h2 {
+	max-width: 900px;
+	color: var(--clz-ink);
+	font-size: clamp(31px, 4.6vw, 64px);
+	letter-spacing: -.05em;
+}
+
+#cloze-home-v2 .clz-support p {
+	color: rgba(28, 27, 26, .68);
+}
+
+#cloze-home-v2 .clz-support-action small {
+	max-width: 230px;
+	color: rgba(28, 27, 26, .65);
+	line-height: 1.7;
+}
+
+/* Magazine */
+#cloze-home-v2 #clz-popular-articles {
+	background: var(--clz-paper);
+}
+
+#cloze-home-v2 .clz-popular-articles {
+	grid-template-columns: 1.15fr .85fr;
+	gap: 12px;
+}
+
+#cloze-home-v2 .clz-article-feature {
+	min-height: 500px;
+	border: 0;
+	border-radius: 16px;
+}
+
+#cloze-home-v2 .clz-article-feature::after {
+	background: linear-gradient(180deg, transparent 15%, rgba(21, 19, 18, .94));
+}
+
+#cloze-home-v2 .clz-article-feature-content {
+	padding: 30px;
+}
+
+#cloze-home-v2 .clz-article-feature h3 {
+	font-size: clamp(24px, 3.2vw, 43px);
+}
+
+#cloze-home-v2 .clz-article-row {
+	grid-template-columns: 126px minmax(0, 1fr);
+	border-color: transparent;
+	border-radius: 12px;
+	background: var(--clz-bg);
+}
+
+#cloze-home-v2 .clz-article-row:hover {
+	box-shadow: none;
+	transform: translateX(-5px);
+}
+
+#cloze-home-v2 .clz-article-row > img {
+	width: 126px;
+	height: 100px;
+	border-radius: 8px;
+}
+
+/* FAQ */
+#cloze-home-v2 #clz-faq {
+	background: var(--clz-bg);
+}
+
+#cloze-home-v2 .clz-faq-grid {
+	grid-template-columns: minmax(280px, .72fr) minmax(0, 1.28fr);
+	gap: clamp(32px, 6vw, 90px);
+}
+
+#cloze-home-v2 .clz-faq-intro h2 {
+	font-size: clamp(31px, 4vw, 54px);
+	letter-spacing: -.045em;
+}
+
+#cloze-home-v2 .clz-faq-item {
+	border-color: #d8d1c9;
+	border-radius: 10px;
+	background: transparent;
+}
+
+#cloze-home-v2 .clz-faq-q {
+	min-height: 66px;
+	padding: 16px 18px;
+	font-size: 12px;
+}
+
+#cloze-home-v2 .clz-faq-plus {
+	border-radius: 7px;
+	background: #e8e1d9;
+	color: var(--clz-orange-deep);
+}
+
+#cloze-home-v2 .clz-faq-item.open {
+	border-color: var(--clz-orange);
+	background: var(--clz-paper);
+}
+
+#cloze-home-v2 .clz-faq-item.open .clz-faq-plus {
+	background: var(--clz-orange);
+}
+
+#cloze-home-v2 .clz-message {
+	border-color: #cdc5bc;
+	border-radius: 10px;
+	background: var(--clz-paper);
+}
+
+@media (max-width: 1180px) {
+	#cloze-home-v2 .clz-container {
+		width: min(var(--clz-max), calc(100% - 44px));
+	}
+
+	#cloze-home-v2 .clz-hero-grid {
+		grid-template-columns: minmax(0, .95fr) minmax(430px, 1.05fr);
+		gap: 34px;
+	}
+
+	#cloze-home-v2 .clz-hero h1 {
+		font-size: clamp(48px, 6vw, 72px);
+	}
+
+	#cloze-home-v2 .clz-product-grid {
+		grid-template-columns: repeat(3, 1fr);
+	}
+
+	#cloze-home-v2 .clz-why {
+		grid-column: span 6;
+		min-height: 235px;
+	}
+}
+
+@media (max-width: 960px) {
+	#cloze-home-v2 .clz-hero {
+		min-height: 0;
+		padding-top: 18px;
+		background: var(--clz-bg);
+	}
+
+	#cloze-home-v2 .clz-hero-grid {
+		grid-template-columns: 1fr;
+		gap: 18px;
+	}
+
+	#cloze-home-v2 .clz-hero-copy {
+		max-width: 820px;
+	}
+
+	#cloze-home-v2 .clz-hero-showcase {
+		width: 100%;
+		max-width: 680px;
+		height: 570px;
+		margin-inline: auto;
+	}
+
+	#cloze-home-v2 .clz-hero-main-product {
+		right: 74px;
+	}
+
+	#cloze-home-v2 .clz-brand-statement-inner {
+		grid-template-columns: 100px 1fr;
+	}
+
+	#cloze-home-v2 .clz-brand-points {
+		grid-column: 1 / -1;
+		grid-template-columns: repeat(3, max-content);
+	}
+
+	#cloze-home-v2 .clz-bento {
+		grid-template-columns: 1fr 1fr;
+		grid-template-rows: 270px 190px 190px;
+	}
+
+	#cloze-home-v2 .clz-bento-card:first-child {
+		grid-column: span 2;
+		grid-row: auto;
+	}
+
+	#cloze-home-v2 .clz-support {
+		grid-template-columns: 1fr;
+	}
+
+	#cloze-home-v2 .clz-popular-articles,
+	#cloze-home-v2 .clz-faq-grid {
+		grid-template-columns: 1fr;
+	}
+
+	#cloze-home-v2 .clz-faq-intro {
+		position: static;
+	}
+
+	#cloze-home-v2 .clz-popular-side {
+		grid-template-columns: 1fr 1fr;
+	}
+}
+
+@media (max-width: 680px) {
+	#cloze-home-v2 .clz-container {
+		width: min(100% - 24px, var(--clz-max));
+	}
+
+	#cloze-home-v2 .clz-section {
+		padding: 58px 0;
+	}
+
+	#cloze-home-v2 .clz-heading {
+		display: grid;
+		gap: 12px;
+		margin-bottom: 24px;
+	}
+
+	#cloze-home-v2 .clz-heading h2 {
+		font-size: 31px;
+		line-height: 1.4;
+	}
+
+	#cloze-home-v2 .clz-heading p {
+		font-size: 11px;
+	}
+
+	#cloze-home-v2 .clz-link {
+		justify-self: start;
+	}
+
+	#cloze-home-v2 .clz-hero {
+		padding: 10px 0 55px;
+	}
+
+	#cloze-home-v2 .clz-hero-copy {
+		padding-top: 18px;
+	}
+
+	#cloze-home-v2 .clz-hero h1 {
+		margin-block: 16px 19px;
+		font-size: clamp(40px, 12.5vw, 58px);
+		line-height: 1.12;
+	}
+
+	#cloze-home-v2 .clz-hero-copy > p {
+		font-size: 12px;
+		line-height: 2;
+	}
+
+	#cloze-home-v2 .clz-hero-actions {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		margin-top: 24px;
+	}
+
+	#cloze-home-v2 .clz-btn {
+		min-height: 50px;
+		padding-inline: 10px;
+		font-size: 10px;
+	}
+
+	#cloze-home-v2 .clz-hero-assurances {
+		display: grid;
+		grid-template-columns: 1fr;
+	}
+
+	#cloze-home-v2 .clz-hero-showcase {
+		height: 420px;
+	}
+
+	#cloze-home-v2 .clz-hero-showcase::before {
+		inset: 24px 0 20px 12px;
+		border-radius: 22px;
+	}
+
+	#cloze-home-v2 .clz-hero-word {
+		left: -3px;
+		top: 49px;
+		font-size: 43px;
+	}
+
+	#cloze-home-v2 .clz-hero-main-product {
+		right: 17px;
+		top: 3px;
+		width: 72%;
+		height: 374px;
+		border-radius: 16px;
+	}
+
+	#cloze-home-v2 .clz-hero-main-media {
+		height: 274px;
+	}
+
+	#cloze-home-v2 .clz-hero-product-meta {
+		padding: 12px 14px;
+	}
+
+	#cloze-home-v2 .clz-hero-mini-product {
+		width: 112px;
+		border-radius: 12px;
+	}
+
+	#cloze-home-v2 .clz-hero-mini-one {
+		left: 0;
+		top: 68px;
+	}
+
+	#cloze-home-v2 .clz-hero-mini-two {
+		left: 8px;
+		bottom: 4px;
+	}
+
+	#cloze-home-v2 .clz-hero-note {
+		right: 4px;
+		bottom: -4px;
+		font-size: 8px;
+	}
+
+	#cloze-home-v2 .clz-brand-statement-inner {
+		grid-template-columns: 1fr;
+		gap: 20px;
+		min-height: 0;
+		padding-block: 42px;
+	}
+
+	#cloze-home-v2 .clz-brand-statement p {
+		font-size: 16px;
+	}
+
+	#cloze-home-v2 .clz-brand-points {
+		grid-column: auto;
+		display: flex;
+		flex-wrap: wrap;
+	}
+
+	#cloze-home-v2 .clz-category {
+		flex-basis: 132px;
+	}
+
+	#cloze-home-v2 .clz-category-media {
+		height: 105px;
+	}
+
+	#cloze-home-v2 .clz-product-shelf {
+		gap: 10px;
+		margin-left: -12px;
+		padding-left: 12px;
+	}
+
+	#cloze-home-v2 .clz-product-card {
+		flex: 0 0 77vw;
+		max-width: 285px;
+		border-radius: 12px;
+	}
+
+	#cloze-home-v2 .clz-sale-wrap {
+		border-radius: 18px;
+	}
+
+	#cloze-home-v2 .clz-sale-top {
+		display: grid;
+	}
+
+	#cloze-home-v2 .clz-sale-status {
+		justify-self: start;
+	}
+
+	#cloze-home-v2 .clz-sale-wrap .clz-product-shelf {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 8px;
+		margin: 0;
+		padding: 0;
+	}
+
+	#cloze-home-v2 .clz-sale-wrap .clz-product-card {
+		min-width: 0;
+		max-width: none;
+		flex: none;
+	}
+
+	#cloze-home-v2 .clz-sale-wrap .clz-rating {
+		display: none;
+	}
+
+	#cloze-home-v2 .clz-sale-wrap .clz-product-title {
+		height: 37px;
+		font-size: 10px;
+	}
+
+	#cloze-home-v2 .clz-product-grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 9px;
+	}
+
+	#cloze-home-v2 .clz-product-grid .clz-product-card {
+		min-width: 0;
+		max-width: none;
+		flex: none;
+	}
+
+	#cloze-home-v2 .clz-popular-grid .clz-product-card:first-child {
+		grid-column: 1 / -1;
+		grid-template-columns: 45% 55%;
+		min-height: 225px;
+	}
+
+	#cloze-home-v2 .clz-popular-grid .clz-product-card:first-child .clz-product-media {
+		min-height: 225px;
+	}
+
+	#cloze-home-v2 .clz-popular-grid .clz-product-card:first-child .clz-product-body {
+		padding: 15px;
+	}
+
+	#cloze-home-v2 .clz-product-grid .clz-product-card:not(:first-child) .clz-rating {
+		display: none;
+	}
+
+	#cloze-home-v2 .clz-product-grid .clz-product-card:not(:first-child) .clz-product-title {
+		height: 36px;
+		font-size: 10px;
+	}
+
+	#cloze-home-v2 .clz-why-grid {
+		gap: 8px;
+	}
+
+	#cloze-home-v2 .clz-why {
+		grid-column: span 6;
+		min-height: 220px;
+		padding: 17px;
+		border-radius: 12px;
+	}
+
+	#cloze-home-v2 .clz-why-icon,
+	#cloze-home-v2 .clz-why:nth-child(n) .clz-why-icon {
+		font-size: 29px;
+	}
+
+	#cloze-home-v2 .clz-why h3 {
+		margin-top: 42px;
+		font-size: 12px;
+	}
+
+	#cloze-home-v2 .clz-why p {
+		font-size: 9.5px;
+	}
+
+	#cloze-home-v2 .clz-bento {
+		grid-template-columns: 1fr;
+		grid-template-rows: none;
+		gap: 8px;
+	}
+
+	#cloze-home-v2 .clz-bento-card,
+	#cloze-home-v2 .clz-bento-card:first-child,
+	#cloze-home-v2 .clz-bento-card:nth-child(4) {
+		grid-column: auto;
+		min-height: 165px;
+		border-radius: 12px;
+	}
+
+	#cloze-home-v2 .clz-support {
+		min-height: 0;
+		padding: 24px;
+		border-radius: 15px;
+	}
+
+	#cloze-home-v2 .clz-support h2 {
+		font-size: 32px;
+	}
+
+	#cloze-home-v2 .clz-support-action {
+		min-width: 0;
+	}
+
+	#cloze-home-v2 .clz-article-feature {
+		min-height: 390px;
+		border-radius: 12px;
+	}
+
+	#cloze-home-v2 .clz-article-feature-content {
+		padding: 20px;
+	}
+
+	#cloze-home-v2 .clz-popular-side {
+		grid-template-columns: 1fr;
+	}
+
+	#cloze-home-v2 .clz-article-row {
+		grid-template-columns: 96px minmax(0, 1fr);
+	}
+
+	#cloze-home-v2 .clz-article-row > img {
+		width: 96px;
+		height: 84px;
+	}
+
+	#cloze-home-v2 .clz-faq-intro h2 {
+		font-size: 31px;
+	}
+
+	#cloze-home-v2 .clz-faq-q {
+		font-size: 11px;
+	}
+}
+
+@media (max-width: 390px) {
+	#cloze-home-v2 .clz-hero-actions {
+		grid-template-columns: 1fr;
+	}
+
+	#cloze-home-v2 .clz-why-grid {
+		grid-template-columns: 1fr;
+	}
+
+	#cloze-home-v2 .clz-why {
+		grid-column: auto;
+		min-height: 190px;
+	}
+}

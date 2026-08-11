@@ -5,12 +5,8 @@
 		const config = window.bijanCommunity || {};
 		const $modal = $('#bc-community-modal');
 		let selectedFiles = [];
-
-		function toEnglishDigits(value) {
-			return String(value).replace(/[۰-۹]/g, function (digit) {
-				return '۰۱۲۳۴۵۶۷۸۹'.indexOf(digit);
-			});
-		}
+		let $modalTrigger = $();
+		let closeTimer = null;
 
 		function activateTab(tab) {
 			const safeTab = tab === 'questions' ? 'questions' : 'reviews';
@@ -34,39 +30,92 @@
 			$('.bc-form-view[data-form-view="' + type + '"]').removeAttr('hidden');
 		}
 
-		function openModal(type) {
+		function openModal(type, trigger) {
 			if (!$modal.length) return;
+			window.clearTimeout(closeTimer);
+			$modalTrigger = $(trigger);
 			setFormView(type);
 			$modal.removeAttr('hidden').attr('aria-hidden', 'false');
 			$('body').addClass('bc-modal-open');
 			window.setTimeout(function () {
-				$modal.addClass('is-open').find('textarea:visible').first().trigger('focus');
+				$modal.addClass('is-open');
+				$modal.find('.bc-modal-close').trigger('focus');
 			}, 10);
 		}
 
 		function closeModal() {
+			if (!$modal.length || $modal.attr('hidden')) return;
+			window.clearTimeout(closeTimer);
 			$modal.removeClass('is-open').attr('aria-hidden', 'true');
 			$('body').removeClass('bc-modal-open');
-			window.setTimeout(function () { $modal.attr('hidden', true); }, 220);
+			closeTimer = window.setTimeout(function () {
+				$modal.attr('hidden', true);
+				if ($modalTrigger.length) $modalTrigger.trigger('focus');
+			}, 220);
 		}
 
 		$('[data-community-open]').on('click', function () {
-			openModal($(this).data('community-open'));
+			openModal($(this).data('community-open'), this);
 		});
-		$('[data-community-close]').on('click', closeModal);
+		$('[data-community-close]').on('click', function (event) {
+			event.preventDefault();
+			closeModal();
+		});
 		$(document).on('keydown', function (event) {
-			if (event.key === 'Escape' && $modal.hasClass('is-open')) closeModal();
+			if (event.key === 'Escape' && $modal.hasClass('is-open')) {
+				closeModal();
+				return;
+			}
+			if (event.key !== 'Tab' || !$modal.hasClass('is-open')) return;
+			const $focusable = $modal.find('button:visible, input:visible, textarea:visible, [tabindex]:visible').filter(':not([disabled]):not([tabindex="-1"])');
+			if (!$focusable.length) return;
+			const first = $focusable[0];
+			const last = $focusable[$focusable.length - 1];
+			if (event.shiftKey && document.activeElement === first) {
+				event.preventDefault();
+				last.focus();
+			} else if (!event.shiftKey && document.activeElement === last) {
+				event.preventDefault();
+				first.focus();
+			}
 		});
 
-		function updateRange($range) {
-			const value = Number(toEnglishDigits($range.val()));
-			const min = Number($range.attr('min')) || 1;
-			const max = Number($range.attr('max')) || 10;
-			const percent = ((value - min) / (max - min)) * 100;
-			$range.css('--range-progress', percent + '%');
-			$range.closest('.bc-rating-field').find('output strong').text(value.toLocaleString('fa-IR'));
+		function updateStars() {
+			const value = Number($('.bc-star-picker input:checked').val()) || 5;
+			$('.bc-star-picker label').each(function () {
+				$(this).toggleClass('is-active', Number($(this).data('score')) <= value);
+			});
+			$('.bc-rating-field output strong').text(value.toLocaleString('fa-IR'));
 		}
-		$('#bc-score').on('input change', function () { updateRange($(this)); }).each(function () { updateRange($(this)); });
+		$('.bc-star-picker input').on('change', updateStars);
+		updateStars();
+
+		function refreshPointGroup($group) {
+			const count = $group.find('.bc-point-input').length;
+			$group.toggleClass('has-points', count > 0);
+			$group.find('[data-point-add]').prop('disabled', count >= 6);
+		}
+
+		function addPoint(type) {
+			const $group = $('[data-point-group="' + type + '"]');
+			const $list = $group.find('[data-point-list]');
+			if (!$group.length || $list.children().length >= 6) return;
+			const label = type === 'strengths' ? 'نقطه قوت' : 'نقطه ضعف';
+			const placeholder = type === 'strengths' ? 'مثلاً کیفیت ساخت خوب' : 'مثلاً بسته‌بندی معمولی';
+			const $row = $('<div class="bc-point-input"><input type="text" maxlength="120"><button type="button"><span aria-hidden="true">×</span></button></div>');
+			$row.find('input').attr({ name: type + '[]', placeholder: placeholder, 'aria-label': label });
+			$row.find('button').attr('aria-label', 'حذف ' + label);
+			$list.append($row);
+			refreshPointGroup($group);
+			$row.find('input').trigger('focus');
+		}
+
+		$('[data-point-add]').on('click', function () { addPoint($(this).data('point-add')); });
+		$('.bc-points-editor').on('click', '.bc-point-input button', function () {
+			const $group = $(this).closest('[data-point-group]');
+			$(this).closest('.bc-point-input').remove();
+			refreshPointGroup($group);
+		});
 
 		$('.bc-field textarea').on('input', function () {
 			const $counter = $(this).siblings('.bc-counter');
@@ -142,7 +191,9 @@
 					selectedFiles = [];
 					renderPreviews();
 					$form.find('.bc-counter b').text('۰');
-					updateRange($('#bc-score'));
+					$form.find('.bc-point-inputs').empty();
+					$form.find('[data-point-group]').each(function () { refreshPointGroup($(this)); });
+					updateStars();
 				}
 			}).fail(function (xhr) {
 				const data = xhr.responseJSON?.data;

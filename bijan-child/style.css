@@ -14,6 +14,95 @@ Template: bijan
 
 /* Mobile slide-out menu: keep the search visible and scroll only the menu. */
 @media screen and (max-width: 1200px) {
+	/* Keep the main header and bottom navigation in sync with side panels. */
+	#header-container {
+		transition: transform .24s ease, opacity .18s ease, visibility .24s ease;
+	}
+
+	body.mobile-menu-opened #header-container {
+		visibility: hidden;
+		opacity: 0;
+		pointer-events: none;
+		transform: translateY(calc(-100% - 12px)) !important;
+	}
+
+	/* Balanced mobile header: menu at inline-start, support at inline-end. */
+	#header {
+		min-height: 64px;
+		box-sizing: border-box;
+	}
+
+	.clz-mobile-support {
+		position: absolute;
+		z-index: 3;
+		inset-inline-end: 0;
+		top: 50%;
+		display: flex;
+		align-items: center;
+		gap: 7px;
+		min-width: 46px;
+		min-height: 46px;
+		padding: 5px 7px;
+		box-sizing: border-box;
+		border: 1px solid color-mix(in srgb, var(--primary-100) 18%, transparent);
+		border-radius: 15px;
+		background: color-mix(in srgb, var(--primary-100) 8%, #fff);
+		color: var(--primary-100);
+		box-shadow: 0 6px 18px color-mix(in srgb, var(--primary-100) 12%, transparent);
+		transform: translateY(-50%);
+		transition: color .18s ease, background-color .18s ease, border-color .18s ease, transform .18s ease;
+	}
+
+	.clz-mobile-support:active {
+		transform: translateY(-50%) scale(.94);
+	}
+
+	.clz-mobile-support:focus-visible {
+		outline: 3px solid color-mix(in srgb, var(--primary-100) 22%, transparent);
+		outline-offset: 2px;
+	}
+
+	.clz-mobile-support-icon {
+		position: relative;
+		display: grid;
+		place-items: center;
+		width: 32px;
+		height: 32px;
+		flex: 0 0 32px;
+		border-radius: 11px;
+		background: var(--primary-100);
+		color: #fff;
+	}
+
+	.clz-mobile-support-icon svg {
+		width: 21px;
+		height: 21px;
+		stroke: currentColor;
+		stroke-width: 1.75;
+		stroke-linecap: round;
+		stroke-linejoin: round;
+	}
+
+	.clz-mobile-support-status {
+		position: absolute;
+		top: -2px;
+		inset-inline-end: -2px;
+		width: 8px;
+		height: 8px;
+		border: 2px solid #fff;
+		border-radius: 50%;
+		background: #22c55e;
+		box-shadow: 0 0 0 2px rgba(34, 197, 94, .12);
+	}
+
+	.clz-mobile-support-label {
+		padding-inline-end: 2px;
+		font-size: .72rem;
+		font-weight: 750;
+		line-height: 1.3;
+		white-space: nowrap;
+	}
+
 	#mobile-menu-container.mobile-menu-container {
 		top: 0;
 		bottom: 0;
@@ -120,5 +209,24 @@ Template: bijan
 
 	#mobile-menu-container .mobile-menu-wrap li.megamenu-wrap > ul {
 		padding-inline-start: 24px;
+	}
+}
+
+@media screen and (max-width: 420px) {
+	.clz-mobile-support {
+		width: 46px;
+		padding: 6px;
+		justify-content: center;
+	}
+
+	.clz-mobile-support-label {
+		display: none;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	#header-container,
+	.clz-mobile-support {
+		transition: none;
 	}
 }

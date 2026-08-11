@@ -13,6 +13,18 @@ require_once trailingslashit( get_stylesheet_directory() ) . 'inc/product-commun
 // Stable 12-hour product shuffle for product category archives.
 require_once trailingslashit( get_stylesheet_directory() ) . 'inc/category-product-shuffle.php';
 
+// Streamlined, Iran-only classic WooCommerce checkout.
+require_once trailingslashit( get_stylesheet_directory() ) . 'inc/checkout-customizations.php';
+
+// Mobile header/menu behavior and the quick support action.
+require_once trailingslashit( get_stylesheet_directory() ) . 'inc/mobile-header.php';
+
+// Purpose-built, action-first contact page.
+require_once trailingslashit( get_stylesheet_directory() ) . 'inc/contact-page.php';
+
+// Clearer product attributes plus the fixed shipping and returns guide.
+require_once trailingslashit( get_stylesheet_directory() ) . 'inc/product-tabs.php';
+
 /**************************************************************************
 ✅ START EDIT FROM HERE 👇🏻
 HAPPY CODING 😊

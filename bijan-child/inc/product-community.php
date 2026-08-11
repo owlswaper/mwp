@@ -303,8 +303,13 @@ final class Bijan_Product_Community {
 	}
 
 	private static function clean_list( $value ) {
-		$value = is_string( $value ) ? wp_unslash( $value ) : '';
-		$items = preg_split( '/\r\n|\r|\n/', $value );
+		if ( is_array( $value ) ) {
+			$items = wp_unslash( $value );
+		} else {
+			$value = is_string( $value ) ? wp_unslash( $value ) : '';
+			$items = preg_split( '/\r\n|\r|\n/', $value );
+		}
+		$items = array_filter( $items, 'is_scalar' );
 		$items = array_map( 'sanitize_text_field', $items );
 		$items = array_values( array_filter( array_map( 'trim', $items ) ) );
 		$items = array_slice( array_unique( $items ), 0, 6 );
@@ -320,8 +325,8 @@ final class Bijan_Product_Community {
 		$score      = isset( $_POST['score'] ) ? absint( $_POST['score'] ) : 0;
 		$content    = isset( $_POST['content'] ) ? sanitize_textarea_field( wp_unslash( $_POST['content'] ) ) : '';
 
-		if ( $score < 1 || $score > 10 ) {
-			wp_send_json_error( [ 'message' => 'امتیاز باید عددی بین ۱ تا ۱۰ باشد.' ], 422 );
+		if ( $score < 1 || $score > 5 ) {
+			wp_send_json_error( [ 'message' => 'لطفاً امتیازی بین ۱ تا ۵ ستاره انتخاب کنید.' ], 422 );
 		}
 		if ( self::text_length( $content ) < 10 || self::text_length( $content ) > 3000 ) {
 			wp_send_json_error( [ 'message' => 'متن نظر باید بین ۱۰ تا ۳۰۰۰ نویسه باشد.' ], 422 );
@@ -343,7 +348,7 @@ final class Bijan_Product_Community {
 			wp_send_json_error( [ 'message' => 'ثبت نظر انجام نشد. دوباره تلاش کنید.' ], 500 );
 		}
 
-		update_comment_meta( $comment_id, '_bijan_score_10', $score );
+		update_comment_meta( $comment_id, '_bijan_score_5', $score );
 		update_comment_meta( $comment_id, '_bijan_strengths', self::clean_list( $_POST['strengths'] ?? '' ) );
 		update_comment_meta( $comment_id, '_bijan_weaknesses', self::clean_list( $_POST['weaknesses'] ?? '' ) );
 
@@ -500,7 +505,7 @@ final class Bijan_Product_Community {
 	}
 
 	private static function score_stats( $product_id ) {
-		$cache_key = 'bijan_review_stats_' . absint( $product_id );
+		$cache_key = 'bijan_review_stats_5_' . absint( $product_id );
 		$cached    = get_transient( $cache_key );
 		if ( is_array( $cached ) && isset( $cached['count'], $cached['average'], $cached['dist'] ) ) {
 			return $cached;
@@ -514,11 +519,11 @@ final class Bijan_Product_Community {
 			'number'  => 0,
 		] );
 		$total = 0;
-		$dist  = array_fill( 1, 10, 0 );
+		$dist  = array_fill( 1, 5, 0 );
 		foreach ( $ids as $id ) {
-			$score = min( 10, max( 1, absint( get_comment_meta( $id, '_bijan_score_10', true ) ) ) );
+			$score = self::review_score( $id );
 			$total += $score;
-			$dist[ $score ]++;
+			$dist[ min( 5, max( 1, (int) round( $score ) ) ) ]++;
 		}
 		$stats = [
 			'count'   => count( $ids ),
@@ -529,12 +534,26 @@ final class Bijan_Product_Community {
 		return $stats;
 	}
 
+	/**
+	 * Return every review on the five-star scale while keeping old 10-point data valid.
+	 */
+	private static function review_score( $comment_id ) {
+		$score_5 = get_comment_meta( $comment_id, '_bijan_score_5', true );
+		if ( '' !== $score_5 ) {
+			return min( 5, max( 1, absint( $score_5 ) ) );
+		}
+
+		$legacy_score = absint( get_comment_meta( $comment_id, '_bijan_score_10', true ) );
+		return $legacy_score ? min( 5, max( 1, round( $legacy_score / 2, 1 ) ) ) : 1;
+	}
+
 	public static function cleanup_deleted_review( $comment_id, $comment = null ) {
 		$comment = $comment ?: get_comment( $comment_id );
 		if ( ! $comment || self::REVIEW_TYPE !== $comment->comment_type ) {
 			return;
 		}
 		delete_transient( 'bijan_review_stats_' . absint( $comment->comment_post_ID ) );
+		delete_transient( 'bijan_review_stats_5_' . absint( $comment->comment_post_ID ) );
 		foreach ( array_map( 'absint', (array) get_comment_meta( $comment_id, '_bijan_images', true ) ) as $attachment_id ) {
 			if ( (int) get_post_meta( $attachment_id, '_bijan_review_comment_id', true ) === (int) $comment_id ) {
 				wp_delete_attachment( $attachment_id, true );
@@ -545,6 +564,7 @@ final class Bijan_Product_Community {
 	public static function invalidate_review_stats( $new_status, $old_status, $comment ) {
 		if ( $comment instanceof WP_Comment && self::REVIEW_TYPE === $comment->comment_type && $new_status !== $old_status ) {
 			delete_transient( 'bijan_review_stats_' . absint( $comment->comment_post_ID ) );
+			delete_transient( 'bijan_review_stats_5_' . absint( $comment->comment_post_ID ) );
 		}
 	}
 
@@ -557,7 +577,7 @@ final class Bijan_Product_Community {
 		?>
 		<div class="product-head-meta bijan-community-head-stat">
 			<i class="bijan-icon-star-2 active"></i>
-			<a href="#product-community" class="product-meta-value"><?php echo esc_html( $stats['count'] ? $stats['average'] . ' از ۱۰' : 'بدون امتیاز' ); ?></a>
+			<a href="#product-community" class="product-meta-value"><?php echo esc_html( $stats['count'] ? $stats['average'] . ' از ۵' : 'بدون امتیاز' ); ?></a>
 		</div>
 		<div class="product-head-meta bijan-community-head-stat">
 			<i class="bijan-icon-messages"></i>
@@ -646,11 +666,11 @@ final class Bijan_Product_Community {
 		$count = max( 1, $stats['count'] );
 		?>
 		<div class="bc-score-main">
-			<strong><?php echo esc_html( number_format_i18n( $stats['average'], 1 ) ); ?></strong><span>از ۱۰</span>
+			<strong><?php echo esc_html( number_format_i18n( $stats['average'], 1 ) ); ?></strong><span>از ۵</span>
 		</div>
 		<div class="bc-score-caption"><?php echo $stats['count'] ? esc_html( 'بر اساس ' . number_format_i18n( $stats['count'] ) . ' نظر' ) : 'هنوز امتیازی ثبت نشده'; ?></div>
 		<div class="bc-score-bars" aria-label="توزیع امتیازها">
-			<?php for ( $score = 10; $score >= 1; $score-- ) : $percent = $stats['count'] ? round( ( $stats['dist'][ $score ] / $count ) * 100 ) : 0; ?>
+			<?php for ( $score = 5; $score >= 1; $score-- ) : $percent = $stats['count'] ? round( ( $stats['dist'][ $score ] / $count ) * 100 ) : 0; ?>
 				<div class="bc-score-row"><span><?php echo esc_html( number_format_i18n( $score ) ); ?></span><i><b style="width:<?php echo esc_attr( $percent ); ?>%"></b></i><small><?php echo esc_html( number_format_i18n( $stats['dist'][ $score ] ) ); ?></small></div>
 			<?php endfor; ?>
 		</div>
@@ -659,7 +679,8 @@ final class Bijan_Product_Community {
 	}
 
 	private static function render_review( $review, $product_id ) {
-		$score      = absint( get_comment_meta( $review->comment_ID, '_bijan_score_10', true ) );
+		$score      = self::review_score( $review->comment_ID );
+		$score_text = number_format_i18n( $score, (float) floor( $score ) === (float) $score ? 0 : 1 );
 		$strengths  = (array) get_comment_meta( $review->comment_ID, '_bijan_strengths', true );
 		$weaknesses = (array) get_comment_meta( $review->comment_ID, '_bijan_weaknesses', true );
 		$images     = array_map( 'absint', (array) get_comment_meta( $review->comment_ID, '_bijan_images', true ) );
@@ -674,7 +695,7 @@ final class Bijan_Product_Community {
 					<div><strong><?php echo esc_html( $review->comment_author ); ?></strong><span><?php echo esc_html( human_time_diff( get_comment_time( 'U', true, false, $review ), current_time( 'timestamp', true ) ) . ' پیش' ); ?></span></div>
 					<?php if ( $verified ) : ?><em class="bc-verified">خریدار محصول</em><?php endif; ?>
 				</div>
-				<div class="bc-score-badge bc-score-<?php echo esc_attr( $score >= 7 ? 'good' : ( $score >= 5 ? 'mid' : 'bad' ) ); ?>"><strong><?php echo esc_html( number_format_i18n( $score ) ); ?></strong><span>/۱۰</span></div>
+				<div class="bc-score-badge bc-score-<?php echo esc_attr( $score >= 4 ? 'good' : ( $score >= 3 ? 'mid' : 'bad' ) ); ?>" aria-label="<?php echo esc_attr( $score_text . ' از ۵ ستاره' ); ?>"><i aria-hidden="true">★</i><strong><?php echo esc_html( $score_text ); ?></strong><span>/۵</span></div>
 			</header>
 			<div class="bc-review-text"><?php echo wpautop( esc_html( $review->comment_content ) ); ?></div>
 			<?php self::render_points( $strengths, $weaknesses ); ?>
@@ -761,27 +782,51 @@ final class Bijan_Product_Community {
 		}
 		?>
 		<div class="bc-modal" id="bc-community-modal" hidden aria-hidden="true">
-			<div class="bc-modal-backdrop" data-community-close></div>
-			<div class="bc-modal-dialog" role="dialog" aria-modal="true" aria-label="ثبت نظر یا پرسش محصول">
-				<button type="button" class="bc-modal-close" data-community-close aria-label="بستن">×</button>
+			<button type="button" class="bc-modal-backdrop" data-community-close aria-label="بستن پنجره" tabindex="-1"></button>
+			<div class="bc-modal-dialog" role="dialog" aria-modal="true" aria-label="ثبت نظر یا پرسش محصول" tabindex="-1">
+				<div class="bc-modal-topbar">
+					<strong>نظر و پرسش محصول</strong>
+					<button type="button" class="bc-modal-close" data-community-close aria-label="بستن پنجره"><span aria-hidden="true">×</span></button>
+				</div>
+				<div class="bc-modal-body">
 				<div class="bc-form-view" data-form-view="review">
-					<header><span>تجربه شما</span><h3 id="bc-modal-title">ثبت نظر برای این محصول</h3><p>صادقانه و کوتاه بنویسید؛ نظر شما پس از بررسی منتشر می‌شود.</p></header>
+					<header><span>تجربه شما</span><h3 id="bc-modal-title">ثبت نظر برای این محصول</h3><p>امتیاز بدهید و نکته‌ای را بنویسید که واقعاً به انتخاب دیگران کمک کند.</p></header>
 					<form id="bc-review-form" enctype="multipart/form-data">
 						<input type="hidden" name="action" value="bijan_submit_product_review"><input type="hidden" name="nonce" value="<?php echo esc_attr( wp_create_nonce( self::NONCE_ACTION ) ); ?>"><input type="hidden" name="product_id" value="<?php echo esc_attr( $product_id ); ?>">
-						<div class="bc-rating-field"><div><label for="bc-score">امتیاز شما</label><span>نشانگر را بکشید</span></div><output for="bc-score"><strong>۸</strong><small>از ۱۰</small></output><input id="bc-score" name="score" type="range" min="1" max="10" value="8" step="1"></div>
-						<div class="bc-two-columns"><label class="bc-field bc-field-pro"><span>نقاط قوت <small>اختیاری؛ هر مورد در یک خط</small></span><textarea name="strengths" rows="3" maxlength="750" placeholder="مثلاً کیفیت ساخت خوب"></textarea></label><label class="bc-field bc-field-con"><span>نقاط ضعف <small>اختیاری؛ هر مورد در یک خط</small></span><textarea name="weaknesses" rows="3" maxlength="750" placeholder="مثلاً بسته‌بندی معمولی"></textarea></label></div>
+						<fieldset class="bc-rating-field">
+							<legend>امتیاز شما</legend>
+							<div class="bc-rating-copy"><strong>از تجربه‌تان چند ستاره می‌دهید؟</strong><span>روی یکی از ستاره‌ها بزنید.</span></div>
+							<output><strong>۵</strong><small>از ۵</small></output>
+							<div class="bc-star-picker" role="radiogroup" aria-label="انتخاب امتیاز از ۵ ستاره">
+								<?php for ( $score = 1; $score <= 5; $score++ ) : ?>
+									<input id="bc-score-<?php echo esc_attr( $score ); ?>" name="score" type="radio" value="<?php echo esc_attr( $score ); ?>"<?php checked( 5, $score ); ?>>
+									<label for="bc-score-<?php echo esc_attr( $score ); ?>" data-score="<?php echo esc_attr( $score ); ?>" aria-label="<?php echo esc_attr( $score . ' ستاره' ); ?>">★</label>
+								<?php endfor; ?>
+							</div>
+						</fieldset>
+						<div class="bc-points-editor">
+							<section class="bc-point-editor bc-point-editor-pro" data-point-group="strengths">
+								<header><div><strong>نقاط قوت</strong><small>اختیاری؛ کوتاه و مشخص</small></div><button type="button" data-point-add="strengths"><span aria-hidden="true">+</span> افزودن</button></header>
+								<div class="bc-point-inputs" data-point-list="strengths"></div><p class="bc-point-empty">اگر نکته مثبتی دارید با دکمه «افزودن» بنویسید.</p>
+							</section>
+							<section class="bc-point-editor bc-point-editor-con" data-point-group="weaknesses">
+								<header><div><strong>نقاط ضعف</strong><small>اختیاری؛ منصفانه و کاربردی</small></div><button type="button" data-point-add="weaknesses"><span aria-hidden="true">+</span> افزودن</button></header>
+								<div class="bc-point-inputs" data-point-list="weaknesses"></div><p class="bc-point-empty">اگر ایرادی دیده‌اید با دکمه «افزودن» بنویسید.</p>
+							</section>
+						</div>
 						<label class="bc-field"><span>نظر شما</span><textarea name="content" rows="6" minlength="10" maxlength="3000" required placeholder="تجربه استفاده، کیفیت و نکاتی که برای خریداران دیگر مفید است…"></textarea><small class="bc-counter"><b>۰</b> / ۳۰۰۰</small></label>
 						<div class="bc-upload"><input id="bc-review-images" type="file" name="images[]" accept="image/jpeg,image/png,image/webp" multiple hidden><label for="bc-review-images"><span>＋</span><strong>افزودن تصویر</strong><small>حداکثر ۴ تصویر، هرکدام تا ۵ مگابایت</small></label><div class="bc-image-preview"></div></div>
 						<div class="bc-form-message" role="status" aria-live="polite"></div><button type="submit" class="bc-button bc-button-primary bc-submit">ثبت نظر</button>
 					</form>
 				</div>
 				<div class="bc-form-view" data-form-view="question" hidden>
-					<header><span>پرسش از پشتیبانی</span><h3>چه چیزی می‌خواهید بدانید؟</h3><p>پرسش واضح و مرتبط با همین محصول بنویسید.</p></header>
+					<header><span>پرسش از پشتیبانی</span><h3>چه چیزی درباره محصول مبهم است؟</h3><p>سؤال را مستقیم و با جزئیات لازم بنویسید تا پاسخ دقیق‌تری بگیرید.</p></header>
 					<form id="bc-question-form">
 						<input type="hidden" name="action" value="bijan_submit_product_question"><input type="hidden" name="nonce" value="<?php echo esc_attr( wp_create_nonce( self::NONCE_ACTION ) ); ?>"><input type="hidden" name="product_id" value="<?php echo esc_attr( $product_id ); ?>">
 						<label class="bc-field"><span>متن پرسش</span><textarea name="content" rows="6" minlength="10" maxlength="1200" required placeholder="مثلاً آیا این محصول با … سازگار است؟"></textarea><small class="bc-counter"><b>۰</b> / ۱۲۰۰</small></label>
-						<div class="bc-form-note">پرسش پس از پاسخ پشتیبانی برای همه کاربران نمایش داده می‌شود.</div><div class="bc-form-message" role="status" aria-live="polite"></div><button type="submit" class="bc-button bc-button-primary bc-submit">ثبت پرسش</button>
+						<div class="bc-form-note"><strong>بعد از ثبت چه می‌شود؟</strong><span>پشتیبانی پاسخ را بررسی می‌کند و پرسش همراه پاسخ برای کاربران نمایش داده می‌شود.</span></div><div class="bc-form-message" role="status" aria-live="polite"></div><button type="submit" class="bc-button bc-button-primary bc-submit">ثبت پرسش</button>
 					</form>
+				</div>
 				</div>
 			</div>
 		</div>
@@ -820,10 +865,12 @@ final class Bijan_Product_Community {
 		if ( 'approve' === $operation && self::REVIEW_TYPE === $comment->comment_type ) {
 			wp_set_comment_status( $comment_id, 'approve' );
 			delete_transient( 'bijan_review_stats_' . absint( $comment->comment_post_ID ) );
+			delete_transient( 'bijan_review_stats_5_' . absint( $comment->comment_post_ID ) );
 		} elseif ( 'trash' === $operation ) {
 			wp_trash_comment( $comment_id );
 			if ( self::REVIEW_TYPE === $comment->comment_type ) {
 				delete_transient( 'bijan_review_stats_' . absint( $comment->comment_post_ID ) );
+				delete_transient( 'bijan_review_stats_5_' . absint( $comment->comment_post_ID ) );
 			}
 			$message = 'trashed';
 		} elseif ( 'answer' === $operation && self::QUESTION_TYPE === $comment->comment_type ) {
@@ -908,7 +955,7 @@ final class Bijan_Product_Community {
 		?>
 		<article class="bc-admin-card">
 			<div class="bc-admin-head"><span class="bc-admin-badge"><?php echo $is_question ? 'پرسش' : 'نظر'; ?></span><strong><?php echo esc_html( $item->comment_author ); ?></strong><span>برای <a href="<?php echo esc_url( get_edit_post_link( $item->comment_post_ID ) ); ?>"><?php echo esc_html( $product ? $product->post_title : 'محصول حذف‌شده' ); ?></a></span><span class="bc-admin-status"><?php echo '1' === (string) $item->comment_approved ? 'منتشرشده' : 'در انتظار بررسی'; ?></span></div>
-			<div class="bc-admin-meta"><?php echo esc_html( get_comment_date( 'Y/m/d - H:i', $item ) ); ?><?php if ( ! $is_question ) : ?> — امتیاز: <?php echo esc_html( get_comment_meta( $item->comment_ID, '_bijan_score_10', true ) ); ?> از ۱۰<?php endif; ?></div>
+			<div class="bc-admin-meta"><?php echo esc_html( get_comment_date( 'Y/m/d - H:i', $item ) ); ?><?php if ( ! $is_question ) : ?> — امتیاز: <?php echo esc_html( number_format_i18n( self::review_score( $item->comment_ID ), 1 ) ); ?> از ۵<?php endif; ?></div>
 			<div class="bc-admin-content"><?php echo nl2br( esc_html( $item->comment_content ) ); ?></div>
 			<?php if ( $strengths ) : ?><div class="bc-admin-meta"><strong>نقاط قوت:</strong> <?php echo esc_html( implode( '، ', $strengths ) ); ?></div><?php endif; ?>
 			<?php if ( $weaknesses ) : ?><div class="bc-admin-meta"><strong>نقاط ضعف:</strong> <?php echo esc_html( implode( '، ', $weaknesses ) ); ?></div><?php endif; ?>

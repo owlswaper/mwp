@@ -1,0 +1,610 @@
+/**
+ * Action-first contact page.
+ */
+
+body.page .clz-contact-page#page-body {
+	--clz-contact-ink: #202531;
+	--clz-contact-muted: #697181;
+	--clz-contact-line: #e8eaf0;
+	--clz-contact-soft: #f7f8fa;
+	--clz-contact-accent: var(--primary-100, #ff9800);
+	--clz-contact-accent-dark: var(--primary-hover, #eb8c00);
+	padding-top: clamp(18px, 3vw, 42px);
+	padding-bottom: clamp(50px, 8vw, 100px);
+	background:
+		radial-gradient(circle at 93% 5%, color-mix(in srgb, var(--clz-contact-accent) 10%, transparent), transparent 25rem),
+		linear-gradient(180deg, #fff 0, #fbfbfc 100%);
+}
+
+.clz-contact-page .clz-contact-hero {
+	position: relative;
+	display: grid;
+	grid-template-columns: minmax(0, 1.65fr) minmax(280px, .7fr);
+	gap: clamp(28px, 5vw, 70px);
+	align-items: center;
+	padding: clamp(28px, 5vw, 72px);
+	border: 1px solid var(--clz-contact-line);
+	border-radius: clamp(24px, 4vw, 42px);
+	background: rgba(255, 255, 255, .9);
+	box-shadow: 0 24px 80px rgba(32, 37, 49, .075);
+	overflow: hidden;
+}
+
+.clz-contact-page .clz-contact-hero::before {
+	content: "";
+	position: absolute;
+	inset-inline-end: -100px;
+	top: -140px;
+	width: 360px;
+	height: 360px;
+	border-radius: 50%;
+	background: color-mix(in srgb, var(--clz-contact-accent) 8%, transparent);
+	pointer-events: none;
+}
+
+.clz-contact-page .clz-contact-hero-copy,
+.clz-contact-page .clz-contact-hero-action {
+	position: relative;
+	z-index: 1;
+}
+
+.clz-contact-page .clz-contact-eyebrow {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	margin-bottom: 16px;
+	color: var(--clz-contact-accent-dark);
+	font-size: .78rem;
+	font-weight: 750;
+}
+
+.clz-contact-page .clz-contact-eyebrow > span {
+	width: 9px;
+	height: 9px;
+	border: 3px solid color-mix(in srgb, var(--clz-contact-accent) 25%, #fff);
+	border-radius: 50%;
+	background: var(--clz-contact-accent);
+	box-shadow: 0 0 0 5px color-mix(in srgb, var(--clz-contact-accent) 8%, transparent);
+}
+
+.clz-contact-page h1 {
+	max-width: 850px;
+	margin: 0;
+	color: var(--clz-contact-ink);
+	font-size: clamp(1.75rem, 4vw, 3.25rem);
+	font-weight: 900;
+	line-height: 1.45;
+	letter-spacing: -.04em;
+}
+
+.clz-contact-page .clz-contact-lead {
+	max-width: 810px;
+	margin: 22px 0 0;
+	color: var(--clz-contact-muted);
+	font-size: clamp(.95rem, 1.35vw, 1.08rem);
+	line-height: 2.05;
+}
+
+.clz-contact-page .clz-contact-topics {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 9px;
+	margin-top: 25px;
+}
+
+.clz-contact-page .clz-contact-topics span {
+	padding: 7px 12px;
+	border: 1px solid var(--clz-contact-line);
+	border-radius: 999px;
+	background: #fff;
+	color: #505766;
+	font-size: .75rem;
+	font-weight: 650;
+}
+
+.clz-contact-page .clz-contact-hero-action {
+	display: flex;
+	min-height: 300px;
+	padding: 26px;
+	box-sizing: border-box;
+	border-radius: 28px;
+	flex-direction: column;
+	align-items: flex-start;
+	justify-content: center;
+	background: var(--clz-contact-ink);
+	color: #fff;
+	box-shadow: 0 22px 55px rgba(32, 37, 49, .2);
+}
+
+.clz-contact-page .clz-contact-hero-icon {
+	display: grid;
+	place-items: center;
+	width: 70px;
+	height: 70px;
+	margin-bottom: 22px;
+	border-radius: 23px;
+	background: var(--clz-contact-accent);
+	color: #fff;
+	transform: rotate(-4deg);
+}
+
+.clz-contact-page .clz-contact-hero-icon svg {
+	width: 45px;
+	height: 45px;
+	stroke: currentColor;
+	stroke-width: 2.7;
+	stroke-linecap: round;
+	stroke-linejoin: round;
+}
+
+.clz-contact-page .clz-contact-hero-action strong {
+	font-size: 1.2rem;
+}
+
+.clz-contact-page .clz-contact-hero-action p {
+	margin: 7px 0 20px;
+	color: rgba(255, 255, 255, .68);
+	font-size: .82rem;
+	line-height: 1.9;
+}
+
+.clz-contact-page .clz-contact-button {
+	display: inline-flex;
+	min-height: 48px;
+	padding: 9px 16px;
+	box-sizing: border-box;
+	border: 0;
+	border-radius: 13px;
+	align-items: center;
+	justify-content: center;
+	gap: 9px;
+	font-size: .82rem;
+	font-weight: 750;
+	line-height: 1.5;
+	text-align: center;
+	text-decoration: none;
+	transition: transform .18s ease, box-shadow .18s ease, background-color .18s ease;
+}
+
+.clz-contact-page .clz-contact-button:hover {
+	transform: translateY(-2px);
+}
+
+.clz-contact-page .clz-contact-button:focus-visible,
+.clz-contact-page .clz-contact-phone:focus-visible {
+	outline: 3px solid color-mix(in srgb, var(--clz-contact-accent) 25%, transparent);
+	outline-offset: 3px;
+}
+
+.clz-contact-page .clz-contact-button-primary {
+	background: var(--clz-contact-accent);
+	color: #fff;
+	box-shadow: 0 10px 25px color-mix(in srgb, var(--clz-contact-accent) 25%, transparent);
+}
+
+.clz-contact-page .clz-contact-button-primary:hover {
+	background: var(--clz-contact-accent-dark);
+	color: #fff;
+}
+
+.clz-contact-page .clz-contact-methods {
+	margin-top: clamp(55px, 8vw, 100px);
+}
+
+.clz-contact-page .clz-contact-section-head {
+	display: flex;
+	align-items: flex-end;
+	justify-content: space-between;
+	gap: 30px;
+	margin-bottom: 26px;
+}
+
+.clz-contact-page .clz-contact-section-head > div > span {
+	color: var(--clz-contact-accent-dark);
+	font-size: .76rem;
+	font-weight: 800;
+}
+
+.clz-contact-page .clz-contact-section-head h2 {
+	margin: 4px 0 0;
+	color: var(--clz-contact-ink);
+	font-size: clamp(1.35rem, 2.7vw, 2.15rem);
+	line-height: 1.5;
+}
+
+.clz-contact-page .clz-contact-section-head > p {
+	max-width: 390px;
+	margin: 0;
+	color: var(--clz-contact-muted);
+	font-size: .82rem;
+	line-height: 1.9;
+}
+
+.clz-contact-page .clz-contact-method-grid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 20px;
+}
+
+.clz-contact-page .clz-contact-method {
+	position: relative;
+	display: flex;
+	min-width: 0;
+	padding: clamp(22px, 3vw, 32px);
+	border: 1px solid var(--clz-contact-line);
+	border-radius: 26px;
+	flex-direction: column;
+	background: #fff;
+	box-shadow: 0 14px 45px rgba(32, 37, 49, .055);
+	overflow: hidden;
+}
+
+.clz-contact-page .clz-contact-method-online {
+	grid-row: span 2;
+	background: linear-gradient(145deg, #fff 0%, color-mix(in srgb, var(--clz-contact-accent) 4%, #fff) 100%);
+}
+
+.clz-contact-page .clz-contact-method-number {
+	position: absolute;
+	inset-inline-end: 18px;
+	top: 10px;
+	color: rgba(32, 37, 49, .045);
+	font-family: Arial, sans-serif;
+	font-size: 4.6rem;
+	font-weight: 900;
+	line-height: 1;
+	pointer-events: none;
+}
+
+.clz-contact-page .clz-contact-method-heading {
+	position: relative;
+	z-index: 1;
+	display: flex;
+	align-items: center;
+	gap: 14px;
+	margin-bottom: 24px;
+}
+
+.clz-contact-page .clz-contact-method-icon {
+	display: grid;
+	place-items: center;
+	width: 50px;
+	height: 50px;
+	flex: 0 0 50px;
+	border-radius: 16px;
+	background: color-mix(in srgb, var(--clz-contact-accent) 13%, #fff);
+	color: var(--clz-contact-accent-dark);
+}
+
+.clz-contact-page .clz-contact-method-icon-blue {
+	background: #e9f5ff;
+	color: #168bd2;
+}
+
+.clz-contact-page .clz-contact-method-icon-green {
+	background: #eaf9f0;
+	color: #11934b;
+}
+
+.clz-contact-page .clz-contact-method-icon svg,
+.clz-contact-page .clz-contact-order-tip-icon svg {
+	width: 25px;
+	height: 25px;
+	stroke: currentColor;
+	stroke-width: 1.8;
+	stroke-linecap: round;
+	stroke-linejoin: round;
+}
+
+.clz-contact-page .clz-contact-recommended,
+.clz-contact-page .clz-contact-method-label {
+	display: block;
+	margin-bottom: 2px;
+	color: var(--clz-contact-accent-dark);
+	font-size: .65rem;
+	font-weight: 750;
+}
+
+.clz-contact-page .clz-contact-method-label {
+	color: var(--clz-contact-muted);
+}
+
+.clz-contact-page .clz-contact-method h3 {
+	margin: 0;
+	color: var(--clz-contact-ink);
+	font-size: 1.15rem;
+	line-height: 1.5;
+}
+
+.clz-contact-page .clz-contact-method-kicker {
+	margin: 0 0 7px !important;
+	color: var(--clz-contact-ink) !important;
+	font-weight: 750;
+}
+
+.clz-contact-page .clz-contact-method > p {
+	margin: 0;
+	color: var(--clz-contact-muted);
+	font-size: .84rem;
+	line-height: 1.95;
+}
+
+.clz-contact-page .clz-contact-reminder {
+	display: grid;
+	grid-template-columns: 32px 1fr;
+	gap: 10px;
+	align-items: start;
+	margin: 25px 0;
+	padding: 14px;
+	border: 1px solid color-mix(in srgb, var(--clz-contact-accent) 20%, #fff);
+	border-radius: 15px;
+	background: color-mix(in srgb, var(--clz-contact-accent) 7%, #fff);
+}
+
+.clz-contact-page .clz-contact-reminder > span {
+	display: grid;
+	place-items: center;
+	width: 30px;
+	height: 30px;
+	border-radius: 10px;
+	background: var(--clz-contact-accent);
+	color: #fff;
+	font-family: Arial, sans-serif;
+	font-weight: 900;
+}
+
+.clz-contact-page .clz-contact-reminder p {
+	margin: 0;
+	color: #695638;
+	font-size: .75rem;
+	line-height: 1.9;
+}
+
+.clz-contact-page .clz-contact-method-online > .clz-contact-button {
+	align-self: flex-start;
+	margin-top: auto;
+}
+
+.clz-contact-page .clz-contact-username {
+	display: flex;
+	margin: 20px 0;
+	padding: 12px 15px;
+	border: 1px dashed #ccd2dc;
+	border-radius: 13px;
+	align-items: center;
+	justify-content: center;
+	background: var(--clz-contact-soft);
+	color: var(--clz-contact-ink);
+	font-family: Arial, sans-serif;
+	font-size: .9rem;
+	font-weight: 700;
+	letter-spacing: .025em;
+}
+
+.clz-contact-page .clz-contact-messenger-actions,
+.clz-contact-page .clz-contact-phone-actions {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 10px;
+	margin-top: auto;
+}
+
+.clz-contact-page .clz-contact-button-bale {
+	background: #f1eaff;
+	color: #6e39bf;
+}
+
+.clz-contact-page .clz-contact-button-telegram {
+	background: #e9f6ff;
+	color: #178acb;
+}
+
+.clz-contact-page .clz-contact-button-telegram svg {
+	width: 20px;
+	height: 20px;
+	fill: none;
+	stroke: currentColor;
+	stroke-width: 1.8;
+	stroke-linecap: round;
+	stroke-linejoin: round;
+}
+
+.clz-contact-page .clz-contact-app-mark {
+	display: grid;
+	place-items: center;
+	width: 22px;
+	height: 22px;
+	border-radius: 7px;
+	background: #6e39bf;
+	color: #fff;
+	font-size: .72rem;
+	font-weight: 900;
+}
+
+.clz-contact-page .clz-contact-phone {
+	display: block;
+	margin: 20px 0;
+	color: var(--clz-contact-ink);
+	font-family: var(--main-font), sans-serif;
+	font-size: clamp(1.45rem, 3.2vw, 2.25rem);
+	font-weight: 900;
+	line-height: 1.4;
+	text-align: center;
+	text-decoration: none;
+}
+
+.clz-contact-page .clz-contact-button-call {
+	background: #158f4b;
+	color: #fff;
+}
+
+.clz-contact-page .clz-contact-button-sms {
+	border: 1px solid #cfe9da;
+	background: #effaf4;
+	color: #117c41;
+}
+
+.clz-contact-page .clz-contact-order-tip {
+	display: grid;
+	grid-template-columns: auto minmax(220px, .8fr) minmax(0, 1.4fr);
+	gap: 22px;
+	align-items: center;
+	margin-top: 22px;
+	padding: clamp(22px, 3vw, 32px);
+	border: 1px solid var(--clz-contact-line);
+	border-radius: 25px;
+	background: var(--clz-contact-ink);
+	color: #fff;
+}
+
+.clz-contact-page .clz-contact-order-tip-icon {
+	display: grid;
+	place-items: center;
+	width: 54px;
+	height: 54px;
+	border-radius: 17px;
+	background: var(--clz-contact-accent);
+	color: #fff;
+}
+
+.clz-contact-page .clz-contact-order-tip > div:nth-child(2) > span {
+	color: var(--clz-contact-accent);
+	font-size: .68rem;
+	font-weight: 750;
+}
+
+.clz-contact-page .clz-contact-order-tip h2 {
+	margin: 3px 0 0;
+	color: #fff;
+	font-size: 1rem;
+	line-height: 1.7;
+}
+
+.clz-contact-page .clz-contact-order-tip ul {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 8px;
+	margin: 0;
+	padding: 0;
+}
+
+.clz-contact-page .clz-contact-order-tip li {
+	display: flex;
+	min-height: 78px;
+	padding: 11px;
+	box-sizing: border-box;
+	border: 1px solid rgba(255, 255, 255, .09);
+	border-radius: 13px;
+	flex-direction: column;
+	justify-content: center;
+	background: rgba(255, 255, 255, .055);
+}
+
+.clz-contact-page .clz-contact-order-tip li strong {
+	font-size: .73rem;
+}
+
+.clz-contact-page .clz-contact-order-tip li span {
+	color: rgba(255, 255, 255, .56);
+	font-size: .63rem;
+	line-height: 1.7;
+}
+
+@media screen and (max-width: 960px) {
+	.clz-contact-page .clz-contact-hero {
+		grid-template-columns: 1fr;
+	}
+
+	.clz-contact-page .clz-contact-hero-action {
+		min-height: 0;
+	}
+
+	.clz-contact-page .clz-contact-method-grid {
+		grid-template-columns: 1fr;
+	}
+
+	.clz-contact-page .clz-contact-method-online {
+		grid-row: auto;
+	}
+
+	.clz-contact-page .clz-contact-order-tip {
+		grid-template-columns: auto 1fr;
+	}
+
+	.clz-contact-page .clz-contact-order-tip ul {
+		grid-column: 1 / -1;
+	}
+}
+
+@media screen and (max-width: 640px) {
+	body.page .clz-contact-page#page-body {
+		padding-top: 14px;
+	}
+
+	.clz-contact-page #page-main {
+		padding-inline: 14px;
+	}
+
+	.clz-contact-page .clz-contact-hero {
+		padding: 22px;
+		border-radius: 24px;
+	}
+
+	.clz-contact-page h1 {
+		font-size: 1.7rem;
+		line-height: 1.55;
+	}
+
+	.clz-contact-page .clz-contact-lead {
+		margin-top: 16px;
+		font-size: .9rem;
+	}
+
+	.clz-contact-page .clz-contact-hero-action {
+		padding: 21px;
+		border-radius: 20px;
+	}
+
+	.clz-contact-page .clz-contact-section-head {
+		display: block;
+	}
+
+	.clz-contact-page .clz-contact-section-head > p {
+		margin-top: 9px;
+	}
+
+	.clz-contact-page .clz-contact-method {
+		padding: 20px;
+		border-radius: 21px;
+	}
+
+	.clz-contact-page .clz-contact-messenger-actions,
+	.clz-contact-page .clz-contact-phone-actions {
+		grid-template-columns: 1fr;
+	}
+
+	.clz-contact-page .clz-contact-button {
+		width: 100%;
+		min-height: 50px;
+	}
+
+	.clz-contact-page .clz-contact-order-tip {
+		grid-template-columns: 1fr;
+		border-radius: 21px;
+	}
+
+	.clz-contact-page .clz-contact-order-tip ul {
+		grid-column: auto;
+		grid-template-columns: 1fr;
+	}
+
+	.clz-contact-page .clz-contact-order-tip li {
+		min-height: 65px;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.clz-contact-page .clz-contact-button {
+		transition: none;
+	}
+}

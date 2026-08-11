@@ -246,7 +246,7 @@ if ( ! function_exists( 'clz_home_dataset' ) ) {
 	 * Build and briefly cache only IDs. Prices, stock and markup remain server-rendered.
 	 */
 	function clz_home_dataset() {
-		$key  = 'clz_home_ids_v5_' . wp_date( 'o-W' );
+		$key  = 'clz_home_ids_v6_' . wp_date( 'o-W' );
 		$data = get_transient( $key );
 
 		if ( is_array( $data ) ) {
@@ -258,18 +258,14 @@ if ( ! function_exists( 'clz_home_dataset' ) ) {
 			'latest'             => array(),
 			'sale'               => array(),
 			'popular'            => array(),
-			'weekly'             => array(),
-			'daily'              => array(),
 			'categories'         => array(),
 			'popular_categories' => array(),
 			'popular_posts'      => array(),
-			'latest_posts'       => array(),
 		);
 
 		$data['categories']         = clz_home_term_ids( 18 );
 		$data['popular_categories'] = array_slice( $data['categories'], 0, 4 );
 		$data['popular_posts']      = clz_home_post_ids( 5, 'comment_count' );
-		$data['latest_posts']       = clz_home_post_ids( 8, 'date', $data['popular_posts'] );
 
 		if ( ! function_exists( 'wc_get_products' ) ) {
 			set_transient( $key, $data, 5 * MINUTE_IN_SECONDS );
@@ -278,7 +274,6 @@ if ( ! function_exists( 'clz_home_dataset' ) ) {
 
 		$latest_pool  = clz_home_query_product_ids( array( 'limit' => 70, 'orderby' => 'date' ) );
 		$catalog_pool = clz_home_query_product_ids( array( 'limit' => 120, 'orderby' => 'modified' ) );
-		$featured     = clz_home_query_product_ids( array( 'limit' => 50, 'featured' => true ) );
 		$sale_ids     = function_exists( 'wc_get_product_ids_on_sale' ) ? wc_get_product_ids_on_sale() : array();
 		$sale_pool    = $sale_ids
 			? clz_home_query_product_ids(
@@ -318,8 +313,6 @@ if ( ! function_exists( 'clz_home_dataset' ) ) {
 		$data['latest']  = clz_home_pick_ids( array_merge( $latest_pool, $catalog_pool ), 10, $used, 'latest', 4 );
 		$data['sale']    = clz_home_pick_ids( $sale_pool, 10, $used, 'sale', 3 );
 		$data['popular'] = clz_home_pick_ids( array_merge( $popular_pool, $catalog_pool ), 7, $used, 'popular', 4 );
-		$data['daily']   = clz_home_pick_ids( array_merge( $featured, $popular_pool, $latest_pool ), 8, $used, 'daily', 3 );
-		$data['weekly']  = array_slice( array_values( array_unique( $popular_pool ) ), 0, 10 );
 		$data['hero']    = array_slice(
 			array_values( array_unique( array_merge( $data['latest'], $data['popular'], $data['sale'] ) ) ),
 			0,
@@ -443,7 +436,6 @@ if ( ! function_exists( 'clz_home_product_card' ) ) {
 				<?php if ( $badge ) : ?>
 					<span class="clz-badge<?php echo $discount ? ' clz-badge-sale' : ''; ?>"><?php echo esc_html( $badge ); ?></span>
 				<?php endif; ?>
-				<button class="clz-wish js-clz-wish" type="button" data-id="<?php echo esc_attr( $product->get_id() ); ?>" aria-label="افزودن به علاقه‌مندی‌ها">♡</button>
 			</div>
 			<div class="clz-product-body">
 				<h3 class="clz-product-title"><a href="<?php echo esc_url( $url ); ?>"><?php echo esc_html( $product->get_name() ); ?></a></h3>
@@ -893,6 +885,14 @@ wp_register_style( 'clz-home-inline', false, array(), null );
 wp_enqueue_style( 'clz-home-inline' );
 wp_add_inline_style( 'clz-home-inline', $clz_home_css );
 
+$clz_home_v3_file = trailingslashit( get_stylesheet_directory() ) . 'assets/homepage-v3.css';
+wp_enqueue_style(
+	'clz-home-v3',
+	trailingslashit( get_stylesheet_directory_uri() ) . 'assets/homepage-v3.css',
+	array( 'clz-home-inline' ),
+	file_exists( $clz_home_v3_file ) ? (string) filemtime( $clz_home_v3_file ) : BIJAN_CHILD_VERSION
+);
+
 get_header();
 
 $data               = function_exists( 'clz_home_dataset' ) ? clz_home_dataset() : array();
@@ -903,8 +903,6 @@ $hero_products      = function_exists( 'clz_home_products' ) ? clz_home_products
 $latest_products    = function_exists( 'clz_home_products' ) ? clz_home_products( $data['latest'] ?? array() ) : array();
 $sale_products      = function_exists( 'clz_home_products' ) ? clz_home_products( $data['sale'] ?? array() ) : array();
 $popular_products   = function_exists( 'clz_home_products' ) ? clz_home_products( $data['popular'] ?? array() ) : array();
-$weekly_products    = function_exists( 'clz_home_products' ) ? clz_home_products( $data['weekly'] ?? array() ) : array();
-$daily_products     = function_exists( 'clz_home_products' ) ? clz_home_products( $data['daily'] ?? array() ) : array();
 $categories = array_values(
 	array_filter(
 		array_map( 'get_term', $data['categories'] ?? array() ),
@@ -929,14 +927,6 @@ $popular_posts = array_values(
 		}
 	)
 );
-$latest_posts = array_values(
-	array_filter(
-		array_map( 'get_post', $data['latest_posts'] ?? array() ),
-		static function ( $post ) {
-			return $post instanceof WP_Post;
-		}
-	)
-);
 $hero_main          = $hero_products[0] ?? null;
 $hero_mini_one      = $hero_products[1] ?? $hero_main;
 $hero_mini_two      = $hero_products[2] ?? $hero_mini_one;
@@ -948,19 +938,19 @@ $hero_mini_two      = $hero_products[2] ?? $hero_mini_one;
 		<section class="clz-hero" aria-labelledby="clzHeroTitle">
 			<div class="clz-container clz-hero-grid">
 				<div class="clz-hero-copy">
-					<span class="clz-eyebrow">فروشگاه تخصصی پیرسینگ و اکسسوری</span>
-					<h1 id="clzHeroTitle">جزئیاتی که <span>استایل تو را امضا می‌کنند.</span></h1>
-					<p>از مدل‌های مینیمال روزمره تا انتخاب‌های خاص؛ با مشخصات دقیق، تصاویر واضح و تجربه‌ای سریع برای پیدا کردن اکسسوری مناسب خودت.</p>
+					<span class="clz-eyebrow">CLOZE / پیرسینگ و اکسسوری، بدون انتخاب کورکورانه</span>
+					<h1 id="clzHeroTitle"><span>کلوز؛</span> قشنگ بودن شروع ماجراست، نه تمامش.</h1>
+					<p>پیرسینگ خوب فقط قرار نیست توی عکس جذاب باشد. باید جنس، اندازه و کاربردش را بدانی و مطمئن شوی برای چیزی که می‌خواهی انتخاب درستی است. کلوز دقیقاً برای همین ساخته شده.</p>
 
 					<div class="clz-hero-actions">
-						<a class="clz-btn clz-btn-primary" href="#clz-new-products">شروع خرید <span>←</span></a>
-						<a class="clz-btn clz-btn-light" href="#clz-categories">مشاهده دسته‌بندی‌ها</a>
+						<a class="clz-btn clz-btn-primary" href="#clz-new-products">ببین چی بهت میاد <span>←</span></a>
+						<a class="clz-btn clz-btn-light" href="#clz-categories">از روی دسته انتخاب کن</a>
 					</div>
 
 					<div class="clz-hero-assurances" aria-label="مزیت‌های خرید از کلوز">
-						<span><i>✓</i> مشخصات و سایزبندی دقیق</span>
-						<span><i>✓</i> انتخاب مناسب پوست حساس</span>
-						<span><i>✓</i> بسته‌بندی امن و پشتیبانی</span>
+						<span><i>✓</i> جنس و اندازه قبل از خرید</span>
+						<span><i>✓</i> فقط محصول موجود</span>
+						<span><i>✓</i> اگر شک داشتی، آدم واقعی جواب می‌دهد</span>
 					</div>
 				</div>
 
@@ -970,12 +960,12 @@ $hero_mini_two      = $hero_products[2] ?? $hero_mini_one;
 
 					<?php if ( $hero_main ) : ?>
 						<a class="clz-hero-main-product" href="<?php echo esc_url( $hero_main->get_permalink() ); ?>">
-							<span class="clz-hero-product-label">انتخاب ویژه</span>
+							<span class="clz-hero-product-label">از انتخاب‌های کلوز</span>
 							<div class="clz-hero-main-media">
 								<?php echo clz_home_product_image( $hero_main, 'woocommerce_single', true ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 							</div>
 							<div class="clz-hero-product-meta">
-								<small>پیشنهاد امروز</small>
+								<small>CLOZE PICK</small>
 								<strong><?php echo esc_html( $hero_main->get_name() ); ?></strong>
 								<span>مشاهده محصول ←</span>
 							</div>
@@ -1001,16 +991,24 @@ $hero_mini_two      = $hero_products[2] ?? $hero_mini_one;
 						</a>
 					<?php endif; ?>
 
-					<div class="clz-hero-note"><b>✦</b><span>هر جزئیات کوچک، یک تفاوت بزرگ</span></div>
+					<div class="clz-hero-note"><b>✦</b><span>مدل درست؛ با دلیل، نه با حدس</span></div>
 				</div>
+			</div>
+		</section>
+
+		<section class="clz-brand-statement" aria-label="قول کلوز به مشتری">
+			<div class="clz-container clz-brand-statement-inner">
+				<span class="clz-brand-code" aria-hidden="true">CLOZE / 01</span>
+				<p><strong>کلوز قرار نیست بهت بگه هر چیزی «خاص و بی‌نظیره».</strong> اطلاعاتی که برای انتخاب لازم داری جلوی چشمته؛ اگر کافی نبود، قبل از خرید از ما بپرس.</p>
+				<div class="clz-brand-points"><span>شفاف ببین</span><span>درست انتخاب کن</span><span>راحت بپرس</span></div>
 			</div>
 		</section>
 
 		<section class="clz-section" id="clz-categories">
 			<div class="clz-container">
 				<header class="clz-heading">
-					<div><h2>دسته‌بندی‌ها</h2><p>مدل موردنظرت را سریع‌تر از مسیر دسته‌بندی مناسب پیدا کن.</p></div>
-					<a class="clz-link" href="<?php echo esc_url( $shop_url ); ?>">همه دسته‌ها ←</a>
+					<div><span class="clz-section-index">۰۱ / مسیر انتخاب</span><h2>از کجا می‌خوای شروع کنی؟</h2><p>اگر اسم دقیق مدل رو نمی‌دونی، از محل استفاده یا نوع اکسسوری شروع کن؛ این سریع‌ترین راه رسیدن به گزینه‌های مرتبطه.</p></div>
+					<a class="clz-link" href="<?php echo esc_url( $shop_url ); ?>">رفتن به همه محصولات ←</a>
 				</header>
 
 				<div class="clz-hscroll">
@@ -1028,8 +1026,8 @@ $hero_mini_two      = $hero_products[2] ?? $hero_mini_one;
 		<section class="clz-section clz-products-latest" id="clz-new-products">
 			<div class="clz-container">
 				<header class="clz-heading">
-					<div><h2>جدیدترین محصولات</h2><p>منتخبی از تازه‌رسیده‌های موجود فروشگاه.</p></div>
-					<a class="clz-link" href="<?php echo esc_url( $shop_url ); ?>">مشاهده همه ←</a>
+					<div><span class="clz-section-index">۰۲ / تازه در کلوز</span><h2>این‌ها تازه به کلوز رسیده‌اند</h2><p>محصولاتی که به‌تازگی موجود شده‌اند؛ بدون قاطی‌شدن با مدل‌های ناموجود یا آیتم‌هایی که فقط برای پرکردن ویترین‌اند.</p></div>
+					<a class="clz-link" href="<?php echo esc_url( $shop_url ); ?>">همه تازه‌رسیده‌ها ←</a>
 				</header>
 
 				<div class="clz-product-shelf">
@@ -1050,15 +1048,11 @@ $hero_mini_two      = $hero_products[2] ?? $hero_mini_one;
 					<div class="clz-sale-wrap">
 						<header class="clz-sale-top">
 							<div class="clz-sale-copy">
-								<span class="clz-eyebrow">قیمت‌های بهتر</span>
-								<h2>محصولات تخفیف‌دار</h2>
-								<p>فقط کالاهای موجود و دارای تخفیف واقعی.</p>
+								<span class="clz-eyebrow">CLOZE / قیمت کمتر</span>
+								<h2>قیمت پایین‌تر؛ انتخاب همان‌قدر دقیق</h2>
+								<p>مدل‌های موجودی که الان واقعاً با قیمت کمتری قابل خریدند.</p>
 							</div>
-							<div class="clz-countdown" aria-label="زمان باقی‌مانده تا پایان امروز">
-								<div class="clz-time"><strong data-clz-hours>۰۰</strong><span>ساعت</span></div>
-								<div class="clz-time"><strong data-clz-minutes>۰۰</strong><span>دقیقه</span></div>
-								<div class="clz-time"><strong data-clz-seconds>۰۰</strong><span>ثانیه</span></div>
-							</div>
+							<span class="clz-sale-status"><i></i> همین حالا موجود و تخفیف‌دار</span>
 						</header>
 
 						<div class="clz-product-shelf">
@@ -1074,14 +1068,14 @@ $hero_mini_two      = $hero_products[2] ?? $hero_mini_one;
 		<section class="clz-section" id="clz-popular-products">
 			<div class="clz-container">
 				<header class="clz-heading">
-					<div><h2>محبوب‌ترین محصولات</h2><p>بر اساس فروش، امتیاز و بازخورد مشتری‌ها.</p></div>
-					<a class="clz-link" href="<?php echo esc_url( $shop_url ); ?>">دیدن فروشگاه ←</a>
+					<div><span class="clz-section-index">۰۳ / انتخاب بقیه</span><h2>این‌ها بیشتر از بقیه انتخاب شده‌اند</h2><p>رتبه‌بندی بر اساس فروش، امتیاز و بازخورد واقعی محصولات؛ نه ترتیب دستی ویترین.</p></div>
+					<a class="clz-link" href="<?php echo esc_url( $shop_url ); ?>">خودت مقایسه کن ←</a>
 				</header>
 
 				<div class="clz-product-grid clz-popular-grid">
 					<?php if ( $popular_products ) : ?>
 						<?php foreach ( $popular_products as $index => $product ) : ?>
-							<?php clz_home_product_card( $product, 'انتخاب ' . number_format_i18n( $index + 1 ) ); ?>
+							<?php clz_home_product_card( $product, $index < 3 ? 'پرطرفدار' : '' ); ?>
 						<?php endforeach; ?>
 					<?php else : ?>
 						<div class="clz-message">برای نمایش محصولات محبوب داده کافی وجود ندارد.</div>
@@ -1092,12 +1086,12 @@ $hero_mini_two      = $hero_products[2] ?? $hero_mini_one;
 
 		<section class="clz-section clz-soft-band" id="clz-why">
 			<div class="clz-container">
-				<header class="clz-heading"><div><h2>چرا کلوز؟</h2><p>چون در خرید اکسسوری، جزئیات کوچک تعیین‌کننده‌اند.</p></div></header>
+				<header class="clz-heading"><div><span class="clz-section-index">CLOZE / چرا اینجاییم</span><h2>کلوز دقیقاً کجای خرید به کارت می‌آد؟</h2><p>نه با شعار؛ با کم‌کردن ابهام‌هایی که معمولاً موقع خرید پیرسینگ و اکسسوری داری.</p></div></header>
 				<div class="clz-why-grid">
-					<article class="clz-why"><div class="clz-why-icon">✦</div><h3>اطلاعات دقیق محصول</h3><p>جنس، ابعاد، طول میله و ویژگی‌های اصلی را پیش از خرید واضح می‌بینی.</p></article>
-					<article class="clz-why"><div class="clz-why-icon">♢</div><h3>انتخاب ساده‌تر</h3><p>دسته‌بندی و توضیحات روشن کمک می‌کنند سریع‌تر به مدل مناسب برسی.</p></article>
-					<article class="clz-why"><div class="clz-why-icon">↺</div><h3>خرید بدون سردرگمی</h3><p>در مسیر انتخاب، پشتیبانی واقعی کنار توست تا پاسخ مشخص بگیری.</p></article>
-					<article class="clz-why"><div class="clz-why-icon">⌁</div><h3>بسته‌بندی امن</h3><p>سفارش با بسته‌بندی مناسب و محافظت‌شده برایت آماده می‌شود.</p></article>
+					<article class="clz-why"><div class="clz-why-icon">01</div><h3>قبل از خرید، ابهام کمتر</h3><p>جنس، ابعاد و ویژگی اصلی محصول را می‌بینی؛ همان چیزهایی که روی انتخاب اثر دارند.</p></article>
+					<article class="clz-why"><div class="clz-why-icon">02</div><h3>انتخاب از روی نیاز، نه حدس</h3><p>دسته‌بندی روشن کمک می‌کند به‌جای چرخیدن بی‌هدف، بین گزینه‌های مرتبط بگردی.</p></article>
+					<article class="clz-why"><div class="clz-why-icon">03</div><h3>وقتی گیر کردی، بپرس</h3><p>لینک دو مدل را بفرست و بگو چه می‌خواهی؛ یک آدم واقعی راهنمایی‌ات می‌کند.</p></article>
+					<article class="clz-why"><div class="clz-why-icon">04</div><h3>سفارش کوچک هم مهمه</h3><p>فرقی نمی‌کند یک آیتم برداری یا چندتا؛ مسیر انتخاب و پیگیری برای همه یکی است.</p></article>
 				</div>
 			</div>
 		</section>
@@ -1106,8 +1100,8 @@ $hero_mini_two      = $hero_products[2] ?? $hero_mini_one;
 			<section class="clz-section" id="clz-popular-categories">
 				<div class="clz-container">
 					<header class="clz-heading">
-						<div><h2>دسته‌های پرطرفدار</h2><p>چند مسیر سریع برای کشف مدل‌های محبوب.</p></div>
-						<a class="clz-link" href="<?php echo esc_url( $shop_url ); ?>">همه محصولات ←</a>
+						<div><span class="clz-section-index">۰۴ / هنوز مطمئن نیستی؟</span><h2>بذار انتخاب‌ها رو محدودتر کنیم</h2><p>این دسته‌ها بیشتر دیده شده‌اند و برای شروع مقایسه، نقطه‌های خوبی هستند.</p></div>
+						<a class="clz-link" href="<?php echo esc_url( $shop_url ); ?>">نمای کامل فروشگاه ←</a>
 					</header>
 
 					<div class="clz-bento">
@@ -1129,50 +1123,17 @@ $hero_mini_two      = $hero_products[2] ?? $hero_mini_one;
 			</section>
 		<?php endif; ?>
 
-		<?php if ( $weekly_products ) : ?>
-			<section class="clz-section" id="clz-weekly-ranking">
-				<div class="clz-container clz-ranking-shell">
-					<aside class="clz-ranking-intro">
-						<span class="clz-eyebrow">رتبه‌بندی هفتگی</span>
-						<h2>۱۰ محبوب این هفته</h2>
-						<p>چیدمان بر اساس فروش و بازخورد محصولات موجود فروشگاه.</p>
-					</aside>
-					<div class="clz-ranking-list">
-						<?php foreach ( $weekly_products as $index => $product ) : ?>
-							<?php clz_home_rank_item( $product, $index ); ?>
-						<?php endforeach; ?>
-					</div>
-				</div>
-			</section>
-		<?php endif; ?>
-
-		<?php if ( $daily_products ) : ?>
-			<section class="clz-section clz-soft-band" id="clz-daily">
-				<div class="clz-container clz-daily-grid">
-					<aside class="clz-daily-note">
-						<div><span class="clz-eyebrow">پیشنهادهای روز</span><h2>برای امروز چه انتخابی داریم؟</h2><p>ترکیبی از محصولات ویژه، محبوب و تازه‌رسیده؛ بدون کالای ناموجود.</p></div>
-						<div class="clz-tip"><strong>نکته انتخاب:</strong><br>برای استفاده روزمره، مدل‌های سبک و ساده معمولاً راحت‌ترند.</div>
-					</aside>
-					<div class="clz-product-shelf">
-						<?php foreach ( $daily_products as $index => $product ) : ?>
-							<?php clz_home_product_card( $product, array( 'پیشنهاد امروز', 'منتخب کلوز', 'خاص', 'پیشنهاد' )[ $index % 4 ] ); ?>
-						<?php endforeach; ?>
-					</div>
-				</div>
-			</section>
-		<?php endif; ?>
-
 		<section class="clz-section" id="clz-support">
 			<div class="clz-container">
 				<div class="clz-support">
 					<div>
-						<span class="clz-eyebrow">پشتیبانی آنلاین</span>
-						<h2>برای انتخاب سایز یا مدل شک داری؟</h2>
-						<p>سؤال، عکس یا مشخصات مدل موردنظرت را برای پشتیبانی بفرست تا انتخاب دقیق‌تری داشته باشی.</p>
+						<span class="clz-eyebrow">CLOZE / قبل از اینکه اشتباه انتخاب کنی</span>
+						<h2>بین دو سایز یا دو مدل موندی؟ حدس نزن.</h2>
+						<p>لینک محصول‌ها، عکس مدل فعلی یا توضیح چیزی که می‌خوای رو بفرست. لازم نیست سؤال تخصصی بپرسی؛ ما کمک می‌کنیم مسئله‌ات روشن‌تر بشه.</p>
 					</div>
 					<div class="clz-support-action">
-						<a class="clz-btn clz-btn-primary" href="<?php echo esc_url( $support_url ); ?>" target="_blank" rel="noopener noreferrer">شروع گفت‌وگو ←</a>
-						<small>باز شدن در پنجره جدید</small>
+						<a class="clz-btn clz-btn-primary" href="<?php echo esc_url( $support_url ); ?>" target="_blank" rel="noopener noreferrer">از کلوز بپرس ←</a>
+						<small>پیامت رو می‌فرستی؛ پاسخ رو در همون صفحه می‌بینی</small>
 					</div>
 				</div>
 			</div>
@@ -1182,8 +1143,8 @@ $hero_mini_two      = $hero_products[2] ?? $hero_mini_one;
 			<section class="clz-section" id="clz-popular-articles">
 				<div class="clz-container">
 					<header class="clz-heading">
-						<div><h2>محبوب‌ترین مقالات</h2><p>مطالبی که گفت‌وگو و تعامل بیشتری داشته‌اند.</p></div>
-						<a class="clz-link" href="<?php echo esc_url( $blog_url ); ?>">ورود به مجله ←</a>
+						<div><span class="clz-section-index">CLOZE / قبل از انتخاب بخون</span><h2>مجله کلوز؛ جواب سؤال‌هایی که موقع خرید پیش می‌آد</h2><p>راهنماهایی برای مقایسه، انتخاب و نگهداری؛ نوشته‌هایی که قرار است به تصمیم کمک کنند، نه فقط صفحه را پر کنند.</p></div>
+						<a class="clz-link" href="<?php echo esc_url( $blog_url ); ?>">همه نوشته‌های کلوز ←</a>
 					</header>
 
 					<div class="clz-popular-articles">
@@ -1214,62 +1175,35 @@ $hero_mini_two      = $hero_products[2] ?? $hero_mini_one;
 			</section>
 		<?php endif; ?>
 
-		<?php if ( $latest_posts ) : ?>
-			<section class="clz-section" id="clz-latest-articles">
-				<div class="clz-container">
-					<header class="clz-heading">
-						<div><h2>تازه‌ترین مقالات</h2><p>راهنماهای جدید برای انتخاب، استفاده و نگهداری بهتر.</p></div>
-						<a class="clz-link" href="<?php echo esc_url( $blog_url ); ?>">همه مطالب ←</a>
-					</header>
-
-					<div class="clz-latest-articles">
-						<?php foreach ( $latest_posts as $post_item ) : ?>
-							<article class="clz-article-card">
-								<a href="<?php echo esc_url( get_permalink( $post_item ) ); ?>">
-									<?php echo clz_home_post_image( $post_item->ID, 'medium_large' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
-								</a>
-								<div class="clz-article-card-body">
-									<small><?php echo esc_html( get_the_date( '', $post_item ) ); ?></small>
-									<h3><a href="<?php echo esc_url( get_permalink( $post_item ) ); ?>"><?php echo esc_html( get_the_title( $post_item ) ); ?></a></h3>
-									<p><?php echo esc_html( clz_home_excerpt( $post_item->ID, 17 ) ); ?></p>
-								</div>
-							</article>
-						<?php endforeach; ?>
-					</div>
-				</div>
-			</section>
-		<?php endif; ?>
-
 		<section class="clz-section" id="clz-faq">
 			<div class="clz-container clz-faq-grid">
 				<div class="clz-faq-intro">
-					<span class="clz-eyebrow">سؤال‌های پرتکرار</span>
-					<h2>قبل از خرید چه چیزهایی باید بدانم؟</h2>
-					<p>پاسخ کوتاه و روشن به سؤال‌هایی که بیشتر از همه از پشتیبانی پرسیده می‌شوند.</p>
+					<span class="clz-eyebrow">CLOZE / جواب کوتاه و روشن</span>
+					<h2>چیزهایی که بهتره قبل از پرداخت بدونی</h2>
+					<p>اگر جواب سؤال تو اینجا نیست، مجبور نیستی حدس بزنی؛ مستقیم از پشتیبانی کلوز بپرس.</p>
 				</div>
 
 				<div class="clz-faq-list">
 					<article class="clz-faq-item open">
-						<button class="clz-faq-q" type="button" aria-expanded="true"><span>از کجا بفهمم یک پیرسینگ برای پوست حساس مناسب است؟</span><span class="clz-faq-plus">＋</span></button>
-						<div class="clz-faq-a"><div><p>در صفحه محصول جنس بدنه و توضیحات مربوط به حساسیت را بررسی کن. برای انتخاب دقیق‌تر، پیش از خرید از پشتیبانی راهنمایی بگیر.</p></div></div>
+						<button class="clz-faq-q" type="button" aria-expanded="true"><span>جنس و اندازه هر محصول کجا نوشته شده؟</span><span class="clz-faq-plus">＋</span></button>
+						<div class="clz-faq-a"><div><p>داخل صفحه همان محصول، بخش مشخصات و توضیحات را ببین. اگر اطلاعاتی که برای انتخاب لازم داری پیدا نکردی، لینک محصول را برای پشتیبانی کلوز بفرست.</p></div></div>
 					</article>
 					<article class="clz-faq-item">
-						<button class="clz-faq-q" type="button" aria-expanded="false"><span>چطور طول میله مناسب را انتخاب کنم؟</span><span class="clz-faq-plus">＋</span></button>
-						<div class="clz-faq-a"><div><p>طول مناسب به محل استفاده و ضخامت بافت بستگی دارد. اندازه مدل فعلی یا عکس آن برای راهنمایی دقیق‌تر مفید است.</p></div></div>
+						<button class="clz-faq-q" type="button" aria-expanded="false"><span>بین دو سایز یا دو مدل مرددم؛ چه کار کنم؟</span><span class="clz-faq-plus">＋</span></button>
+						<div class="clz-faq-a"><div><p>لینک هر دو محصول و توضیح کوتاهی از محل و نوع استفاده را بفرست. اگر مدل فعلی داری، اندازه یا عکسش هم کمک می‌کند راهنمایی دقیق‌تری بگیری.</p></div></div>
 					</article>
 					<article class="clz-faq-item">
-						<button class="clz-faq-q" type="button" aria-expanded="false"><span>محصولات ناموجود در صفحه اصلی نمایش داده می‌شوند؟</span><span class="clz-faq-plus">＋</span></button>
-						<div class="clz-faq-a"><div><p>خیر. کوئری سمت سرور فقط محصولاتی را نمایش می‌دهد که در ووکامرس موجود و قابل مشاهده باشند.</p></div></div>
+						<button class="clz-faq-q" type="button" aria-expanded="false"><span>برای راهنمایی قبل از خرید باید تماس بگیرم؟</span><span class="clz-faq-plus">＋</span></button>
+						<div class="clz-faq-a"><div><p>نه. از پشتیبانی آنلاین یا پیام‌رسان‌ها استفاده کن و سؤالت را کامل بنویس. اگر لازم باشد خودمان مسیر مناسب‌تر را بهت می‌گوییم.</p></div></div>
 					</article>
 					<article class="clz-faq-item">
-						<button class="clz-faq-q" type="button" aria-expanded="false"><span>سفارش‌ها چه زمانی ارسال می‌شوند؟</span><span class="clz-faq-plus">＋</span></button>
-						<div class="clz-faq-a"><div><p>زمان پردازش و ارسال به تنظیمات فروشگاه و شهر مقصد بستگی دارد. جزئیات نهایی را در صفحه قوانین ارسال درج کن.</p></div></div>
+						<button class="clz-faq-q" type="button" aria-expanded="false"><span>برای پیگیری سفارش چه اطلاعاتی بفرستم؟</span><span class="clz-faq-plus">＋</span></button>
+						<div class="clz-faq-a"><div><p>شماره سفارش، شماره موبایلی که با آن خرید کردی و یک توضیح کوتاه از موضوع را همان اول بفرست تا پیگیری سریع‌تر شروع شود.</p></div></div>
 					</article>
 				</div>
 			</div>
 		</section>
 
-		<div class="clz-toast" role="status" aria-live="polite"></div>
 	</div>
 </main>
 
@@ -1279,48 +1213,7 @@ $hero_mini_two      = $hero_products[2] ?? $hero_mini_one;
 	const root = document.getElementById('cloze-home-v2');
 	if (!root) return;
 
-	const digits = '۰۱۲۳۴۵۶۷۸۹';
-	const fa = value => String(value).replace(/\d/g, d => digits[d]);
-	const toast = root.querySelector('.clz-toast');
-	let toastTimer;
-
-	const showToast = text => {
-		if (!toast) return;
-		toast.textContent = text;
-		toast.classList.add('show');
-		clearTimeout(toastTimer);
-		toastTimer = setTimeout(() => toast.classList.remove('show'), 1800);
-	};
-
-	const key = 'clz-home-wishlist';
-	const readWishlist = () => {
-		try { return JSON.parse(localStorage.getItem(key) || '[]').map(Number); }
-		catch (e) { return []; }
-	};
-	const paintWishlist = () => {
-		const saved = new Set(readWishlist());
-		root.querySelectorAll('.js-clz-wish').forEach(button => {
-			const active = saved.has(Number(button.dataset.id));
-			button.classList.toggle('active', active);
-			button.textContent = active ? '♥' : '♡';
-			button.setAttribute('aria-label', active ? 'حذف از علاقه‌مندی‌ها' : 'افزودن به علاقه‌مندی‌ها');
-		});
-	};
-
 	root.addEventListener('click', event => {
-		const wish = event.target.closest('.js-clz-wish');
-		if (wish) {
-			event.preventDefault();
-			const id = Number(wish.dataset.id);
-			const current = readWishlist();
-			const exists = current.includes(id);
-			const next = exists ? current.filter(item => item !== id) : [...current, id];
-			try { localStorage.setItem(key, JSON.stringify([...new Set(next)])); } catch (e) {}
-			paintWishlist();
-			showToast(exists ? 'از علاقه‌مندی‌ها حذف شد' : 'به علاقه‌مندی‌ها اضافه شد');
-			return;
-		}
-
 		const faq = event.target.closest('.clz-faq-q');
 		if (faq) {
 			const item = faq.closest('.clz-faq-item');
@@ -1335,25 +1228,6 @@ $hero_mini_two      = $hero_products[2] ?? $hero_mini_one;
 		}
 	});
 
-	const updateCountdown = () => {
-		const now = new Date();
-		const end = new Date(now);
-		end.setHours(24, 0, 0, 0);
-		const remaining = Math.max(0, Math.floor((end - now) / 1000));
-		const values = [
-			Math.floor(remaining / 3600),
-			Math.floor((remaining % 3600) / 60),
-			remaining % 60
-		];
-		['hours', 'minutes', 'seconds'].forEach((name, index) => {
-			const element = root.querySelector(`[data-clz-${name}]`);
-			if (element) element.textContent = fa(String(values[index]).padStart(2, '0'));
-		});
-	};
-
-	paintWishlist();
-	updateCountdown();
-	setInterval(updateCountdown, 1000);
 })();
 </script>
 
