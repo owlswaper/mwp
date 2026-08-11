@@ -1262,9 +1262,12 @@
 /* Categories and product cards */
 #cloze-home-v2 #clz-categories,#cloze-home-v2 #clz-popular-categories,#cloze-home-v2 #clz-popular-articles{background:rgba(255,255,255,.64)}
 #cloze-home-v2 .clz-products-latest,#cloze-home-v2 .clz-sale-section,#cloze-home-v2 #clz-support,#cloze-home-v2 #clz-faq{background:transparent}
-#cloze-home-v2 .clz-category{padding:10px 10px 16px;border:1px solid transparent;border-radius:25px;background:#f1f8fe;text-align:right}
+#cloze-home-v2 .clz-category{flex:0 0 174px;width:174px;height:220px;min-width:0;padding:10px 10px 14px;border:1px solid transparent;border-radius:25px;display:grid;grid-template-rows:142px 24px 16px;align-content:start;gap:4px;box-sizing:border-box;overflow:hidden;background:#f1f8fe;text-align:right}
 #cloze-home-v2 .clz-category:hover{border-color:#cfe4f3;box-shadow:var(--clz-shadow-soft)}
-#cloze-home-v2 .clz-category-media{border-radius:19px;background:var(--clz-ice)}
+#cloze-home-v2 .clz-category-media{width:100%;height:142px;padding:10px;border-radius:19px;box-sizing:border-box;overflow:hidden;background:var(--clz-ice);display:grid;place-items:center}
+#cloze-home-v2 .clz-category-media img{display:block;width:100%;height:100%;max-width:100%;max-height:100%;border-radius:13px;object-fit:contain!important;object-position:center}
+#cloze-home-v2 .clz-category strong{display:block;min-width:0;height:24px;margin:0;padding-inline:3px;overflow:hidden;color:var(--clz-ink);font-size:12px;line-height:24px;white-space:nowrap;text-overflow:ellipsis}
+#cloze-home-v2 .clz-category small{display:block;min-width:0;height:16px;margin:0;padding-inline:3px;overflow:hidden;color:var(--clz-muted);font-size:9px;line-height:16px;white-space:nowrap;text-overflow:ellipsis}
 #cloze-home-v2 .clz-product-card{border:1px solid #e0edf6;border-radius:27px;background:rgba(255,255,255,.94);box-shadow:0 7px 24px rgba(48,107,150,.045)}
 #cloze-home-v2 .clz-product-card:hover{border-color:#c7dfef;box-shadow:var(--clz-shadow)}
 #cloze-home-v2 .clz-product-media{background:linear-gradient(145deg,#f8fcff,#e8f5fd)}
@@ -1351,7 +1354,11 @@
 	#cloze-home-v2 .clz-brand-statement p{font-size:15px}
 	#cloze-home-v2 .clz-brand-points{display:grid;grid-template-columns:1fr}
 	#cloze-home-v2 .clz-brand-points span{white-space:normal}
-	#cloze-home-v2 .clz-category{border-radius:21px}
+	#cloze-home-v2 .clz-category{flex-basis:134px;width:134px;height:176px;padding:8px 8px 10px;border-radius:21px;grid-template-rows:106px 21px 14px;gap:3px}
+	#cloze-home-v2 .clz-category-media{height:106px;padding:7px;border-radius:16px}
+	#cloze-home-v2 .clz-category-media img{border-radius:11px}
+	#cloze-home-v2 .clz-category strong{height:21px;font-size:10.5px;line-height:21px}
+	#cloze-home-v2 .clz-category small{height:14px;font-size:8px;line-height:14px}
 	#cloze-home-v2 .clz-product-card{border-radius:22px}
 	#cloze-home-v2 .clz-sale-wrap{padding:22px 12px;border-radius:29px}
 	#cloze-home-v2 .clz-sale-wrap .clz-product-card{border-radius:20px}
