@@ -1206,3 +1206,159 @@
 		min-height: 190px;
 	}
 }
+
+/* v4 — soft ice-blue storefront. Kept last to override the previous warm skin. */
+#cloze-home-v2{
+	--clz-bg:#f3f9ff;--clz-paper:#fff;--clz-ink:#17324d;--clz-muted:#61798f;--clz-line:#d9e9f6;
+	--clz-blue:#318fdc;--clz-blue-dark:#1769ad;--clz-ice:#e8f5ff;--clz-lilac:#eef0ff;
+	--clz-mint:#e8f8f5;--clz-rose:#fff0f5;--clz-orange:#63b8ef;--clz-orange-deep:#237fc7;--clz-green:#278b79;
+	--clz-shadow:0 24px 64px rgba(46,111,160,.13);--clz-shadow-soft:0 13px 36px rgba(46,111,160,.09);
+	background:radial-gradient(circle at 92% 2%,rgba(164,220,255,.32),transparent 25rem),radial-gradient(circle at 7% 23%,rgba(213,231,255,.4),transparent 24rem),var(--clz-bg)
+}
+#cloze-home-v2 .clz-container{width:min(var(--clz-max),calc(100% - 56px))}
+#cloze-home-v2 .clz-section{padding:clamp(68px,7.5vw,106px) 0}
+#cloze-home-v2 .clz-heading h2{letter-spacing:-.035em}
+#cloze-home-v2 .clz-heading p{color:var(--clz-muted);font-size:13px}
+#cloze-home-v2 .clz-section-index{color:var(--clz-blue-dark)}
+#cloze-home-v2 .clz-eyebrow{border-color:rgba(49,143,220,.18);border-radius:999px;background:rgba(255,255,255,.72);color:var(--clz-blue-dark);box-shadow:0 6px 20px rgba(54,126,181,.06)}
+#cloze-home-v2 .clz-btn{border-radius:18px;box-shadow:none}
+#cloze-home-v2 .clz-btn-primary{background:linear-gradient(135deg,#227fc8,#56afe8);box-shadow:0 14px 30px rgba(35,127,200,.22)}
+#cloze-home-v2 .clz-btn-primary:hover{background:linear-gradient(135deg,#1769ad,#318fdc)}
+#cloze-home-v2 .clz-btn-light{border-color:#c9e0f1;background:rgba(255,255,255,.7);color:var(--clz-ink);box-shadow:0 9px 24px rgba(55,115,158,.06)}
+#cloze-home-v2 .clz-link{border:1px solid var(--clz-line);border-radius:14px;background:rgba(255,255,255,.68);color:var(--clz-blue-dark)}
+
+/* Hero */
+#cloze-home-v2 .clz-hero{min-height:min(810px,calc(100vh - 80px));padding:clamp(30px,4vw,58px) 0 clamp(62px,7vw,94px);background:radial-gradient(circle at 78% 30%,rgba(137,207,250,.22),transparent 28rem),linear-gradient(180deg,rgba(255,255,255,.42),transparent)}
+#cloze-home-v2 .clz-hero:before{width:600px;height:600px;right:-310px;top:-270px;background:#9edbff;opacity:.22;filter:blur(18px)}
+#cloze-home-v2 .clz-hero-grid{grid-template-columns:minmax(0,1fr) minmax(470px,1fr);gap:clamp(42px,6vw,90px)}
+#cloze-home-v2 .clz-hero h1{max-width:900px;font-size:clamp(51px,6vw,90px);line-height:1.08;letter-spacing:-.052em}
+#cloze-home-v2 .clz-hero h1 span{display:block;color:var(--clz-blue-dark)}
+#cloze-home-v2 .clz-hero-copy>p{color:#587187}
+#cloze-home-v2 .clz-hero-assurances{color:#526d83}
+#cloze-home-v2 .clz-hero-assurances i{background:#ddf5ef;color:#247b6c}
+#cloze-home-v2 .clz-hero-showcase:before{inset:30px 12px 26px 42px;border:1px solid rgba(255,255,255,.92);border-radius:48px;background:linear-gradient(145deg,rgba(255,255,255,.84),rgba(222,242,255,.82)),#e5f4ff;box-shadow:inset 0 0 0 1px rgba(96,173,225,.12),0 34px 80px rgba(44,112,162,.14)}
+#cloze-home-v2 .clz-hero-glow{background:#8fd3ff;opacity:.3;filter:blur(48px)}
+#cloze-home-v2 .clz-hero-word{color:rgba(35,104,157,.07)}
+#cloze-home-v2 .clz-hero-main-product{border:1px solid rgba(202,226,243,.86);border-radius:34px;background:rgba(255,255,255,.96);box-shadow:0 28px 64px rgba(46,107,151,.18);transform:none}
+#cloze-home-v2 a.clz-hero-main-product:hover{transform:translateY(-7px)}
+#cloze-home-v2 .clz-hero-main-media,#cloze-home-v2 .clz-hero-mini-product img{background:linear-gradient(145deg,#f7fbff,#e4f3fd)}
+#cloze-home-v2 .clz-hero-product-label{border-radius:999px;background:rgba(23,105,173,.9)}
+#cloze-home-v2 .clz-hero-product-meta small{color:var(--clz-blue-dark)}
+#cloze-home-v2 .clz-hero-mini-product{border-color:rgba(195,222,241,.9);border-radius:24px;background:rgba(255,255,255,.9);box-shadow:0 17px 42px rgba(45,104,147,.15);backdrop-filter:blur(14px)}
+#cloze-home-v2 .clz-hero-mini-product img{border-radius:18px}
+#cloze-home-v2 .clz-hero-mini-one,#cloze-home-v2 .clz-hero-mini-two{transform:none}
+#cloze-home-v2 .clz-hero-mini-one:hover,#cloze-home-v2 .clz-hero-mini-two:hover{transform:translateY(-5px)}
+#cloze-home-v2 .clz-hero-note{right:32px;bottom:-2px;border:1px solid rgba(255,255,255,.55);border-radius:16px;background:linear-gradient(135deg,#237fc7,#63b8ef);box-shadow:0 14px 32px rgba(35,127,199,.2)}
+
+/* The former black strip is now a calm, useful promise card. */
+#cloze-home-v2 .clz-brand-statement{padding:0 0 22px;background:transparent;color:var(--clz-ink)}
+#cloze-home-v2 .clz-brand-statement-inner{grid-template-columns:140px minmax(0,1fr) auto;min-height:190px;padding:34px clamp(24px,4vw,52px);border:1px solid #d2e7f5;border-radius:34px;box-sizing:border-box;background:radial-gradient(circle at 8% 0,rgba(121,198,245,.22),transparent 15rem),linear-gradient(135deg,rgba(255,255,255,.96),rgba(229,245,255,.92));box-shadow:var(--clz-shadow-soft)}
+#cloze-home-v2 .clz-brand-code{color:var(--clz-blue-dark)}
+#cloze-home-v2 .clz-brand-statement p{color:var(--clz-muted)}
+#cloze-home-v2 .clz-brand-statement p strong{color:var(--clz-ink)}
+#cloze-home-v2 .clz-brand-points{display:flex;flex-wrap:wrap;justify-content:flex-end}
+#cloze-home-v2 .clz-brand-points span{border-color:#cfe3f2;background:rgba(255,255,255,.74);color:#46667e}
+
+/* Categories and product cards */
+#cloze-home-v2 #clz-categories,#cloze-home-v2 #clz-popular-categories,#cloze-home-v2 #clz-popular-articles{background:rgba(255,255,255,.64)}
+#cloze-home-v2 .clz-products-latest,#cloze-home-v2 .clz-sale-section,#cloze-home-v2 #clz-support,#cloze-home-v2 #clz-faq{background:transparent}
+#cloze-home-v2 .clz-category{padding:10px 10px 16px;border:1px solid transparent;border-radius:25px;background:#f1f8fe;text-align:right}
+#cloze-home-v2 .clz-category:hover{border-color:#cfe4f3;box-shadow:var(--clz-shadow-soft)}
+#cloze-home-v2 .clz-category-media{border-radius:19px;background:var(--clz-ice)}
+#cloze-home-v2 .clz-product-card{border:1px solid #e0edf6;border-radius:27px;background:rgba(255,255,255,.94);box-shadow:0 7px 24px rgba(48,107,150,.045)}
+#cloze-home-v2 .clz-product-card:hover{border-color:#c7dfef;box-shadow:var(--clz-shadow)}
+#cloze-home-v2 .clz-product-media{background:linear-gradient(145deg,#f8fcff,#e8f5fd)}
+#cloze-home-v2 .clz-badge{border-radius:999px;background:rgba(255,255,255,.9);color:var(--clz-blue-dark);box-shadow:0 5px 16px rgba(43,108,155,.08)}
+#cloze-home-v2 .clz-badge-sale{background:#eaf5ff;color:#1769ad}
+#cloze-home-v2 .clz-view-dot{border-radius:11px;background:var(--clz-ice);color:var(--clz-blue-dark)}
+#cloze-home-v2 .clz-product-card:hover .clz-view-dot{background:var(--clz-blue-dark)}
+#cloze-home-v2 .clz-popular-grid .clz-product-card:first-child{border-color:#cfe4f3;background:linear-gradient(145deg,#fff,#edf8ff);color:var(--clz-ink)}
+#cloze-home-v2 .clz-popular-grid .clz-product-card:first-child .clz-product-title a,#cloze-home-v2 .clz-popular-grid .clz-product-card:first-child .clz-price{color:var(--clz-ink)}
+
+/* Discount section — blue and airy, never a hard black block. */
+#cloze-home-v2 .clz-sale-wrap{border:1px solid rgba(183,220,244,.9);border-radius:38px;background:radial-gradient(circle at 8% 0,rgba(112,195,246,.3),transparent 25rem),linear-gradient(145deg,#e9f7ff,#dff1fc);box-shadow:0 28px 72px rgba(43,112,163,.14)}
+#cloze-home-v2 .clz-sale-wrap:after{border-color:rgba(61,145,204,.1)}
+#cloze-home-v2 .clz-sale-copy h2{color:var(--clz-ink)}
+#cloze-home-v2 .clz-sale-copy p{color:var(--clz-muted)}
+#cloze-home-v2 .clz-sale-wrap .clz-eyebrow{border-color:rgba(35,127,199,.15);background:rgba(255,255,255,.62);color:var(--clz-blue-dark)}
+#cloze-home-v2 .clz-sale-status{border-color:rgba(35,127,199,.16);background:rgba(255,255,255,.56);color:#42647d}
+#cloze-home-v2 .clz-sale-wrap .clz-product-card{border:1px solid rgba(196,222,239,.85);border-radius:24px;box-shadow:0 13px 36px rgba(41,105,151,.09)}
+
+/* Trust, category focus and support */
+#cloze-home-v2 #clz-why{background:linear-gradient(180deg,rgba(229,244,254,.68),rgba(242,249,255,.2))}
+#cloze-home-v2 .clz-why{min-height:250px;border:1px solid #dbeaf5;border-radius:27px;background:rgba(255,255,255,.86);color:var(--clz-ink)}
+#cloze-home-v2 .clz-why:nth-child(1),#cloze-home-v2 .clz-why:nth-child(4){background:linear-gradient(145deg,#e6f5ff,#f7fbff);color:var(--clz-ink)}
+#cloze-home-v2 .clz-why-icon,#cloze-home-v2 .clz-why:nth-child(n) .clz-why-icon{color:var(--clz-blue)}
+#cloze-home-v2 .clz-why h3{margin:38px 0 10px}
+#cloze-home-v2 .clz-why p,#cloze-home-v2 .clz-why:nth-child(1) p,#cloze-home-v2 .clz-why:nth-child(4) p{color:var(--clz-muted)}
+#cloze-home-v2 .clz-bento{gap:15px}
+#cloze-home-v2 .clz-bento-card{border:1px solid rgba(205,228,243,.82);border-radius:30px;background:#e7f5ff!important;box-shadow:0 12px 32px rgba(45,108,153,.06)}
+#cloze-home-v2 .clz-bento-card:nth-child(2){background:#edf1ff!important}
+#cloze-home-v2 .clz-bento-card:nth-child(3){background:#e6f8f5!important}
+#cloze-home-v2 .clz-bento-card:nth-child(4){background:#f2efff!important}
+#cloze-home-v2 .clz-support{border:1px solid rgba(185,220,244,.7);border-radius:36px;background:radial-gradient(circle at 90% 0,rgba(255,255,255,.34),transparent 23rem),linear-gradient(135deg,#bfe6ff,#81c9f4);box-shadow:0 28px 70px rgba(40,117,172,.16)}
+#cloze-home-v2 .clz-support:before{color:rgba(20,91,143,.07)}
+#cloze-home-v2 .clz-support h2{color:var(--clz-ink)}
+#cloze-home-v2 .clz-support p,#cloze-home-v2 .clz-support-action small{color:#345b77}
+#cloze-home-v2 .clz-support .clz-eyebrow{border-color:rgba(255,255,255,.5);background:rgba(255,255,255,.38);color:#145e98}
+
+/* Magazine and FAQ */
+#cloze-home-v2 .clz-article-feature{border-radius:30px;box-shadow:0 20px 50px rgba(38,91,130,.13)}
+#cloze-home-v2 .clz-article-feature:after{background:linear-gradient(180deg,transparent 18%,rgba(18,52,78,.92))}
+#cloze-home-v2 .clz-article-row{border:1px solid #e0edf6;border-radius:22px;background:#f6fbff}
+#cloze-home-v2 .clz-article-row>img{border-radius:16px}
+#cloze-home-v2 .clz-faq-item{border-color:#d8e8f4;border-radius:18px;background:rgba(255,255,255,.62)}
+#cloze-home-v2 .clz-faq-plus{border-radius:11px;background:var(--clz-ice);color:var(--clz-blue-dark)}
+#cloze-home-v2 .clz-faq-item.open{border-color:#a9d3ef;background:#fff;box-shadow:var(--clz-shadow-soft)}
+#cloze-home-v2 .clz-faq-item.open .clz-faq-plus{background:var(--clz-blue-dark)}
+#cloze-home-v2 .clz-message{border-color:#cfe3f1;border-radius:18px;background:rgba(255,255,255,.74)}
+
+@media(max-width:1180px){
+	#cloze-home-v2 .clz-container{width:min(var(--clz-max),calc(100% - 42px))}
+	#cloze-home-v2 .clz-hero-grid{grid-template-columns:minmax(0,.92fr) minmax(430px,1.08fr);gap:32px}
+	#cloze-home-v2 .clz-brand-statement-inner{grid-template-columns:110px minmax(0,1fr)}
+	#cloze-home-v2 .clz-brand-points{grid-column:1/-1;justify-content:flex-start}
+}
+@media(max-width:960px){
+	#cloze-home-v2 .clz-hero{min-height:0;padding-top:18px}
+	#cloze-home-v2 .clz-hero-grid{grid-template-columns:1fr;gap:22px}
+	#cloze-home-v2 .clz-hero-showcase{width:100%;max-width:680px;height:560px;margin-inline:auto}
+	#cloze-home-v2 .clz-hero-main-product{right:72px}
+	#cloze-home-v2 .clz-brand-statement-inner{grid-template-columns:1fr;gap:18px}
+	#cloze-home-v2 .clz-brand-points{grid-column:auto}
+}
+@media(max-width:680px){
+	#cloze-home-v2 .clz-container{width:min(100% - 22px,var(--clz-max))}
+	#cloze-home-v2 .clz-section{padding:54px 0}
+	#cloze-home-v2 .clz-heading{margin-bottom:23px}
+	#cloze-home-v2 .clz-heading h2{font-size:30px;line-height:1.38}
+	#cloze-home-v2 .clz-hero{padding:10px 0 48px}
+	#cloze-home-v2 .clz-hero h1{font-size:clamp(39px,12vw,55px);line-height:1.13;letter-spacing:-.04em}
+	#cloze-home-v2 .clz-hero-copy>p{font-size:12px}
+	#cloze-home-v2 .clz-hero-actions{display:grid;grid-template-columns:1fr}
+	#cloze-home-v2 .clz-btn{min-height:50px;border-radius:16px}
+	#cloze-home-v2 .clz-hero-showcase{height:415px}
+	#cloze-home-v2 .clz-hero-showcase:before{inset:26px 0 18px 10px;border-radius:30px}
+	#cloze-home-v2 .clz-hero-main-product{right:14px;top:4px;width:73%;height:368px;border-radius:25px}
+	#cloze-home-v2 .clz-hero-main-media{height:270px}
+	#cloze-home-v2 .clz-hero-mini-product{width:112px;border-radius:19px}
+	#cloze-home-v2 .clz-hero-mini-product img{border-radius:14px}
+	#cloze-home-v2 .clz-hero-mini-one{left:0;top:68px}
+	#cloze-home-v2 .clz-hero-mini-two{left:7px;bottom:8px}
+	#cloze-home-v2 .clz-hero-note{right:2px;bottom:0}
+	#cloze-home-v2 .clz-brand-statement{padding-bottom:8px}
+	#cloze-home-v2 .clz-brand-statement-inner{min-height:0;padding:23px 19px;border-radius:26px}
+	#cloze-home-v2 .clz-brand-statement p{font-size:15px}
+	#cloze-home-v2 .clz-brand-points{display:grid;grid-template-columns:1fr}
+	#cloze-home-v2 .clz-brand-points span{white-space:normal}
+	#cloze-home-v2 .clz-category{border-radius:21px}
+	#cloze-home-v2 .clz-product-card{border-radius:22px}
+	#cloze-home-v2 .clz-sale-wrap{padding:22px 12px;border-radius:29px}
+	#cloze-home-v2 .clz-sale-wrap .clz-product-card{border-radius:20px}
+	#cloze-home-v2 .clz-why{min-height:0;border-radius:22px}
+	#cloze-home-v2 .clz-bento-card{border-radius:24px}
+	#cloze-home-v2 .clz-support{border-radius:28px}
+	#cloze-home-v2 .clz-article-feature{border-radius:25px}
+	#cloze-home-v2 .clz-article-row{border-radius:18px}
+	#cloze-home-v2 .clz-faq-item{border-radius:16px}
+}
