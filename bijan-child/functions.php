@@ -37,11 +37,32 @@ HAPPY CODING 😊
 
 
 
+/**
+ * ACF category content belongs only to the canonical first archive page.
+ * Covers both WordPress /page/2/ pagination and WooCommerce product-page URLs.
+ */
+function cloz_is_primary_product_category_page() {
+	if ( ! is_product_category() || is_paged() ) {
+		return false;
+	}
+
+	$page_numbers = [
+		absint( get_query_var( 'paged' ) ),
+		absint( get_query_var( 'page' ) ),
+		absint( get_query_var( 'product-page' ) ),
+	];
+	if ( isset( $_GET['product-page'] ) ) {
+		$page_numbers[] = absint( wp_unslash( $_GET['product-page'] ) );
+	}
+
+	return max( $page_numbers ) <= 1;
+}
+
 // نمایش معرفی دسته و زیردسته‌ها - بالای لیست محصولات
 add_action('woocommerce_before_shop_loop', 'display_category_intro_and_subcats', 15);
 function display_category_intro_and_subcats() {
 	// محتوای معرفی ACF فقط در صفحهٔ اصلی آرشیو دسته نمایش داده شود.
-	if (!is_product_category() || is_paged()) return;
+	if ( ! cloz_is_primary_product_category_page() ) return;
     
     $term = get_queried_object();
     $term_id = $term->term_id;
@@ -312,7 +333,7 @@ function display_category_intro_and_subcats() {
 add_action('woocommerce_after_shop_loop', 'cloz_category_long_description', 20);
 
 function cloz_category_long_description() {
-    if (!is_product_category()) return;
+    if ( ! cloz_is_primary_product_category_page() ) return;
 
     $term = get_queried_object();
     $content = get_field('category_long_description', 'product_cat_' . $term->term_id);
@@ -515,7 +536,7 @@ function cloz_category_long_description() {
 add_action('woocommerce_after_shop_loop', 'display_category_faq_manual', 25);
 
 function display_category_faq_manual() {
-    if (!is_product_category()) return;
+    if ( ! cloz_is_primary_product_category_page() ) return;
     
     $term = get_queried_object();
     $term_id = $term->term_id;
@@ -785,7 +806,7 @@ function display_category_faq_manual() {
 
 add_action('woocommerce_after_shop_loop', 'display_category_related_posts', 30);
 function display_category_related_posts() {
-    if (!is_product_category()) return;
+    if ( ! cloz_is_primary_product_category_page() ) return;
     
     $term = get_queried_object();
     $term_id = $term->term_id;
@@ -835,7 +856,7 @@ function display_category_related_posts() {
 
 add_action('wp_head', 'cloz_related_posts_styles');
 function cloz_related_posts_styles() {
-    if (!is_product_category()) return;
+    if ( ! cloz_is_primary_product_category_page() ) return;
     ?>
     <style>
     .cloz-related-posts-wrapper {
