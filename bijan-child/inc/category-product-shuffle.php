@@ -13,12 +13,17 @@ final class Bijan_Category_Product_Shuffle {
 	private const QUERY_MARKER   = '_bijan_category_shuffle_seed';
 	private const CRON_HOOK      = 'bijan_rotate_category_product_shuffle';
 	private const BUCKET_OPTION  = 'bijan_category_product_shuffle_bucket';
+	private const VERSION_OPTION = 'bijan_category_product_shuffle_cache_version';
+	private const ROTATION_LOCK  = 'bijan_category_product_shuffle_rotation_lock';
+	private const CACHE_VERSION  = '2';
 
 	public static function init() {
 		add_action( 'pre_get_posts', [ __CLASS__, 'mark_category_query' ], 999 );
 		add_filter( 'posts_clauses', [ __CLASS__, 'apply_stable_order' ], 999, 2 );
 		add_action( 'init', [ __CLASS__, 'schedule_rotation' ], 20 );
 		add_action( self::CRON_HOOK, [ __CLASS__, 'rotate_cache' ] );
+		add_action( 'send_headers', [ __CLASS__, 'send_category_cache_headers' ], 999 );
+		add_action( 'wp_head', [ __CLASS__, 'print_browser_cache_guard' ], 1 );
 	}
 
 	private static function current_bucket() {
@@ -64,13 +69,54 @@ final class Bijan_Category_Product_Shuffle {
 		return $clauses;
 	}
 
+	/**
+	 * Browsers must revalidate category HTML instead of keeping a stale page for
+	 * 24 hours. FlyingPress/CDN may still cache it until the bucket boundary.
+	 */
+	public static function send_category_cache_headers() {
+		if ( ! is_tax( 'product_cat' ) || headers_sent() ) {
+			return;
+		}
+
+		$seconds_to_boundary = max(
+			1,
+			( ( self::current_bucket() + 1 ) * self::INTERVAL ) - time()
+		);
+
+		header( 'Cache-Control: no-cache, must-revalidate, max-age=0', true );
+		header( 'Expires: Wed, 11 Jan 1984 05:00:00 GMT', true );
+		header( 'CDN-Cache-Control: public, max-age=' . $seconds_to_boundary . ', must-revalidate', true );
+	}
+
+	/**
+	 * Server-level FlyingPress rules can override PHP headers. This tiny guard
+	 * detects an HTML document retained by the browser across a bucket boundary
+	 * and forces one real reload. It adds no network request during normal views.
+	 */
+	public static function print_browser_cache_guard() {
+		if ( ! is_tax( 'product_cat' ) ) {
+			return;
+		}
+
+		$bucket   = self::current_bucket();
+		$interval = self::INTERVAL;
+		?>
+		<script id="bijan-category-cache-guard">(()=>{const b=<?php echo (int) $bucket; ?>,i=<?php echo (int) $interval; ?>,n=Math.floor(Date.now()/1000/i);if(n===b)return;const k="bijan-category-reload-"+n;try{if(sessionStorage.getItem(k))return;sessionStorage.setItem(k,"1")}catch(e){}location.reload()})();</script>
+		<?php
+	}
+
 	public static function schedule_rotation() {
 		$current_bucket = self::current_bucket();
 		$stored_bucket  = get_option( self::BUCKET_OPTION, null );
+		$cache_version  = (string) get_option( self::VERSION_OPTION, '' );
 
 		if ( null === $stored_bucket ) {
 			add_option( self::BUCKET_OPTION, $current_bucket, '', false );
-		} elseif ( (int) $stored_bucket !== $current_bucket ) {
+		}
+
+		// A version change performs one targeted purge so old 24-hour responses
+		// are replaced with responses carrying the new browser-cache headers.
+		if ( self::CACHE_VERSION !== $cache_version || (int) $stored_bucket !== $current_bucket ) {
 			self::rotate_cache();
 		}
 
@@ -81,8 +127,20 @@ final class Bijan_Category_Product_Shuffle {
 	}
 
 	public static function rotate_cache() {
-		$bucket = self::current_bucket();
-		update_option( self::BUCKET_OPTION, $bucket, false );
+		$bucket         = self::current_bucket();
+		$stored_bucket  = (int) get_option( self::BUCKET_OPTION, -1 );
+		$cache_version  = (string) get_option( self::VERSION_OPTION, '' );
+
+		if ( $stored_bucket === $bucket && self::CACHE_VERSION === $cache_version ) {
+			return;
+		}
+
+		// Avoid duplicate purge/preload jobs if cron and a normal request arrive
+		// together at the bucket boundary.
+		if ( get_transient( self::ROTATION_LOCK ) ) {
+			return;
+		}
+		set_transient( self::ROTATION_LOCK, 1, 5 * MINUTE_IN_SECONDS );
 
 		$term_ids = get_terms( [
 			'taxonomy'   => 'product_cat',
@@ -90,7 +148,12 @@ final class Bijan_Category_Product_Shuffle {
 			'fields'     => 'ids',
 		] );
 
-		if ( is_wp_error( $term_ids ) || ! $term_ids ) {
+		if ( is_wp_error( $term_ids ) ) {
+			return;
+		}
+
+		if ( ! $term_ids ) {
+			self::finish_rotation( $bucket );
 			return;
 		}
 
@@ -100,6 +163,11 @@ final class Bijan_Category_Product_Shuffle {
 		// Targeted integrations; no site-wide cache flush is performed.
 		if ( function_exists( 'rocket_clean_files' ) ) {
 			rocket_clean_files( $urls );
+		}
+
+		if ( ! self::refresh_flyingpress_cache( $urls ) ) {
+			// Keep the old bucket value so a later request retries safely.
+			return;
 		}
 
 		foreach ( $urls as $url ) {
@@ -114,6 +182,42 @@ final class Bijan_Category_Product_Shuffle {
 		 * coupling the theme to a site-wide destructive cache flush.
 		 */
 		do_action( 'bijan_category_shuffle_purge_urls', $urls, $bucket );
+		self::finish_rotation( $bucket );
+	}
+
+	/**
+	 * Purge and warm only category archive pages in FlyingPress. Its Cloudflare
+	 * integration propagates the same purge to the edge cache when enabled.
+	 */
+	private static function refresh_flyingpress_cache( $urls ) {
+		if (
+			! class_exists( '\\FlyingPress\\Purge' )
+			|| ! is_callable( [ '\\FlyingPress\\Purge', 'purge_urls' ] )
+		) {
+			return true;
+		}
+
+		try {
+			\FlyingPress\Purge::purge_urls( $urls );
+
+			if (
+				class_exists( '\\FlyingPress\\Preload' )
+				&& is_callable( [ '\\FlyingPress\\Preload', 'preload_urls' ] )
+			) {
+				\FlyingPress\Preload::preload_urls( $urls );
+			}
+		} catch ( Throwable $exception ) {
+			do_action( 'bijan_category_shuffle_flyingpress_error', $exception, $urls );
+			return false;
+		}
+
+		return true;
+	}
+
+	private static function finish_rotation( $bucket ) {
+		update_option( self::BUCKET_OPTION, $bucket, false );
+		update_option( self::VERSION_OPTION, self::CACHE_VERSION, false );
+		delete_transient( self::ROTATION_LOCK );
 	}
 
 	private static function category_page_urls( $term_ids ) {
