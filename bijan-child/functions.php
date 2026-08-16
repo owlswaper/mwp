@@ -40,7 +40,8 @@ HAPPY CODING 😊
 // نمایش معرفی دسته و زیردسته‌ها - بالای لیست محصولات
 add_action('woocommerce_before_shop_loop', 'display_category_intro_and_subcats', 15);
 function display_category_intro_and_subcats() {
-    if (!is_product_category()) return;
+	// محتوای معرفی ACF فقط در صفحهٔ اصلی آرشیو دسته نمایش داده شود.
+	if (!is_product_category() || is_paged()) return;
     
     $term = get_queried_object();
     $term_id = $term->term_id;

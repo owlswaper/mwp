@@ -1,6 +1,25 @@
 (function($) {
 	$(document).ready(function(){
-		let otpTimer;
+		let otpTimer,
+			otpMode = 'login',
+			otpNeedsName = false;
+
+		function validDisplayName(value) {
+			value = $.trim(value || '').replace(/\s+/g, ' ');
+			return value.length >= 2 && value.length <= 60 && /^[\p{L}\p{M}]+(?:[\p{L}\p{M}\s‌'’\-]*[\p{L}\p{M}])?$/u.test(value);
+		}
+
+		function setOtpMode(mode, requiresName) {
+			otpMode = mode === 'register' ? 'register' : 'login';
+			otpNeedsName = Boolean(requiresName) && (otpMode === 'login' || Boolean(bijanLogin.smsOneForm));
+			const nameWrap = $('#auth-register-name-wrap');
+			const nameInput = $('#auth-register-name');
+			nameWrap.prop('hidden', !otpNeedsName).toggle(otpNeedsName);
+			nameInput.prop('required', otpNeedsName);
+			if(!otpNeedsName) {
+				nameInput.val('');
+			}
+		}
 		function showLoginModal(form = "default") {
 			if(form == 'default') {
 				if( ( typeof bijanLogin.smsOneForm != 'undefined' && bijanLogin.smsOneForm ) || ( typeof bijanLogin.authSms != 'undefined' && bijanLogin.authSms ) ) {
@@ -76,6 +95,10 @@
 							$('.auth-modal-login').slideDown();
 						}
 					}
+					if(!res.success && data.action === 'bijan_check_otp' && res.data && res.data.code === 'invalid_display_name') {
+						setOtpMode(otpMode, true);
+						$('#auth-register-name').focus();
+					}
 					if(typeof res.data !== 'undefined' && typeof res.data.msg !== 'undefined') {
 						$('#auth-modal-msg').html(res.data.msg).fadeIn();
 						setTimeout(function() {
@@ -108,6 +131,7 @@
 			sendAjax({
 				action: 'bijan_signup',
 				nonce: form.attr('data-nonce'),
+				display_name: $('#signup-display-name').val(),
 				username: $('#signup-username').val(),
 				email: $('#signup-email').val(),
 				mobile: $('#signup-mobile').val(),
@@ -158,6 +182,7 @@
 		})
 		$('#auth-change-number').on('click', function(e) {
 			e.preventDefault();
+			setOtpMode('login', false);
 			switchForm('otp', 'mobile');
 			$('#auth-mobile-submit').removeClass('loading');
 		})
@@ -225,7 +250,7 @@
 				}
 			}
 		});
-		$('.auth-otp-input').on('change keyup', function() { // Check enable/disable verify btn
+		function updateOtpSubmitState(submitWhenReady) {
 			// Check if all inputs are filled
 			let allFilled = true;
 			$(".auth-otp-input").each(function () {
@@ -236,12 +261,22 @@
 			});
 	
 			// Click the submit button if all inputs are filled
-			if (allFilled) {
-				$("#auth-otp-submit").removeClass('disabled').prop('disabled', false).click();
+			const nameIsValid = !otpNeedsName || validDisplayName($('#auth-register-name').val());
+			if (allFilled && nameIsValid) {
+				$("#auth-otp-submit").removeClass('disabled').prop('disabled', false);
+				if(submitWhenReady) {
+					$("#auth-otp-submit").click();
+				}
 			} else {
 				$("#auth-otp-submit").addClass('disabled').prop('disabled', true)
 			}
+		}
+		$('.auth-otp-input').on('change keyup', function() { // Check enable/disable verify btn
+			updateOtpSubmitState(true);
 		})
+		$('#auth-register-name').on('input', function() {
+			updateOtpSubmitState(false);
+		});
 		$(".auth-otp-input").on("keydown", function (e) { // Move with arrow keys or backspace
 			let key = e.key;
 			let currentInput = $(this);
@@ -289,11 +324,16 @@
 				},
 				success: function(res) {
 					if( res.success ) {
+						setOtpMode(res.data.mode, res.data.requires_name);
 						switchForm('mobile', 'otp');
 						startTimer(bijanLogin.smsOneForm || res.data.mode == 'login' ? bijanLogin.otpLoginTime : bijanLogin.otpRegisterTime, 'otp-timer');
 						$('#otp-timer').show();
 						$('#otp-timer-resend').hide();
-						$('#auth-otp-input-0').focus();
+						if(otpNeedsName) {
+							$('#auth-register-name').focus();
+						} else {
+							$('#auth-otp-input-0').focus();
+						}
 						$('#auth-otp-submit').removeClass('loading')
 					}
 					if(typeof res.data !== 'undefined' && typeof res.data.msg !== 'undefined') {
@@ -316,6 +356,7 @@
 				action: 'bijan_check_otp',
 				nonce: $('#auth-otp-form').attr('data-nonce'),
 				mobile: $('#auth-mobile-input').val(),
+				display_name: otpNeedsName ? $('#auth-register-name').val() : '',
 				otp: $('#auth-otp-input-0').val() + $('#auth-otp-input-1').val() + $('#auth-otp-input-2').val() + $('#auth-otp-input-3').val()
 			}).done(function() {
 				$this.removeClass('loading')
@@ -341,14 +382,15 @@
 			btn.prop('disabled', !enabled);
 		})
 		// Check active signup button or not
-		$('#signup-username, #signup-email, #signup-mobile, #signup-password').on('input', function() {
-			let username = $('#signup-username').val(),
+		$('#signup-display-name, #signup-username, #signup-email, #signup-mobile, #signup-password').on('input', function() {
+			let displayName = $('#signup-display-name').val(),
+				username = $('#signup-username').val(),
 				email = $('#signup-email').val(),
 				mobile = $('#signup-mobile').val(),
 				password = $('#signup-password').val(),
 				enabled = false,
 				btn = $('#auth-signup-submit');
-			if( username && email && password ) {
+			if( validDisplayName(displayName) && username && email && password ) {
 				// Check username and email
 				enabled = bijan.validateUsername(username) && bijan.validateEmail(email);
 				if( mobile && !bijan.validateMobile(mobile) ) {

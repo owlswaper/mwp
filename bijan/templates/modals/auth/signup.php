@@ -5,6 +5,23 @@ if( !defined( 'ABSPATH' ) ) exit;
 <h4 class="auth-modal-title"><?php esc_html_e( "Signup", 'bijan' ) ?></h4>
 <form action="" method="post" id="signup-form" class="auth-form" data-nonce="<?php echo wp_create_nonce( "bijan-auth-signup" ) ?>">
 	<div class="input-group row-full">
+		<label for="signup-display-name" class="input-label"><?php esc_html_e( 'Name', 'bijan' ) ?></label>
+		<div class="input-wrap">
+			<input
+				type="text"
+				id="signup-display-name"
+				name="signup-display-name"
+				class="input-field"
+				required="required"
+				autocomplete="name"
+				minlength="2"
+				maxlength="60"
+				placeholder="نام و نام خانوادگی"
+			>
+		</div>
+	</div>
+
+	<div class="input-group row-full">
 		<label for="signup-username" class="input-label"><?php esc_html_e( 'Username', 'bijan' ) ?></label>
 		<div class="input-wrap">
 			<input

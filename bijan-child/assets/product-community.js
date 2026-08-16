@@ -229,18 +229,29 @@
 			}).always(function () { $button.prop('disabled', false); });
 		});
 
-		$('.bc-review-images a').on('click', function (event) {
+		$('[data-review-image]').on('click', function (event) {
 			event.preventDefault();
+			const trigger = this;
+			let isClosing = false;
 			const $viewer = $('<div class="bc-image-viewer" role="dialog" aria-modal="true" aria-label="تصویر ارسالی کاربر"><button type="button" aria-label="بستن">×</button><img alt="تصویر ارسالی کاربر"></div>');
 			$viewer.find('img').attr('src', this.href);
 			$('body').append($viewer).addClass('bc-modal-open');
 			window.setTimeout(function () { $viewer.addClass('is-open').find('button').trigger('focus'); }, 10);
+			const closeViewer = function () {
+				if (isClosing) return;
+				isClosing = true;
+				$viewer.removeClass('is-open');
+				$('body').removeClass('bc-modal-open');
+				$(document).off('keydown.bcImageViewer');
+				window.setTimeout(function () { $viewer.remove(); $(trigger).trigger('focus'); }, 180);
+			};
 			$viewer.on('click', function (clickEvent) {
 				if (clickEvent.target === this || $(clickEvent.target).is('button')) {
-					$viewer.removeClass('is-open');
-					$('body').removeClass('bc-modal-open');
-					window.setTimeout(function () { $viewer.remove(); }, 180);
+					closeViewer();
 				}
+			});
+			$(document).on('keydown.bcImageViewer', function (keyEvent) {
+				if (keyEvent.key === 'Escape') closeViewer();
 			});
 		});
 

@@ -291,7 +291,7 @@ final class Bijan_Product_Community {
 		$user = wp_get_current_user();
 		return [
 			'comment_post_ID'      => $product_id,
-			'comment_author'       => $user->display_name ?: $user->user_login,
+			'comment_author'       => $user->display_name ?: 'کاربر',
 			'comment_author_email' => $user->user_email,
 			'comment_content'      => $content,
 			'comment_type'         => $type,
@@ -300,6 +300,23 @@ final class Bijan_Product_Community {
 			'comment_approved'      => 0,
 			'comment_agent'         => 'Bijan Product Community',
 		];
+	}
+
+	private static function public_author_name( $comment ) {
+		$name = isset( $comment->comment_author ) ? trim( (string) $comment->comment_author ) : '';
+		if ( ! empty( $comment->user_id ) ) {
+			$user = get_userdata( absint( $comment->user_id ) );
+			if ( $user && trim( $user->display_name ) ) {
+				$name = trim( $user->display_name );
+			}
+		}
+
+		$compact_name = preg_replace( '/[\s\-()]+/u', '', $name );
+		if ( ! $name || preg_match( '/^(?:\+?98|0098|0)?9[0-9*]{9,10}$/', $compact_name ) ) {
+			return 'کاربر';
+		}
+
+		return $name;
 	}
 
 	private static function clean_list( $value ) {
@@ -535,6 +552,51 @@ final class Bijan_Product_Community {
 	}
 
 	/**
+	 * Return a small, cached gallery made only from approved reviews.
+	 */
+	private static function review_gallery_image_ids( $product_id, $limit = 12 ) {
+		$cache_key = 'bijan_review_gallery_1_' . absint( $product_id );
+		$cached    = get_transient( $cache_key );
+		if ( is_array( $cached ) ) {
+			return array_slice( array_map( 'absint', $cached ), 0, $limit );
+		}
+
+		$review_ids = get_comments( [
+			'post_id'    => $product_id,
+			'type'       => self::REVIEW_TYPE,
+			'status'     => 'approve',
+			'parent'     => 0,
+			'fields'     => 'ids',
+			'number'     => 24,
+			'orderby'    => 'comment_date_gmt',
+			'order'      => 'DESC',
+			'meta_query' => [
+				[
+					'key'     => '_bijan_images',
+					'compare' => 'EXISTS',
+				],
+			],
+		] );
+
+		$image_ids = [];
+		foreach ( $review_ids as $review_id ) {
+			foreach ( array_map( 'absint', (array) get_comment_meta( $review_id, '_bijan_images', true ) ) as $image_id ) {
+				$owner_comment_id = absint( get_post_meta( $image_id, '_bijan_review_comment_id', true ) );
+				$is_owned_image   = $owner_comment_id === absint( $review_id ) && absint( wp_get_post_parent_id( $image_id ) ) === absint( $product_id );
+				if ( $is_owned_image && wp_attachment_is_image( $image_id ) && ! in_array( $image_id, $image_ids, true ) ) {
+					$image_ids[] = $image_id;
+				}
+				if ( count( $image_ids ) >= $limit ) {
+					break 2;
+				}
+			}
+		}
+
+		set_transient( $cache_key, $image_ids, 15 * MINUTE_IN_SECONDS );
+		return $image_ids;
+	}
+
+	/**
 	 * Return every review on the five-star scale while keeping old 10-point data valid.
 	 */
 	private static function review_score( $comment_id ) {
@@ -554,6 +616,7 @@ final class Bijan_Product_Community {
 		}
 		delete_transient( 'bijan_review_stats_' . absint( $comment->comment_post_ID ) );
 		delete_transient( 'bijan_review_stats_5_' . absint( $comment->comment_post_ID ) );
+		delete_transient( 'bijan_review_gallery_1_' . absint( $comment->comment_post_ID ) );
 		foreach ( array_map( 'absint', (array) get_comment_meta( $comment_id, '_bijan_images', true ) ) as $attachment_id ) {
 			if ( (int) get_post_meta( $attachment_id, '_bijan_review_comment_id', true ) === (int) $comment_id ) {
 				wp_delete_attachment( $attachment_id, true );
@@ -565,6 +628,7 @@ final class Bijan_Product_Community {
 		if ( $comment instanceof WP_Comment && self::REVIEW_TYPE === $comment->comment_type && $new_status !== $old_status ) {
 			delete_transient( 'bijan_review_stats_' . absint( $comment->comment_post_ID ) );
 			delete_transient( 'bijan_review_stats_5_' . absint( $comment->comment_post_ID ) );
+			delete_transient( 'bijan_review_gallery_1_' . absint( $comment->comment_post_ID ) );
 		}
 	}
 
@@ -622,6 +686,7 @@ final class Bijan_Product_Community {
 			</nav>
 
 			<div class="bc-panel is-active" data-panel="reviews">
+				<?php self::render_review_gallery( $product_id ); ?>
 				<div class="bc-review-layout">
 					<aside class="bc-score-card"><?php self::render_score_card( $stats ); ?></aside>
 					<div class="bc-feed">
@@ -678,12 +743,33 @@ final class Bijan_Product_Community {
 		<?php
 	}
 
+	private static function render_review_gallery( $product_id ) {
+		$image_ids = self::review_gallery_image_ids( $product_id );
+		if ( ! $image_ids ) {
+			return;
+		}
+		?>
+		<section class="bc-review-gallery" aria-labelledby="bc-review-gallery-title">
+			<header>
+				<div><span aria-hidden="true">▧</span><div><h3 id="bc-review-gallery-title">تصاویر خریداران</h3><p>تصاویر واقعی ارسال‌شده همراه نظر کاربران</p></div></div>
+				<small><?php echo esc_html( number_format_i18n( count( $image_ids ) ) ); ?> تصویر</small>
+			</header>
+			<div class="bc-review-gallery-track">
+				<?php foreach ( $image_ids as $image_id ) : $full = wp_get_attachment_image_url( $image_id, 'full' ); if ( ! $full ) { continue; } ?>
+					<a href="<?php echo esc_url( $full ); ?>" data-review-image target="_blank" rel="noopener" aria-label="مشاهده تصویر ارسالی خریدار">
+						<?php echo wp_get_attachment_image( $image_id, 'woocommerce_thumbnail', false, [ 'loading' => 'lazy', 'decoding' => 'async', 'sizes' => '(max-width: 640px) 30vw, 140px' ] ); ?>
+					</a>
+				<?php endforeach; ?>
+			</div>
+		</section>
+		<?php
+	}
+
 	private static function render_review( $review, $product_id ) {
 		$score      = self::review_score( $review->comment_ID );
 		$score_text = number_format_i18n( $score, (float) floor( $score ) === (float) $score ? 0 : 1 );
 		$strengths  = (array) get_comment_meta( $review->comment_ID, '_bijan_strengths', true );
 		$weaknesses = (array) get_comment_meta( $review->comment_ID, '_bijan_weaknesses', true );
-		$images     = array_map( 'absint', (array) get_comment_meta( $review->comment_ID, '_bijan_images', true ) );
 		$voters     = array_map( 'absint', (array) get_comment_meta( $review->comment_ID, '_bijan_helpful_users', true ) );
 		$is_helpful = is_user_logged_in() && in_array( get_current_user_id(), $voters, true );
 		$verified   = function_exists( 'wc_customer_bought_product' ) && wc_customer_bought_product( $review->comment_author_email, $review->user_id, $product_id );
@@ -692,20 +778,13 @@ final class Bijan_Product_Community {
 			<header class="bc-card-head">
 				<div class="bc-author">
 					<?php echo get_avatar( $review, 48, '', '', [ 'class' => 'bc-avatar' ] ); ?>
-					<div><strong><?php echo esc_html( $review->comment_author ); ?></strong><span><?php echo esc_html( human_time_diff( get_comment_time( 'U', true, false, $review ), current_time( 'timestamp', true ) ) . ' پیش' ); ?></span></div>
+					<div><strong><?php echo esc_html( self::public_author_name( $review ) ); ?></strong><span><?php echo esc_html( human_time_diff( get_comment_time( 'U', true, false, $review ), current_time( 'timestamp', true ) ) . ' پیش' ); ?></span></div>
 					<?php if ( $verified ) : ?><em class="bc-verified">خریدار محصول</em><?php endif; ?>
 				</div>
 				<div class="bc-score-badge bc-score-<?php echo esc_attr( $score >= 4 ? 'good' : ( $score >= 3 ? 'mid' : 'bad' ) ); ?>" aria-label="<?php echo esc_attr( $score_text . ' از ۵ ستاره' ); ?>"><i aria-hidden="true">★</i><strong><?php echo esc_html( $score_text ); ?></strong><span>/۵</span></div>
 			</header>
 			<div class="bc-review-text"><?php echo wpautop( esc_html( $review->comment_content ) ); ?></div>
 			<?php self::render_points( $strengths, $weaknesses ); ?>
-			<?php if ( $images ) : ?>
-				<div class="bc-review-images">
-					<?php foreach ( $images as $image_id ) : $full = wp_get_attachment_image_url( $image_id, 'full' ); if ( ! $full ) { continue; } ?>
-						<a href="<?php echo esc_url( $full ); ?>" target="_blank" rel="noopener" aria-label="مشاهده تصویر نظر"><?php echo wp_get_attachment_image( $image_id, 'thumbnail', false, [ 'loading' => 'lazy' ] ); ?></a>
-					<?php endforeach; ?>
-				</div>
-			<?php endif; ?>
 			<footer class="bc-card-footer">
 				<span>این نظر مفید بود؟</span>
 				<?php if ( is_user_logged_in() ) : ?>
@@ -744,7 +823,7 @@ final class Bijan_Product_Community {
 		}
 		?>
 		<article class="bc-question-card">
-			<div class="bc-qa-row bc-question-row"><span class="bc-qa-icon">؟</span><div><small>پرسش <?php echo esc_html( $question->comment_author ); ?></small><p><?php echo nl2br( esc_html( $question->comment_content ) ); ?></p></div></div>
+			<div class="bc-qa-row bc-question-row"><span class="bc-qa-icon">؟</span><div><small>پرسش <?php echo esc_html( self::public_author_name( $question ) ); ?></small><p><?php echo nl2br( esc_html( $question->comment_content ) ); ?></p></div></div>
 			<?php foreach ( $answers as $answer ) : ?>
 				<div class="bc-qa-row bc-answer-row"><span class="bc-qa-icon">✓</span><div><small>پاسخ پشتیبانی</small><p><?php echo nl2br( esc_html( $answer->comment_content ) ); ?></p></div></div>
 			<?php endforeach; ?>
@@ -804,6 +883,13 @@ final class Bijan_Product_Community {
 								<?php endfor; ?>
 							</div>
 						</fieldset>
+						<div class="bc-upload">
+							<input id="bc-review-images" type="file" name="images[]" accept="image/jpeg,image/png,image/webp" multiple hidden>
+							<div class="bc-upload-intro"><span aria-hidden="true">▧</span><div><strong>تصاویر تجربه شما</strong><small>اختیاری؛ تصویر واقعی محصول به انتخاب بهتر دیگران کمک می‌کند.</small></div></div>
+							<label for="bc-review-images"><span aria-hidden="true">＋</span><strong>انتخاب تصویر</strong><small>JPG، PNG یا WebP</small></label>
+							<div class="bc-image-preview" aria-live="polite"></div>
+							<p>حداکثر ۴ تصویر، هرکدام تا ۵ مگابایت</p>
+						</div>
 						<div class="bc-points-editor">
 							<section class="bc-point-editor bc-point-editor-pro" data-point-group="strengths">
 								<header><div><strong>نقاط قوت</strong><small>اختیاری؛ کوتاه و مشخص</small></div><button type="button" data-point-add="strengths"><span aria-hidden="true">+</span> افزودن</button></header>
@@ -815,7 +901,6 @@ final class Bijan_Product_Community {
 							</section>
 						</div>
 						<label class="bc-field"><span>نظر شما</span><textarea name="content" rows="6" minlength="10" maxlength="3000" required placeholder="تجربه استفاده، کیفیت و نکاتی که برای خریداران دیگر مفید است…"></textarea><small class="bc-counter"><b>۰</b> / ۳۰۰۰</small></label>
-						<div class="bc-upload"><input id="bc-review-images" type="file" name="images[]" accept="image/jpeg,image/png,image/webp" multiple hidden><label for="bc-review-images"><span>＋</span><strong>افزودن تصویر</strong><small>حداکثر ۴ تصویر، هرکدام تا ۵ مگابایت</small></label><div class="bc-image-preview"></div></div>
 						<div class="bc-form-message" role="status" aria-live="polite"></div><button type="submit" class="bc-button bc-button-primary bc-submit">ثبت نظر</button>
 					</form>
 				</div>
@@ -882,7 +967,7 @@ final class Bijan_Product_Community {
 			$answer_id = wp_insert_comment( [
 				'comment_post_ID'      => $comment->comment_post_ID,
 				'comment_parent'       => $comment_id,
-				'comment_author'       => $user->display_name ?: $user->user_login,
+				'comment_author'       => $user->display_name ?: 'کاربر',
 				'comment_author_email' => $user->user_email,
 				'comment_content'      => $answer,
 				'comment_type'         => self::ANSWER_TYPE,
@@ -954,7 +1039,7 @@ final class Bijan_Product_Community {
 		$answers     = $is_question ? get_comments( [ 'parent' => $item->comment_ID, 'type' => self::ANSWER_TYPE, 'status' => 'approve' ] ) : [];
 		?>
 		<article class="bc-admin-card">
-			<div class="bc-admin-head"><span class="bc-admin-badge"><?php echo $is_question ? 'پرسش' : 'نظر'; ?></span><strong><?php echo esc_html( $item->comment_author ); ?></strong><span>برای <a href="<?php echo esc_url( get_edit_post_link( $item->comment_post_ID ) ); ?>"><?php echo esc_html( $product ? $product->post_title : 'محصول حذف‌شده' ); ?></a></span><span class="bc-admin-status"><?php echo '1' === (string) $item->comment_approved ? 'منتشرشده' : 'در انتظار بررسی'; ?></span></div>
+			<div class="bc-admin-head"><span class="bc-admin-badge"><?php echo $is_question ? 'پرسش' : 'نظر'; ?></span><strong><?php echo esc_html( self::public_author_name( $item ) ); ?></strong><span>برای <a href="<?php echo esc_url( get_edit_post_link( $item->comment_post_ID ) ); ?>"><?php echo esc_html( $product ? $product->post_title : 'محصول حذف‌شده' ); ?></a></span><span class="bc-admin-status"><?php echo '1' === (string) $item->comment_approved ? 'منتشرشده' : 'در انتظار بررسی'; ?></span></div>
 			<div class="bc-admin-meta"><?php echo esc_html( get_comment_date( 'Y/m/d - H:i', $item ) ); ?><?php if ( ! $is_question ) : ?> — امتیاز: <?php echo esc_html( number_format_i18n( self::review_score( $item->comment_ID ), 1 ) ); ?> از ۵<?php endif; ?></div>
 			<div class="bc-admin-content"><?php echo nl2br( esc_html( $item->comment_content ) ); ?></div>
 			<?php if ( $strengths ) : ?><div class="bc-admin-meta"><strong>نقاط قوت:</strong> <?php echo esc_html( implode( '، ', $strengths ) ); ?></div><?php endif; ?>

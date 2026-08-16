@@ -61,6 +61,83 @@ class Auth extends AJAX {
 		delete_transient( $this->rate_limit_key( $action, $identifier ) );
 	}
 
+	private function normalize_display_name( $name ) {
+		$name = sanitize_text_field( wp_unslash( (string) $name ) );
+		$name = preg_replace( '/[\p{Z}\s]+/u', ' ', trim( $name ) );
+		return is_string( $name ) ? $name : '';
+	}
+
+	private function is_valid_display_name( $name ) {
+		$length = function_exists( 'mb_strlen' ) ? mb_strlen( $name ) : strlen( $name );
+		return $length >= 2 && $length <= 60 && (bool) preg_match( "/^[\p{L}\p{M}]+(?:[\p{L}\p{M}\p{Zs}\x{200C}'’\-]*[\p{L}\p{M}])?$/u", $name );
+	}
+
+	private function valid_display_name() {
+		$name = $this->normalize_display_name( $this->data['display_name'] ?? '' );
+
+		if( !$this->is_valid_display_name( $name ) ) {
+			$this->result( 'error', [
+				'code' => 'invalid_display_name',
+				'msg'  => esc_html( 'لطفاً نام و نام خانوادگی معتبر، بین ۲ تا ۶۰ نویسه وارد کنید.' ),
+			] );
+		}
+
+		return $name;
+	}
+
+	private function user_object( $user ) {
+		if( $user instanceof \WP_User ) {
+			return $user;
+		}
+		return $user ? get_user_by( 'id', absint( $user ) ) : false;
+	}
+
+	private function user_needs_display_name( $user ) {
+		$user = $this->user_object( $user );
+		if( !$user ) {
+			return true;
+		}
+
+		$profile_name = $this->normalize_display_name( trim( $user->first_name . ' ' . $user->last_name ) );
+		if( $this->is_valid_display_name( $profile_name ) ) {
+			return false;
+		}
+
+		$display_name = $this->normalize_display_name( $user->display_name );
+		$compact_name = preg_replace( '/[\s\-()]+/u', '', $display_name );
+		$is_phone     = (bool) preg_match( '/^(?:\+?98|0098|0)?9[0-9*]{9,10}$/', $compact_name );
+		$is_default   = !$display_name || 0 === strcasecmp( $display_name, $this->normalize_display_name( $user->user_login ) );
+		$is_generic   = in_array( $display_name, [ 'کاربر', $this->normalize_display_name( get_bloginfo( 'name' ) ) ], true );
+
+		return !$this->is_valid_display_name( $display_name ) || $is_phone || $is_default || $is_generic;
+	}
+
+	private function update_user_name( $user_id, $display_name ) {
+		$name_parts = preg_split( '/[\p{Z}\s]+/u', $display_name, 2 );
+		return wp_update_user( [
+			'ID'           => $user_id,
+			'display_name' => $display_name,
+			'first_name'   => $name_parts[0],
+			'last_name'    => $name_parts[1] ?? '',
+			'nickname'     => $display_name,
+		] );
+	}
+
+	private function create_named_user( $username, $password, $email, $mobile, $display_name ) {
+		$user_id = User::create_user( $username, $password, $email, $mobile );
+		if( is_wp_error( $user_id ) ) {
+			return $user_id;
+		}
+		$updated = $this->update_user_name( $user_id, $display_name );
+		if( is_wp_error( $updated ) ) {
+			require_once ABSPATH . 'wp-admin/includes/user.php';
+			wp_delete_user( $user_id );
+			return $updated;
+		}
+
+		return $user_id;
+	}
+
 	public function login( $args = [] ) {
 		$options = Options::get_options( [
 			'auth-modal'	=> true,
@@ -112,6 +189,7 @@ class Auth extends AJAX {
 		}
 
 		$this->set_request_data();
+		$display_name = $this->valid_display_name();
 
 		if( !empty( $this->data['mobile'] ) && $this->find_user_with_everything( $this->data['mobile'] ) ) {
 			$this->result( 'error', [
@@ -120,7 +198,7 @@ class Auth extends AJAX {
 			] );
 		}
 
-		$user_id = User::create_user( $this->data['username'], $this->data['password'], $this->data['email'], !empty( $this->data['mobile'] ) ? $this->data['mobile'] : '' );
+		$user_id = $this->create_named_user( $this->data['username'], $this->data['password'], $this->data['email'], !empty( $this->data['mobile'] ) ? $this->data['mobile'] : '', $display_name );
 		if( is_wp_error( $user_id ) ) {
 			$this->result( 'error', [
 				'code'	=> array_keys( $user_id->errors )[0],
@@ -172,7 +250,7 @@ class Auth extends AJAX {
 				'msg' => esc_html__( 'Please wait before requesting another verification code.', 'bijan' ),
 			] );
 		}
-		$user = User::find_user_by_mobile( $mobile );
+		$user = $this->user_object( User::find_user_by_mobile( $mobile ) );
 		if( $user ) { // Login
 			if( empty( $sms_settings['settings']['auth']['login']['enabled'] ) ) {
 				$this->result( 'error', [
@@ -198,6 +276,7 @@ class Auth extends AJAX {
 			'code'	=> 'otp_sent',
 			'msg'	=> esc_html__( 'The verification code has been sent to your mobile number.', 'bijan' ),
 			'mode'	=> $user ? 'login' : 'register',
+			'requires_name' => !$user || $this->user_needs_display_name( $user ),
 		] );
 	}
 
@@ -241,13 +320,24 @@ class Auth extends AJAX {
 
 		$sms_settings = UtilsSMS::get_settings();
 
-		$user = User::find_user_by_mobile( $mobile );
+		$user = $this->user_object( User::find_user_by_mobile( $mobile ) );
 		if( $user ) { // Login
 			if( empty( $sms_settings['settings']['auth']['login']['enabled'] ) ) {
 				$this->result( 'error', [
 					'code'	=> 'login_not_active',
 					'msg'	=> esc_html__( 'Login via SMS is not active.', 'bijan' ),
 				] );
+			}
+			if( $this->user_needs_display_name( $user ) ) {
+				$display_name = $this->valid_display_name();
+				$updated = $this->update_user_name( $user->ID, $display_name );
+				if( is_wp_error( $updated ) ) {
+					$this->result( 'error', [
+						'code' => 'profile_update_failed',
+						'msg'  => esc_html( 'ذخیره نام انجام نشد. لطفاً دوباره تلاش کنید.' ),
+					] );
+				}
+				$user = get_user_by( 'id', $user->ID );
 			}
 		} else { // Register
 			if( empty( $sms_settings['settings']['auth']['register']['enabled'] ) || empty( $sms_settings['settings']['auth']['one_form'] ) ) {
@@ -257,7 +347,8 @@ class Auth extends AJAX {
 				] );
 			}
 
-			$user_id = User::create_user( $mobile, '', '', $mobile );
+			$display_name = $this->valid_display_name();
+			$user_id = $this->create_named_user( $mobile, '', '', $mobile, $display_name );
 			if ( is_wp_error( $user_id ) ) {
 				$this->result( 'error', [
 					'code' => 'user_creation_failed',
