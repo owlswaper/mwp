@@ -9,6 +9,18 @@
 			return value.length >= 2 && value.length <= 60 && /^[\p{L}\p{M}]+(?:[\p{L}\p{M}\s‌'’\-]*[\p{L}\p{M}])?$/u.test(value);
 		}
 
+		function normalizeDigits(value) {
+			const digitMap = {
+				'۰': '0', '۱': '1', '۲': '2', '۳': '3', '۴': '4', '۵': '5', '۶': '6', '۷': '7', '۸': '8', '۹': '9',
+				'٠': '0', '١': '1', '٢': '2', '٣': '3', '٤': '4', '٥': '5', '٦': '6', '٧': '7', '٨': '8', '٩': '9'
+			};
+			return String(value || '').replace(/[۰-۹٠-٩]/g, function(digit) { return digitMap[digit]; });
+		}
+
+		function otpDigits(value) {
+			return normalizeDigits(value).replace(/[^0-9]/g, '');
+		}
+
 		function setOtpMode(mode, requiresName) {
 			otpMode = mode === 'register' ? 'register' : 'login';
 			otpNeedsName = Boolean(requiresName) && (otpMode === 'login' || Boolean(bijanLogin.smsOneForm));
@@ -224,7 +236,7 @@
 			const $input = $(this);
 
 			// Remove all non-digit characters and limit the input to 11 digits
-			let value = bijan.convertChars($input.val()).replace(/\D/g, '').slice(0, 11);
+			let value = normalizeDigits($input.val()).replace(/[^0-9]/g, '').slice(0, 11);
 
 			// Format the value into the #### ### #### pattern dynamically
 			value = value.replace(/^(\d{4})(\d{0,3})(\d{0,4})$/, (_, a, b, c) => {
@@ -235,26 +247,27 @@
 			// Update the input field with the formatted value
 			$input.val(value);
 		});
-		$(".auth-otp-input").on("input", function () { // Move between OTP fields
-			// Allow only one character in the input
-			let value = bijan.convertChars($(this).val());
-			if (value.length > 1) {
-				$(this).val(value.charAt(0));
+		$(".auth-otp-input").on("input", function () { // Normalize Persian/Arabic digits and support OTP paste/autofill.
+			const $inputs = $(".auth-otp-input");
+			const startIndex = $inputs.index(this);
+			const digits = otpDigits($(this).val()).slice(0, $inputs.length - startIndex);
+			$(this).val('');
+
+			digits.split('').forEach(function(digit, offset) {
+				$inputs.eq(startIndex + offset).val(digit);
+			});
+
+			if (digits.length) {
+				const nextIndex = Math.min(startIndex + digits.length, $inputs.length - 1);
+				$inputs.eq(nextIndex).focus();
 			}
-	
-			// Move to the next input when a character is typed
-			if (bijan.convertChars($(this).val()) !== "") {
-				const nextInput = $(this).next(".auth-otp-input");
-				if (nextInput.length > 0) {
-					nextInput.focus();
-				}
-			}
+			updateOtpSubmitState(true);
 		});
 		function updateOtpSubmitState(submitWhenReady) {
 			// Check if all inputs are filled
 			let allFilled = true;
 			$(".auth-otp-input").each(function () {
-				if (bijan.convertChars($(this).val()) === "") {
+				if (otpDigits($(this).val()).length !== 1) {
 					allFilled = false;
 					return false; // Break the loop
 				}
@@ -271,9 +284,6 @@
 				$("#auth-otp-submit").addClass('disabled').prop('disabled', true)
 			}
 		}
-		$('.auth-otp-input').on('change keyup', function() { // Check enable/disable verify btn
-			updateOtpSubmitState(true);
-		})
 		$('#auth-register-name').on('input', function() {
 			updateOtpSubmitState(false);
 		});
@@ -292,15 +302,17 @@
 	
 			// Clear the current input and move to the previous one on backspace
 			if (key === "Backspace") {
-				if (bijan.convertChars(currentInput.val()) === "") {
+				e.preventDefault();
+				if (otpDigits(currentInput.val()) === "") {
 					currentInput.prev(".auth-otp-input").focus().val("");
 				} else {
 					currentInput.val("");
 				}
+				updateOtpSubmitState(false);
 			}
 		});
 		$("#auth-mobile-input").on('change keyup', function() { // Check enable/disable send OTP button
-			let value = bijan.convertChars($(this).val());
+			let value = normalizeDigits($(this).val());
 			if(value.length === 13 && value.substr(0, 2) == '09') {
 				$("#auth-mobile-submit").removeClass('disabled').prop('disabled', false)
 			} else {
@@ -319,7 +331,7 @@
 				type: 'post',
 				data: {
 					action: 'bijan_send_otp',
-					mobile: $('#auth-mobile-input').val().replaceAll(' ', ''),
+					mobile: normalizeDigits($('#auth-mobile-input').val()).replaceAll(' ', ''),
 					nonce: $('#auth-mobile-form').attr('data-nonce')
 				},
 				success: function(res) {
@@ -355,9 +367,9 @@
 			sendAjax( {
 				action: 'bijan_check_otp',
 				nonce: $('#auth-otp-form').attr('data-nonce'),
-				mobile: $('#auth-mobile-input').val(),
+				mobile: normalizeDigits($('#auth-mobile-input').val()),
 				display_name: otpNeedsName ? $('#auth-register-name').val() : '',
-				otp: $('#auth-otp-input-0').val() + $('#auth-otp-input-1').val() + $('#auth-otp-input-2').val() + $('#auth-otp-input-3').val()
+				otp: otpDigits($('#auth-otp-input-0').val() + $('#auth-otp-input-1').val() + $('#auth-otp-input-2').val() + $('#auth-otp-input-3').val())
 			}).done(function() {
 				$this.removeClass('loading')
 			});

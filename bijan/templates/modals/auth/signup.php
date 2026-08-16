@@ -5,7 +5,7 @@ if( !defined( 'ABSPATH' ) ) exit;
 <h4 class="auth-modal-title"><?php esc_html_e( "Signup", 'bijan' ) ?></h4>
 <form action="" method="post" id="signup-form" class="auth-form" data-nonce="<?php echo wp_create_nonce( "bijan-auth-signup" ) ?>">
 	<div class="input-group row-full">
-		<label for="signup-display-name" class="input-label"><?php esc_html_e( 'Name', 'bijan' ) ?></label>
+		<label for="signup-display-name" class="input-label">اسمت چیه؟</label>
 		<div class="input-wrap">
 			<input
 				type="text"
@@ -16,7 +16,7 @@ if( !defined( 'ABSPATH' ) ) exit;
 				autocomplete="name"
 				minlength="2"
 				maxlength="60"
-				placeholder="نام و نام خانوادگی"
+				placeholder="مثلاً آریا محمدی"
 			>
 		</div>
 	</div>

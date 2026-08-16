@@ -61,6 +61,16 @@ class Auth extends AJAX {
 		delete_transient( $this->rate_limit_key( $action, $identifier ) );
 	}
 
+	private function normalize_digits( $value ) {
+		$value = sanitize_text_field( wp_unslash( (string) $value ) );
+		return strtr( $value, [
+			'۰' => '0', '۱' => '1', '۲' => '2', '۳' => '3', '۴' => '4',
+			'۵' => '5', '۶' => '6', '۷' => '7', '۸' => '8', '۹' => '9',
+			'٠' => '0', '١' => '1', '٢' => '2', '٣' => '3', '٤' => '4',
+			'٥' => '5', '٦' => '6', '٧' => '7', '٨' => '8', '٩' => '9',
+		] );
+	}
+
 	private function normalize_display_name( $name ) {
 		$name = sanitize_text_field( wp_unslash( (string) $name ) );
 		$name = preg_replace( '/[\p{Z}\s]+/u', ' ', trim( $name ) );
@@ -78,7 +88,7 @@ class Auth extends AJAX {
 		if( !$this->is_valid_display_name( $name ) ) {
 			$this->result( 'error', [
 				'code' => 'invalid_display_name',
-				'msg'  => esc_html( 'لطفاً نام و نام خانوادگی معتبر، بین ۲ تا ۶۰ نویسه وارد کنید.' ),
+				'msg'  => esc_html( 'لطفاً یک نام معتبر بین ۲ تا ۶۰ نویسه وارد کنید.' ),
 			] );
 		}
 
@@ -243,7 +253,7 @@ class Auth extends AJAX {
 
 		$sms_settings = UtilsSMS::get_settings();
 
-		$mobile = WhiteboxSanitizers::phone( $this->data['mobile'] );
+		$mobile = WhiteboxSanitizers::phone( $this->normalize_digits( $this->data['mobile'] ?? '' ) );
 		if ( ! $mobile || $this->is_rate_limited( 'otp_send', $mobile, self::OTP_SEND_LIMIT ) ) {
 			$this->result( 'error', [
 				'code' => 'rate_limited',
@@ -294,12 +304,19 @@ class Auth extends AJAX {
 
 		$this->set_request_data();
 
-		$mobile = WhiteboxSanitizers::phone( $this->data['mobile'] );
-		$otp = WhiteboxSanitizers::otp( $this->data['otp'] );
+		$mobile = WhiteboxSanitizers::phone( $this->normalize_digits( $this->data['mobile'] ?? '' ) );
+		$otp    = $this->normalize_digits( $this->data['otp'] ?? '' );
 		if ( ! $mobile || $this->is_rate_limited( 'otp_verify', $mobile, self::OTP_VERIFY_LIMIT ) ) {
 			$this->result( 'error', [
 				'code' => 'rate_limited',
-				'message' => esc_html__( 'Too many failed attempts. Please request a new verification code later.', 'bijan' ),
+				'msg' => esc_html__( 'Too many failed attempts. Please request a new verification code later.', 'bijan' ),
+			] );
+		}
+		if ( ! preg_match( '/^[0-9]{4}$/D', $otp ) ) {
+			$this->record_rate_limit( 'otp_verify', $mobile );
+			$this->result( 'error', [
+				'code' => 'invalid_otp_format',
+				'msg'  => esc_html( 'کد تأیید باید دقیقاً ۴ رقم باشد.' ),
 			] );
 		}
 
@@ -314,7 +331,7 @@ class Auth extends AJAX {
 			$this->record_rate_limit( 'otp_verify', $mobile );
 			$this->result( 'error', [
 				'code'		=> 'otp_not_match',
-				'message'	=> esc_html__( 'OTP code does not match', 'bijan' ),
+				'msg'		=> esc_html__( 'OTP code does not match', 'bijan' ),
 			] );
 		}
 
