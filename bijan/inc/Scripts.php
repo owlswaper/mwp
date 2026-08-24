@@ -248,11 +248,9 @@ if( !class_exists( "Bijan\Scripts" ) ) {
 			if( !$uses_wc_components ) return;
 
 			wp_enqueue_style( 'bijan-wc', BIJAN_URI . "assets/css/wc/wc.min.css", [], BIJAN_VERSION );
-			if( BIJAN_DEV ) {
-				wp_enqueue_script( 'bijan-wc', BIJAN_URI . "assets/js/wc/wc.js", ['jquery'], BIJAN_VERSION, true );
-			} else {
-				wp_enqueue_script( 'bijan-wc', BIJAN_URI . "assets/js/wc/wc.min.js", ['jquery'], BIJAN_VERSION, true );
-			}
+			$wc_script = BIJAN_DEV ? 'assets/js/wc/wc.js' : 'assets/js/wc/wc.min.js';
+			$wc_script_version = file_exists( BIJAN_DIR . $wc_script ) ? filemtime( BIJAN_DIR . $wc_script ) : BIJAN_VERSION;
+			wp_enqueue_script( 'bijan-wc', BIJAN_URI . $wc_script, ['jquery'], $wc_script_version, true );
 
 			if( is_shop() || is_product_taxonomy() || is_post_type_archive( 'product' ) ) {
 				wp_enqueue_style( 'bijan-wc-archive', BIJAN_URI . "assets/css/wc/archive.min.css", [], BIJAN_VERSION );

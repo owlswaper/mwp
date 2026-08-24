@@ -62,12 +62,16 @@
 							});
 							sessionStorage.setItem( "wc_fragments", JSON.stringify( res.fragments ) );
             				sessionStorage.setItem( "wc_cart_hash", res.cart_hash );
-							$('body').trigger( 'wc_fragment_refresh' );
-							loading.fadeOut();
+							// The response already contains fresh fragments. Triggering
+							// wc_fragment_refresh here would issue the same request again.
+							$('body').trigger( 'wc_fragments_refreshed' );
 						}
+					},
+					complete: function() {
+						loading.fadeOut();
 					}
 				});
-			}, 500);
+			}, 300);
 		});
 
 		// Price filter submit
@@ -86,7 +90,7 @@
 
 		//***** Timer *****//
 		$('.product-timer').each(function() {
-			let $this = $(element),
+			let $this = $(this),
 				endTime = new Date(parseInt($this.attr('data-time'))*1000).getTime(),
 				$days = $this.find('.product-timer-days .product-timer-item-value'),
 				$hours = $this.find('.product-timer-hours .product-timer-item-value'),

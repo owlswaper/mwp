@@ -106,6 +106,12 @@ final class Bijan_Category_Product_Shuffle {
 	}
 
 	public static function schedule_rotation() {
+		// Product-category cache rotation is only relevant to normal frontend
+		// requests. Skip its option/cron checks during cart and other AJAX calls.
+		if ( wp_doing_ajax() ) {
+			return;
+		}
+
 		$current_bucket = self::current_bucket();
 		$stored_bucket  = get_option( self::BUCKET_OPTION, null );
 		$cache_version  = (string) get_option( self::VERSION_OPTION, '' );
