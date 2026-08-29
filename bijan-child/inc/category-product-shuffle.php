@@ -15,11 +15,14 @@ final class Bijan_Category_Product_Shuffle {
 	private const BUCKET_OPTION  = 'bijan_category_product_shuffle_bucket';
 	private const VERSION_OPTION = 'bijan_category_product_shuffle_cache_version';
 	private const ROTATION_LOCK  = 'bijan_category_product_shuffle_rotation_lock';
-	private const CACHE_VERSION  = '3';
+	private const CACHE_VERSION  = '4';
 
 	public static function init() {
 		add_action( 'pre_get_posts', [ __CLASS__, 'mark_category_query' ], 999 );
-		add_filter( 'posts_clauses', [ __CLASS__, 'apply_stable_order' ], 999, 2 );
+		// Apply the order to the final SQL clauses. WooCommerce and the parent
+		// theme both alter ORDER BY, so an earlier posts_clauses filter can be
+		// overwritten after our shuffle has been added.
+		add_filter( 'posts_clauses_request', [ __CLASS__, 'apply_stable_order' ], PHP_INT_MAX, 2 );
 		add_action( 'init', [ __CLASS__, 'schedule_rotation' ], 20 );
 		add_action( self::CRON_HOOK, [ __CLASS__, 'rotate_cache' ] );
 		add_action( 'send_headers', [ __CLASS__, 'send_category_cache_headers' ], 999 );
@@ -65,12 +68,22 @@ final class Bijan_Category_Product_Shuffle {
 		global $wpdb;
 		$seed = (string) absint( $seed );
 
-		// Keep the shuffle within each stock group, while always placing products
-		// with a purchasable stock status before out-of-stock products.
-		$lookup_table     = $wpdb->prefix . 'wc_product_meta_lookup';
-		$lookup_table_sql = esc_sql( $lookup_table );
-		$clauses['join'] .= " LEFT JOIN {$lookup_table_sql} AS bijan_shuffle_stock_lookup ON {$wpdb->posts}.ID = bijan_shuffle_stock_lookup.product_id";
-		$clauses['orderby'] = "CASE WHEN bijan_shuffle_stock_lookup.stock_status = 'outofstock' OR bijan_shuffle_stock_lookup.stock_status IS NULL THEN 1 ELSE 0 END ASC, CRC32(CONCAT({$wpdb->posts}.ID, '-', '{$seed}')) ASC, {$wpdb->posts}.ID ASC";
+		// Read the same canonical _stock_status value used by WC_Product when the
+		// product card decides whether it is out of stock. The lookup table can be
+		// temporarily stale after imports or bulk stock updates, which previously
+		// allowed unavailable products to be mixed into the available group.
+		if ( false === strpos( $clauses['join'], 'bijan_shuffle_stock_meta' ) ) {
+			$clauses['join'] .= $wpdb->prepare(
+				" LEFT JOIN {$wpdb->postmeta} AS bijan_shuffle_stock_meta
+					ON ({$wpdb->posts}.ID = bijan_shuffle_stock_meta.post_id
+					AND bijan_shuffle_stock_meta.meta_key = %s)",
+				'_stock_status'
+			);
+		}
+
+		// Products without an explicit status retain WooCommerce's default
+		// in-stock behaviour. Only an explicit outofstock value belongs at the end.
+		$clauses['orderby'] = "CASE WHEN bijan_shuffle_stock_meta.meta_value = 'outofstock' THEN 1 ELSE 0 END ASC, CRC32(CONCAT({$wpdb->posts}.ID, '-', '{$seed}')) ASC, {$wpdb->posts}.ID ASC";
 
 		return $clauses;
 	}
