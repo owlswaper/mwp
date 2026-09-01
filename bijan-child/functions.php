@@ -25,6 +25,9 @@ require_once trailingslashit( get_stylesheet_directory() ) . 'inc/contact-page.p
 // Clearer product attributes plus the fixed shipping and returns guide.
 require_once trailingslashit( get_stylesheet_directory() ) . 'inc/product-tabs.php';
 
+// Secure customer order tracking, fulfilment workflow and status SMS.
+require_once trailingslashit( get_stylesheet_directory() ) . 'inc/order-tracking.php';
+
 /**************************************************************************
 ✅ START EDIT FROM HERE 👇🏻
 HAPPY CODING 😊

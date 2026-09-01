@@ -43,19 +43,38 @@
 			}, 10);
 		}
 
-		function closeModal() {
+		function closeModal(restoreFocus = true, immediately = false) {
 			if (!$modal.length || $modal.attr('hidden')) return;
 			window.clearTimeout(closeTimer);
 			$modal.removeClass('is-open').attr('aria-hidden', 'true');
 			$('body').removeClass('bc-modal-open');
+			if (immediately) {
+				$modal.attr('hidden', true);
+				return;
+			}
 			closeTimer = window.setTimeout(function () {
 				$modal.attr('hidden', true);
-				if ($modalTrigger.length) $modalTrigger.trigger('focus');
+				if (restoreFocus && $modalTrigger.length) $modalTrigger.trigger('focus');
 			}, 220);
+		}
+
+		function openLoginModal() {
+			// Use the same trigger as the working header login flow. Selecting an
+			// arbitrary `.showlogin` link can target a hidden community element.
+			const $loginTrigger = $('#header-account:visible, [data-index="login"]:visible').first();
+			if ($loginTrigger.length) {
+				$loginTrigger.trigger('click');
+				return;
+			}
+			$('#header-account, [data-index="login"], a.showlogin').first().trigger('click');
 		}
 
 		$('[data-community-open]').on('click', function () {
 			openModal($(this).data('community-open'), this);
+		});
+		$('[data-community-login]').on('click', function (event) {
+			event.preventDefault();
+			openLoginModal();
 		});
 		$('[data-community-close]').on('click', function (event) {
 			event.preventDefault();
@@ -198,8 +217,10 @@
 			}).fail(function (xhr) {
 				const data = xhr.responseJSON?.data;
 				if (data?.login_required) {
-					closeModal();
-					$('a.showlogin').first().trigger('click');
+					// Do not let the closing community modal steal focus back from the
+					// login modal. Open login after the close state is applied.
+					closeModal(false, true);
+					window.setTimeout(openLoginModal, 0);
 					return;
 				}
 				showMessage($form, data?.message || config.i18n?.network || 'خطایی رخ داد.', false);

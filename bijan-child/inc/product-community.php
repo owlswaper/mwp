@@ -230,9 +230,13 @@ final class Bijan_Product_Community {
 		$js_file  = $dir . 'assets/product-community.js';
 		$css_ver  = is_readable( $css_file ) ? (string) filemtime( $css_file ) : $version;
 		$js_ver   = is_readable( $js_file ) ? (string) filemtime( $js_file ) : $version;
+		$js_dependencies = [ 'jquery' ];
+		if ( wp_script_is( 'bijan-auth-modal', 'enqueued' ) ) {
+			$js_dependencies[] = 'bijan-auth-modal';
+		}
 
 		wp_enqueue_style( 'bijan-product-community', $uri . 'assets/product-community.css', [], $css_ver );
-		wp_enqueue_script( 'bijan-product-community', $uri . 'assets/product-community.js', [ 'jquery' ], $js_ver, true );
+		wp_enqueue_script( 'bijan-product-community', $uri . 'assets/product-community.js', $js_dependencies, $js_ver, true );
 		wp_localize_script(
 			'bijan-product-community',
 			'bijanCommunity',
@@ -723,7 +727,7 @@ final class Bijan_Product_Community {
 		if ( is_user_logged_in() ) {
 			printf( '<button type="button" class="%1$s" data-community-open="%2$s">%3$s</button>', esc_attr( $class ), esc_attr( $type ), esc_html( $label ) );
 		} else {
-			printf( '<a href="?login" class="%1$s showlogin" data-community-login>%2$s</a>', esc_attr( $class ), esc_html( $label ) );
+			printf( '<button type="button" class="%1$s" data-community-login>%2$s</button>', esc_attr( $class ), esc_html( $label ) );
 		}
 	}
 
