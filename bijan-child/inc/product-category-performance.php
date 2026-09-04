@@ -49,8 +49,65 @@ function cloz_enqueue_product_category_assets() {
 		file_exists( $js_path ) ? filemtime( $js_path ) : BIJAN_CHILD_VERSION,
 		true
 	);
+
+	$masonry_path = get_template_directory() . '/assets/libs/masonry.pkgd.min.js';
+	wp_localize_script(
+		'cloz-product-category',
+		'clozCategoryAssets',
+		[
+			'masonryUrl' => add_query_arg(
+				'ver',
+				file_exists( $masonry_path ) ? filemtime( $masonry_path ) : BIJAN_CHILD_VERSION,
+				get_template_directory_uri() . '/assets/libs/masonry.pkgd.min.js'
+			),
+			'rtl' => is_rtl(),
+		]
+	);
 }
 add_action( 'wp_enqueue_scripts', 'cloz_enqueue_product_category_assets', 40 );
+
+/** The small above-the-fold contract is inlined; the full visual layer is async. */
+function cloz_print_product_category_critical_css() {
+	if ( ! is_product_category() ) {
+		return;
+	}
+
+	$critical_paths = [
+		BIJAN_CHILD_DIR . 'assets/product-category-critical.min.css',
+		BIJAN_CHILD_DIR . 'assets/product-category-filter-critical.min.css',
+	];
+	$font_path = BIJAN_CHILD_DIR . 'assets/product-category-icons.woff2';
+	if ( ! is_readable( $font_path ) ) {
+		return;
+	}
+
+	$font_url = add_query_arg( 'ver', filemtime( $font_path ), BIJAN_CHILD_URI . 'assets/product-category-icons.woff2' );
+	$css      = '';
+	foreach ( $critical_paths as $critical_path ) {
+		if ( is_readable( $critical_path ) ) {
+			$css .= file_get_contents( $critical_path );
+		}
+	}
+	$css = str_replace( '__CLOZ_FONT_URL__', esc_url_raw( $font_url ), $css );
+
+	echo '<style id="cloz-product-category-critical">' . $css . '</style>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+}
+add_action( 'wp_head', 'cloz_print_product_category_critical_css', 2 );
+
+function cloz_defer_product_category_stylesheet( $html, $handle ) {
+	if ( 'cloz-product-category' !== $handle || ! is_product_category() ) {
+		return $html;
+	}
+
+	$deferred = str_replace(
+		[ "media='all'", 'media="all"' ],
+		[ "media='print' onload=\"this.onload=null;this.media='all'\"", "media=\"print\" onload=\"this.onload=null;this.media='all'\"" ],
+		$html
+	);
+
+	return $deferred . '<noscript>' . $html . '</noscript>';
+}
+add_filter( 'style_loader_tag', 'cloz_defer_product_category_stylesheet', 20, 2 );
 
 /** Remove bundles that have no component in the dedicated archive. */
 function cloz_dequeue_unused_product_category_assets() {
@@ -67,17 +124,33 @@ function cloz_dequeue_unused_product_category_assets() {
 			'bijan-bootstrap',
 			'bijan-bootstrap-rtl',
 			'bijan-wc-archive',
+			'bijan-icons',
 		]
 		as $handle
 	) {
 		wp_dequeue_style( $handle );
 	}
 
-	foreach ( [ 'contact-form-7', 'swv' ] as $handle ) {
+	foreach (
+		[
+			'contact-form-7',
+			'swv',
+			'bijan-masonry',
+			'bijan-megamenu',
+			'wc-price-slider',
+			'jquery-ui-slider',
+			'jquery-ui-mouse',
+			'jquery-ui-touch-punch',
+			'accounting',
+		]
+		as $handle
+	) {
 		wp_dequeue_script( $handle );
 	}
 }
 add_action( 'wp_enqueue_scripts', 'cloz_dequeue_unused_product_category_assets', PHP_INT_MAX );
+// The price widget can enqueue these scripts while the sidebar is rendered.
+add_action( 'wp_footer', 'cloz_dequeue_unused_product_category_assets', 0 );
 
 /** Start the critical icon request before the CSS is parsed. */
 function cloz_preload_product_category_icon_font() {
@@ -85,7 +158,12 @@ function cloz_preload_product_category_icon_font() {
 		return;
 	}
 
-	$font_url = get_template_directory_uri() . '/assets/fonts/iconly.woff2?1771714076517';
+	$font_path = BIJAN_CHILD_DIR . 'assets/product-category-icons.woff2';
+	if ( ! is_readable( $font_path ) ) {
+		return;
+	}
+
+	$font_url  = add_query_arg( 'ver', filemtime( $font_path ), BIJAN_CHILD_URI . 'assets/product-category-icons.woff2' );
 	?>
 	<link rel="preload" href="<?php echo esc_url( $font_url ); ?>" as="font" type="font/woff2" crossorigin fetchpriority="high">
 	<?php
