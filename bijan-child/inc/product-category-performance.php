@@ -1,18 +1,85 @@
 <?php
 /**
- * Small, category-only front-end performance improvements.
+ * Product-category performance layer.
  *
- * Keep these optimizations isolated from product pages and the rest of the
- * site so optional components on those templates continue to work normally.
+ * The category archive owns one template, one stylesheet and one tiny script.
+ * Shared header/footer and WooCommerce product-card assets remain available so
+ * cart, filters, account actions and structured data continue to work.
  */
 
 defined( 'ABSPATH' ) || exit;
 
-/**
- * Iconly is used in the header and first product card, but its @font-face rule
- * is discovered only after the page CSS. Preloading the exact WOFF2 URL turns
- * that late CSS -> font chain into an early parallel request.
- */
+function cloz_is_primary_product_category_page() {
+	if ( ! is_product_category() || is_paged() ) {
+		return false;
+	}
+
+	$page_numbers = [
+		absint( get_query_var( 'paged' ) ),
+		absint( get_query_var( 'page' ) ),
+		absint( get_query_var( 'product-page' ) ),
+	];
+
+	if ( isset( $_GET['product-page'] ) ) {
+		$page_numbers[] = absint( wp_unslash( $_GET['product-page'] ) );
+	}
+
+	return max( $page_numbers ) <= 1;
+}
+
+function cloz_enqueue_product_category_assets() {
+	if ( ! is_product_category() ) {
+		return;
+	}
+
+	$css_path = BIJAN_CHILD_DIR . 'assets/product-category.min.css';
+	$js_path  = BIJAN_CHILD_DIR . 'assets/product-category.min.js';
+
+	wp_enqueue_style(
+		'cloz-product-category',
+		BIJAN_CHILD_URI . 'assets/product-category.min.css',
+		[ 'bijan-wc' ],
+		file_exists( $css_path ) ? filemtime( $css_path ) : BIJAN_CHILD_VERSION
+	);
+
+	wp_enqueue_script(
+		'cloz-product-category',
+		BIJAN_CHILD_URI . 'assets/product-category.min.js',
+		[],
+		file_exists( $js_path ) ? filemtime( $js_path ) : BIJAN_CHILD_VERSION,
+		true
+	);
+}
+add_action( 'wp_enqueue_scripts', 'cloz_enqueue_product_category_assets', 40 );
+
+/** Remove bundles that have no component in the dedicated archive. */
+function cloz_dequeue_unused_product_category_assets() {
+	if ( ! is_product_category() ) {
+		return;
+	}
+
+	foreach (
+		[
+			'contact-form-7',
+			'contact-form-7-rtl',
+			'wc-blocks-style',
+			'wc-blocks-style-rtl',
+			'bijan-bootstrap',
+			'bijan-bootstrap-rtl',
+			'bijan-wc-archive',
+		]
+		as $handle
+	) {
+		wp_dequeue_style( $handle );
+	}
+
+	foreach ( [ 'contact-form-7', 'swv' ] as $handle ) {
+		wp_dequeue_script( $handle );
+	}
+}
+add_action( 'wp_enqueue_scripts', 'cloz_dequeue_unused_product_category_assets', PHP_INT_MAX );
+
+/** Start the critical icon request before the CSS is parsed. */
 function cloz_preload_product_category_icon_font() {
 	if ( ! is_product_category() ) {
 		return;
@@ -25,30 +92,48 @@ function cloz_preload_product_category_icon_font() {
 }
 add_action( 'wp_head', 'cloz_preload_product_category_icon_font', 1 );
 
-/**
- * The parent stylesheet applies will-change to every link. A category archive
- * contains hundreds of links, so asking the browser to prepare a layer for all
- * of them wastes memory and style/compositing work. Transitions still render
- * identically without the permanent hint.
- *
- * Content below the product grid is expensive but initially off-screen. Modern
- * browsers can skip its first layout/paint while preserving the rendered UI
- * when the visitor scrolls to it.
- */
-function cloz_product_category_rendering_hints() {
-	if ( ! is_product_category() ) {
-		return;
+function cloz_product_category_link_url( $link ) {
+	if ( is_array( $link ) ) {
+		$link = $link['url'] ?? '';
 	}
 
-	$css = '
-		body.tax-product_cat a{will-change:auto}
-		body.tax-product_cat .category-faq-section,
-		body.tax-product_cat .cloz-related-posts-wrapper{
-			content-visibility:auto;
-			contain-intrinsic-size:auto 800px;
-		}
-	';
-
-	wp_add_inline_style( 'bijan-wc-archive', $css );
+	return is_string( $link ) ? $link : '';
 }
-add_action( 'wp_enqueue_scripts', 'cloz_product_category_rendering_hints', 30 );
+
+function cloz_get_product_category_subcategories( $term_id ) {
+	$subcategories = [];
+
+	for ( $index = 0; $index < 50; $index++ ) {
+		$image_id = get_term_meta( $term_id, "sub_categories_{$index}_subcat_image", true );
+		$title    = get_term_meta( $term_id, "sub_categories_{$index}_subcat_title", true );
+		$link     = get_term_meta( $term_id, "sub_categories_{$index}_subcat_link", true );
+
+		if ( ! $image_id && ! $title && ! $link ) {
+			break;
+		}
+
+		$subcategories[] = [
+			'image_id' => absint( $image_id ),
+			'title'    => (string) $title,
+			'link'     => cloz_product_category_link_url( $link ),
+		];
+	}
+
+	return $subcategories;
+}
+
+function cloz_get_product_category_faqs( $term_id ) {
+	$faqs  = [];
+	$count = min( 50, absint( get_term_meta( $term_id, 'faq_list', true ) ) );
+
+	for ( $index = 0; $index < $count; $index++ ) {
+		$question = get_term_meta( $term_id, "faq_list_{$index}_faq_question", true );
+		$answer   = get_term_meta( $term_id, "faq_list_{$index}_faq_answer", true );
+
+		if ( $question && $answer ) {
+			$faqs[] = [ 'question' => $question, 'answer' => $answer ];
+		}
+	}
+
+	return $faqs;
+}
