@@ -143,24 +143,7 @@ if( !class_exists( "Bijan\Scripts" ) ) {
 		}
 
 		private static function uses_slider() {
-			if( Utils::is_wc_active() ) {
-				// Product galleries always use Swiper. Product archives, however, are
-				// grids by default. Loading the complete Swiper bundle for a grid added
-				// roughly 39 KB of unused JavaScript to every taxonomy request.
-				if( is_product() ) return true;
-
-				if( is_shop() || is_product_taxonomy() || is_post_type_archive( 'product' ) ) {
-					$loop_props = Utils\Product::get_loop_props();
-					foreach( ['desktop', 'tablet', 'mobile'] as $device ) {
-						if( !empty( $loop_props["{$device}_slider"] ) ) return true;
-					}
-
-					// A taxonomy ID is not a post ID. Do not pass it to the Elementor
-					// content scanner below, where an unrelated post with the same ID
-					// could otherwise produce a false positive.
-					return false;
-				}
-			}
+			if( Utils::is_wc_active() && ( is_product() || is_shop() || is_product_taxonomy() ) ) return true;
 
 			return self::page_uses_widgets( [
 				'bijan_slider',

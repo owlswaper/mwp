@@ -26,6 +26,7 @@ final class Bijan_Category_Product_Shuffle {
 		add_action( 'init', [ __CLASS__, 'schedule_rotation' ], 20 );
 		add_action( self::CRON_HOOK, [ __CLASS__, 'rotate_cache' ] );
 		add_action( 'send_headers', [ __CLASS__, 'send_category_cache_headers' ], 999 );
+		add_action( 'wp_head', [ __CLASS__, 'print_browser_cache_guard' ], 1 );
 	}
 
 	private static function current_bucket() {
@@ -104,6 +105,23 @@ final class Bijan_Category_Product_Shuffle {
 		header( 'Cache-Control: no-cache, must-revalidate, max-age=0', true );
 		header( 'Expires: Wed, 11 Jan 1984 05:00:00 GMT', true );
 		header( 'CDN-Cache-Control: public, max-age=' . $seconds_to_boundary . ', must-revalidate', true );
+	}
+
+	/**
+	 * Server-level FlyingPress rules can override PHP headers. This tiny guard
+	 * detects an HTML document retained by the browser across a bucket boundary
+	 * and forces one real reload. It adds no network request during normal views.
+	 */
+	public static function print_browser_cache_guard() {
+		if ( ! is_tax( 'product_cat' ) ) {
+			return;
+		}
+
+		$bucket   = self::current_bucket();
+		$interval = self::INTERVAL;
+		?>
+		<script id="bijan-category-cache-guard">(()=>{const b=<?php echo (int) $bucket; ?>,i=<?php echo (int) $interval; ?>,n=Math.floor(Date.now()/1000/i);if(n===b)return;const k="bijan-category-reload-"+n;try{if(sessionStorage.getItem(k))return;sessionStorage.setItem(k,"1")}catch(e){}location.reload()})();</script>
+		<?php
 	}
 
 	public static function schedule_rotation() {
