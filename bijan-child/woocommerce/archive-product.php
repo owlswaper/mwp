@@ -111,11 +111,10 @@ get_header( 'shop' );
 
 		<div class="cloz-category-layout<?php echo $show_sidebar ? ' has-sidebar' : ''; ?>">
 			<?php if ( $show_sidebar ) : ?>
-				<aside id="sidebar" class="sidebar sidebar-shop cloz-category-sidebar" aria-label="<?php esc_attr_e( 'Shop Sidebar', 'bijan' ); ?>">
-					<section id="widget-area" class="widget-area" role="complementary">
-						<?php dynamic_sidebar( 'sidebar-shop' ); ?>
-					</section>
-				</aside>
+				<button class="cloz-mobile-filter-toggle" type="button" aria-expanded="false" aria-controls="sidebar">
+					<span>فیلتر محصولات</span>
+					<svg width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5 7.5 10 12.5 15 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+				</button>
 			<?php endif; ?>
 
 			<section class="cloz-category-products" aria-label="<?php esc_attr_e( 'Products', 'woocommerce' ); ?>">
@@ -130,6 +129,14 @@ get_header( 'shop' );
 					<?php wc_get_template( 'loop/no-products-found.php' ); ?>
 				<?php endif; ?>
 			</section>
+
+			<?php if ( $show_sidebar ) : ?>
+				<aside id="sidebar" class="sidebar sidebar-shop cloz-category-sidebar" aria-label="<?php esc_attr_e( 'Shop Sidebar', 'bijan' ); ?>">
+					<section id="widget-area" class="widget-area" role="complementary">
+						<?php dynamic_sidebar( 'sidebar-shop' ); ?>
+					</section>
+				</aside>
+			<?php endif; ?>
 		</div>
 
 		<?php if ( $long_description ) : ?>

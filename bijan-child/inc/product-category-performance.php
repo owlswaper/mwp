@@ -50,19 +50,6 @@ function cloz_enqueue_product_category_assets() {
 		true
 	);
 
-	$masonry_path = get_template_directory() . '/assets/libs/masonry.pkgd.min.js';
-	wp_localize_script(
-		'cloz-product-category',
-		'clozCategoryAssets',
-		[
-			'masonryUrl' => add_query_arg(
-				'ver',
-				file_exists( $masonry_path ) ? filemtime( $masonry_path ) : BIJAN_CHILD_VERSION,
-				get_template_directory_uri() . '/assets/libs/masonry.pkgd.min.js'
-			),
-			'rtl' => is_rtl(),
-		]
-	);
 }
 add_action( 'wp_enqueue_scripts', 'cloz_enqueue_product_category_assets', 40 );
 
@@ -121,9 +108,6 @@ function cloz_dequeue_unused_product_category_assets() {
 			'contact-form-7-rtl',
 			'wc-blocks-style',
 			'wc-blocks-style-rtl',
-			'bijan-bootstrap',
-			'bijan-bootstrap-rtl',
-			'bijan-wc-archive',
 			'bijan-icons',
 		]
 		as $handle
@@ -135,8 +119,6 @@ function cloz_dequeue_unused_product_category_assets() {
 		[
 			'contact-form-7',
 			'swv',
-			'bijan-masonry',
-			'bijan-megamenu',
 			'wc-price-slider',
 			'jquery-ui-slider',
 			'jquery-ui-mouse',
@@ -169,6 +151,74 @@ function cloz_preload_product_category_icon_font() {
 	<?php
 }
 add_action( 'wp_head', 'cloz_preload_product_category_icon_font', 1 );
+
+/** Make the first product image an explicit LCP candidate without eager-loading the rest. */
+function cloz_prioritize_first_category_product_image( $attributes, $attachment ) {
+	if ( ! is_product_category() || ! is_main_query() ) {
+		return $attributes;
+	}
+
+	global $wp_query;
+	$first_product = isset( $wp_query->posts[0] ) && $wp_query->posts[0] instanceof WP_Post ? $wp_query->posts[0] : null;
+	if ( ! $first_product || (int) get_post_thumbnail_id( $first_product ) !== (int) $attachment->ID ) {
+		return $attributes;
+	}
+
+	$attributes['loading']       = 'eager';
+	$attributes['fetchpriority'] = 'high';
+	$attributes['decoding']      = 'async';
+	$attributes['sizes']         = '(max-width:767px) calc((100vw - 56px)/2),(max-width:1200px) calc((100vw - 88px)/2),260px';
+
+	return $attributes;
+}
+add_filter( 'wp_get_attachment_image_attributes', 'cloz_prioritize_first_category_product_image', 20, 2 );
+
+function cloz_get_compressx_avif_url( $image_url ) {
+	$uploads = wp_get_upload_dir();
+	$prefix  = trailingslashit( $uploads['baseurl'] );
+	if ( 0 !== strpos( $image_url, $prefix ) ) {
+		return '';
+	}
+
+	$relative = substr( $image_url, strlen( $prefix ) );
+	$path     = WP_CONTENT_DIR . '/compressx-nextgen/uploads/' . rawurldecode( $relative ) . '.avif';
+	if ( ! is_readable( $path ) ) {
+		return '';
+	}
+
+	return trailingslashit( content_url( 'compressx-nextgen/uploads' ) ) . $relative . '.avif';
+}
+
+/** Preload the actual AVIF selected by CompressX before the large navigation HTML is parsed. */
+function cloz_preload_first_category_product_image() {
+	if ( ! is_product_category() ) {
+		return;
+	}
+
+	global $wp_query;
+	$first_product = isset( $wp_query->posts[0] ) && $wp_query->posts[0] instanceof WP_Post ? $wp_query->posts[0] : null;
+	$image_id      = $first_product ? get_post_thumbnail_id( $first_product ) : 0;
+	$image          = $image_id ? wp_get_attachment_image_src( $image_id, 'woocommerce_thumbnail' ) : false;
+	$avif_url       = $image ? cloz_get_compressx_avif_url( $image[0] ) : '';
+	if ( ! $avif_url ) {
+		return;
+	}
+
+	$avif_srcset = [];
+	$srcset      = wp_get_attachment_image_srcset( $image_id, 'woocommerce_thumbnail' );
+	foreach ( array_filter( array_map( 'trim', explode( ',', (string) $srcset ) ) ) as $candidate ) {
+		$parts         = preg_split( '/\s+/', $candidate, 2 );
+		$candidate_url = cloz_get_compressx_avif_url( $parts[0] );
+		if ( $candidate_url ) {
+			$avif_srcset[] = $candidate_url . ( isset( $parts[1] ) ? ' ' . $parts[1] : '' );
+		}
+	}
+	$sizes = '(max-width:767px) calc((100vw - 56px)/2),(max-width:1200px) calc((100vw - 88px)/2),260px';
+	?>
+	<link rel="preload" as="image" type="image/avif" href="<?php echo esc_url( $avif_url ); ?>"<?php if ( $avif_srcset ) : ?> imagesrcset="<?php echo esc_attr( implode( ', ', $avif_srcset ) ); ?>" imagesizes="<?php echo esc_attr( $sizes ); ?>"<?php endif; ?> fetchpriority="high">
+	<?php
+}
+add_action( 'wp_head', 'cloz_preload_first_category_product_image', 1 );
 
 function cloz_product_category_link_url( $link ) {
 	if ( is_array( $link ) ) {
