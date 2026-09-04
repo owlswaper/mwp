@@ -13,6 +13,9 @@ require_once trailingslashit( get_stylesheet_directory() ) . 'inc/product-commun
 // Stable 12-hour product shuffle for product category archives.
 require_once trailingslashit( get_stylesheet_directory() ) . 'inc/category-product-shuffle.php';
 
+// Keep category archives lean and start their critical icon font earlier.
+require_once trailingslashit( get_stylesheet_directory() ) . 'inc/product-category-performance.php';
+
 // Streamlined, Iran-only classic WooCommerce checkout.
 require_once trailingslashit( get_stylesheet_directory() ) . 'inc/checkout-customizations.php';
 
@@ -284,9 +287,20 @@ function display_category_intro_and_subcats() {
             <div class="cloz-subcategories-grid">
                 <?php foreach ($subcats as $subcat): ?>
                     <?php 
-                    $image_url = '';
+                    $image_html = '';
                     if (!empty($subcat['image_id'])) {
-                        $image_url = wp_get_attachment_image_url($subcat['image_id'], 'medium');
+                        $image_html = wp_get_attachment_image(
+                            absint($subcat['image_id']),
+                            'medium',
+                            false,
+                            [
+                                'class'    => 'cloz-subcat-image',
+                                'alt'      => wp_strip_all_tags((string) $subcat['title']),
+                                'loading'  => 'lazy',
+                                'decoding' => 'async',
+                                'sizes'    => '(max-width: 480px) 33vw, (max-width: 768px) 25vw, (max-width: 1200px) 16vw, 180px',
+                            ]
+                        );
                     }
                     
                     $link = !empty($subcat['link']) ? esc_url($subcat['link']) : '#';
@@ -295,10 +309,8 @@ function display_category_intro_and_subcats() {
                     
                     <a href="<?php echo $link; ?>" class="cloz-subcat-card">
                         <div class="cloz-subcat-image-wrapper">
-                            <?php if ($image_url): ?>
-                                <img src="<?php echo esc_url($image_url); ?>" 
-                                     alt="<?php echo $title; ?>" 
-                                     class="cloz-subcat-image">
+                            <?php if ($image_html): ?>
+                                <?php echo $image_html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
                             <?php endif; ?>
                         </div>
                         <div class="cloz-subcat-title"><?php echo $title; ?></div>
@@ -826,7 +838,18 @@ function display_category_related_posts() {
         $post = get_post($post_id);
         if (!$post) continue;
         
-        $thumbnail = get_the_post_thumbnail_url($post_id, 'medium');
+        $thumbnail_id = get_post_thumbnail_id($post_id);
+        $thumbnail = $thumbnail_id ? wp_get_attachment_image(
+            $thumbnail_id,
+            'medium',
+            false,
+            [
+                'alt'      => wp_strip_all_tags($post->post_title),
+                'loading'  => 'lazy',
+                'decoding' => 'async',
+                'sizes'    => '(max-width: 768px) calc(100vw - 40px), (max-width: 1200px) 33vw, 360px',
+            ]
+        ) : '';
         
         $excerpt = get_post_meta($post_id, 'rank_math_description', true);
         if (empty($excerpt)) {
@@ -839,7 +862,7 @@ function display_category_related_posts() {
         echo '<article class="cloz-related-post-card">';
         if ($thumbnail) {
             echo '<a href="' . esc_url($permalink) . '" class="cloz-post-thumbnail">';
-            echo '<img src="' . esc_url($thumbnail) . '" alt="' . esc_attr($post->post_title) . '">';
+            echo $thumbnail; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
             echo '</a>';
         }
         echo '<div class="cloz-post-content">';
