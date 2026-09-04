@@ -76,19 +76,12 @@ function cloz_print_product_category_critical_css() {
 		BIJAN_CHILD_DIR . 'assets/product-category-critical.min.css',
 		BIJAN_CHILD_DIR . 'assets/product-category-filter-critical.min.css',
 	];
-	$font_path = BIJAN_CHILD_DIR . 'assets/product-category-icons.woff2';
-	if ( ! is_readable( $font_path ) ) {
-		return;
-	}
-
-	$font_url = add_query_arg( 'ver', filemtime( $font_path ), BIJAN_CHILD_URI . 'assets/product-category-icons.woff2' );
-	$css      = '';
+	$css = '';
 	foreach ( $critical_paths as $critical_path ) {
 		if ( is_readable( $critical_path ) ) {
 			$css .= file_get_contents( $critical_path );
 		}
 	}
-	$css = str_replace( '__CLOZ_FONT_URL__', esc_url_raw( $font_url ), $css );
 
 	echo '<style id="cloz-product-category-critical">' . $css . '</style>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 }
@@ -121,10 +114,6 @@ function cloz_dequeue_unused_product_category_assets() {
 			'contact-form-7-rtl',
 			'wc-blocks-style',
 			'wc-blocks-style-rtl',
-			'bijan-bootstrap',
-			'bijan-bootstrap-rtl',
-			'bijan-wc-archive',
-			'bijan-icons',
 		]
 		as $handle
 	) {
@@ -151,24 +140,6 @@ function cloz_dequeue_unused_product_category_assets() {
 add_action( 'wp_enqueue_scripts', 'cloz_dequeue_unused_product_category_assets', PHP_INT_MAX );
 // The price widget can enqueue these scripts while the sidebar is rendered.
 add_action( 'wp_footer', 'cloz_dequeue_unused_product_category_assets', 0 );
-
-/** Start the critical icon request before the CSS is parsed. */
-function cloz_preload_product_category_icon_font() {
-	if ( ! is_product_category() ) {
-		return;
-	}
-
-	$font_path = BIJAN_CHILD_DIR . 'assets/product-category-icons.woff2';
-	if ( ! is_readable( $font_path ) ) {
-		return;
-	}
-
-	$font_url  = add_query_arg( 'ver', filemtime( $font_path ), BIJAN_CHILD_URI . 'assets/product-category-icons.woff2' );
-	?>
-	<link rel="preload" href="<?php echo esc_url( $font_url ); ?>" as="font" type="font/woff2" crossorigin fetchpriority="high">
-	<?php
-}
-add_action( 'wp_head', 'cloz_preload_product_category_icon_font', 1 );
 
 /** Make the first product image an explicit LCP candidate without eager-loading the rest. */
 function cloz_prioritize_first_category_product_image( $attributes, $attachment ) {
