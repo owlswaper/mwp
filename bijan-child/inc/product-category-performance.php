@@ -50,6 +50,19 @@ function cloz_enqueue_product_category_assets() {
 		true
 	);
 
+	$masonry_path = get_template_directory() . '/assets/libs/masonry.pkgd.min.js';
+	wp_localize_script(
+		'cloz-product-category',
+		'clozCategoryAssets',
+		[
+			'masonryUrl' => add_query_arg(
+				'ver',
+				file_exists( $masonry_path ) ? filemtime( $masonry_path ) : BIJAN_CHILD_VERSION,
+				get_template_directory_uri() . '/assets/libs/masonry.pkgd.min.js'
+			),
+			'rtl' => is_rtl(),
+		]
+	);
 }
 add_action( 'wp_enqueue_scripts', 'cloz_enqueue_product_category_assets', 40 );
 
@@ -108,6 +121,9 @@ function cloz_dequeue_unused_product_category_assets() {
 			'contact-form-7-rtl',
 			'wc-blocks-style',
 			'wc-blocks-style-rtl',
+			'bijan-bootstrap',
+			'bijan-bootstrap-rtl',
+			'bijan-wc-archive',
 			'bijan-icons',
 		]
 		as $handle
@@ -119,6 +135,8 @@ function cloz_dequeue_unused_product_category_assets() {
 		[
 			'contact-form-7',
 			'swv',
+			'bijan-masonry',
+			'bijan-megamenu',
 			'wc-price-slider',
 			'jquery-ui-slider',
 			'jquery-ui-mouse',

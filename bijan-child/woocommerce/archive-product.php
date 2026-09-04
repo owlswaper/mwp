@@ -112,8 +112,11 @@ get_header( 'shop' );
 		<div class="cloz-category-layout<?php echo $show_sidebar ? ' has-sidebar' : ''; ?>">
 			<?php if ( $show_sidebar ) : ?>
 				<button class="cloz-mobile-filter-toggle" type="button" aria-expanded="false" aria-controls="sidebar">
-					<span>فیلتر محصولات</span>
-					<svg width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5 7.5 10 12.5 15 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+					<span class="cloz-filter-toggle-label">
+						<svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M3 5h14M5.5 10h9M8 15h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+						<span>فیلتر محصولات</span>
+					</span>
+					<svg class="cloz-filter-toggle-chevron" width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5 7.5 10 12.5 15 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
 				</button>
 			<?php endif; ?>
 
