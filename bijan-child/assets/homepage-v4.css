@@ -132,7 +132,7 @@
 .clz4-product-copy strong { color: var(--clz4-blue-dark); font-size: 12px; }
 .clz4-product-copy strong del { display: block; color: #99a4aa; font-size: 9px; font-weight: 500; }
 .clz4-product-copy strong ins { text-decoration: none; }
-.clz4-product-copy > div > a { width: 31px; height: 31px; flex: none; border-radius: 10px; display: grid; place-items: center; background: var(--clz4-sky); color: var(--clz4-blue-dark); font-weight: 900; }
+.clz4-product-copy > div > .cloz-card-cart { flex: none; }
 .clz4-empty { grid-column: 1 / -1; padding: 30px; border: 1px dashed var(--clz4-line); border-radius: 20px; text-align: center; color: var(--clz4-muted); }
 
 /* Sale */

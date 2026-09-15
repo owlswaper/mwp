@@ -130,6 +130,9 @@ function clz_home_v4_discount( $product ) {
 
 function clz_home_v4_product_card( $product ) {
 	$discount = clz_home_v4_discount( $product );
+	$cart_control = class_exists( 'Cloz_Ajax_Cart' )
+		? Cloz_Ajax_Cart::loop_cart_control_html( $product )
+		: '';
 	?>
 	<article class="clz4-product">
 		<a class="clz4-product-media" href="<?php echo esc_url( $product->get_permalink() ); ?>" aria-label="<?php echo esc_attr( $product->get_name() ); ?>">
@@ -138,7 +141,7 @@ function clz_home_v4_product_card( $product ) {
 		</a>
 		<div class="clz4-product-copy">
 			<h3><a href="<?php echo esc_url( $product->get_permalink() ); ?>"><?php echo esc_html( $product->get_name() ); ?></a></h3>
-			<div><strong><?php echo wp_kses_post( $product->get_price_html() ?: 'تماس بگیرید' ); ?></strong><a href="<?php echo esc_url( $product->get_permalink() ); ?>" aria-label="مشاهده محصول">←</a></div>
+			<div><strong><?php echo wp_kses_post( $product->get_price_html() ?: 'تماس بگیرید' ); ?></strong><?php echo $cart_control; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></div>
 		</div>
 	</article>
 	<?php

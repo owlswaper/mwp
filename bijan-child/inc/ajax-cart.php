@@ -14,7 +14,7 @@ final class Cloz_Ajax_Cart {
 		add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueue_assets' ), 30 );
 		add_action( 'wp_footer', array( __CLASS__, 'render_toast' ), 50 );
 		add_action( 'wc_ajax_' . self::ACTION, array( __CLASS__, 'add_to_cart' ) );
-		add_filter( 'woocommerce_loop_add_to_cart_link', array( __CLASS__, 'make_loop_button_link_free' ), PHP_INT_MAX, 3 );
+		add_filter( 'woocommerce_loop_add_to_cart_link', array( __CLASS__, 'normalize_loop_cart_control' ), PHP_INT_MAX, 3 );
 	}
 
 	public static function enqueue_assets() {
@@ -22,11 +22,16 @@ final class Cloz_Ajax_Cart {
 			return;
 		}
 
-		$version = wp_get_theme()->get( 'Version' );
-		$base    = trailingslashit( get_stylesheet_directory_uri() );
+		$base     = trailingslashit( get_stylesheet_directory_uri() );
+		$dir      = trailingslashit( get_stylesheet_directory() );
+		$css_file = $dir . 'assets/ajax-cart.css';
+		$js_file  = $dir . 'assets/ajax-cart.js';
+		$version  = wp_get_theme()->get( 'Version' );
+		$css_ver  = is_readable( $css_file ) ? (string) filemtime( $css_file ) : $version;
+		$js_ver   = is_readable( $js_file ) ? (string) filemtime( $js_file ) : $version;
 
-		wp_enqueue_style( 'cloz-ajax-cart', $base . 'assets/ajax-cart.css', array(), $version );
-		wp_enqueue_script( 'cloz-ajax-cart', $base . 'assets/ajax-cart.js', array( 'jquery' ), $version, true );
+		wp_enqueue_style( 'cloz-ajax-cart', $base . 'assets/ajax-cart.css', array(), $css_ver );
+		wp_enqueue_script( 'cloz-ajax-cart', $base . 'assets/ajax-cart.js', array( 'jquery' ), $js_ver, true );
 		wp_localize_script(
 			'cloz-ajax-cart',
 			'ClozAjaxCart',
@@ -46,28 +51,60 @@ final class Cloz_Ajax_Cart {
 	}
 
 	/**
-	 * Direct-add loop controls must be buttons, not crawlable ?add-to-cart links.
-	 * Variable/external products retain their product URL because a selection or
-	 * an external visit is required before they can be purchased.
+	 * Render one card control everywhere: direct AJAX for ordinary products,
+	 * product-page navigation for variable/selection products, and a truly inert
+	 * control when the product is out of stock.
 	 */
-	public static function make_loop_button_link_free( $html, $product, $args ) {
-		if ( ! $product instanceof WC_Product || ! $product->supports( 'ajax_add_to_cart' ) || ! $product->is_purchasable() || ! $product->is_in_stock() ) {
-			return $html;
+	public static function normalize_loop_cart_control( $html, $product, $args ) {
+		return self::loop_cart_control_html( $product, $args );
+	}
+
+	public static function loop_cart_control_html( $product, $args = array() ) {
+		if ( ! $product instanceof WC_Product ) {
+			return '';
 		}
 
-		$html = preg_replace( '/<a\b/i', '<button type="button"', $html, 1 );
-		$html = preg_replace( '/\s+href=("[^"]*"|\'[^\']*\')/i', '', $html, 1 );
-		$html = preg_replace( '/\s+rel=("[^"]*"|\'[^\']*\')/i', '', $html, 1 );
-		$html = preg_replace( '/<\/a>\s*$/i', '</button>', $html, 1 );
+		$product_id   = $product->get_id();
+		$product_name = wp_strip_all_tags( $product->get_name() );
+		$product_type = sanitize_html_class( $product->get_type() );
+		$quantity     = isset( $args['quantity'] ) ? wc_stock_amount( $args['quantity'] ) : 1;
+		$icon         = '<i class="bijan-icon-cart-add" aria-hidden="true"></i>';
+		$base_classes = 'button cloz-card-cart product_type_' . $product_type;
 
-		if ( false === strpos( $html, 'cloz-ajax-add-to-cart' ) ) {
-			$html = preg_replace( '/class=("|\')/i', 'class=$1cloz-ajax-add-to-cart ', $html, 1 );
-		}
-		if ( false === strpos( $html, 'data-product_id=' ) ) {
-			$html = preg_replace( '/<button\b/i', '<button data-product_id="' . esc_attr( $product->get_id() ) . '"', $html, 1 );
+		if ( ! $product->is_in_stock() ) {
+			$label = sprintf( 'ناموجود: %s', $product_name );
+			return sprintf(
+				'<button type="button" class="%1$s is-unavailable" disabled aria-disabled="true" aria-label="%2$s">%3$s<span class="screen-reader-text">%2$s</span></button>',
+				esc_attr( $base_classes ),
+				esc_attr( $label ),
+				$icon
+			);
 		}
 
-		return $html;
+		if ( $product->is_type( 'simple' ) && $product->is_purchasable() && $product->supports( 'ajax_add_to_cart' ) ) {
+			$label = sprintf( 'افزودن %s به سبد خرید', $product_name );
+			return sprintf(
+				'<button type="button" class="%1$s add_to_cart_button ajax_add_to_cart cloz-ajax-add-to-cart" data-product_id="%2$d" data-product_sku="%3$s" data-quantity="%4$s" aria-label="%5$s">%6$s<span class="screen-reader-text">%5$s</span></button>',
+				esc_attr( $base_classes ),
+				absint( $product_id ),
+				esc_attr( $product->get_sku() ),
+				esc_attr( $quantity ),
+				esc_attr( $label ),
+				$icon
+			);
+		}
+
+		$label = $product->is_type( 'variable' )
+			? sprintf( 'انتخاب گزینه‌های %s', $product_name )
+			: sprintf( 'مشاهده %s', $product_name );
+
+		return sprintf(
+			'<a href="%1$s" class="%2$s requires-selection" aria-label="%3$s">%4$s<span class="screen-reader-text">%3$s</span></a>',
+			esc_url( $product->get_permalink() ),
+			esc_attr( $base_classes ),
+			esc_attr( $label ),
+			$icon
+		);
 	}
 
 	public static function add_to_cart() {

@@ -5,31 +5,72 @@
 	cursor: wait !important;
 }
 
-/* The parent theme styles this control as an anchor. Preserve that exact visual
-   role after replacing the crawlable URL with a semantic button. */
-.products .product button.cloz-ajax-add-to-cart {
+/* One cart control for native WooCommerce cards and custom homepage cards. */
+.products .product a.cloz-card-cart,
+.products .product button.cloz-card-cart,
+.clz4-product a.cloz-card-cart,
+.clz4-product button.cloz-card-cart {
+	display: inline-grid;
+	place-items: center;
+	flex: 0 0 36px;
+	width: 36px;
+	height: 36px;
+	min-width: 36px;
+	min-height: 36px;
 	padding: 0;
-	border: 0;
-	border-radius: 0;
-	background: transparent;
+	border: 1px solid #e0e5e9;
+	border-radius: 11px;
+	box-sizing: border-box;
+	background: var(--gray-600, #f2f5f6);
 	box-shadow: none;
-	color: var(--text-400);
+	color: var(--primary-100) !important;
 	font: inherit;
-	font-size: 1.25rem;
+	font-size: 1.08rem;
 	line-height: 1;
+	text-decoration: none;
 	cursor: pointer;
+	transition: color .18s ease, background-color .18s ease, border-color .18s ease, transform .18s ease, box-shadow .18s ease, opacity .18s ease;
 }
 
-.product-bottom > button.cloz-ajax-add-to-cart {
+.product-bottom > .cloz-card-cart {
 	grid-column: 3;
 }
 
-.products .product:is(:hover, :focus, :focus-within) button.cloz-ajax-add-to-cart {
-	color: var(--text-200);
+.products .product a.cloz-card-cart:hover,
+.products .product button.cloz-card-cart:hover,
+.products .product a.cloz-card-cart:focus-visible,
+.products .product button.cloz-card-cart:focus-visible,
+.clz4-product a.cloz-card-cart:hover,
+.clz4-product button.cloz-card-cart:hover,
+.clz4-product a.cloz-card-cart:focus-visible,
+.clz4-product button.cloz-card-cart:focus-visible {
+	border-color: var(--primary-100);
+	background: var(--primary-100);
+	color: #fff !important;
+	box-shadow: 0 7px 16px rgba(20, 28, 40, .11);
+	transform: translateY(-1px);
 }
 
-.products .product button.cloz-ajax-add-to-cart.cloz-cart-is-loading::after {
-	color: var(--primary-100) !important;
+.products .product .cloz-card-cart.is-unavailable,
+.clz4-product .cloz-card-cart.is-unavailable {
+	border-color: #e6e8eb;
+	background: #f3f4f5;
+	color: #9ca3ad !important;
+	opacity: .42;
+	filter: grayscale(.7);
+	pointer-events: none;
+	cursor: default;
+}
+
+.products .product .cloz-card-cart.cloz-cart-is-loading,
+.clz4-product .cloz-card-cart.cloz-cart-is-loading {
+	border-color: var(--primary-100);
+	background: var(--primary-100);
+}
+
+.products .product .cloz-card-cart.cloz-cart-is-loading::after,
+.clz4-product .cloz-card-cart.cloz-cart-is-loading::after {
+	color: #fff !important;
 }
 
 .cloz-cart-is-loading > * {
@@ -62,6 +103,13 @@
 	width: min(430px, calc(100vw - 48px));
 	direction: rtl;
 	pointer-events: none;
+}
+
+@media (min-width: 769px) {
+	.cloz-cart-toast-region {
+		inset: 50% auto auto 50%;
+		transform: translate(-50%, -50%);
+	}
 }
 
 .cloz-cart-toast {

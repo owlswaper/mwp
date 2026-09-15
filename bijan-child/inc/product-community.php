@@ -16,6 +16,7 @@ final class Bijan_Product_Community {
 	const PAGE_SIZE     = 8;
 	const MAX_IMAGES    = 4;
 	const MAX_IMAGE_SIZE = 5242880; // 5 MB.
+	private static $related_render_ids = [];
 
 	public static function init() {
 		add_action( 'wp', [ __CLASS__, 'replace_product_sections' ], 99 );
@@ -31,6 +32,11 @@ final class Bijan_Product_Community {
 		add_action( 'delete_comment', [ __CLASS__, 'cleanup_deleted_review' ], 10, 2 );
 		add_action( 'save_post_product', [ __CLASS__, 'clear_related_cache' ] );
 		add_action( 'woocommerce_product_set_stock_status', [ __CLASS__, 'bump_related_cache_version' ] );
+		add_action( 'woocommerce_variation_set_stock_status', [ __CLASS__, 'bump_related_cache_version' ] );
+		add_filter( 'woocommerce_output_related_products_args', [ __CLASS__, 'related_products_args' ], PHP_INT_MAX );
+		add_filter( 'woocommerce_related_products', [ __CLASS__, 'filter_related_products' ], PHP_INT_MAX, 3 );
+		add_filter( 'woocommerce_product_related_posts_shuffle', '__return_false', PHP_INT_MAX );
+		add_filter( 'woocommerce_product_is_visible', [ __CLASS__, 'keep_related_out_of_stock_visible' ], PHP_INT_MAX, 2 );
 		add_action( 'admin_menu', [ __CLASS__, 'admin_menu' ], 30 );
 		add_action( 'admin_post_bijan_community_action', [ __CLASS__, 'admin_action' ] );
 	}
@@ -44,7 +50,6 @@ final class Bijan_Product_Community {
 		remove_action( 'woocommerce_after_single_product_summary', 'woocommerce_upsell_display', 15 );
 		remove_action( 'woocommerce_after_single_product_summary', 'bijan_wc_single_comments', 19 );
 		remove_action( 'woocommerce_after_single_product_summary', 'woocommerce_output_related_products', 20 );
-		remove_action( 'woocommerce_after_single_product', 'woocommerce_output_related_products', 20 );
 		remove_action( 'woocommerce_product_after_tabs', 'bijan_wc_product_footer' );
 
 		// Old WooCommerce counters are based on another comment type.
@@ -52,8 +57,15 @@ final class Bijan_Product_Community {
 		remove_action( 'woocommerce_single_product_summary', 'bijan_wc_single_head_comments', 8 );
 		add_action( 'woocommerce_single_product_summary', [ __CLASS__, 'render_product_head_stats' ], 7 );
 
-		add_action( 'woocommerce_after_single_product_summary', [ __CLASS__, 'render_smart_related' ], 9 );
 		add_action( 'woocommerce_after_single_product_summary', [ __CLASS__, 'render' ], 19 );
+
+		// Restore the parent theme's original related-products markup and position.
+		// The visibility window only affects the exact cached products while that
+		// section is being rendered, allowing out-of-stock fallback items to show.
+		remove_action( 'woocommerce_after_single_product', 'woocommerce_output_related_products', 20 );
+		add_action( 'woocommerce_after_single_product', [ __CLASS__, 'start_related_render' ], 19 );
+		add_action( 'woocommerce_after_single_product', 'woocommerce_output_related_products', 20 );
+		add_action( 'woocommerce_after_single_product', [ __CLASS__, 'finish_related_render' ], 21 );
 	}
 
 	public static function clear_related_cache( $product_id ) {
@@ -70,154 +82,105 @@ final class Bijan_Product_Community {
 		update_option( 'bijan_smart_related_cache_version', $current_version + 1, false );
 	}
 
-	private static function related_query( $term_ids, $exclude_ids, $limit, $stock_status ) {
-		if ( ! $term_ids || $limit < 1 ) {
-			return [];
-		}
-
-		$tax_query = [
-			[
-				'taxonomy'         => 'product_cat',
-				'field'            => 'term_id',
-				'terms'            => array_map( 'absint', $term_ids ),
-				'operator'         => 'IN',
-				// Do not pull products from sibling/child categories via a broad parent.
-				'include_children' => false,
-			],
-		];
-		if ( function_exists( 'wc_get_product_visibility_term_ids' ) ) {
-			$visibility = wc_get_product_visibility_term_ids();
-			$hidden     = array_filter( [
-				$visibility['exclude-from-catalog'] ?? 0,
-			] );
-			if ( $hidden ) {
-				$tax_query[] = [
-					'taxonomy' => 'product_visibility',
-					'field'    => 'term_taxonomy_id',
-					'terms'    => array_map( 'absint', $hidden ),
-					'operator' => 'NOT IN',
-				];
-			}
-		}
-
-		$query = new WP_Query( [
-			'post_type'              => 'product',
-			'post_status'            => 'publish',
-			'fields'                 => 'ids',
-			'posts_per_page'         => $limit,
-			'post__not_in'           => array_map( 'absint', $exclude_ids ),
-			'tax_query'              => $tax_query,
-			'meta_query'             => [
-				[
-					'key'     => '_stock_status',
-					'value'   => $stock_status,
-					'compare' => '=',
-				],
-			],
-			'orderby'                => 'rand',
-			'ignore_sticky_posts'    => true,
-			'no_found_rows'          => true,
-			'update_post_meta_cache' => false,
-			'update_post_term_cache' => false,
-		] );
-
-		return array_map( 'absint', $query->posts );
-	}
-
-	private static function smart_related_ids( $product_id, $limit = 12 ) {
+	/**
+	 * Return products whose complete assigned product-category set is identical
+	 * to the current product. Matching one broad category is deliberately not
+	 * enough: no sibling category can leak into the result.
+	 */
+	private static function smart_related_ids( $product_id, $limit = 10 ) {
 		$cache_version = absint( get_option( 'bijan_smart_related_cache_version', 1 ) );
-		$cache_key     = 'bijan_smart_related_v2_' . absint( $product_id ) . '_' . $cache_version;
+		$cache_key     = 'bijan_smart_related_v3_' . absint( $product_id ) . '_' . $cache_version;
 		$cached        = get_transient( $cache_key );
 		if ( is_array( $cached ) ) {
 			return array_slice( array_map( 'absint', $cached ), 0, $limit );
 		}
 
-		$terms = wp_get_post_terms( $product_id, 'product_cat', [ 'fields' => 'all' ] );
+		$terms = wp_get_post_terms( $product_id, 'product_cat', [ 'fields' => 'ids' ] );
 		if ( is_wp_error( $terms ) || ! $terms ) {
-			set_transient( $cache_key, [], 6 * HOUR_IN_SECONDS );
+			set_transient( $cache_key, [], 12 * HOUR_IN_SECONDS );
 			return [];
 		}
 
-		$assigned_ids = array_map( 'absint', wp_list_pluck( $terms, 'term_id' ) );
-		$leaf_ids     = $assigned_ids;
-		foreach ( $assigned_ids as $possible_parent ) {
-			foreach ( $assigned_ids as $possible_child ) {
-				if ( $possible_parent !== $possible_child && in_array( $possible_parent, get_ancestors( $possible_child, 'product_cat', 'taxonomy' ), true ) ) {
-					$leaf_ids = array_values( array_diff( $leaf_ids, [ $possible_parent ] ) );
-					break;
-				}
+		$term_ids = array_values( array_unique( array_map( 'absint', $terms ) ) );
+		sort( $term_ids, SORT_NUMERIC );
+
+		global $wpdb;
+		$placeholders = implode( ', ', array_fill( 0, count( $term_ids ), '%d' ) );
+		$sql = "
+			SELECT posts.ID
+			FROM {$wpdb->posts} AS posts
+			INNER JOIN {$wpdb->term_relationships} AS relationships
+				ON posts.ID = relationships.object_id
+			INNER JOIN {$wpdb->term_taxonomy} AS taxonomy
+				ON relationships.term_taxonomy_id = taxonomy.term_taxonomy_id
+				AND taxonomy.taxonomy = 'product_cat'
+			WHERE posts.post_type = 'product'
+				AND posts.post_status = 'publish'
+				AND posts.ID <> %d
+			GROUP BY posts.ID
+			HAVING COUNT(DISTINCT taxonomy.term_id) = %d
+				AND COUNT(DISTINCT CASE WHEN taxonomy.term_id IN ({$placeholders}) THEN taxonomy.term_id END) = %d
+		";
+		$params = array_merge( [ absint( $product_id ), count( $term_ids ) ], $term_ids, [ count( $term_ids ) ] );
+		$matching_ids = array_map( 'absint', $wpdb->get_col( $wpdb->prepare( $sql, $params ) ) ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+
+		if ( $matching_ids && function_exists( '_prime_post_caches' ) ) {
+			_prime_post_caches( $matching_ids, true, true );
+		}
+
+		$in_stock    = [];
+		$out_of_stock = [];
+		$visibility  = function_exists( 'wc_get_product_visibility_term_ids' ) ? wc_get_product_visibility_term_ids() : [];
+		$catalog_hidden_id = absint( $visibility['exclude-from-catalog'] ?? 0 );
+
+		foreach ( $matching_ids as $matching_id ) {
+			if ( $catalog_hidden_id && has_term( $catalog_hidden_id, 'product_visibility', $matching_id ) ) {
+				continue;
+			}
+			$matching_product = wc_get_product( $matching_id );
+			if ( ! $matching_product ) {
+				continue;
+			}
+			if ( 'instock' === $matching_product->get_stock_status() ) {
+				$in_stock[] = $matching_id;
+			} else {
+				$out_of_stock[] = $matching_id;
 			}
 		}
 
-		$found   = [];
-		$exclude = [ $product_id ];
-		$append  = static function ( $ids ) use ( &$found, &$exclude, $limit ) {
-			foreach ( $ids as $id ) {
-				if ( ! in_array( $id, $exclude, true ) ) {
-					$found[]   = $id;
-					$exclude[] = $id;
-				}
-				if ( count( $found ) >= $limit ) {
-					break;
-				}
-			}
-		};
-
-		// Keep every result in the product's most-specific assigned categories.
-		// Available products are randomized first; unavailable products only fill
-		// remaining positions when WooCommerce is configured to show them.
-		$append( self::related_query( $leaf_ids, $exclude, $limit, 'instock' ) );
-		if ( count( $found ) < $limit && 'yes' !== get_option( 'woocommerce_hide_out_of_stock_items' ) ) {
-			$append( self::related_query( $leaf_ids, $exclude, $limit - count( $found ), 'outofstock' ) );
-		}
-
-		$found = array_slice( $found, 0, $limit );
-		set_transient( $cache_key, $found, 6 * HOUR_IN_SECONDS );
+		shuffle( $in_stock );
+		shuffle( $out_of_stock );
+		$found = array_slice( array_merge( $in_stock, $out_of_stock ), 0, $limit );
+		set_transient( $cache_key, $found, 12 * HOUR_IN_SECONDS );
 		return $found;
 	}
 
-	public static function render_smart_related() {
-		global $product;
-		if ( ! $product instanceof WC_Product ) {
-			return;
-		}
-		$ids = self::smart_related_ids( $product->get_id(), 12 );
-		if ( ! $ids ) {
-			return;
-		}
-		if ( function_exists( '_prime_post_caches' ) ) {
-			_prime_post_caches( $ids, true, true );
-		}
+	public static function related_products_args( $args ) {
+		$args['posts_per_page'] = 10;
+		$args['columns']        = 10;
+		// The IDs are shuffled before caching; do not reshuffle them on every view.
+		$args['orderby']        = 'none';
+		$args['order']          = 'ASC';
+		return $args;
+	}
 
-		$original_product = $product;
-		$old_loop_props   = wc_get_loop_prop( 'bijan_loop_props' );
-		wc_set_loop_prop( 'bijan_loop_props', [
-			'style'                   => 'products-style-2',
-			'special_products'        => false,
-			'second-image-hover-show' => false,
-		] );
-		?>
-		<section class="bc-smart-related product-section" aria-labelledby="bc-related-title">
-			<header class="bc-related-head">
-				<div><span>انتخاب‌های نزدیک به همین محصول</span><h2 id="bc-related-title">محصولات مرتبط</h2></div>
-				<div class="bc-related-nav"><button type="button" data-related-next aria-label="محصولات بعدی">‹</button><button type="button" data-related-prev aria-label="محصولات قبلی">›</button></div>
-			</header>
-			<div class="bc-related-viewport">
-				<ul class="products products-style-2 bc-related-track">
-					<?php foreach ( $ids as $related_id ) :
-						$post_object = get_post( $related_id );
-						if ( ! $post_object ) { continue; }
-						setup_postdata( $GLOBALS['post'] = $post_object );
-						$GLOBALS['product'] = wc_get_product( $related_id );
-						if ( $GLOBALS['product'] ) { wc_get_template_part( 'content', 'product' ); }
-					endforeach; ?>
-				</ul>
-			</div>
-		</section>
-		<?php
-		wp_reset_postdata();
-		$GLOBALS['product'] = $original_product;
-		wc_set_loop_prop( 'bijan_loop_props', is_array( $old_loop_props ) ? $old_loop_props : [] );
+	public static function filter_related_products( $related_ids, $product_id, $args ) {
+		return self::smart_related_ids( absint( $product_id ), 10 );
+	}
+
+	public static function start_related_render() {
+		global $product;
+		self::$related_render_ids = $product instanceof WC_Product
+			? self::smart_related_ids( $product->get_id(), 10 )
+			: [];
+	}
+
+	public static function finish_related_render() {
+		self::$related_render_ids = [];
+	}
+
+	public static function keep_related_out_of_stock_visible( $visible, $product_id ) {
+		return in_array( absint( $product_id ), self::$related_render_ids, true ) ? true : $visible;
 	}
 
 	public static function enqueue_assets() {

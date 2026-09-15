@@ -276,33 +276,28 @@
 			});
 		});
 
-		// Lightweight native horizontal scroller for related products.
-		$('.bc-smart-related').each(function () {
-			const $section = $(this);
-			const viewport = $section.find('.bc-related-viewport')[0];
-			if (!viewport) return;
-			const move = function (direction) {
-				viewport.scrollBy({ left: direction * Math.max(260, viewport.clientWidth * 0.78), behavior: 'smooth' });
-			};
-			$section.find('[data-related-next]').on('click', function () { move(-1); });
-			$section.find('[data-related-prev]').on('click', function () { move(1); });
-		});
-
 		// Modern variation state layer, synchronized with WooCommerce's native selects.
-		$('form.variations_form.cart').each(function () {
+		$('#product-head-secondary-top form.variations_form.cart').each(function () {
 			const $form = $(this);
 			const $button = $form.find('.single_add_to_cart_button');
 			const originalLabel = $.trim($button.text()) || 'افزودن به سبد خرید';
-			const $selectors = $('.product-head-variations').first();
+			const $product = $form.closest('.product');
+			const $selectors = $product.find('.product-head-variations').first();
 			if (!$selectors.length || !$button.length) return;
 
 			$selectors.addClass('bc-variation-picker');
 			$selectors.before('<div class="bc-variation-guide" role="status" aria-live="polite"><span class="bc-variation-guide-icon">◇</span><div><strong>گزینه‌های محصول را انتخاب کنید</strong><small>برای مشاهده قیمت و موجودی، همه موارد را مشخص کنید.</small></div><button type="button" class="bc-reset-variations" hidden>انتخاب دوباره</button></div>');
 			const $guide = $selectors.prev('.bc-variation-guide');
+			const $purchaseOptions = $('<div class="bc-variable-purchase__options"></div>');
+
+			$form.addClass('bc-variable-purchase');
+			$form.closest('#product-head-secondary').addClass('bc-variable-product-panel');
+			$form.find('.single_variation_wrap').before($purchaseOptions);
+			$purchaseOptions.append($selectors, $guide);
 
 			function selectFor($group) {
 				const attr = String($group.data('attr') || '');
-				return $form.find('select').filter(function () { return this.id === attr || this.name === 'attribute_' + attr; }).first();
+				return $form.find('table.variations select').filter(function () { return this.id === attr || this.name === 'attribute_' + attr; }).first();
 			}
 
 			function syncItems() {
@@ -334,7 +329,7 @@
 
 			function selectionState() {
 				const missing = [];
-				$form.find('select[name^="attribute_"]').each(function () {
+				$form.find('table.variations select[name^="attribute_"]').each(function () {
 					if (!this.value) missing.push($.trim($(this).closest('tr').find('label').text()) || 'گزینه');
 				});
 				return missing;
@@ -343,23 +338,26 @@
 			function showSelectionNeeded() {
 				const missing = selectionState();
 				const message = missing.length ? 'لطفاً ' + missing.join(' و ') + ' را انتخاب کنید' : 'این ترکیب موجود نیست؛ انتخاب دیگری امتحان کنید';
-				$button.text(message).addClass('bc-needs-selection');
+				$button.text(missing.length ? 'انتخاب گزینه‌ها' : 'تغییر انتخاب').addClass('bc-needs-selection');
+				$form.removeClass('is-variation-ready is-variation-unavailable').addClass('is-variation-waiting');
 				$guide.removeClass('is-ready is-unavailable').addClass('is-waiting');
 				$guide.find('strong').text(missing.length ? 'انتخاب محصول کامل نشده' : 'این ترکیب ناموجود است');
 				$guide.find('small').text(message);
-				const hasSelection = $form.find('select[name^="attribute_"]').filter(function () { return !!this.value; }).length > 0;
+				const hasSelection = $form.find('table.variations select[name^="attribute_"]').filter(function () { return !!this.value; }).length > 0;
 				$guide.find('.bc-reset-variations').prop('hidden', !hasSelection);
 			}
 
 			function setReady(variation) {
 				const purchasable = variation && variation.is_purchasable && variation.is_in_stock && variation.variation_is_active !== false;
 				if (!purchasable) {
-					$button.text('این ترکیب در حال حاضر ناموجود است').addClass('bc-needs-selection');
+					$button.text('تغییر انتخاب').addClass('bc-needs-selection');
+					$form.removeClass('is-variation-ready is-variation-waiting').addClass('is-variation-unavailable');
 					$guide.removeClass('is-ready is-waiting').addClass('is-unavailable');
 					$guide.find('strong').text('ناموجود');
 					$guide.find('small').text('ترکیب دیگری از گزینه‌ها را انتخاب کنید.');
 				} else {
 					$button.text(originalLabel).removeClass('bc-needs-selection');
+					$form.removeClass('is-variation-waiting is-variation-unavailable').addClass('is-variation-ready');
 					$guide.removeClass('is-waiting is-unavailable').addClass('is-ready');
 					$guide.find('strong').text('انتخاب شما موجود است');
 					$guide.find('small').text('قیمت و موجودی بر اساس گزینه‌های انتخاب‌شده به‌روزرسانی شد.');
@@ -409,7 +407,7 @@
 			$form.on('hide_variation reset_data', function () { syncItems(); showSelectionNeeded(); });
 			$guide.find('.bc-reset-variations').on('click', function () {
 				$form.find('.reset_variations').trigger('click');
-				$form.find('select[name^="attribute_"]').val('').trigger('change');
+				$form.find('table.variations select[name^="attribute_"]').val('').trigger('change');
 			});
 			$form.on('submit', function (event) {
 				if (!Number($form.find('input.variation_id').val())) {
