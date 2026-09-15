@@ -1,0 +1,73 @@
+/* Preserve the theme's link appearance after filter anchors become buttons. */
+[data-cloz-archive-state] {
+	appearance: none;
+	-webkit-appearance: none;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	border-radius: 0;
+	background: transparent;
+	color: inherit;
+	font: inherit;
+	line-height: inherit;
+	text-align: inherit;
+	cursor: pointer;
+}
+
+[data-cloz-archive-state]:hover,
+[data-cloz-archive-state]:focus-visible {
+	background: transparent;
+	color: inherit;
+}
+
+.widget.woocommerce button[data-cloz-archive-state]:not(.bijan_filter) {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	position: relative;
+	color: var(--text-300);
+	font-size: .875rem;
+	justify-content: flex-start;
+}
+
+.widget.woocommerce button[data-cloz-archive-state]:not(.bijan_filter)::before {
+	content: "";
+	width: 24px;
+	height: 24px;
+	flex: 0 0 24px;
+	border: 1px solid #d9d9d9;
+	border-radius: 6px;
+	background: transparent;
+}
+
+.widget.woocommerce .chosen > button[data-cloz-archive-state]:not(.bijan_filter)::before {
+	border-color: var(--primary-100);
+	background: var(--primary-100);
+}
+
+.widget.woocommerce .chosen > button[data-cloz-archive-state]:not(.bijan_filter)::after {
+	content: "\e03e";
+	position: absolute;
+	inset-inline-start: 0;
+	color: #fff;
+	font-family: Bijan, sans-serif !important;
+	font-size: .75rem;
+	transform: translateX(-50%);
+}
+
+.cloz-archive-is-loading .entry-container {
+	opacity: .52;
+	pointer-events: none;
+	transition: opacity .16s ease;
+}
+
+.cloz-archive-is-loading #sort-wrap,
+.cloz-archive-is-loading #sidebar.sidebar-shop {
+	pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.cloz-archive-is-loading .entry-container {
+		transition: none;
+	}
+}

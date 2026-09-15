@@ -1,0 +1,288 @@
+.cloz-cart-is-loading {
+	position: relative !important;
+	color: transparent !important;
+	pointer-events: none !important;
+	cursor: wait !important;
+}
+
+/* The parent theme styles this control as an anchor. Preserve that exact visual
+   role after replacing the crawlable URL with a semantic button. */
+.products .product button.cloz-ajax-add-to-cart {
+	padding: 0;
+	border: 0;
+	border-radius: 0;
+	background: transparent;
+	box-shadow: none;
+	color: var(--text-400);
+	font: inherit;
+	font-size: 1.25rem;
+	line-height: 1;
+	cursor: pointer;
+}
+
+.product-bottom > button.cloz-ajax-add-to-cart {
+	grid-column: 3;
+}
+
+.products .product:is(:hover, :focus, :focus-within) button.cloz-ajax-add-to-cart {
+	color: var(--text-200);
+}
+
+.products .product button.cloz-ajax-add-to-cart.cloz-cart-is-loading::after {
+	color: var(--primary-100) !important;
+}
+
+.cloz-cart-is-loading > * {
+	opacity: 0 !important;
+}
+
+.cloz-cart-is-loading::after {
+	content: "" !important;
+	position: absolute !important;
+	inset: 50% auto auto 50% !important;
+	width: 19px !important;
+	height: 19px !important;
+	margin: -11px 0 0 -11px !important;
+	border: 2px solid currentColor !important;
+	border-right-color: transparent !important;
+	border-radius: 50% !important;
+	color: #fff !important;
+	opacity: 1 !important;
+	animation: cloz-cart-spin .65s linear infinite !important;
+}
+
+@keyframes cloz-cart-spin {
+	to { transform: rotate(360deg); }
+}
+
+.cloz-cart-toast-region {
+	position: fixed;
+	inset: auto 24px 24px auto;
+	z-index: 1000001;
+	width: min(430px, calc(100vw - 48px));
+	direction: rtl;
+	pointer-events: none;
+}
+
+.cloz-cart-toast {
+	--cloz-toast-duration: 5000ms;
+	display: grid;
+	grid-template-columns: 72px minmax(0, 1fr) auto;
+	grid-template-areas: "visual content close" "visual action close";
+	gap: 8px 14px;
+	position: relative;
+	align-items: center;
+	padding: 14px 14px 15px 48px;
+	overflow: hidden;
+	background: #fff;
+	border: 1px solid #e2e8f0;
+	border-radius: 17px;
+	box-shadow: 0 18px 55px rgba(15, 23, 42, .19), 0 3px 12px rgba(15, 23, 42, .09);
+	color: #172033;
+	opacity: 0;
+	visibility: hidden;
+	transform: translateY(18px) scale(.97);
+	transition: opacity .22s ease, transform .22s ease, visibility .22s;
+	pointer-events: auto;
+}
+
+.cloz-cart-toast.is-visible {
+	opacity: 1;
+	visibility: visible;
+	transform: translateY(0) scale(1);
+}
+
+.cloz-cart-toast__visual {
+	grid-area: visual;
+	position: relative;
+	width: 72px;
+	height: 72px;
+}
+
+.cloz-cart-toast__image {
+	display: block;
+	width: 72px;
+	height: 72px;
+	margin: 0;
+	object-fit: cover;
+	background: #f1f5f9;
+	border-radius: 12px;
+}
+
+.cloz-cart-toast__image[hidden] {
+	display: none;
+}
+
+.cloz-cart-toast__status {
+	position: absolute;
+	inset: auto auto -4px -4px;
+	display: grid;
+	place-items: center;
+	width: 25px;
+	height: 25px;
+	border: 3px solid #fff;
+	border-radius: 50%;
+	background: #168247;
+	color: #fff;
+	font: 700 14px/1 Arial, sans-serif;
+}
+
+.cloz-cart-toast__content {
+	grid-area: content;
+	display: flex;
+	min-width: 0;
+	flex-direction: column;
+	gap: 3px;
+}
+
+.cloz-cart-toast__title {
+	color: #166534;
+	font-size: 13px;
+	font-weight: 750;
+	line-height: 1.5;
+}
+
+.cloz-cart-toast__product {
+	display: -webkit-box;
+	overflow: hidden;
+	color: #172033;
+	font-size: 14px;
+	font-weight: 650;
+	line-height: 1.55;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 2;
+}
+
+.cloz-cart-toast__meta {
+	overflow: hidden;
+	color: #526077;
+	font-size: 11.5px;
+	line-height: 1.45;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.cloz-cart-toast__action {
+	grid-area: action;
+	justify-self: start;
+	min-height: 34px;
+	padding: 7px 13px;
+	border-radius: 9px;
+	background: #172033;
+	color: #fff !important;
+	font-size: 12px;
+	font-weight: 650;
+	line-height: 20px;
+	text-decoration: none !important;
+	transition: background-color .18s ease, transform .18s ease;
+}
+
+.cloz-cart-toast__action:hover,
+.cloz-cart-toast__action:focus-visible {
+	background: #0f172a;
+	color: #fff !important;
+	transform: translateY(-1px);
+}
+
+.cloz-cart-toast__close {
+	grid-area: close;
+	position: absolute;
+	inset: 7px auto auto 7px;
+	display: grid;
+	place-items: center;
+	width: 40px;
+	height: 40px;
+	padding: 0;
+	border: 0;
+	border-radius: 10px;
+	background: transparent;
+	box-shadow: none;
+	color: #526077;
+	font: 400 25px/1 Arial, sans-serif;
+	cursor: pointer;
+	transition: color .18s ease, background-color .18s ease;
+}
+
+.cloz-cart-toast__close:hover,
+.cloz-cart-toast__close:focus-visible {
+	background: #f1f5f9;
+	color: #111827;
+}
+
+.cloz-cart-toast__progress {
+	position: absolute;
+	inset: auto 0 0 0;
+	height: 3px;
+	background: #22a45d;
+	transform-origin: right center;
+}
+
+.cloz-cart-toast.is-visible .cloz-cart-toast__progress {
+	animation: cloz-cart-toast-progress var(--cloz-toast-duration) linear forwards;
+}
+
+@keyframes cloz-cart-toast-progress {
+	to { transform: scaleX(0); }
+}
+
+.cloz-cart-toast.is-error {
+	grid-template-columns: minmax(0, 1fr) auto;
+	grid-template-areas: "content close";
+	border-color: #fecaca;
+}
+
+.cloz-cart-toast.is-error .cloz-cart-toast__visual,
+.cloz-cart-toast.is-error .cloz-cart-toast__action,
+.cloz-cart-toast.is-error .cloz-cart-toast__meta {
+	display: none;
+}
+
+.cloz-cart-toast.is-error .cloz-cart-toast__title {
+	color: #b42318;
+}
+
+.cloz-cart-toast.is-error .cloz-cart-toast__progress {
+	background: #dc2626;
+}
+
+@media (max-width: 768px) {
+	.cloz-cart-toast-region {
+		inset: auto 12px calc(90px + env(safe-area-inset-bottom)) 12px;
+		width: auto;
+	}
+
+	.cloz-cart-toast {
+		grid-template-columns: 62px minmax(0, 1fr);
+		grid-template-areas: "visual content" "action action";
+		gap: 9px 12px;
+		padding: 12px 12px 14px 48px;
+		border-radius: 15px;
+	}
+
+	.cloz-cart-toast__visual,
+	.cloz-cart-toast__image {
+		width: 62px;
+		height: 62px;
+	}
+
+	.cloz-cart-toast__action {
+		justify-self: stretch;
+		text-align: center;
+		min-height: 38px;
+		padding-block: 9px;
+	}
+
+	.cloz-cart-toast.is-error {
+		grid-template-columns: minmax(0, 1fr);
+		grid-template-areas: "content";
+		min-height: 76px;
+		align-content: center;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.cloz-cart-toast,
+	.cloz-cart-toast__action {
+		transition: none;
+	}
+}

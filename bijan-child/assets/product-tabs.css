@@ -1,7 +1,7 @@
 /* Product details and the fixed Cloz fulfilment guide. */
 .woocommerce-tabs {
 	--cloz-tab-ink: var(--text-100, #252b35);
-	--cloz-tab-muted: var(--text-400, #6e7784);
+	--cloz-tab-muted: #4b5563;
 	--cloz-tab-line: #e6e9ee;
 	--cloz-tab-soft: #f7f8fa;
 	--cloz-tab-primary: var(--primary-100, #ef4056);
@@ -79,9 +79,9 @@
 	grid-template-columns: 58px minmax(0, 1fr);
 	gap: 16px;
 	padding: 20px;
-	border: 1px solid #f1d9dd;
-	border-radius: 20px;
-	background: linear-gradient(135deg, #fff5f6 0%, #fff 65%);
+	border: 1px solid var(--cloz-tab-line);
+	border-radius: 16px;
+	background: #fff;
 }
 
 .cloz-fulfilment__mark {
@@ -91,7 +91,6 @@
 	height: 58px;
 	border-radius: 17px;
 	background: var(--cloz-tab-primary);
-	box-shadow: 0 9px 24px rgba(239, 64, 86, .2);
 }
 
 .cloz-fulfilment__mark svg {
@@ -102,7 +101,7 @@
 
 .cloz-fulfilment__hero span {
 	color: var(--cloz-tab-primary);
-	font-size: .72rem;
+	font-size: .82rem;
 	font-weight: 850;
 }
 
@@ -117,8 +116,8 @@
 	max-width: 730px;
 	margin: 0;
 	color: var(--cloz-tab-muted);
-	font-size: .8rem;
-	line-height: 1.9;
+	font-size: .9rem;
+	line-height: 1.85;
 }
 
 .cloz-fulfilment__grid {
@@ -155,7 +154,7 @@
 .cloz-return-note h3 {
 	margin: 0 0 5px;
 	color: var(--cloz-tab-ink);
-	font-size: .86rem;
+	font-size: .95rem;
 	line-height: 1.7;
 }
 
@@ -163,8 +162,8 @@
 .cloz-return-note p {
 	margin: 0;
 	color: var(--cloz-tab-muted);
-	font-size: .75rem;
-	line-height: 2;
+	font-size: .9rem;
+	line-height: 1.9;
 }
 
 .cloz-policy-card p strong {
@@ -183,6 +182,39 @@
 	background: #fffaf0;
 }
 
+.cloz-product-categories {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 4px 7px;
+	margin-top: 24px;
+	padding-top: 14px;
+	border-top: 1px solid var(--cloz-tab-line);
+	color: #7a828e;
+	font-size: .78rem;
+	line-height: 1.8;
+}
+
+.cloz-product-categories span {
+	color: #656d78;
+	font-weight: 650;
+}
+
+.cloz-product-categories a {
+	color: #6f7783;
+	text-decoration: none;
+}
+
+.cloz-product-categories a:hover,
+.cloz-product-categories a:focus-visible {
+	color: var(--cloz-tab-primary);
+}
+
+.cloz-product-categories i {
+	font-style: normal;
+	color: #adb3bc;
+}
+
 .cloz-return-note__icon {
 	display: grid;
 	place-items: center;
@@ -196,9 +228,25 @@
 }
 
 @media (max-width: 760px) {
-	#tab-additional_information .woocommerce-product-attributes tbody,
+	#tab-additional_information .woocommerce-product-attributes tbody {
+		grid-template-columns: 1fr;
+	}
+
 	.cloz-fulfilment__grid {
 		grid-template-columns: 1fr;
+		gap: 0;
+		overflow: hidden;
+		border: 1px solid var(--cloz-tab-line);
+		border-radius: 15px;
+	}
+
+	.cloz-policy-card {
+		border: 0;
+		border-radius: 0;
+	}
+
+	.cloz-policy-card:not(:last-child) {
+		border-bottom: 1px solid var(--cloz-tab-line);
 	}
 
 	#tab-additional_information .woocommerce-product-attributes-item {
@@ -215,15 +263,15 @@
 	}
 
 	.cloz-fulfilment__hero {
-		grid-template-columns: 46px minmax(0, 1fr);
-		gap: 12px;
-		padding: 16px;
+		grid-template-columns: 42px minmax(0, 1fr);
+		gap: 11px;
+		padding: 15px 14px;
 	}
 
 	.cloz-fulfilment__mark {
-		width: 46px;
-		height: 46px;
-		border-radius: 14px;
+		width: 42px;
+		height: 42px;
+		border-radius: 12px;
 	}
 
 	.cloz-fulfilment__mark svg {
@@ -233,19 +281,32 @@
 
 	.cloz-policy-card,
 	.cloz-return-note {
-		grid-template-columns: 38px minmax(0, 1fr);
-		padding: 14px;
+		grid-template-columns: 36px minmax(0, 1fr);
+		gap: 11px;
+		padding: 15px 13px;
 	}
 
 	.cloz-policy-card__icon {
-		width: 38px;
-		height: 38px;
+		width: 36px;
+		height: 36px;
 	}
 
 	.cloz-return-note__icon {
-		width: 38px;
-		height: 38px;
+		width: 36px;
+		height: 36px;
 		font-size: 21px;
+	}
+
+	.cloz-fulfilment__hero h2 {
+		font-size: 1rem;
+		line-height: 1.65;
+	}
+
+	.cloz-fulfilment__hero p,
+	.cloz-policy-card p,
+	.cloz-return-note p {
+		font-size: .875rem;
+		line-height: 1.85;
 	}
 }
 

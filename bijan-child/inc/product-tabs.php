@@ -29,6 +29,45 @@ function cloz_customize_product_information_tabs( $tabs ) {
 add_filter( 'woocommerce_product_tabs', 'cloz_customize_product_information_tabs', 30 );
 
 /**
+ * Show every category assigned to the product at the quiet end of the tabs.
+ */
+function cloz_render_product_categories_after_tabs() {
+	global $product;
+
+	if ( ! $product instanceof WC_Product ) {
+		return;
+	}
+
+	$terms = wp_get_post_terms( $product->get_id(), 'product_cat' );
+	if ( is_wp_error( $terms ) || ! $terms ) {
+		return;
+	}
+
+	$links = [];
+	foreach ( $terms as $term ) {
+		$url = get_term_link( $term );
+		if ( ! is_wp_error( $url ) ) {
+			$links[] = sprintf(
+				'<a href="%1$s">%2$s</a>',
+				esc_url( $url ),
+				esc_html( $term->name )
+			);
+		}
+	}
+
+	if ( ! $links ) {
+		return;
+	}
+	?>
+	<div class="cloz-product-categories" aria-label="دسته‌بندی‌های محصول">
+		<span>دسته محصول:</span>
+		<?php echo wp_kses_post( implode( '<i aria-hidden="true">،</i>', $links ) ); ?>
+	</div>
+	<?php
+}
+add_action( 'woocommerce_product_after_tabs', 'cloz_render_product_categories_after_tabs', 20 );
+
+/**
  * Render the same delivery and returns information for every product.
  */
 function cloz_render_shipping_returns_tab() {

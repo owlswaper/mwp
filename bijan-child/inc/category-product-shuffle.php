@@ -11,6 +11,7 @@ defined( 'ABSPATH' ) || exit;
 final class Bijan_Category_Product_Shuffle {
 	private const INTERVAL       = 12 * HOUR_IN_SECONDS;
 	private const QUERY_MARKER   = '_bijan_category_shuffle_seed';
+	private const STOCK_MARKER   = '_bijan_move_out_of_stock_to_end';
 	private const CRON_HOOK      = 'bijan_rotate_category_product_shuffle';
 	private const BUCKET_OPTION  = 'bijan_category_product_shuffle_bucket';
 	private const VERSION_OPTION = 'bijan_category_product_shuffle_cache_version';
@@ -18,15 +19,106 @@ final class Bijan_Category_Product_Shuffle {
 	private const CACHE_VERSION  = '4';
 
 	public static function init() {
+		// The parent implementation attaches three unconstrained postmeta JOINs
+		// globally after the first product query. The parent registers that callback
+		// during `init` at priority 0, so replace it immediately afterwards with a
+		// query-scoped implementation backed by WooCommerce's lookup table.
+		add_action( 'init', [ __CLASS__, 'replace_parent_stock_ordering' ], 1 );
+		add_filter( 'posts_clauses_request', [ __CLASS__, 'apply_stock_ordering' ], 20, 2 );
 		add_action( 'pre_get_posts', [ __CLASS__, 'mark_category_query' ], 999 );
-		// Apply the order to the final SQL clauses. WooCommerce and the parent
-		// theme both alter ORDER BY, so an earlier posts_clauses filter can be
-		// overwritten after our shuffle has been added.
+		// Apply the order to the final SQL clauses. WooCommerce and extensions can
+		// alter ORDER BY, so an earlier posts_clauses filter may be overwritten.
 		add_filter( 'posts_clauses_request', [ __CLASS__, 'apply_stable_order' ], PHP_INT_MAX, 2 );
 		add_action( 'init', [ __CLASS__, 'schedule_rotation' ], 20 );
 		add_action( self::CRON_HOOK, [ __CLASS__, 'rotate_cache' ] );
 		add_action( 'send_headers', [ __CLASS__, 'send_category_cache_headers' ], 999 );
 		add_action( 'wp_head', [ __CLASS__, 'print_browser_cache_guard' ], 1 );
+	}
+
+	/**
+	 * Disable the parent theme's expensive stock ordering without editing parent
+	 * files, then mark only the WooCommerce query which requested that ordering.
+	 */
+	public static function replace_parent_stock_ordering() {
+		remove_action( 'woocommerce_product_query', 'bijan_wc_move_out_of_stock_to_end', 10 );
+		// Also remove a clauses filter if an unusually early product query caused
+		// the parent's callback to install it during the same init cycle.
+		remove_filter( 'posts_clauses', 'bijan_wc_move_out_of_stock_to_end_clauses', 10 );
+		remove_filter( 'posts_clauses_request', 'bijan_wc_move_out_of_stock_to_end_custom', 10 );
+
+		add_action( 'woocommerce_product_query', [ __CLASS__, 'mark_stock_ordering' ], 10 );
+	}
+
+	public static function mark_stock_ordering( $query ) {
+		if ( ! $query instanceof WP_Query || ! self::stock_ordering_is_enabled() ) {
+			return;
+		}
+
+		if (
+			isset( $_GET['instock'] )
+			&& self::is_truthy( wp_unslash( $_GET['instock'] ) )
+		) {
+			return;
+		}
+
+		$query->set( self::STOCK_MARKER, true );
+	}
+
+	/**
+	 * Apply stock ordering to one explicitly marked query. Product-category
+	 * shuffle queries are handled later by apply_stable_order(), which reads the
+	 * canonical post meta so imports cannot expose a temporarily stale lookup.
+	 */
+	public static function apply_stock_ordering( $clauses, $query ) {
+		if ( ! $query instanceof WP_Query ) {
+			return $clauses;
+		}
+
+		$requested = self::is_truthy( $query->get( self::STOCK_MARKER ) )
+			|| self::is_truthy( $query->get( 'move_out_of_stocks_to_end' ) );
+
+		if ( ! $requested || '' !== (string) $query->get( self::QUERY_MARKER ) ) {
+			return $clauses;
+		}
+
+		global $wpdb;
+		$lookup_table = $wpdb->prefix . 'wc_product_meta_lookup';
+
+		if ( false === strpos( $clauses['join'], 'bijan_stock_lookup' ) ) {
+			$clauses['join'] .= " LEFT JOIN {$lookup_table} AS bijan_stock_lookup
+				ON ({$wpdb->posts}.ID = bijan_stock_lookup.product_id)";
+		}
+
+		$stock_order = "CASE WHEN bijan_stock_lookup.stock_status = 'outofstock' THEN 1 ELSE 0 END ASC";
+		$clauses['orderby'] = empty( $clauses['orderby'] )
+			? $stock_order
+			: $stock_order . ', ' . $clauses['orderby'];
+
+		return $clauses;
+	}
+
+	private static function stock_ordering_is_enabled() {
+		if ( ! class_exists( '\\Bijan\\Utils\\Options' ) ) {
+			return false;
+		}
+
+		$options = \Bijan\Utils\Options::get_options( [
+			'wc-move-out-of-stock-to-end' => false,
+		] );
+
+		return self::is_truthy( $options['wc-move-out-of-stock-to-end'] );
+	}
+
+	private static function is_truthy( $value ) {
+		if ( is_bool( $value ) ) {
+			return $value;
+		}
+
+		if ( is_scalar( $value ) ) {
+			return in_array( strtolower( (string) $value ), [ '1', 'true', 'yes', 'on' ], true );
+		}
+
+		return false;
 	}
 
 	private static function current_bucket() {
@@ -69,9 +161,9 @@ final class Bijan_Category_Product_Shuffle {
 		$seed = (string) absint( $seed );
 
 		// Read the same canonical _stock_status value used by WC_Product when the
-		// product card decides whether it is out of stock. The lookup table can be
-		// temporarily stale after imports or bulk stock updates, which previously
-		// allowed unavailable products to be mixed into the available group.
+		// product card decides whether it is out of stock. This is a single,
+		// meta-key-constrained JOIN; unlike the parent theme's three broad JOINs it
+		// cannot multiply every post by all of its metadata before filtering.
 		if ( false === strpos( $clauses['join'], 'bijan_shuffle_stock_meta' ) ) {
 			$clauses['join'] .= $wpdb->prepare(
 				" LEFT JOIN {$wpdb->postmeta} AS bijan_shuffle_stock_meta

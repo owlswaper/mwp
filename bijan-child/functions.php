@@ -13,6 +13,12 @@ require_once trailingslashit( get_stylesheet_directory() ) . 'inc/product-commun
 // Stable 12-hour product shuffle for product category archives.
 require_once trailingslashit( get_stylesheet_directory() ) . 'inc/category-product-shuffle.php';
 
+// Link-free AJAX filtering and ordering on WooCommerce archives.
+require_once trailingslashit( get_stylesheet_directory() ) . 'inc/archive-ajax-filters.php';
+
+// One fast AJAX add-to-cart flow for loops, custom sections and product forms.
+require_once trailingslashit( get_stylesheet_directory() ) . 'inc/ajax-cart.php';
+
 // Streamlined, Iran-only classic WooCommerce checkout.
 require_once trailingslashit( get_stylesheet_directory() ) . 'inc/checkout-customizations.php';
 

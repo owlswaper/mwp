@@ -30,6 +30,7 @@ final class Bijan_Product_Community {
 		add_action( 'transition_comment_status', [ __CLASS__, 'invalidate_review_stats' ], 10, 3 );
 		add_action( 'delete_comment', [ __CLASS__, 'cleanup_deleted_review' ], 10, 2 );
 		add_action( 'save_post_product', [ __CLASS__, 'clear_related_cache' ] );
+		add_action( 'woocommerce_product_set_stock_status', [ __CLASS__, 'bump_related_cache_version' ] );
 		add_action( 'admin_menu', [ __CLASS__, 'admin_menu' ], 30 );
 		add_action( 'admin_post_bijan_community_action', [ __CLASS__, 'admin_action' ] );
 	}
@@ -57,9 +58,19 @@ final class Bijan_Product_Community {
 
 	public static function clear_related_cache( $product_id ) {
 		delete_transient( 'bijan_smart_related_' . absint( $product_id ) );
+		self::bump_related_cache_version();
 	}
 
-	private static function related_query( $term_ids, $exclude_ids, $limit, $include_children ) {
+	/**
+	 * Invalidate every related-products result when a product or its stock changes.
+	 * The versioned key avoids an expensive scan through all product transients.
+	 */
+	public static function bump_related_cache_version() {
+		$current_version = absint( get_option( 'bijan_smart_related_cache_version', 1 ) );
+		update_option( 'bijan_smart_related_cache_version', $current_version + 1, false );
+	}
+
+	private static function related_query( $term_ids, $exclude_ids, $limit, $stock_status ) {
 		if ( ! $term_ids || $limit < 1 ) {
 			return [];
 		}
@@ -70,14 +81,14 @@ final class Bijan_Product_Community {
 				'field'            => 'term_id',
 				'terms'            => array_map( 'absint', $term_ids ),
 				'operator'         => 'IN',
-				'include_children' => (bool) $include_children,
+				// Do not pull products from sibling/child categories via a broad parent.
+				'include_children' => false,
 			],
 		];
 		if ( function_exists( 'wc_get_product_visibility_term_ids' ) ) {
 			$visibility = wc_get_product_visibility_term_ids();
 			$hidden     = array_filter( [
 				$visibility['exclude-from-catalog'] ?? 0,
-				'yes' === get_option( 'woocommerce_hide_out_of_stock_items' ) ? ( $visibility['outofstock'] ?? 0 ) : 0,
 			] );
 			if ( $hidden ) {
 				$tax_query[] = [
@@ -96,7 +107,14 @@ final class Bijan_Product_Community {
 			'posts_per_page'         => $limit,
 			'post__not_in'           => array_map( 'absint', $exclude_ids ),
 			'tax_query'              => $tax_query,
-			'orderby'                => [ 'menu_order' => 'ASC', 'date' => 'DESC' ],
+			'meta_query'             => [
+				[
+					'key'     => '_stock_status',
+					'value'   => $stock_status,
+					'compare' => '=',
+				],
+			],
+			'orderby'                => 'rand',
 			'ignore_sticky_posts'    => true,
 			'no_found_rows'          => true,
 			'update_post_meta_cache' => false,
@@ -107,8 +125,9 @@ final class Bijan_Product_Community {
 	}
 
 	private static function smart_related_ids( $product_id, $limit = 12 ) {
-		$cache_key = 'bijan_smart_related_' . absint( $product_id );
-		$cached    = get_transient( $cache_key );
+		$cache_version = absint( get_option( 'bijan_smart_related_cache_version', 1 ) );
+		$cache_key     = 'bijan_smart_related_v2_' . absint( $product_id ) . '_' . $cache_version;
+		$cached        = get_transient( $cache_key );
 		if ( is_array( $cached ) ) {
 			return array_slice( array_map( 'absint', $cached ), 0, $limit );
 		}
@@ -144,29 +163,12 @@ final class Bijan_Product_Community {
 			}
 		};
 
-		// First: products explicitly assigned to the same, most specific category.
-		$append( self::related_query( $leaf_ids, $exclude, $limit, false ) );
-
-		// Second: descendants of that category, useful when the current product is assigned to a parent category.
-		if ( count( $found ) < $limit ) {
-			$append( self::related_query( $leaf_ids, $exclude, $limit - count( $found ), true ) );
-		}
-
-		// Finally walk upwards one level at a time. Sibling categories only enter through their closest parent.
-		$parents = array_values( array_unique( array_filter( array_map( static function ( $term_id ) {
-			$term = get_term( $term_id, 'product_cat' );
-			return $term instanceof WP_Term ? absint( $term->parent ) : 0;
-		}, $leaf_ids ) ) ) );
-		while ( count( $found ) < $limit && $parents ) {
-			$append( self::related_query( $parents, $exclude, $limit - count( $found ), true ) );
-			$next_parents = [];
-			foreach ( $parents as $parent_id ) {
-				$term = get_term( $parent_id, 'product_cat' );
-				if ( $term instanceof WP_Term && $term->parent ) {
-					$next_parents[] = absint( $term->parent );
-				}
-			}
-			$parents = array_values( array_unique( $next_parents ) );
+		// Keep every result in the product's most-specific assigned categories.
+		// Available products are randomized first; unavailable products only fill
+		// remaining positions when WooCommerce is configured to show them.
+		$append( self::related_query( $leaf_ids, $exclude, $limit, 'instock' ) );
+		if ( count( $found ) < $limit && 'yes' !== get_option( 'woocommerce_hide_out_of_stock_items' ) ) {
+			$append( self::related_query( $leaf_ids, $exclude, $limit - count( $found ), 'outofstock' ) );
 		}
 
 		$found = array_slice( $found, 0, $limit );
