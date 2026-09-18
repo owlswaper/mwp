@@ -4,7 +4,7 @@ Theme URI: https://www.rtl-theme.com/bijan-wordpress-theme/
 Author: MohammadJafar Khajeh
 Author URI: https://www.rtl-theme.com/author/ironatoms2/
 Description: Child theme for Bijan
-Version: 1.0.0.5
+Version: 1.0.0.6
 Requires at least: 6.0
 Tested up to: 6.8
 Requires PHP: 7.4
@@ -228,5 +228,34 @@ Template: bijan
 	#header-container,
 	.clz-mobile-support {
 		transition: none;
+	}
+}
+
+/*
+ * Sale prices need two lines on narrow product cards. The parent theme keeps
+ * the style-1 card footer at 46px, which lets that second line overflow into
+ * the following card on phones.
+ */
+@media screen and (max-width: 480px) {
+	.products .product-bottom .price:has(del) {
+		display: grid;
+		gap: 2px;
+		justify-items: center;
+		line-height: 1.35;
+	}
+
+	.products .product-bottom .price:has(del) del,
+	.products .product-bottom .price:has(del) ins {
+		display: block;
+		min-width: 0;
+	}
+
+	.products-style-1 .product:has(.product-bottom .price del) .product-bottom {
+		height: auto;
+		min-height: 80px;
+	}
+
+	.products-style-1 .product:has(.product-bottom .price del) .shape-curve {
+		bottom: 88px;
 	}
 }

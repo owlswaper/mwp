@@ -50,6 +50,7 @@ if ( $related_products ) :
 			'desktop_slides_type'   => 'count',
 			'desktop_slides'        => 5,
 			'desktop_slides_space'  => 24,
+			'show_arrows'           => true,
 			'tablet_slider'         => true,
 			'tablet_slides_type'    => 'auto',
 			'tablet_slides_space'   => 24,

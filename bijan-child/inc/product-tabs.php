@@ -8,7 +8,8 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Rename WooCommerce's technical label and append the store-wide delivery tab.
+ * Rename WooCommerce's technical label. Delivery information is intentionally
+ * rendered below the complete tab box so the tabs stay focused on the product.
  *
  * @param array $tabs Product tabs.
  * @return array
@@ -17,12 +18,6 @@ function cloz_customize_product_information_tabs( $tabs ) {
 	if ( isset( $tabs['additional_information'] ) ) {
 		$tabs['additional_information']['title'] = 'ویژگی‌ها';
 	}
-
-	$tabs['cloz_shipping_returns'] = [
-		'title'    => 'شیوه ارسال و مرجوعی',
-		'priority' => 30,
-		'callback' => 'cloz_render_shipping_returns_tab',
-	];
 
 	return $tabs;
 }
@@ -68,51 +63,28 @@ function cloz_render_product_categories_after_tabs() {
 add_action( 'woocommerce_product_after_tabs', 'cloz_render_product_categories_after_tabs', 20 );
 
 /**
- * Render the same delivery and returns information for every product.
+ * Render a short, store-wide delivery and returns summary below product tabs.
  */
-function cloz_render_shipping_returns_tab() {
+function cloz_render_shipping_returns_summary() {
 	?>
-	<section class="cloz-fulfilment" aria-labelledby="cloz-fulfilment-title">
-		<header class="cloz-fulfilment__hero">
-			<div class="cloz-fulfilment__mark" aria-hidden="true">
+	<section class="cloz-fulfilment-summary" aria-labelledby="cloz-fulfilment-title">
+		<header class="cloz-fulfilment-summary__head">
+			<span class="cloz-fulfilment-summary__icon" aria-hidden="true">
 				<svg viewBox="0 0 24 24" focusable="false"><path d="M3 7.5 12 3l9 4.5v9L12 21l-9-4.5v-9Zm9 3.9 7-3.5L12 4.4 5 7.9l7 3.5Zm-7.5-2.3v6.5l6.75 3.38v-6.5L4.5 9.1Zm8.25 9.88 6.75-3.38V9.1l-6.75 3.38v6.5Z"/></svg>
-			</div>
-			<div>
-				<span>ارسال اکسپرس کلوز</span>
-				<h2 id="cloz-fulfilment-title">سفارش‌تان سریع، مرتب و قابل پیگیری به دستتان می‌رسد</h2>
-				<p>از آماده‌سازی بسته تا زمان تحویل، مسیر سفارش شفاف است و هر مرحله را هم از طریق پیامک به شما اطلاع می‌دهیم.</p>
-			</div>
+			</span>
+			<div><h2 id="cloz-fulfilment-title">ارسال و شرایط مرجوعی</h2><p>اطلاعات ضروری خرید، کوتاه و شفاف</p></div>
 		</header>
 
-		<div class="cloz-fulfilment__grid">
-			<article class="cloz-policy-card cloz-policy-card--accent">
-				<span class="cloz-policy-card__icon" aria-hidden="true">۱</span>
-				<div><h3>زمان تحویل اکسپرس</h3><p>در تهران و کرج، بیشتر سفارش‌ها تا <strong>۴۸ ساعت</strong> و در سایر استان‌ها تا <strong>۷۲ ساعت</strong> تحویل می‌شوند.</p></div>
-			</article>
-			<article class="cloz-policy-card">
-				<span class="cloz-policy-card__icon" aria-hidden="true">۲</span>
-				<div><h3>پیگیری دقیق سفارش</h3><p>روز و بازه ساعتی تحویل مرسوله در بخش <strong>پیگیری سفارش کلوز</strong> نمایش داده می‌شود؛ تغییر وضعیت هر مرحله نیز برایتان پیامک خواهد شد.</p></div>
-			</article>
-			<article class="cloz-policy-card">
-				<span class="cloz-policy-card__icon" aria-hidden="true">۳</span>
-				<div><h3>بسته‌بندی مناسب هدیه</h3><p>محصول‌ها با بسته‌بندی شیک و مرتب آماده می‌شوند؛ بنابراین می‌توانید سفارش را مستقیماً برای هدیه هم استفاده کنید.</p></div>
-			</article>
-			<article class="cloz-policy-card">
-				<span class="cloz-policy-card__icon" aria-hidden="true">۴</span>
-				<div><h3>لغو پیش از بسته‌بندی</h3><p>تا زمانی که بسته‌بندی سفارش آغاز نشده باشد، امکان لغو ارسال وجود دارد. برای این کار کافی است سریع با پشتیبانی کلوز در ارتباط باشید.</p></div>
-			</article>
+		<div class="cloz-fulfilment-summary__items" role="list">
+			<div role="listitem"><strong>زمان تحویل</strong><span>تهران و کرج تا ۴۸ ساعت، سایر استان‌ها تا ۷۲ ساعت</span></div>
+			<div role="listitem"><strong>پیگیری سفارش</strong><span>زمان تحویل و تغییر وضعیت سفارش از طریق پیامک اطلاع‌رسانی می‌شود</span></div>
+			<div role="listitem"><strong>شرایط مرجوعی</strong><span>در صورت ایراد یا مغایرت محصول، درخواست توسط پشتیبانی بررسی می‌شود</span></div>
 		</div>
-
-		<aside class="cloz-return-note">
-			<div class="cloz-return-note__icon" aria-hidden="true">↺</div>
-			<div>
-				<h3>شرایط مرجوعی، کوتاه و شفاف</h3>
-				<p>مرجوع کردن سفارش به دلیل تغییر نظر یا پشیمانی از خرید امکان‌پذیر نیست. اگر محصول ایراد داشته باشد یا با توضیحات و تصاویر صفحه محصول مغایرتی ببینید، درخواست شما توسط پشتیبانی بررسی و امکان مرجوعی فراهم می‌شود.</p>
-			</div>
-		</aside>
+		<p class="cloz-fulfilment-summary__note">مرجوعی به دلیل تغییر نظر یا پشیمانی از خرید امکان‌پذیر نیست؛ لغو سفارش تا پیش از شروع بسته‌بندی با هماهنگی پشتیبانی امکان دارد.</p>
 	</section>
 	<?php
 }
+add_action( 'woocommerce_after_single_product_summary', 'cloz_render_shipping_returns_summary', 18 );
 
 /**
  * Load the tab styles only where they are used.

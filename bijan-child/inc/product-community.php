@@ -37,6 +37,7 @@ final class Bijan_Product_Community {
 		add_filter( 'woocommerce_related_products', [ __CLASS__, 'filter_related_products' ], PHP_INT_MAX, 3 );
 		add_filter( 'woocommerce_product_related_posts_shuffle', '__return_false', PHP_INT_MAX );
 		add_filter( 'woocommerce_product_is_visible', [ __CLASS__, 'keep_related_out_of_stock_visible' ], PHP_INT_MAX, 2 );
+		add_filter( 'woocommerce_product_tabs', [ __CLASS__, 'register_community_tabs' ], 40 );
 		add_action( 'admin_menu', [ __CLASS__, 'admin_menu' ], 30 );
 		add_action( 'admin_post_bijan_community_action', [ __CLASS__, 'admin_action' ] );
 	}
@@ -57,15 +58,18 @@ final class Bijan_Product_Community {
 		remove_action( 'woocommerce_single_product_summary', 'bijan_wc_single_head_comments', 8 );
 		add_action( 'woocommerce_single_product_summary', [ __CLASS__, 'render_product_head_stats' ], 7 );
 
-		add_action( 'woocommerce_after_single_product_summary', [ __CLASS__, 'render' ], 19 );
+		// Forms remain a single fixed modal, while their content is surfaced in
+		// two native WooCommerce tabs below.
+		add_action( 'woocommerce_after_single_product_summary', [ __CLASS__, 'render_modal_container' ], 19 );
 
-		// Restore the parent theme's original related-products markup and position.
+		// Render the related-products slider immediately before the description
+		// and attributes tabs. The selection logic remains unchanged.
 		// The visibility window only affects the exact cached products while that
 		// section is being rendered, allowing out-of-stock fallback items to show.
 		remove_action( 'woocommerce_after_single_product', 'woocommerce_output_related_products', 20 );
-		add_action( 'woocommerce_after_single_product', [ __CLASS__, 'start_related_render' ], 19 );
-		add_action( 'woocommerce_after_single_product', 'woocommerce_output_related_products', 20 );
-		add_action( 'woocommerce_after_single_product', [ __CLASS__, 'finish_related_render' ], 21 );
+		add_action( 'woocommerce_after_single_product_summary', [ __CLASS__, 'start_related_render' ], 8 );
+		add_action( 'woocommerce_after_single_product_summary', 'woocommerce_output_related_products', 9 );
+		add_action( 'woocommerce_after_single_product_summary', [ __CLASS__, 'finish_related_render' ], 9 );
 	}
 
 	public static function clear_related_cache( $product_id ) {
@@ -87,9 +91,9 @@ final class Bijan_Product_Community {
 	 * to the current product. Matching one broad category is deliberately not
 	 * enough: no sibling category can leak into the result.
 	 */
-	private static function smart_related_ids( $product_id, $limit = 10 ) {
+	private static function smart_related_ids( $product_id, $limit = 15 ) {
 		$cache_version = absint( get_option( 'bijan_smart_related_cache_version', 1 ) );
-		$cache_key     = 'bijan_smart_related_v3_' . absint( $product_id ) . '_' . $cache_version;
+		$cache_key     = 'bijan_smart_related_v4_' . absint( $product_id ) . '_' . $cache_version;
 		$cached        = get_transient( $cache_key );
 		if ( is_array( $cached ) ) {
 			return array_slice( array_map( 'absint', $cached ), 0, $limit );
@@ -156,8 +160,8 @@ final class Bijan_Product_Community {
 	}
 
 	public static function related_products_args( $args ) {
-		$args['posts_per_page'] = 10;
-		$args['columns']        = 10;
+		$args['posts_per_page'] = 15;
+		$args['columns']        = 15;
 		// The IDs are shuffled before caching; do not reshuffle them on every view.
 		$args['orderby']        = 'none';
 		$args['order']          = 'ASC';
@@ -165,13 +169,13 @@ final class Bijan_Product_Community {
 	}
 
 	public static function filter_related_products( $related_ids, $product_id, $args ) {
-		return self::smart_related_ids( absint( $product_id ), 10 );
+		return self::smart_related_ids( absint( $product_id ), 15 );
 	}
 
 	public static function start_related_render() {
 		global $product;
 		self::$related_render_ids = $product instanceof WC_Product
-			? self::smart_related_ids( $product->get_id(), 10 )
+			? self::smart_related_ids( $product->get_id(), 15 )
 			: [];
 	}
 
@@ -610,82 +614,102 @@ final class Bijan_Product_Community {
 		?>
 		<div class="product-head-meta bijan-community-head-stat">
 			<i class="bijan-icon-star-2 active"></i>
-			<a href="#product-community" class="product-meta-value"><?php echo esc_html( $stats['count'] ? $stats['average'] . ' از ۵' : 'بدون امتیاز' ); ?></a>
+			<a href="#tab-bijan_reviews" class="product-meta-value"><?php echo esc_html( $stats['count'] ? $stats['average'] . ' از ۵' : 'بدون امتیاز' ); ?></a>
 		</div>
 		<div class="product-head-meta bijan-community-head-stat">
 			<i class="bijan-icon-messages"></i>
-			<a href="#product-community" class="post-meta-value"><?php echo esc_html( number_format_i18n( $stats['count'] ) . ' نظر' ); ?></a>
+			<a href="#tab-bijan_reviews" class="post-meta-value"><?php echo esc_html( number_format_i18n( $stats['count'] ) . ' نظر' ); ?></a>
 		</div>
 		<?php
 	}
 
-	public static function render() {
+	public static function register_community_tabs( $tabs ) {
 		global $product;
-		if ( ! $product ) {
+		if ( ! $product instanceof WC_Product ) {
+			return $tabs;
+		}
+
+		$stats          = self::score_stats( $product->get_id() );
+		$question_count = self::count( $product->get_id(), self::QUESTION_TYPE );
+		$tabs['bijan_reviews'] = [
+			'title'    => sprintf( 'نظرات (%s)', number_format_i18n( $stats['count'] ) ),
+			'priority' => 30,
+			'callback' => [ __CLASS__, 'render_reviews_tab' ],
+		];
+		$tabs['bijan_questions'] = [
+			'title'    => sprintf( 'پرسش و پاسخ (%s)', number_format_i18n( $question_count ) ),
+			'priority' => 40,
+			'callback' => [ __CLASS__, 'render_questions_tab' ],
+		];
+
+		return $tabs;
+	}
+
+	public static function render_reviews_tab() {
+		global $product;
+		if ( ! $product instanceof WC_Product ) {
 			return;
 		}
-		$product_id    = $product->get_id();
-		$stats          = self::score_stats( $product_id );
-		$question_count = self::count( $product_id, self::QUESTION_TYPE );
-		$review_page    = min( max( 1, absint( $_GET['review_page'] ?? 1 ) ), max( 1, (int) ceil( $stats['count'] / self::PAGE_SIZE ) ) );
-		$question_page  = min( max( 1, absint( $_GET['question_page'] ?? 1 ) ), max( 1, (int) ceil( $question_count / self::PAGE_SIZE ) ) );
-		$reviews       = self::reviews( $product_id, $review_page );
-		$questions     = self::questions( $product_id, $question_page );
+
+		$product_id  = $product->get_id();
+		$stats       = self::score_stats( $product_id );
+		$review_page = min( max( 1, absint( $_GET['review_page'] ?? 1 ) ), max( 1, (int) ceil( $stats['count'] / self::PAGE_SIZE ) ) );
+		$reviews     = self::reviews( $product_id, $review_page );
 		?>
-		<section id="product-community" class="bijan-community product-section" aria-labelledby="community-title">
+		<section id="product-community" class="bijan-community bijan-community-tab" aria-labelledby="community-reviews-title">
 			<header class="bc-heading">
-				<div>
-					<span class="bc-eyebrow">تجربه واقعی کاربران</span>
-					<h2 id="community-title">نظرها و پرسش‌های این محصول</h2>
-					<p>تجربه‌تان به انتخاب بهتر دیگران کمک می‌کند.</p>
-				</div>
-				<div class="bc-heading-actions">
-					<?php self::action_button( 'review', 'ثبت نظر و امتیاز', 'bc-button bc-button-primary' ); ?>
-					<?php self::action_button( 'question', 'ثبت پرسش', 'bc-button bc-button-secondary' ); ?>
-				</div>
+				<div><span class="bc-eyebrow">تجربه واقعی خریداران</span><h2 id="community-reviews-title">نظر کاربران</h2><p>تجربه‌های واقعی برای یک انتخاب مطمئن‌تر.</p></div>
+				<div class="bc-heading-actions"><?php self::action_button( 'review', 'ثبت نظر و امتیاز', 'bc-button bc-button-primary' ); ?></div>
 			</header>
-
-			<nav class="bc-tabs" aria-label="نظرها و پرسش‌ها">
-				<button type="button" class="bc-tab is-active" data-tab="reviews" aria-selected="true">
-					نظر کاربران <span><?php echo esc_html( number_format_i18n( $stats['count'] ) ); ?></span>
-				</button>
-				<button type="button" class="bc-tab" data-tab="questions" aria-selected="false">
-					پرسش و پاسخ <span><?php echo esc_html( number_format_i18n( $question_count ) ); ?></span>
-				</button>
-			</nav>
-
-			<div class="bc-panel is-active" data-panel="reviews">
-				<?php self::render_review_gallery( $product_id ); ?>
-				<div class="bc-review-layout">
-					<aside class="bc-score-card"><?php self::render_score_card( $stats ); ?></aside>
-					<div class="bc-feed">
-						<?php if ( $reviews ) : ?>
-							<?php foreach ( $reviews as $review ) { self::render_review( $review, $product_id ); } ?>
-							<?php self::pagination( $stats['count'], $review_page, 'review_page', 'reviews' ); ?>
-						<?php else : ?>
-							<?php self::empty_state( 'review', 'هنوز نظری ثبت نشده', 'اولین نفری باشید که تجربه‌اش را درباره این محصول می‌نویسد.' ); ?>
-						<?php endif; ?>
-					</div>
-				</div>
-			</div>
-
-			<div class="bc-panel" data-panel="questions" hidden>
-				<div class="bc-question-intro">
-					<div><strong>سؤالی درباره این محصول دارید؟</strong><span>پشتیبانی پس از بررسی پاسخ می‌دهد و پرسش همراه پاسخ منتشر می‌شود.</span></div>
-					<?php self::action_button( 'question', 'پرسیدن سؤال', 'bc-button bc-button-primary' ); ?>
-				</div>
-				<div class="bc-questions">
-					<?php if ( $questions ) : ?>
-						<?php foreach ( $questions as $question ) { self::render_question( $question ); } ?>
-						<?php self::pagination( $question_count, $question_page, 'question_page', 'questions' ); ?>
+			<?php self::render_review_gallery( $product_id ); ?>
+			<div class="bc-review-layout">
+				<aside class="bc-score-card"><?php self::render_score_card( $stats ); ?></aside>
+				<div class="bc-feed">
+					<?php if ( $reviews ) : ?>
+						<?php foreach ( $reviews as $review ) { self::render_review( $review, $product_id ); } ?>
+						<?php self::pagination( $stats['count'], $review_page, 'review_page', 'reviews' ); ?>
 					<?php else : ?>
-						<?php self::empty_state( 'question', 'پرسش پاسخ‌داده‌شده‌ای نیست', 'اگر نکته‌ای درباره محصول برایتان مبهم است، همین حالا بپرسید.' ); ?>
+						<?php self::empty_state( 'review', 'هنوز نظری ثبت نشده', 'اولین نفری باشید که تجربه‌اش را درباره این محصول می‌نویسد.' ); ?>
 					<?php endif; ?>
 				</div>
 			</div>
 		</section>
-		<?php self::render_modal( $product_id ); ?>
 		<?php
+	}
+
+	public static function render_questions_tab() {
+		global $product;
+		if ( ! $product instanceof WC_Product ) {
+			return;
+		}
+
+		$product_id     = $product->get_id();
+		$question_count = self::count( $product_id, self::QUESTION_TYPE );
+		$question_page  = min( max( 1, absint( $_GET['question_page'] ?? 1 ) ), max( 1, (int) ceil( $question_count / self::PAGE_SIZE ) ) );
+		$questions     = self::questions( $product_id, $question_page );
+		?>
+		<section class="bijan-community bijan-community-tab" aria-labelledby="community-questions-title">
+			<header class="bc-heading">
+				<div><span class="bc-eyebrow">پاسخ روشن پیش از خرید</span><h2 id="community-questions-title">پرسش و پاسخ</h2><p>سؤال خود را مستقیم بپرسید؛ پاسخ پشتیبانی همین‌جا منتشر می‌شود.</p></div>
+				<div class="bc-heading-actions"><?php self::action_button( 'question', 'ثبت پرسش', 'bc-button bc-button-primary' ); ?></div>
+			</header>
+			<div class="bc-questions">
+				<?php if ( $questions ) : ?>
+					<?php foreach ( $questions as $question ) { self::render_question( $question ); } ?>
+					<?php self::pagination( $question_count, $question_page, 'question_page', 'questions' ); ?>
+				<?php else : ?>
+					<?php self::empty_state( 'question', 'پرسش پاسخ‌داده‌شده‌ای نیست', 'اگر نکته‌ای درباره محصول برایتان مبهم است، همین حالا بپرسید.' ); ?>
+				<?php endif; ?>
+			</div>
+		</section>
+		<?php
+	}
+
+	public static function render_modal_container() {
+		global $product;
+		if ( $product instanceof WC_Product ) {
+			self::render_modal( $product->get_id() );
+		}
 	}
 
 	private static function action_button( $type, $label, $class ) {
@@ -811,9 +835,10 @@ final class Bijan_Product_Community {
 		if ( $pages < 2 ) {
 			return;
 		}
+		$anchor = 'questions' === $tab ? '#tab-bijan_questions' : '#tab-bijan_reviews';
 		echo '<nav class="bc-pagination" aria-label="صفحه‌بندی">';
 		echo wp_kses_post( paginate_links( [
-			'base'      => add_query_arg( $query_key, '%#%', get_permalink() ) . '#product-community',
+			'base'      => add_query_arg( $query_key, '%#%', get_permalink() ) . $anchor,
 			'format'    => '',
 			'current'   => $page,
 			'total'     => $pages,

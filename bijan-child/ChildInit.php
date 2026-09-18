@@ -21,7 +21,7 @@ if( !defined( 'BIJAN_CHILD_URI' ) ) {
 }
 
 if( !defined( 'BIJAN_CHILD_VERSION' ) ) {
-	define( 'BIJAN_CHILD_VERSION', "1.0.0.5" );
+	define( 'BIJAN_CHILD_VERSION', "1.0.0.6" );
 }
 
 if( !defined( 'BIJAN_CHILD_DEV' ) ) {

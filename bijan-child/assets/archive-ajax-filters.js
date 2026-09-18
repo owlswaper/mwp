@@ -12,7 +12,8 @@
 	let priceTimer = null;
 
 	const controlledKey = (key) => (
-		key === 'orderby'
+		key === 's'
+		|| key === 'orderby'
 		|| key === 'min_price'
 		|| key === 'max_price'
 		|| key === 'rating_filter'
@@ -145,9 +146,54 @@
 		return true;
 	};
 
+	let filterTrigger = null;
+	const isMobileDrawer = () => window.matchMedia('(max-width: 768px)').matches;
+	const filterIsOpen = () => document.querySelector('.cloz-filter-trigger')?.getAttribute('aria-expanded') === 'true';
+
+	const setFilterDrawer = (open, manageFocus = true) => {
+		const trigger = document.querySelector('.cloz-filter-trigger');
+		const panel = document.querySelector('.cloz-filter-panel');
+		const backdrop = document.querySelector('.cloz-filter-backdrop');
+		if (!trigger || !panel) {
+			return;
+		}
+
+		if (open) {
+			filterTrigger = trigger;
+			trigger.setAttribute('aria-expanded', 'true');
+			panel.setAttribute('role', isMobileDrawer() ? 'dialog' : 'region');
+			if (isMobileDrawer()) panel.setAttribute('aria-modal', 'true');
+			else panel.removeAttribute('aria-modal');
+			panel.hidden = false;
+			if (backdrop) backdrop.hidden = !isMobileDrawer();
+			document.body.classList.toggle('cloz-filter-drawer-open', isMobileDrawer());
+			window.requestAnimationFrame(() => {
+				panel.classList.add('is-open');
+				if (manageFocus) {
+					const initialFocus = isMobileDrawer()
+						? panel.querySelector('.cloz-filter-close')
+						: (panel.querySelector('input[type="search"]') || panel.querySelector('input, button, select'));
+					initialFocus?.focus({ preventScroll: true });
+				}
+			});
+			return;
+		}
+
+		trigger.setAttribute('aria-expanded', 'false');
+		panel.setAttribute('role', 'region');
+		panel.removeAttribute('aria-modal');
+		panel.classList.remove('is-open');
+		document.body.classList.remove('cloz-filter-drawer-open');
+		if (backdrop) backdrop.hidden = true;
+		panel.hidden = true;
+		if (manageFocus) (filterTrigger || trigger).focus({ preventScroll: true });
+	};
+
 	const refresh = async (nextState, shouldScroll) => {
 		state = normalizeState(nextState);
 		const currentRequest = ++requestNumber;
+		const reopenFilters = filterIsOpen();
+		const filterScrollTop = document.querySelector('.cloz-filter-widgets')?.scrollTop || 0;
 
 		if (activeRequest) {
 			activeRequest.abort();
@@ -183,6 +229,11 @@
 			replaceFragment(incoming, '#sort-wrap');
 			replaceFragment(incoming, '#sidebar.sidebar-shop');
 			replaceFragment(incoming, '.entry-container');
+			if (reopenFilters) {
+				setFilterDrawer(true, false);
+				const filterWidgets = document.querySelector('.cloz-filter-widgets');
+				if (filterWidgets) filterWidgets.scrollTop = filterScrollTop;
+			}
 
 			$(document.body).trigger('init_price_filter');
 			initializeLayeredDropdowns();
@@ -206,6 +257,19 @@
 	};
 
 	document.addEventListener('click', (event) => {
+		const drawerToggle = event.target.closest('[data-cloz-filter-toggle]');
+		if (drawerToggle) {
+			event.preventDefault();
+			setFilterDrawer(!filterIsOpen());
+			return;
+		}
+
+		if (event.target.closest('[data-cloz-filter-close]')) {
+			event.preventDefault();
+			setFilterDrawer(false);
+			return;
+		}
+
 		const filter = event.target.closest('[data-cloz-archive-state]');
 		if (filter) {
 			event.preventDefault();
@@ -256,7 +320,7 @@
 
 		$(document).on(
 			'submit.clozArchive',
-			'form.woocommerce-ordering, .widget_price_filter form, form.woocommerce-widget-layered-nav-dropdown',
+			'form.woocommerce-ordering, .widget_price_filter form, form.woocommerce-widget-layered-nav-dropdown, form.cloz-archive-search',
 			function (event) {
 				submitArchiveForm(event, this);
 			}
@@ -282,6 +346,41 @@
 					form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
 				}
 			}, 300);
+		});
+
+		document.addEventListener('keydown', (event) => {
+			if (event.key === 'Escape' && filterIsOpen()) {
+				setFilterDrawer(false);
+				return;
+			}
+
+			if (event.key === 'Tab' && filterIsOpen() && isMobileDrawer()) {
+				const panel = document.querySelector('.cloz-filter-panel');
+				const focusable = panel ? Array.from(panel.querySelectorAll('button:not(:disabled), input:not(:disabled), select:not(:disabled), [href], [tabindex]:not([tabindex="-1"])')) : [];
+				if (!focusable.length) return;
+				const first = focusable[0];
+				const last = focusable[focusable.length - 1];
+				if (event.shiftKey && document.activeElement === first) {
+					event.preventDefault();
+					last.focus();
+				} else if (!event.shiftKey && document.activeElement === last) {
+					event.preventDefault();
+					first.focus();
+				}
+			}
+		});
+
+		window.addEventListener('resize', () => {
+			if (!filterIsOpen()) return;
+			const backdrop = document.querySelector('.cloz-filter-backdrop');
+			const panel = document.querySelector('.cloz-filter-panel');
+			if (backdrop) backdrop.hidden = !isMobileDrawer();
+			if (panel) {
+				panel.setAttribute('role', isMobileDrawer() ? 'dialog' : 'region');
+				if (isMobileDrawer()) panel.setAttribute('aria-modal', 'true');
+				else panel.removeAttribute('aria-modal');
+			}
+			document.body.classList.toggle('cloz-filter-drawer-open', isMobileDrawer());
 		});
 	});
 })(jQuery);

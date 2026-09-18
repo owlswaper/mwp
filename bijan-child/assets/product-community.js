@@ -8,21 +8,25 @@
 		let $modalTrigger = $();
 		let closeTimer = null;
 
-		function activateTab(tab) {
-			const safeTab = tab === 'questions' ? 'questions' : 'reviews';
-			$('.bc-tab').removeClass('is-active').attr('aria-selected', 'false');
-			$('.bc-tab[data-tab="' + safeTab + '"]').addClass('is-active').attr('aria-selected', 'true');
-			$('.bc-panel').removeClass('is-active').attr('hidden', true);
-			$('.bc-panel[data-panel="' + safeTab + '"]').addClass('is-active').removeAttr('hidden');
+		function activateCommunityTab(tab, shouldScroll) {
+			const safeTab = tab === 'questions' ? 'bijan_questions' : 'bijan_reviews';
+			const $tabLink = $('#tab-title-' + safeTab + ' a');
+			if (!$tabLink.length) return;
+			$tabLink.trigger('click');
+			if (shouldScroll) {
+				document.querySelector('.woocommerce-tabs')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+			}
 		}
 
-		$('.bc-tab').on('click', function () {
-			activateTab($(this).data('tab'));
+		$('.bijan-community-head-stat a').on('click', function (event) {
+			event.preventDefault();
+			activateCommunityTab('reviews', true);
 		});
 
-		const initialTab = new URLSearchParams(window.location.search).get('community_tab');
-		if (initialTab) {
-			activateTab(initialTab);
+		const hashTab = window.location.hash === '#tab-bijan_questions' ? 'questions' : (window.location.hash === '#tab-bijan_reviews' ? 'reviews' : '');
+		const initialTab = new URLSearchParams(window.location.search).get('community_tab') || hashTab;
+		if (initialTab === 'reviews' || initialTab === 'questions') {
+			window.setTimeout(function () { activateCommunityTab(initialTab, false); }, 0);
 		}
 
 		function setFormView(type) {

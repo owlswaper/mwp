@@ -51,6 +51,9 @@ final class Cloz_Archive_Ajax_Filters {
 
 		$paged = max( 1, absint( self::$state['paged'] ?? 1 ) );
 		$wp->query_vars['paged'] = $paged;
+		if ( isset( self::$state['s'] ) ) {
+			$wp->query_vars['s'] = self::$state['s'];
+		}
 	}
 
 	public static function send_private_response_headers() {
@@ -265,7 +268,12 @@ final class Cloz_Archive_Ajax_Filters {
 				continue;
 			}
 
-			if ( 'orderby' === $key && in_array( $value, $orderby_options, true ) ) {
+			if ( 's' === $key ) {
+				$value = sanitize_text_field( $value );
+				if ( '' !== $value ) {
+					$state[ $key ] = function_exists( 'mb_substr' ) ? mb_substr( $value, 0, 80 ) : substr( $value, 0, 80 );
+				}
+			} elseif ( 'orderby' === $key && in_array( $value, $orderby_options, true ) ) {
 				$state[ $key ] = sanitize_text_field( $value );
 			} elseif ( in_array( $key, [ 'min_price', 'max_price' ], true ) && preg_match( '/^\d+(?:\.\d+)?$/D', $value ) ) {
 				$state[ $key ] = $value;
