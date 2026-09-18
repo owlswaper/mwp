@@ -8,6 +8,10 @@
 		let $modalTrigger = $();
 		let closeTimer = null;
 
+		// The visible card title is sufficient; the native link tooltip obscures
+		// adjacent related cards and duplicates the same text on hover.
+		$('.single-product .related .woocommerce-loop-product__link[title]').removeAttr('title');
+
 		function activateCommunityTab(tab, shouldScroll) {
 			const safeTab = tab === 'questions' ? 'bijan_questions' : 'bijan_reviews';
 			const $tabLink = $('#tab-title-' + safeTab + ' a');

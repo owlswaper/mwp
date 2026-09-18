@@ -308,7 +308,7 @@
 
 		$(document).on(
 			'submit.clozArchive',
-			'form.woocommerce-ordering, .widget_price_filter form, form.woocommerce-widget-layered-nav-dropdown, form.cloz-archive-search',
+			'form.woocommerce-ordering, .widget_price_filter form, form.woocommerce-widget-layered-nav-dropdown, #sidebar.sidebar-shop form.woocommerce-product-search, #sidebar.sidebar-shop form[role="search"]',
 			function (event) {
 				submitArchiveForm(event, this);
 			}

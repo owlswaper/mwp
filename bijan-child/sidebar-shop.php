@@ -19,7 +19,6 @@ foreach ( wp_unslash( $_GET ) as $key => $value ) {
 	}
 }
 
-$search_value = isset( $_GET['s'] ) ? sanitize_text_field( wp_unslash( $_GET['s'] ) ) : '';
 ?>
 <aside id="sidebar" class="sidebar sidebar-shop col-12" aria-label="جست‌وجو و فیلتر محصولات">
 	<div class="cloz-filter-shell">
@@ -46,23 +45,14 @@ $search_value = isset( $_GET['s'] ) ? sanitize_text_field( wp_unslash( $_GET['s'
 		</button>
 
 		<div id="cloz-filter-panel" class="cloz-filter-panel" role="region" aria-label="ابزار جست‌وجو و فیلتر محصولات" hidden>
-			<form class="cloz-archive-search" role="search">
-				<label for="cloz-archive-search-field">جست‌وجو در همین دسته</label>
-				<div class="cloz-archive-search-control">
-					<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4 4"/></svg>
-					<input id="cloz-archive-search-field" type="search" name="s" value="<?php echo esc_attr( $search_value ); ?>" placeholder="نام یا مدل محصول را بنویس…" autocomplete="off">
-					<button type="submit">جست‌وجو</button>
-				</div>
-			</form>
+			<footer class="cloz-filter-panel-foot">
+				<button type="button" class="cloz-filter-reset" data-cloz-archive-state="{}"<?php echo $active_filter_count ? '' : ' disabled'; ?>>پاک‌کردن فیلترها</button>
+				<button type="button" class="cloz-filter-done" data-cloz-filter-close>مشاهده محصولات</button>
+			</footer>
 
 			<section id="widget-area" class="widget-area cloz-filter-widgets" role="complementary" aria-label="فیلترهای محصولات">
 				<?php dynamic_sidebar( 'sidebar-shop' ); ?>
 			</section>
-
-			<footer class="cloz-filter-panel-foot">
-				<button type="button" class="cloz-filter-reset" data-cloz-archive-state="{}"<?php echo $active_filter_count ? '' : ' disabled'; ?>>پاک‌کردن فیلترها</button>
-				<button type="button" class="cloz-filter-done" data-cloz-filter-close>بستن فیلترها</button>
-			</footer>
 		</div>
 	</div>
 </aside>

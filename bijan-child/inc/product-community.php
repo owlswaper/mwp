@@ -177,10 +177,19 @@ final class Bijan_Product_Community {
 		self::$related_render_ids = $product instanceof WC_Product
 			? self::smart_related_ids( $product->get_id(), 15 )
 			: [];
+
+		// Archive thumbnails may be hard-cropped by WooCommerce. Related cards
+		// need the uncropped single-product source so the whole item remains visible.
+		add_filter( 'single_product_archive_thumbnail_size', [ __CLASS__, 'related_image_size' ], PHP_INT_MAX );
 	}
 
 	public static function finish_related_render() {
+		remove_filter( 'single_product_archive_thumbnail_size', [ __CLASS__, 'related_image_size' ], PHP_INT_MAX );
 		self::$related_render_ids = [];
+	}
+
+	public static function related_image_size( $size = null ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.Found
+		return 'woocommerce_single';
 	}
 
 	public static function keep_related_out_of_stock_visible( $visible, $product_id ) {
