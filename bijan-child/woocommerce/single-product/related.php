@@ -1,7 +1,6 @@
 <?php
 /**
- * Related products using the parent theme's original presentation, with its
- * native slider enabled on every breakpoint.
+ * Related products with stable square cards and a native horizontal scroll rail.
  *
  * @package WooCommerce\Templates
  * @version 10.3.0
@@ -19,7 +18,7 @@ if ( $related_products ) :
 		}
 	}
 	?>
-	<section class="related">
+	<section class="related cloz-related">
 		<?php
 		$heading   = apply_filters( 'woocommerce_product_related_products_heading', __( 'Related products', 'woocommerce' ) );
 		$shop_page = get_permalink( wc_get_page_id( 'shop' ) );
@@ -44,21 +43,10 @@ if ( $related_products ) :
 			echo '</div>';
 		}
 
-		wc_set_loop_prop( 'bijan_loop_props', [
-			'style'                 => 'products-style-2',
-			'desktop_slider'        => true,
-			'desktop_slides_type'   => 'count',
-			'desktop_slides'        => 5,
-			'desktop_slides_space'  => 24,
-			'show_arrows'           => true,
-			'tablet_slider'         => true,
-			'tablet_slides_type'    => 'auto',
-			'tablet_slides_space'   => 24,
-			'mobile_slider'         => true,
-			'mobile_slides_type'    => 'auto',
-			'mobile_slides_space'   => 24,
-		] );
-		woocommerce_product_loop_start();
+		// Preserve surrounding loop settings and avoid JS-dependent slide sizing.
+		$previous_loop_props = wc_get_loop_prop( 'bijan_loop_props' );
+		wc_set_loop_prop( 'bijan_loop_props', [ 'style' => 'products-style-1' ] );
+		echo '<ul class="products products-style-1 cloz-related-rail" tabindex="0" aria-label="محصولات مرتبط">';
 
 		foreach ( $related_products as $related_product ) {
 			$post_object = get_post( $related_product->get_id() );
@@ -69,7 +57,8 @@ if ( $related_products ) :
 			wc_get_template_part( 'content', 'product' );
 		}
 
-		woocommerce_product_loop_end();
+		echo '</ul>';
+		wc_set_loop_prop( 'bijan_loop_props', $previous_loop_props );
 
 		get_template_part( 'templates/components/button', null, [
 			'type'    => 'action',

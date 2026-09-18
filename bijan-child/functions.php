@@ -850,3 +850,12 @@ function cloz_related_posts_styles() {
     </style>
     <?php
 }
+
+// Shared catalog card geometry, also loaded on single-product related lists.
+add_action( 'wp_enqueue_scripts', function () {
+	if ( ! class_exists( 'WooCommerce' ) ) {
+		return;
+	}
+	$path = get_stylesheet_directory() . '/assets/catalog-ui.css';
+	wp_enqueue_style( 'cloz-catalog-ui', get_stylesheet_directory_uri() . '/assets/catalog-ui.css', [ 'bijan-child-style' ], filemtime( $path ) );
+}, 60 );

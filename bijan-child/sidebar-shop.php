@@ -33,8 +33,7 @@ foreach ( wp_unslash( $_GET ) as $key => $value ) {
 				<svg viewBox="0 0 24 24" fill="none"><path d="M4 6h16M7 12h10M10 18h4"/><path d="M8 4v4M15 10v4M12 16v4"/></svg>
 			</span>
 			<span class="cloz-filter-trigger-copy">
-				<strong>جست‌وجو و فیلتر محصولات</strong>
-				<small>برای پیدا کردن سریع‌تر، این بخش را باز کنید</small>
+				<strong>فیلتر محصولات</strong>
 			</span>
 			<?php if ( $active_filter_count ) : ?>
 				<span class="cloz-filter-count" aria-label="<?php echo esc_attr( sprintf( '%d فیلتر فعال', $active_filter_count ) ); ?>"><?php echo esc_html( $active_filter_count ); ?></span>
