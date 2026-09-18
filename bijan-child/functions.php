@@ -859,3 +859,16 @@ add_action( 'wp_enqueue_scripts', function () {
 	$path = get_stylesheet_directory() . '/assets/catalog-ui.css';
 	wp_enqueue_style( 'cloz-catalog-ui', get_stylesheet_directory_uri() . '/assets/catalog-ui.css', [ 'bijan-child-style' ], filemtime( $path ) );
 }, 60 );
+
+// Resolve these child overrides even when WooCommerce cached a parent path
+// before the child template files were introduced.
+add_filter( 'wc_get_template', function ( $template, $template_name ) {
+	$catalog_templates = [ 'loop/orderby.php', 'loop/products-style-1.php', 'single-product/related.php' ];
+	if ( in_array( $template_name, $catalog_templates, true ) ) {
+		$child_template = get_stylesheet_directory() . '/woocommerce/' . $template_name;
+		if ( is_readable( $child_template ) ) {
+			return $child_template;
+		}
+	}
+	return $template;
+}, 20, 2 );

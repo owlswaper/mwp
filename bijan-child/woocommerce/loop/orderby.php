@@ -38,6 +38,7 @@ $id_suffix = wp_unique_id();
 <div id="primary" <?php echo Utils::prepare_html_classes( $primary_classes, true ) ?>>
 	<?php do_action( 'bijan/wc/archive/start_primary' ); ?>
 	<div class="cloz-catalog-toolbar">
+		<?php if ( $show_sidebar ) { get_sidebar( 'shop' ); } ?>
 		<?php if ( $options['wc-show-archive-order'] ) : ?>
 		<form id="sort-wrap" class="woocommerce-ordering cloz-catalog-sort" method="get">
 			<label for="woocommerce-orderby-<?php echo esc_attr( $id_suffix ); ?>">مرتب‌سازی</label>
@@ -50,7 +51,6 @@ $id_suffix = wp_unique_id();
 			<?php wc_query_string_form_fields( null, [ 'orderby', 'submit', 'paged', 'product-page' ] ); ?>
 		</form>
 		<?php endif; ?>
-		<?php if ( $show_sidebar ) { get_sidebar( 'shop' ); } ?>
 	</div>
 
 	<div class="entry-container<?php echo $show_sidebar ? ' col-md-9 col-sm-12' : ' col-12' ?>">
