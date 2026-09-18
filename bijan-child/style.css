@@ -236,7 +236,7 @@ Template: bijan
  * the style-1 card footer at 46px, which lets that second line overflow into
  * the following card on phones.
  */
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 767px) {
 	.products .product-bottom .price:has(del) {
 		display: grid;
 		gap: 2px;

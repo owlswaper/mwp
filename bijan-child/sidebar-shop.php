@@ -31,11 +31,11 @@ $search_value = isset( $_GET['s'] ) ? sanitize_text_field( wp_unslash( $_GET['s'
 			aria-controls="cloz-filter-panel"
 		>
 			<span class="cloz-filter-trigger-icon" aria-hidden="true">
-				<svg viewBox="0 0 24 24" fill="none"><path d="M4 7h16M7 12h10M10 17h4"/><circle cx="7" cy="7" r="1.7"/><circle cx="15" cy="12" r="1.7"/><circle cx="11" cy="17" r="1.7"/></svg>
+				<svg viewBox="0 0 24 24" fill="none"><path d="M4 6h16M7 12h10M10 18h4"/><path d="M8 4v4M15 10v4M12 16v4"/></svg>
 			</span>
 			<span class="cloz-filter-trigger-copy">
-				<strong>راحت‌تر محصولتو پیدا کن</strong>
-				<small>جست‌وجو، فیلتر و انتخاب دقیق‌تر</small>
+				<strong>جست‌وجو و فیلتر محصولات</strong>
+				<small>برای پیدا کردن سریع‌تر، این بخش را باز کنید</small>
 			</span>
 			<?php if ( $active_filter_count ) : ?>
 				<span class="cloz-filter-count" aria-label="<?php echo esc_attr( sprintf( '%d فیلتر فعال', $active_filter_count ) ); ?>"><?php echo esc_html( $active_filter_count ); ?></span>
@@ -45,17 +45,7 @@ $search_value = isset( $_GET['s'] ) ? sanitize_text_field( wp_unslash( $_GET['s'
 			</span>
 		</button>
 
-		<div class="cloz-filter-backdrop" data-cloz-filter-close hidden></div>
-
 		<div id="cloz-filter-panel" class="cloz-filter-panel" role="region" aria-label="ابزار جست‌وجو و فیلتر محصولات" hidden>
-			<header class="cloz-filter-panel-head">
-				<div>
-					<strong>جست‌وجو و فیلتر</strong>
-					<span>نتیجه‌ها هم‌زمان به‌روزرسانی می‌شوند</span>
-				</div>
-				<button type="button" class="cloz-filter-close" data-cloz-filter-close aria-label="بستن فیلترها">&times;</button>
-			</header>
-
 			<form class="cloz-archive-search" role="search">
 				<label for="cloz-archive-search-field">جست‌وجو در همین دسته</label>
 				<div class="cloz-archive-search-control">
@@ -71,7 +61,7 @@ $search_value = isset( $_GET['s'] ) ? sanitize_text_field( wp_unslash( $_GET['s'
 
 			<footer class="cloz-filter-panel-foot">
 				<button type="button" class="cloz-filter-reset" data-cloz-archive-state="{}"<?php echo $active_filter_count ? '' : ' disabled'; ?>>پاک‌کردن فیلترها</button>
-				<button type="button" class="cloz-filter-done" data-cloz-filter-close>مشاهده محصولات</button>
+				<button type="button" class="cloz-filter-done" data-cloz-filter-close>بستن فیلترها</button>
 			</footer>
 		</div>
 	</div>

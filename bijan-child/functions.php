@@ -101,14 +101,9 @@ function display_category_intro_and_subcats() {
     ?>
     <div class="cloz-category-intro-section">
         <?php if (!empty($category_intro)): ?>
-			<details class="cloz-category-intro-text">
-				<summary>
-					<span class="cloz-category-intro-icon" aria-hidden="true">i</span>
-					<span>راهنمای انتخاب از این دسته</span>
-					<small>مشاهده توضیحات</small>
-				</summary>
+			<div class="cloz-category-intro-text">
 				<div class="cloz-category-intro-content"><?php echo wpautop( wp_kses_post( $category_intro ) ); ?></div>
-			</details>
+			</div>
         <?php endif; ?>
         
         <?php if (!empty($subcats)): ?>

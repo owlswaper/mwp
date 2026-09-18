@@ -147,13 +147,11 @@
 	};
 
 	let filterTrigger = null;
-	const isMobileDrawer = () => window.matchMedia('(max-width: 768px)').matches;
 	const filterIsOpen = () => document.querySelector('.cloz-filter-trigger')?.getAttribute('aria-expanded') === 'true';
 
 	const setFilterDrawer = (open, manageFocus = true) => {
 		const trigger = document.querySelector('.cloz-filter-trigger');
 		const panel = document.querySelector('.cloz-filter-panel');
-		const backdrop = document.querySelector('.cloz-filter-backdrop');
 		if (!trigger || !panel) {
 			return;
 		}
@@ -161,18 +159,11 @@
 		if (open) {
 			filterTrigger = trigger;
 			trigger.setAttribute('aria-expanded', 'true');
-			panel.setAttribute('role', isMobileDrawer() ? 'dialog' : 'region');
-			if (isMobileDrawer()) panel.setAttribute('aria-modal', 'true');
-			else panel.removeAttribute('aria-modal');
 			panel.hidden = false;
-			if (backdrop) backdrop.hidden = !isMobileDrawer();
-			document.body.classList.toggle('cloz-filter-drawer-open', isMobileDrawer());
 			window.requestAnimationFrame(() => {
 				panel.classList.add('is-open');
 				if (manageFocus) {
-					const initialFocus = isMobileDrawer()
-						? panel.querySelector('.cloz-filter-close')
-						: (panel.querySelector('input[type="search"]') || panel.querySelector('input, button, select'));
+					const initialFocus = panel.querySelector('input[type="search"]') || panel.querySelector('input, button, select');
 					initialFocus?.focus({ preventScroll: true });
 				}
 			});
@@ -180,11 +171,7 @@
 		}
 
 		trigger.setAttribute('aria-expanded', 'false');
-		panel.setAttribute('role', 'region');
-		panel.removeAttribute('aria-modal');
 		panel.classList.remove('is-open');
-		document.body.classList.remove('cloz-filter-drawer-open');
-		if (backdrop) backdrop.hidden = true;
 		panel.hidden = true;
 		if (manageFocus) (filterTrigger || trigger).focus({ preventScroll: true });
 	};
@@ -316,6 +303,7 @@
 		// The parent theme submits these controls with GET. Remove only those two
 		// direct handlers; all visual and WooCommerce slider behaviour stays intact.
 		$('.woocommerce-ordering .sort-item').off('click');
+		$('.woocommerce-ordering').off('change', 'select.orderby');
 		$('.price_slider').off('slidechange');
 
 		$(document).on(
@@ -338,6 +326,10 @@
 			}
 		});
 
+		$(document).on('change.clozArchive', 'form.woocommerce-ordering select.orderby', function () {
+			this.closest('form')?.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
+		});
+
 		$(document).on('slidechange.clozArchive', '.price_slider', function () {
 			window.clearTimeout(priceTimer);
 			const form = this.closest('form');
@@ -354,33 +346,6 @@
 				return;
 			}
 
-			if (event.key === 'Tab' && filterIsOpen() && isMobileDrawer()) {
-				const panel = document.querySelector('.cloz-filter-panel');
-				const focusable = panel ? Array.from(panel.querySelectorAll('button:not(:disabled), input:not(:disabled), select:not(:disabled), [href], [tabindex]:not([tabindex="-1"])')) : [];
-				if (!focusable.length) return;
-				const first = focusable[0];
-				const last = focusable[focusable.length - 1];
-				if (event.shiftKey && document.activeElement === first) {
-					event.preventDefault();
-					last.focus();
-				} else if (!event.shiftKey && document.activeElement === last) {
-					event.preventDefault();
-					first.focus();
-				}
-			}
-		});
-
-		window.addEventListener('resize', () => {
-			if (!filterIsOpen()) return;
-			const backdrop = document.querySelector('.cloz-filter-backdrop');
-			const panel = document.querySelector('.cloz-filter-panel');
-			if (backdrop) backdrop.hidden = !isMobileDrawer();
-			if (panel) {
-				panel.setAttribute('role', isMobileDrawer() ? 'dialog' : 'region');
-				if (isMobileDrawer()) panel.setAttribute('aria-modal', 'true');
-				else panel.removeAttribute('aria-modal');
-			}
-			document.body.classList.toggle('cloz-filter-drawer-open', isMobileDrawer());
 		});
 	});
 })(jQuery);

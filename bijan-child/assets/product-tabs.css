@@ -215,18 +215,22 @@
 	color: #adb3bc;
 }
 
-/* Delivery policy now sits below the complete information tabs as one concise row. */
+/* One compact, readable delivery policy below the complete information tabs. */
 .cloz-fulfilment-summary {
 	--cloz-tab-ink: var(--text-100, #252b35);
 	--cloz-tab-muted: #5f6875;
 	--cloz-tab-line: #e3e7ec;
 	--cloz-tab-primary: var(--primary-100, #ef4056);
 	display: grid;
-	grid-template-columns: minmax(210px, .7fr) minmax(0, 2.3fr);
-	gap: 18px 28px;
-	margin-top: 30px;
-	padding-block: 20px;
-	border-block: 1px solid var(--cloz-tab-line);
+	grid-template-columns: minmax(190px, .65fr) minmax(0, 2.35fr);
+	gap: 14px 20px;
+	width: min(100%, 1120px);
+	margin: 26px auto 0;
+	padding: 17px 18px;
+	border: 1px solid var(--cloz-tab-line);
+	border-radius: 17px;
+	box-sizing: border-box;
+	background: linear-gradient(135deg, #fff, #fafbfc);
 	direction: rtl;
 	color: var(--cloz-tab-ink);
 }
@@ -234,48 +238,58 @@
 .cloz-fulfilment-summary__head {
 	display: flex;
 	align-items: center;
-	gap: 12px;
+	gap: 11px;
+	min-width: 0;
 }
 
 .cloz-fulfilment-summary__icon {
 	display: grid;
 	place-items: center;
-	flex: 0 0 42px;
-	width: 42px;
-	height: 42px;
-	border-radius: 13px;
+	flex: 0 0 38px;
+	width: 38px;
+	height: 38px;
+	border-radius: 11px;
 	background: color-mix(in srgb, var(--cloz-tab-primary) 10%, #fff);
 	color: var(--cloz-tab-primary);
 }
 
-.cloz-fulfilment-summary__icon svg { width: 23px; height: 23px; fill: currentColor; }
-.cloz-fulfilment-summary__head h2 { margin: 0; color: var(--cloz-tab-ink); font-size: 1rem; line-height: 1.6; }
-.cloz-fulfilment-summary__head p { margin: 2px 0 0; color: var(--cloz-tab-muted); font-size: .7rem; }
+.cloz-fulfilment-summary__icon svg { width: 21px; height: 21px; fill: currentColor; }
+.cloz-fulfilment-summary__head h2 { margin: 0; color: var(--cloz-tab-ink); font-size: .92rem; line-height: 1.6; }
+.cloz-fulfilment-summary__head p { margin: 1px 0 0; color: var(--cloz-tab-muted); font-size: .66rem; line-height: 1.6; }
 .cloz-fulfilment-summary__items {
 	display: grid;
 	grid-template-columns: repeat(3, minmax(0, 1fr));
 	align-items: stretch;
+	min-width: 0;
+	border-inline-start: 1px solid var(--cloz-tab-line);
 }
 
 .cloz-fulfilment-summary__items > div {
 	display: grid;
 	align-content: center;
-	gap: 4px;
+	gap: 3px;
 	min-width: 0;
-	padding-inline: 18px;
+	padding-inline: 15px;
 }
 
 .cloz-fulfilment-summary__items > div:not(:first-child) { border-inline-start: 1px solid var(--cloz-tab-line); }
-.cloz-fulfilment-summary__items strong { color: var(--cloz-tab-ink); font-size: .78rem; line-height: 1.6; }
-.cloz-fulfilment-summary__items span { color: var(--cloz-tab-muted); font-size: .72rem; line-height: 1.8; }
+.cloz-fulfilment-summary__items strong { color: var(--cloz-tab-ink); font-size: .76rem; line-height: 1.55; }
+.cloz-fulfilment-summary__items span { color: var(--cloz-tab-muted); font-size: .69rem; line-height: 1.75; }
 .cloz-fulfilment-summary__note {
 	grid-column: 1 / -1;
 	margin: 0;
-	padding-top: 14px;
-	border-top: 1px dashed var(--cloz-tab-line);
-	color: #737b86;
-	font-size: .7rem;
-	line-height: 1.9;
+	padding: 9px 11px;
+	border-radius: 10px;
+	background: #f3f5f7;
+	color: #68717d;
+	font-size: .68rem;
+	line-height: 1.8;
+}
+
+.cloz-fulfilment-summary__note::before {
+	content: "نکته: ";
+	color: var(--cloz-tab-ink);
+	font-weight: 750;
 }
 
 .cloz-return-note__icon {
@@ -316,10 +330,12 @@
 		grid-template-columns: minmax(100px, .65fr) minmax(0, 1.35fr);
 	}
 
-	.cloz-fulfilment-summary { grid-template-columns: 1fr; gap: 15px; margin-top: 22px; padding-block: 16px; }
-	.cloz-fulfilment-summary__items { grid-template-columns: 1fr; }
-	.cloz-fulfilment-summary__items > div { grid-template-columns: 105px minmax(0, 1fr); gap: 10px; padding: 10px 0; }
+	.cloz-fulfilment-summary { grid-template-columns: 1fr; gap: 12px; margin-top: 18px; padding: 14px; border-radius: 15px; }
+	.cloz-fulfilment-summary__items { grid-template-columns: 1fr; border-inline-start: 0; border-top: 1px solid var(--cloz-tab-line); }
+	.cloz-fulfilment-summary__items > div { grid-template-columns: 88px minmax(0, 1fr); gap: 9px; padding: 9px 0; }
 	.cloz-fulfilment-summary__items > div:not(:first-child) { border-inline-start: 0; border-top: 1px solid var(--cloz-tab-line); }
+	.cloz-fulfilment-summary__items strong { align-self: start; }
+	.cloz-fulfilment-summary__note { padding: 9px 10px; }
 }
 
 @media (max-width: 480px) {
