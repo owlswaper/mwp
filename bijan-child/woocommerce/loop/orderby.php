@@ -41,8 +41,19 @@ $id_suffix = wp_unique_id();
 		<?php if ( $show_sidebar ) { get_sidebar( 'shop' ); } ?>
 		<?php if ( $options['wc-show-archive-order'] ) : ?>
 		<form id="sort-wrap" class="woocommerce-ordering cloz-catalog-sort" method="get">
-			<label for="woocommerce-orderby-<?php echo esc_attr( $id_suffix ); ?>">مرتب‌سازی</label>
-			<select name="orderby" class="orderby" id="woocommerce-orderby-<?php echo esc_attr( $id_suffix ); ?>">
+			<span class="cloz-sort-label" id="cloz-sort-label-<?php echo esc_attr( $id_suffix ); ?>">مرتب‌سازی:</span>
+			<div class="cloz-sort-options" role="radiogroup" aria-labelledby="cloz-sort-label-<?php echo esc_attr( $id_suffix ); ?>">
+				<?php foreach ( $catalog_orderby_options as $id => $name ) : ?>
+				<button
+					type="button"
+					class="sort-item<?php echo $id === $orderby ? ' sort-item-active' : ''; ?>"
+					data-sort="<?php echo esc_attr( $id ); ?>"
+					role="radio"
+					aria-checked="<?php echo $id === $orderby ? 'true' : 'false'; ?>"
+				><?php echo esc_html( $name ); ?></button>
+				<?php endforeach; ?>
+			</div>
+			<select name="orderby" class="orderby cloz-orderby-fallback" id="woocommerce-orderby-<?php echo esc_attr( $id_suffix ); ?>" tabindex="-1" aria-hidden="true">
 				<?php foreach ( $catalog_orderby_options as $id => $name ) : ?>
 				<option value="<?php echo esc_attr( $id ); ?>" <?php selected( $orderby, $id ); ?>><?php echo esc_html( $name ); ?></option>
 				<?php endforeach; ?>
