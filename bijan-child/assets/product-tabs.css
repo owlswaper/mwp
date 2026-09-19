@@ -433,3 +433,24 @@ body.single-product .woocommerce-tabs #tab-description pre { white-space: pre-wr
  body.single-product .woocommerce-tabs #tab-description h2 { font-size: 19px; }
  body.single-product .woocommerce-tabs #tab-description h3 { font-size: 17px; }
 }
+
+/* Keep the native horizontal thumbnail slider below the main image on mobile. */
+@media (max-width: 768px) {
+ body.single-product #product-head-main .woocommerce-product-gallery__wrapper {
+  display: grid; grid-template-columns: minmax(0, 1fr); grid-template-rows: auto auto;
+  gap: 14px; height: auto; min-width: 0;
+ }
+ body.single-product #product-head-main .product-main-slider {
+  grid-column: 1; grid-row: 1; min-width: 0; width: 100%;
+ }
+ body.single-product #product-head-main .product-thumb-slider {
+  grid-column: 1; grid-row: 2; min-width: 0; max-width: 100%;
+ }
+}
+
+@media (max-width: 480px) {
+ body.single-product #product-head-main .product-mobile-title {
+  font-size: clamp(18px, 4.2vw, 20px);
+  line-height: 1.7;
+ }
+}
