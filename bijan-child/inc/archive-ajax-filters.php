@@ -24,6 +24,7 @@ final class Cloz_Archive_Ajax_Filters {
 		add_action( 'template_redirect', [ __CLASS__, 'redirect_legacy_filter_urls' ], 20 );
 		add_action( 'wp_enqueue_scripts', [ __CLASS__, 'enqueue_assets' ], 40 );
 		add_filter( 'widget_output', [ __CLASS__, 'remove_filter_widget_links' ], PHP_INT_MAX, 3 );
+		add_filter( 'widget_display_callback', [ __CLASS__, 'hide_sidebar_search_widget' ], 10, 3 );
 		add_action( 'dynamic_sidebar_before', [ __CLASS__, 'start_sidebar_capture' ], 0, 2 );
 		add_action( 'dynamic_sidebar_after', [ __CLASS__, 'finish_sidebar_capture' ], PHP_INT_MAX, 2 );
 		add_filter( 'get_pagenum_link', [ __CLASS__, 'clean_pagination_link' ], PHP_INT_MAX );
@@ -53,6 +54,7 @@ final class Cloz_Archive_Ajax_Filters {
 		$wp->query_vars['paged'] = $paged;
 		if ( isset( self::$state['s'] ) ) {
 			$wp->query_vars['s'] = self::$state['s'];
+			$wp->query_vars['post_type'] = 'product';
 		}
 	}
 
@@ -75,6 +77,9 @@ final class Cloz_Archive_Ajax_Filters {
 		}
 
 		$filter_keys = self::filter_keys( wp_unslash( $_GET ) );
+		if ( is_search() ) {
+			$filter_keys = array_values( array_diff( $filter_keys, [ 's' ] ) );
+		}
 		if ( ! $filter_keys ) {
 			return;
 		}
@@ -127,6 +132,9 @@ final class Cloz_Archive_Ajax_Filters {
 		if ( ! self::is_product_archive() || ! is_object( $widget ) ) {
 			return $output;
 		}
+		if ( 'sidebar-shop' === ( $args['id'] ?? '' ) && ( in_array( $widget->id_base ?? '', [ 'woocommerce_product_search', 'search' ], true ) || ( 'block' === ( $widget->id_base ?? '' ) && false !== strpos( $output, 'wp-block-search' ) ) ) ) {
+			return '';
+		}
 
 		$filter_widgets = [
 			'woocommerce_layered_nav',
@@ -139,6 +147,13 @@ final class Cloz_Archive_Ajax_Filters {
 		}
 
 		return self::replace_filter_anchors( $output );
+	}
+
+	public static function hide_sidebar_search_widget( $instance, $widget, $args ) {
+		if ( self::is_product_archive() && 'sidebar-shop' === ( $args['id'] ?? '' ) && in_array( $widget->id_base ?? '', [ 'woocommerce_product_search', 'search' ], true ) ) {
+			return false;
+		}
+		return $instance;
 	}
 
 	public static function start_sidebar_capture( $index, $has_widgets ) {
@@ -214,6 +229,9 @@ final class Cloz_Archive_Ajax_Filters {
 		}
 
 		$keys = self::filter_keys( $query );
+		if ( is_search() ) {
+			$keys = array_values( array_diff( $keys, [ 's' ] ) );
+		}
 		return $keys ? remove_query_arg( $keys, $url ) : $url;
 	}
 
@@ -224,7 +242,7 @@ final class Cloz_Archive_Ajax_Filters {
 
 	private static function is_product_archive() {
 		return function_exists( 'is_shop' )
-			&& ( is_shop() || is_product_taxonomy() || is_post_type_archive( 'product' ) );
+			&& ( is_shop() || is_product_taxonomy() || is_post_type_archive( 'product' ) || ( is_search() && 'product' === get_query_var( 'post_type' ) ) );
 	}
 
 	private static function canonical_archive_url() {

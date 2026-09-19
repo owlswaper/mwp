@@ -50,7 +50,14 @@ final class Bijan_Category_Product_Shuffle {
 	}
 
 	public static function mark_stock_ordering( $query ) {
-		if ( ! $query instanceof WP_Query || ! self::stock_ordering_is_enabled() ) {
+		if ( ! $query instanceof WP_Query ) {
+			return;
+		}
+
+		$is_catalog_main_query = ! is_admin()
+			&& $query->is_main_query()
+			&& ( $query->is_post_type_archive( 'product' ) || ( function_exists( 'is_product_taxonomy' ) && is_product_taxonomy() ) || ( function_exists( 'is_shop' ) && is_shop() ) || ( $query->is_search() && 'product' === $query->get( 'post_type' ) ) );
+		if ( ! $is_catalog_main_query && ! self::stock_ordering_is_enabled() ) {
 			return;
 		}
 

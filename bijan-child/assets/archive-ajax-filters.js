@@ -163,7 +163,7 @@
 			window.requestAnimationFrame(() => {
 				panel.classList.add('is-open');
 				if (manageFocus) {
-					const initialFocus = panel.querySelector('input[type="search"]') || panel.querySelector('input, button, select');
+					const initialFocus = panel.querySelector('.cloz-filter-widgets input:not([disabled]), .cloz-filter-widgets button:not([disabled]), .cloz-filter-widgets select:not([disabled])') || panel.querySelector('button:not([disabled])');
 					initialFocus?.focus({ preventScroll: true });
 				}
 			});
@@ -270,10 +270,34 @@
 			return;
 		}
 
+		if (event.target.closest('[data-cloz-search-clear]')) {
+			event.preventDefault();
+			const next = { ...state, paged: '1' };
+			delete next.s;
+			refresh(next, false).then(() => document.querySelector('#cloz-catalog-search-input')?.focus({ preventScroll: true }));
+			return;
+		}
+
+		if (event.target.closest('[data-cloz-filter-reset]')) {
+			event.preventDefault();
+			const next = { ...state, paged: '1' };
+			Object.keys(next).forEach((key) => {
+				if (!['s', 'orderby', 'paged', 'special-products'].includes(key)) delete next[key];
+			});
+			refresh(next, false);
+			return;
+		}
+
 		const sort = event.target.closest('.woocommerce-ordering .sort-item[data-sort]');
 		if (sort) {
 			event.preventDefault();
-			refresh({ ...state, orderby: sort.getAttribute('data-sort'), paged: '1' }, false);
+			const next = { ...state, paged: '1' };
+			if (next.orderby === sort.getAttribute('data-sort')) {
+				delete next.orderby;
+			} else {
+				next.orderby = sort.getAttribute('data-sort');
+			}
+			refresh(next, false);
 			return;
 		}
 
@@ -308,7 +332,7 @@
 
 		$(document).on(
 			'submit.clozArchive',
-			'form.woocommerce-ordering, .widget_price_filter form, form.woocommerce-widget-layered-nav-dropdown, #sidebar.sidebar-shop form.woocommerce-product-search, #sidebar.sidebar-shop form[role="search"]',
+			'form.woocommerce-ordering, form.cloz-catalog-search, .widget_price_filter form, form.woocommerce-widget-layered-nav-dropdown, #sidebar.sidebar-shop form.woocommerce-product-search, #sidebar.sidebar-shop form[role="search"]',
 			function (event) {
 				submitArchiveForm(event, this);
 			}
