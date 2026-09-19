@@ -34,6 +34,9 @@ require_once trailingslashit( get_stylesheet_directory() ) . 'inc/product-tabs.p
 // Secure customer order tracking, fulfilment workflow and status SMS.
 require_once trailingslashit( get_stylesheet_directory() ) . 'inc/order-tracking.php';
 
+// One editorial author profile for blog posts and its Rank Math identity.
+require_once trailingslashit( get_stylesheet_directory() ) . 'inc/blog-author.php';
+
 /**************************************************************************
 ✅ START EDIT FROM HERE 👇🏻
 HAPPY CODING 😊
