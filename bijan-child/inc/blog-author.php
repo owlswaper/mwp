@@ -13,7 +13,7 @@ function cloz_blog_author() {
 	if ( ! is_array( $settings ) ) {
 		return $cached = null;
 	}
-	$defaults = [ 'user_id' => 0, 'name' => '', 'image_id' => 0, 'bio' => '', 'summary' => '', 'x' => '', 'instagram' => '', 'facebook' => '' ];
+	$defaults = [ 'user_id' => 0, 'name' => '', 'image_id' => 0, 'bio' => '', 'summary' => '', 'x' => '', 'instagram' => '', 'facebook' => '', 'updated_at' => '' ];
 	$settings = wp_parse_args( $settings, $defaults );
 	$settings['user_id'] = absint( $settings['user_id'] );
 	if ( ! $settings['user_id'] || ! get_userdata( $settings['user_id'] ) || '' === trim( $settings['name'] ) ) {
@@ -22,6 +22,25 @@ function cloz_blog_author() {
 	$settings['url']   = get_author_posts_url( $settings['user_id'] );
 	$settings['image'] = $settings['image_id'] ? wp_get_attachment_image_url( absint( $settings['image_id'] ), 'thumbnail' ) : '';
 	return $cached = $settings;
+}
+
+function cloz_is_blog_author_page() {
+	if ( ! is_author() ) {
+		return false;
+	}
+	$author = cloz_blog_author();
+	return $author && is_author( $author['user_id'] );
+}
+
+function cloz_blog_author_page_title( $author ) {
+	$site_name = trim( get_bloginfo( 'name' ) );
+	return 'درباره ' . $author['name'] . ( $site_name ? ' | ' . $site_name : '' );
+}
+
+function cloz_blog_author_description( $author ) {
+	$source = $author['summary'] ?: $author['bio'];
+	$text = trim( preg_replace( '/\s+/u', ' ', wp_strip_all_tags( $source ) ) );
+	return $text ? wp_trim_words( $text, 30, '…' ) : '';
 }
 
 function cloz_blog_author_socials( $author ) {
@@ -56,6 +75,29 @@ add_filter( 'the_author', function ( $name ) {
 	}
 	$author = cloz_blog_author();
 	return $author ? $author['name'] : $name;
+} );
+
+add_filter( 'rank_math/frontend/title', function ( $title ) {
+	return cloz_is_blog_author_page() ? cloz_blog_author_page_title( cloz_blog_author() ) : $title;
+} );
+
+add_filter( 'rank_math/frontend/description', function ( $description ) {
+	if ( ! cloz_is_blog_author_page() ) {
+		return $description;
+	}
+	$profile_description = cloz_blog_author_description( cloz_blog_author() );
+	return $profile_description ?: $description;
+} );
+
+add_filter( 'document_title_parts', function ( $parts ) {
+	if ( cloz_is_blog_author_page() ) {
+		$parts['title'] = 'درباره ' . cloz_blog_author()['name'];
+	}
+	return $parts;
+} );
+
+add_filter( 'get_the_archive_title', function ( $title ) {
+	return cloz_is_blog_author_page() ? 'درباره ' . cloz_blog_author()['name'] : $title;
 } );
 
 add_filter( 'author_link', function ( $link, $author_id ) {
@@ -140,19 +182,28 @@ add_filter( 'rank_math/json_ld', function ( $data ) {
 		$data['cloz_author_person'] = $person;
 	}
 	$person_ref = [ '@id' => $person['@id'], '@type' => 'Person', 'name' => $person['name'], 'url' => $person['url'] ];
+	$is_profile = is_author( $author['user_id'] );
 	foreach ( $data as $key => $node ) {
 		if ( ! is_array( $node ) ) {
 			continue;
 		}
 		$types = isset( $node['@type'] ) ? (array) $node['@type'] : [];
-		if ( is_singular( 'post' ) && array_intersect( $types, [ 'Article', 'BlogPosting', 'NewsArticle', 'ScholarlyArticle', 'TechArticle' ] ) ) {
+		if ( is_singular( 'post' ) && in_array( 'BlogPosting', $types, true ) ) {
 			$data[ $key ]['author'] = $person_ref;
 		}
-		if ( is_author( $author['user_id'] ) && in_array( 'ProfilePage', $types, true ) ) {
+		if ( $is_profile && in_array( 'ProfilePage', $types, true ) ) {
 			$data[ $key ]['mainEntity'] = $person_ref;
+			$data[ $key ]['name'] = cloz_blog_author_page_title( $author );
+			$description = cloz_blog_author_description( $author );
+			if ( $description ) {
+				$data[ $key ]['description'] = $description;
+			}
+			if ( ! empty( $author['updated_at'] ) ) {
+				$data[ $key ]['dateModified'] = $author['updated_at'];
+			}
 		}
 	}
-	if ( is_author( $author['user_id'] ) ) {
+	if ( $is_profile ) {
 		$has_profile = false;
 		foreach ( $data as $node ) {
 			if ( is_array( $node ) && in_array( 'ProfilePage', (array) ( $node['@type'] ?? [] ), true ) ) {
@@ -161,7 +212,14 @@ add_filter( 'rank_math/json_ld', function ( $data ) {
 			}
 		}
 		if ( ! $has_profile ) {
-			$data['cloz_author_profile'] = [ '@type' => 'ProfilePage', '@id' => untrailingslashit( $author['url'] ) . '/#profile', 'url' => $author['url'], 'mainEntity' => $person_ref ];
+			$data['cloz_author_profile'] = [ '@type' => 'ProfilePage', '@id' => untrailingslashit( $author['url'] ) . '/#profile', 'url' => $author['url'], 'name' => cloz_blog_author_page_title( $author ), 'mainEntity' => $person_ref ];
+			$description = cloz_blog_author_description( $author );
+			if ( $description ) {
+				$data['cloz_author_profile']['description'] = $description;
+			}
+			if ( ! empty( $author['updated_at'] ) ) {
+				$data['cloz_author_profile']['dateModified'] = $author['updated_at'];
+			}
 		}
 	}
 	return $data;
@@ -180,11 +238,12 @@ function cloz_blog_author_sanitize( $input ) {
 	$user_id = absint( $input['user_id'] ?? 0 );
 	$image_id = absint( $input['image_id'] ?? 0 );
 	$output = [
-		'user_id'   => $user_id && get_userdata( $user_id ) ? $user_id : 0,
-		'name'      => sanitize_text_field( $input['name'] ?? '' ),
-		'image_id'  => $image_id && 'attachment' === get_post_type( $image_id ) ? $image_id : 0,
-		'bio'       => wp_kses_post( $input['bio'] ?? '' ),
-		'summary'   => sanitize_textarea_field( $input['summary'] ?? '' ),
+		'user_id'    => $user_id && get_userdata( $user_id ) ? $user_id : 0,
+		'name'       => sanitize_text_field( $input['name'] ?? '' ),
+		'image_id'   => $image_id && 'attachment' === get_post_type( $image_id ) ? $image_id : 0,
+		'bio'        => wp_kses_post( $input['bio'] ?? '' ),
+		'summary'    => sanitize_textarea_field( $input['summary'] ?? '' ),
+		'updated_at' => gmdate( 'c' ),
 	];
 	foreach ( [ 'x', 'instagram', 'facebook' ] as $network ) {
 		$url = esc_url_raw( $input[ $network ] ?? '', [ 'https' ] );
@@ -211,7 +270,7 @@ function cloz_blog_author_settings_page() {
 		<tr><th scope="row"><label for="cloz-author-name">نام نمایشی</label></th><td><input id="cloz-author-name" class="regular-text" name="cloz_blog_author[name]" value="<?php echo esc_attr( $value['name'] ); ?>" required></td></tr>
 		<tr><th scope="row">تصویر پروفایل</th><td><input type="hidden" id="cloz-author-image-id" name="cloz_blog_author[image_id]" value="<?php echo esc_attr( $value['image_id'] ); ?>"><div id="cloz-author-preview"><?php if ( $value['image_id'] ) { echo wp_get_attachment_image( absint( $value['image_id'] ), 'thumbnail' ); } ?></div><button type="button" class="button" id="cloz-author-image-select">انتخاب تصویر</button> <button type="button" class="button" id="cloz-author-image-remove">حذف تصویر</button></td></tr>
 		<tr><th scope="row"><label for="cloz-author-bio">بیوگرافی کامل</label></th><td><?php wp_editor( $value['bio'], 'cloz-author-bio', [ 'textarea_name' => 'cloz_blog_author[bio]', 'textarea_rows' => 12, 'media_buttons' => false, 'teeny' => false ] ); ?><p class="description">از نوار ابزار برای افزودن لینک و قالب‌بندی متن استفاده کنید.</p></td></tr>
-		<tr><th scope="row"><label for="cloz-author-summary">توضیح کوتاه</label></th><td><textarea id="cloz-author-summary" class="large-text" rows="4" name="cloz_blog_author[summary]"><?php echo esc_textarea( $value['summary'] ); ?></textarea><p class="description">در باکس انتهای مقاله نمایش داده می‌شود.</p></td></tr>
+		<tr><th scope="row"><label for="cloz-author-summary">توضیح کوتاه</label></th><td><textarea id="cloz-author-summary" class="large-text" rows="4" name="cloz_blog_author[summary]"><?php echo esc_textarea( $value['summary'] ); ?></textarea><p class="description">در باکس مقاله، معرفی صفحه نویسنده و توضیح متای همان صفحه استفاده می‌شود.</p></td></tr>
 		<?php foreach ( [ 'x' => 'ایکس / توییتر', 'instagram' => 'اینستاگرام', 'facebook' => 'فیسبوک' ] as $key => $label ) : ?><tr><th scope="row"><label for="cloz-author-<?php echo esc_attr( $key ); ?>"><?php echo esc_html( $label ); ?></label></th><td><input type="url" id="cloz-author-<?php echo esc_attr( $key ); ?>" class="regular-text" dir="ltr" name="cloz_blog_author[<?php echo esc_attr( $key ); ?>]" value="<?php echo esc_attr( $value[ $key ] ); ?>" placeholder="https://"></td></tr><?php endforeach; ?>
 		</tbody></table><?php submit_button( 'ذخیره نویسنده' ); ?>
 	</form></div>

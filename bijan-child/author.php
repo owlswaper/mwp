@@ -20,13 +20,13 @@ get_header();
 		<div class="cloz-author-profile" aria-labelledby="cloz-author-title">
 			<div class="cloz-author-profile-head">
 				<?php if ( $author['image_id'] ) : ?><div class="cloz-author-profile-avatar"><?php echo wp_get_attachment_image( absint( $author['image_id'] ), 'thumbnail', false, [ 'alt' => $author['name'], 'decoding' => 'async' ] ); ?></div><?php endif; ?>
-				<div><h1 id="cloz-author-title"><?php echo esc_html( $author['name'] ); ?></h1><?php if ( $author['summary'] ) : ?><p class="cloz-author-intro"><?php echo esc_html( $author['summary'] ); ?></p><?php endif; ?></div>
+				<div><span class="cloz-author-eyebrow">درباره نویسنده</span><h1 id="cloz-author-title"><?php echo esc_html( $author['name'] ); ?></h1><?php if ( $author['summary'] ) : ?><p class="cloz-author-intro"><?php echo nl2br( esc_html( $author['summary'] ) ); ?></p><?php endif; ?></div>
 			</div>
 			<?php if ( $author['bio'] ) : ?><div class="cloz-author-biography"><?php echo wp_kses_post( wpautop( $author['bio'] ) ); ?></div><?php endif; ?>
 			<?php echo cloz_blog_author_socials( $author ); ?>
 		</div>
 		<section class="cloz-author-articles" aria-labelledby="cloz-author-articles-title">
-			<h2 id="cloz-author-articles-title">مقاله‌های <?php echo esc_html( $author['name'] ); ?></h2>
+			<div class="cloz-author-articles-head"><h2 id="cloz-author-articles-title">مقاله‌های <?php echo esc_html( $author['name'] ); ?></h2><span><?php echo esc_html( number_format_i18n( $posts->found_posts ) ); ?> مقاله</span></div>
 			<?php if ( $posts->have_posts() ) : ?><div class="cloz-author-post-grid list-posts">
 				<?php while ( $posts->have_posts() ) : $posts->the_post(); get_template_part( 'templates/archives/post' ); endwhile; wp_reset_postdata(); ?>
 			</div>
