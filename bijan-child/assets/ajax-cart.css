@@ -115,12 +115,12 @@
 .cloz-cart-toast {
 	--cloz-toast-duration: 5000ms;
 	display: grid;
-	grid-template-columns: 72px minmax(0, 1fr) auto;
-	grid-template-areas: "visual content close" "visual action close";
-	gap: 8px 14px;
+	grid-template-columns: 72px minmax(0, 1fr) 40px;
+	grid-template-areas: "visual content close" "visual action action";
+	gap: 8px 12px;
 	position: relative;
 	align-items: center;
-	padding: 14px 14px 15px 48px;
+	padding: 14px;
 	overflow: hidden;
 	background: #fff;
 	border: 1px solid #e2e8f0;
@@ -212,6 +212,9 @@
 
 .cloz-cart-toast__action {
 	grid-area: action;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
 	justify-self: start;
 	min-height: 34px;
 	padding: 7px 13px;
@@ -234,10 +237,10 @@
 
 .cloz-cart-toast__close {
 	grid-area: close;
-	position: absolute;
-	inset: 7px auto auto 7px;
 	display: grid;
 	place-items: center;
+	justify-self: end;
+	align-self: start;
 	width: 40px;
 	height: 40px;
 	padding: 0;
@@ -274,7 +277,7 @@
 }
 
 .cloz-cart-toast.is-error {
-	grid-template-columns: minmax(0, 1fr) auto;
+	grid-template-columns: minmax(0, 1fr) 40px;
 	grid-template-areas: "content close";
 	border-color: #fecaca;
 }
@@ -300,10 +303,10 @@
 	}
 
 	.cloz-cart-toast {
-		grid-template-columns: 62px minmax(0, 1fr);
-		grid-template-areas: "visual content" "action action";
-		gap: 9px 12px;
-		padding: 12px 12px 14px 48px;
+		grid-template-columns: 62px minmax(0, 1fr) 40px;
+		grid-template-areas: "visual content close" "action action action";
+		gap: 9px 10px;
+		padding: 12px 12px 14px;
 		border-radius: 15px;
 	}
 
@@ -321,8 +324,8 @@
 	}
 
 	.cloz-cart-toast.is-error {
-		grid-template-columns: minmax(0, 1fr);
-		grid-template-areas: "content";
+		grid-template-columns: minmax(0, 1fr) 40px;
+		grid-template-areas: "content close";
 		min-height: 76px;
 		align-content: center;
 	}
