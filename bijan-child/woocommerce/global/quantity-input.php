@@ -40,6 +40,7 @@ $label = ! empty( $args['product_name'] ) ? sprintf( esc_html__( '%s quantity', 
 			'style'		=> 'normal',
 			'small'		=> true,
 			'atts'		=> [
+				'type'		=> 'button',
 				'aria-label'	=> esc_attr__( 'Increase product quantity', 'woocommerce' ),
 			],
 		] );
@@ -77,6 +78,7 @@ $label = ! empty( $args['product_name'] ) ? sprintf( esc_html__( '%s quantity', 
 			'style'		=> 'normal',
 			'small'		=> true,
 			'atts'		=> [
+				'type'		=> 'button',
 				'aria-label'	=> esc_attr__( 'Decrease product quantity', 'woocommerce' ),
 			],
 		] );

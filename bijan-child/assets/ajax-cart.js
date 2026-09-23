@@ -270,6 +270,10 @@
 		if (!data.has('product_id') && data.has('add-to-cart')) {
 			data.append('product_id', data.get('add-to-cart'));
 		}
+		// `add-to-cart` is the native form submit marker. Sending it to the
+		// custom endpoint makes WooCommerce's form handler add the item before
+		// our AJAX handler runs, resulting in a quantity of two.
+		data.delete('add-to-cart');
 
 		var actionId = button.dataset.clozCartActionId
 			? getActionId(button)

@@ -9,12 +9,52 @@ defined( 'ABSPATH' ) || exit;
 
 final class Cloz_Ajax_Cart {
 	const ACTION = 'cloz_add_to_cart';
+	const CACHE_REVISION = '2026-09-23-single-add-v1';
 
 	public static function init() {
+		// WooCommerce's normal form handler also watches for an `add-to-cart`
+		// request on wp_loaded. Strip that submit field from our AJAX endpoint
+		// first, otherwise a single product form is added once by WooCommerce and
+		// once again by this endpoint.
+		add_action( 'wp_loaded', array( __CLASS__, 'isolate_ajax_request' ), 1 );
+		add_action( 'init', array( __CLASS__, 'refresh_page_cache_once' ), 99 );
 		add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueue_assets' ), 30 );
 		add_action( 'wp_footer', array( __CLASS__, 'render_toast' ), 50 );
 		add_action( 'wc_ajax_' . self::ACTION, array( __CLASS__, 'add_to_cart' ) );
 		add_filter( 'woocommerce_loop_add_to_cart_link', array( __CLASS__, 'normalize_loop_cart_control' ), PHP_INT_MAX, 3 );
+	}
+
+	public static function refresh_page_cache_once() {
+		$option = 'cloz_ajax_cart_cache_revision';
+		if ( self::CACHE_REVISION === get_option( $option ) ) {
+			return;
+		}
+		if ( ! class_exists( '\\FlyingPress\\Purge' ) || ! is_callable( array( '\\FlyingPress\\Purge', 'purge_pages' ) ) ) {
+			return;
+		}
+
+		try {
+			\FlyingPress\Purge::purge_pages();
+			update_option( $option, self::CACHE_REVISION, false );
+			if ( class_exists( '\\FlyingPress\\Preload' ) && is_callable( array( '\\FlyingPress\\Preload', 'preload_cache' ) ) ) {
+				\FlyingPress\Preload::preload_cache();
+			}
+		} catch ( Throwable $exception ) {
+			// Cart requests must keep working even if a cache service is unavailable.
+		}
+	}
+
+	public static function isolate_ajax_request() {
+		$wc_ajax = isset( $_GET['wc-ajax'] ) ? sanitize_text_field( wp_unslash( $_GET['wc-ajax'] ) ) : '';
+		if ( self::ACTION !== $wc_ajax ) {
+			return;
+		}
+
+		if ( empty( $_POST['product_id'] ) && isset( $_POST['add-to-cart'] ) ) {
+			$_POST['product_id'] = wp_unslash( $_POST['add-to-cart'] );
+		}
+
+		unset( $_POST['add-to-cart'], $_REQUEST['add-to-cart'] );
 	}
 
 	public static function enqueue_assets() {
