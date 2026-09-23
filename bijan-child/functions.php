@@ -37,6 +37,409 @@ require_once trailingslashit( get_stylesheet_directory() ) . 'inc/order-tracking
 // One editorial author profile for blog posts and its Rank Math identity.
 require_once trailingslashit( get_stylesheet_directory() ) . 'inc/blog-author.php';
 
+// Keep the tiny header controller ready everywhere while delaying large,
+// unrelated bundles. Commerce pages retain their existing critical scripts.
+add_action( 'template_redirect', function() {
+	$is_product = function_exists( 'is_product' ) && is_product();
+	$is_category = function_exists( 'is_product_category' ) && is_product_category();
+	if ( ! class_exists( '\\FlyingPress\\Config' ) ) {
+		return;
+	}
+
+	$critical = [
+		'clz-mobile-header-js',
+	];
+	if ( $is_product ) {
+		$critical = array_merge( $critical, [
+			'jquery-core-js',
+			'cloz-ajax-cart-js',
+			'bijan-swiper-js',
+			'bijan-slider-js',
+			'bijan-wc-single-js',
+			'cloz-product-a11y-js',
+			'cloz-product-lightbox-lazy-js',
+			'cloz-related-hydrate',
+		] );
+		$product = function_exists( 'wc_get_product' ) ? wc_get_product( get_queried_object_id() ) : false;
+		if ( $product && $product->is_type( 'variable' ) ) {
+			$critical = array_merge( $critical, [
+				'underscore-js',
+				'wp-util-js',
+				'wc-add-to-cart-variation-js',
+				'bijan-product-community-js',
+			] );
+		}
+	} elseif ( $is_category ) {
+		$critical = array_merge( $critical, [
+			'jquery-core-js',
+			'cloz-ajax-cart-js',
+		] );
+		$critical[] = 'cloz-archive-ajax-filters-js';
+	}
+
+	if ( $is_product || $is_category ) {
+		\FlyingPress\Config::$config['js_delay_method'] = 'user-interaction';
+	}
+	\FlyingPress\Config::$config['js_delay_excludes'] = array_values( array_unique( array_merge(
+		(array) ( \FlyingPress\Config::$config['js_delay_excludes'] ?? [] ),
+		$critical
+	) ) );
+}, 1 );
+
+function cloz_defer_product_details_start() {
+	$GLOBALS['cloz_product_details_buffering'] = true;
+	ob_start();
+}
+
+function cloz_defer_product_details_finish() {
+	if ( empty( $GLOBALS['cloz_product_details_buffering'] ) ) {
+		return;
+	}
+	$html = ob_get_clean();
+	$GLOBALS['cloz_product_details_buffering'] = false;
+	echo '<div id="cloz-details-placeholder" class="cloz-product-lazy" data-template="cloz-details-template" style="min-height:2200px" aria-hidden="true"></div>';
+	echo '<template id="cloz-details-template">' . $html . '</template>';
+}
+
+add_action( 'wp', function() {
+	if ( ! function_exists( 'is_product' ) || ! is_product() || ! wp_is_mobile() ) {
+		return;
+	}
+	add_action( 'woocommerce_after_single_product_summary', 'cloz_defer_product_details_start', 9 );
+	add_action( 'woocommerce_after_single_product_summary', 'cloz_defer_product_details_finish', PHP_INT_MAX );
+}, 100 );
+
+add_action( 'wp_footer', function() {
+	if ( ! function_exists( 'is_product' ) || ! is_product() || ! wp_is_mobile() ) {
+		return;
+	}
+	?>
+	<script id="cloz-related-hydrate">
+	(() => {
+		const placeholders = [...document.querySelectorAll('.cloz-product-lazy')];
+		if (!placeholders.length) return;
+		const hydrate = placeholder => {
+			const template = document.getElementById(placeholder.dataset.template);
+			if (!template || !placeholder.isConnected) return;
+			placeholder.replaceWith(template.content.cloneNode(true));
+			template.remove();
+			requestAnimationFrame(() => window.dispatchEvent(new Event('resize')));
+		};
+		const observer = new IntersectionObserver(entries => {
+			entries.forEach(entry => {
+				if (!entry.isIntersecting) return;
+				observer.unobserve(entry.target);
+				hydrate(entry.target);
+			});
+		}, { rootMargin: '500px 0px' });
+		placeholders.forEach(placeholder => observer.observe(placeholder));
+		document.addEventListener('click', event => {
+			const link = event.target.closest('a[href^="#tab-"],a[href="#reviews"]');
+			if (!link) return;
+			const details = document.getElementById('cloz-details-placeholder');
+			if (details) hydrate(details);
+		}, true);
+		const replayWhenReady = (selector, ready, acted) => {
+			document.addEventListener('click', event => {
+				const target = event.target.closest(selector);
+				if (!target) return;
+				if (target.dataset.clozReplayNow) {
+					delete target.dataset.clozReplayNow;
+					return;
+				}
+				if (ready(target) || target.dataset.clozReplayPending) return;
+				event.preventDefault();
+				target.dataset.clozReplayPending = 'true';
+				const started = Date.now();
+				const timer = setInterval(() => {
+					const isReady = ready(target);
+					if (!isReady && Date.now() - started < 10000) return;
+					clearInterval(timer);
+					delete target.dataset.clozReplayPending;
+					if (isReady && !acted(target)) {
+						target.dataset.clozReplayNow = 'true';
+						target.click();
+					}
+				}, 50);
+			}, true);
+		};
+		document.addEventListener('click', event => {
+			const target = event.target.closest('.product-thumb-slider a.woocommerce-product-gallery__image');
+			if (!target) return;
+			event.preventDefault();
+			const imageId = target.dataset.id;
+			const started = Date.now();
+			const timer = setInterval(() => {
+				const main = document.querySelector('.product-main-slider');
+				if (!main?.swiper && Date.now() - started < 10000) return;
+				clearInterval(timer);
+				if (!main?.swiper) return;
+				const ids = [...new Set([...main.querySelectorAll('.swiper-wrapper > a[data-id]')].map(slide => slide.dataset.id))];
+				const index = ids.indexOf(imageId);
+				if (index >= 0) main.swiper.slideToLoop(index);
+			}, 50);
+		}, true);
+		replayWhenReady(
+			'.product-main-slider a.woocommerce-product-gallery__image',
+			target => target.closest('.product-main-slider')?.dataset.clozLightboxReady === 'true',
+			() => !!document.querySelector('.lg-outer,.lg-container')
+		);
+		document.addEventListener('click', event => {
+			const target = event.target.closest('a[href*="/my-account"]');
+			if (!target) return;
+			if (target.dataset.clozReplayNow) {
+				delete target.dataset.clozReplayNow;
+				return;
+			}
+			if (getComputedStyle(document.getElementById('auth-modal')).display !== 'none') return;
+			event.preventDefault();
+			if (target.dataset.clozReplayPending) return;
+			target.dataset.clozReplayPending = 'true';
+			const started = Date.now();
+			const timer = setInterval(() => {
+				const ready = document.readyState === 'complete' && window.bijanLogin && window.jQuery?._data(target, 'events')?.click;
+				if (!ready && Date.now() - started < 10000) return;
+				clearInterval(timer);
+				delete target.dataset.clozReplayPending;
+				if (!ready) return;
+				setTimeout(() => {
+					target.dataset.clozReplayNow = 'true';
+					target.click();
+				}, 250);
+			}, 50);
+		}, true);
+		replayWhenReady(
+			'.show-compare-popup',
+			() => {
+				const events = window.jQuery?._data(document, 'events')?.click || [];
+				return [...events].some(handler => handler.selector === '.show-compare-popup');
+			},
+			() => getComputedStyle(document.getElementById('compare-popup')).display !== 'none'
+		);
+		replayWhenReady(
+			'.bijan-show-price-chart',
+			target => target.dataset.clozPriceReady === 'true',
+			() => getComputedStyle(document.getElementById('price-history-popup')).display !== 'none'
+		);
+		document.addEventListener('click', event => {
+			const target = event.target.closest('.single-product form.cart .quantity button');
+			if (!target) return;
+			event.preventDefault();
+			event.stopImmediatePropagation();
+			const input = target.parentElement.querySelector('input.qty');
+			if (!input) return;
+			const step = Number.parseFloat(input.step) || 1;
+			const min = Number.parseFloat(input.min);
+			const max = Number.parseFloat(input.max);
+			const current = Number.parseFloat(input.value) || 0;
+			let next = current + (target.classList.contains('plus-quantity') ? step : -step);
+			if (Number.isFinite(min)) next = Math.max(min, next);
+			if (Number.isFinite(max)) next = Math.min(max, next);
+			input.value = String(next);
+			input.dispatchEvent(new Event('change', { bubbles: true }));
+		}, true);
+	})();
+	</script>
+	<?php
+}, 1 );
+
+
+
+add_action( 'wp_enqueue_scripts', function() {
+	if ( function_exists( 'is_product' ) && is_product() ) {
+		wp_add_inline_style( 'bijan-wc-product', '.single-product .woocommerce-product-gallery{opacity:1!important}' );
+		$file = get_stylesheet_directory() . '/assets/product-a11y.js';
+		wp_enqueue_script( 'cloz-product-a11y', get_stylesheet_directory_uri() . '/assets/product-a11y.js', [ 'bijan-wc-single' ], filemtime( $file ), true );
+
+		// Build the hidden lightbox only when the customer opens the gallery.
+		wp_add_inline_script( 'bijan-wc-single', 'window.clozLightboxEnabled=bijanWCSingle.lightbox;bijanWCSingle.lightbox="0";', 'before' );
+		$lightbox_file = get_stylesheet_directory() . '/assets/product-lightbox-lazy.js';
+		wp_enqueue_script( 'cloz-product-lightbox-lazy', get_stylesheet_directory_uri() . '/assets/product-lightbox-lazy.js', [ 'bijan-wc-single' ], filemtime( $lightbox_file ), true );
+		wp_localize_script( 'cloz-product-lightbox-lazy', 'clozLightboxAssets', [
+			'styles' => [
+				get_template_directory_uri() . '/assets/libs/lightgallery/css/lightgallery-bundle.min.css',
+				get_template_directory_uri() . '/assets/libs/lightgallery/css/lg-zoom.min.css',
+				get_template_directory_uri() . '/assets/libs/lightgallery/css/lg-thumbnail.min.css',
+				get_template_directory_uri() . '/assets/libs/lightgallery/css/lg-fullscreen.min.css',
+				get_template_directory_uri() . '/assets/libs/lightgallery/css/lg-rotate.css',
+			],
+			'scripts' => [
+				get_template_directory_uri() . '/assets/libs/lightgallery/lightgallery.umd.min.js',
+				get_template_directory_uri() . '/assets/libs/lightgallery/plugins/zoom/lg-zoom.min.js',
+				get_template_directory_uri() . '/assets/libs/lightgallery/plugins/video/lg-video.min.js',
+				get_template_directory_uri() . '/assets/libs/lightgallery/plugins/thumbnail/lg-thumbnail.min.js',
+				get_template_directory_uri() . '/assets/libs/lightgallery/plugins/fullscreen/lg-fullscreen.min.js',
+				get_template_directory_uri() . '/assets/libs/lightgallery/plugins/rotate/lg-rotate.min.js',
+			],
+		] );
+
+		foreach ( [ 'bijan-lightgallery', 'bijan-lightgallery-video', 'bijan-lightgallery-zoom', 'bijan-lightgallery-thumbnail', 'bijan-lightgallery-fullscreen', 'bijan-lightgallery-rotate' ] as $handle ) {
+			wp_dequeue_script( $handle );
+			wp_dequeue_style( $handle );
+		}
+	}
+}, 99 );
+
+// The first full-size gallery image is the product-page LCP element.
+add_filter( 'wp_get_attachment_image_attributes', function( $attributes, $attachment ) {
+	$is_product_lcp =
+		function_exists( 'is_product' ) &&
+		is_product() &&
+		(int) $attachment->ID === (int) get_post_thumbnail_id() &&
+		str_contains( $attributes['class'] ?? '', 'wp-post-image' );
+	$is_post_lcp =
+		is_singular( 'post' ) &&
+		(int) $attachment->ID === (int) get_post_thumbnail_id() &&
+		str_contains( $attributes['class'] ?? '', 'wp-post-image' );
+	$is_site_logo = str_contains( $attributes['class'] ?? '', 'attachment-65x80' );
+
+	if ( $is_product_lcp || $is_post_lcp || $is_site_logo ) {
+		$attributes['loading'] = 'eager';
+		$attributes['fetchpriority'] = 'high';
+		if ( $is_product_lcp && wp_is_mobile() ) {
+			$attributes['sizes'] = '(max-width: 600px) calc(100vw - 74px), 600px';
+		} elseif ( $is_post_lcp && wp_is_mobile() ) {
+			$attributes['sizes'] = '(max-width: 600px) calc(100vw - 32px), 1448px';
+		}
+	}
+	return $attributes;
+}, 10, 2 );
+
+// Replace the original-image preload with the AVIF srcset generated by
+// CompressX. This lets the preload scanner fetch the actual LCP resource.
+add_filter( 'flying_press_optimization:after', function( $html ) {
+	if ( ( ! function_exists( 'is_product' ) || ! is_product() ) && ! is_singular( 'post' ) ) {
+		return $html;
+	}
+
+	$html = preg_replace( '/<link\b(?=[^>]*\brel=["\']preload["\'])(?=[^>]*\bas=["\']image["\'])[^>]*>\s*/i', '', $html );
+
+	if (
+		preg_match( '/<picture\b[^>]*\bclass=["\'][^"\']*\bwp-post-image\b[^"\']*["\'][^>]*>.*?<\/picture>/is', $html, $picture ) &&
+		preg_match( '/<source\b[^>]*\btype=["\']image\/avif["\'][^>]*\bsrcset=["\']([^"\']+)["\']/i', $picture[0], $srcset ) &&
+		preg_match( '/<img\b[^>]*\bsizes=["\']([^"\']+)["\']/i', $picture[0], $sizes )
+	) {
+		$href = strtok( trim( explode( ',', $srcset[1] )[0] ), ' ' );
+		$preload = sprintf(
+			'<link rel="preload" as="image" type="image/avif" href="%s" imagesrcset="%s" imagesizes="%s" fetchpriority="high">',
+			esc_url( $href ),
+			esc_attr( $srcset[1] ),
+			esc_attr( $sizes[1] )
+		);
+		$html = preg_replace( '/<\/head>/i', $preload . "\n</head>", $html, 1 );
+	}
+
+	foreach ( [
+		'plus-quantity'  => 'افزایش تعداد محصول',
+		'minus-quantity' => 'کاهش تعداد محصول',
+	] as $class => $label ) {
+		$pattern = '/<button\\b(?=[^>]*\\bclass=["\'][^"\']*\\b' . preg_quote( $class, '/' ) . '\\b[^"\']*["\'])[^>]*>/i';
+		$html = preg_replace_callback( $pattern, function( $button ) use ( $label ) {
+			if ( preg_match( '/\\baria-label=/i', $button[0] ) ) {
+				return $button[0];
+			}
+			return preg_replace( '/^<button\\b/i', '<button aria-label="' . esc_attr( $label ) . '"', $button[0], 1 );
+		}, $html );
+	}
+
+	if ( function_exists( 'is_product' ) && is_product() ) {
+		$html = preg_replace_callback(
+			'#<script\b(?=[^>]*\bsrc=["\x27]https://(?:cdn\.visibilitykit\.ai|www\.zarinpal\.com)/)[^>]*>#i',
+			static function ( $tag ) {
+				return preg_replace( '/^<script\b/i', '<script async', preg_replace( '/\sdefer(?:=["\x27]defer["\x27])?/i', '', $tag[0] ), 1 );
+			},
+			$html
+		);
+		$html = str_replace(
+			[
+				',{event:"mousemove",target:document}', ',{event:"touchstart",target:document}', ',{event:"touchmove",target:document}', ',{event:"scroll",target:window}',
+				'setTimeout(y,1e4)',
+			],
+			[ '', '', '', '', 'setTimeout(y,3e4)' ],
+			$html
+		);
+		$html = preg_replace(
+			'#<script\b(?![^>]*\b(?:async|defer)\b)(?=[^>]*\bid=["\x27](?:clz-mobile-header|bijan-swiper|bijan-slider|bijan-wc-single|bijan-product-community|cloz-product-a11y|cloz-product-lightbox-lazy|underscore|wp-util)-js["\x27])#i',
+			'<script defer',
+			$html
+		);
+	}
+
+	return $html;
+} );
+
+add_filter( 'style_loader_tag', function( $html, $handle ) {
+	$product_priority =
+		function_exists( 'is_product' ) &&
+		is_product() &&
+		wp_is_mobile() &&
+		in_array( $handle, [ 'bijan-bootstrap-rtl', 'bijan-wc-product' ], true );
+	$post_priority =
+		is_singular( 'post' ) &&
+		wp_is_mobile() &&
+		in_array( $handle, [ 'bijan-bootstrap', 'bijan-bootstrap-rtl', 'bijan-comments' ], true );
+	if ( $product_priority || $post_priority ) {
+		$html = preg_replace( '/<link\\b/i', '<link fetchpriority="high"', $html, 1 );
+	}
+	if (
+		function_exists( 'is_product' ) &&
+		is_product() &&
+		in_array( $handle, [ 'redux-elusive-icon', 'font-awesome-4-shims' ], true )
+	) {
+		return '';
+	}
+	return $html;
+}, 10, 2 );
+
+add_action( 'wp_enqueue_scripts', function() {
+	if ( function_exists( 'is_product' ) && is_product() ) {
+	foreach ( [ 'contact-form-7', 'contact-form-7-rtl', 'newsletter' ] as $handle ) {
+			wp_dequeue_style( $handle );
+		}
+		// The RTL grid is a complete build; loading the LTR build duplicates it.
+		foreach ( [ 'bijan-bootstrap', 'bijan-single', 'bijan-comments', 'redux-elusive-icon', 'font-awesome-4-shims', 'rank-math-related-posts-style' ] as $handle ) {
+			wp_dequeue_style( $handle );
+		}
+		foreach ( [ 'swv', 'contact-form-7', 'newsletter' ] as $handle ) {
+			wp_dequeue_script( $handle );
+		}
+	}
+}, 100 );
+
+add_action( 'wp_enqueue_scripts', function() {
+	if ( ! function_exists( 'is_product' ) || ! is_product() ) {
+		return;
+	}
+
+	$scripts = wp_scripts();
+	$price_history = $scripts->registered['bijan-wc-single-price-history'] ?? null;
+	$chart = $scripts->registered['bijan-chartjs'] ?? null;
+	if ( ! $price_history || ! $chart ) {
+		return;
+	}
+
+	$settings = $scripts->get_data( 'bijan-wc-single-price-history', 'data' );
+	wp_dequeue_script( 'bijan-wc-single-price-history' );
+	wp_dequeue_script( 'bijan-chartjs' );
+
+	$file = get_stylesheet_directory() . '/assets/product-price-history.js';
+	wp_enqueue_script( 'cloz-product-price-history', get_stylesheet_directory_uri() . '/assets/product-price-history.js', [ 'jquery' ], filemtime( $file ), true );
+	if ( $settings ) {
+		wp_add_inline_script( 'cloz-product-price-history', $settings, 'before' );
+	}
+	wp_localize_script( 'cloz-product-price-history', 'clozPriceHistoryAssets', [
+		'chart' => $chart->src,
+		'history' => $price_history->src,
+	] );
+}, 101 );
+
+add_filter( 'woocommerce_single_product_image_thumbnail_html', function( $html, $attachment_id ) {
+	if ( false !== strpos( $html, 'woocommerce-product-gallery__image' ) && $thumbnail = wp_get_attachment_image_url( $attachment_id, 'thumbnail' ) ) {
+		return preg_replace( '/^<a\\b/', '<a data-thumb="' . esc_url( $thumbnail ) . '"', $html, 1 );
+	}
+	return $html;
+}, 10, 2 );
+
 /**************************************************************************
 ✅ START EDIT FROM HERE 👇🏻
 HAPPY CODING 😊
@@ -663,6 +1066,7 @@ function display_category_related_posts() {
         }
         
         $date = get_the_date('j F Y', $post_id);
+        $date_iso = get_the_date(DATE_W3C, $post_id);
         $permalink = get_permalink($post_id);
         
         echo '<article class="cloz-related-post-card">';
@@ -675,8 +1079,8 @@ function display_category_related_posts() {
         echo '<h3 class="cloz-post-title"><a href="' . esc_url($permalink) . '">' . esc_html($post->post_title) . '</a></h3>';
         echo '<p class="cloz-post-excerpt">' . esc_html($excerpt) . '</p>';
         echo '<div class="cloz-post-meta">';
-        echo '<span class="cloz-post-date">📅 ' . esc_html($date) . '</span>';
-        echo '<a href="' . esc_url($permalink) . '" class="cloz-post-readmore">مشاهده مطلب</a>';
+        echo '<time class="cloz-post-date" datetime="' . esc_attr($date_iso) . '">📅 ' . esc_html($date) . '</time>';
+        echo '<a href="' . esc_url($permalink) . '" class="cloz-post-readmore" aria-label="' . esc_attr('مشاهده مطلب: ' . $post->post_title) . '">مشاهده مطلب</a>';
         echo '</div>';
         echo '</div>';
         echo '</article>';
@@ -815,7 +1219,7 @@ function cloz_related_posts_styles() {
         direction: rtl !important;
     }
     .cloz-post-date {
-        color: #94a3b8 !important;
+        color: #64748b !important;
         font-size: 14px !important;
         font-weight: 500 !important;
     }
@@ -875,3 +1279,65 @@ add_filter( 'wc_get_template', function ( $template, $template_name ) {
 	}
 	return $template;
 }, 20, 2 );
+
+// Accessibility corrections for single blog posts.
+add_action( 'wp_head', function() {
+	if ( ! is_singular( 'post' ) ) return;
+	$fonts = get_template_directory_uri() . '/assets/fonts/';
+	echo '<link rel="preload" href="' . esc_url( $fonts . 'iranyekanxfanum-regular.woff2' ) . '" as="font" type="font/woff2" crossorigin>';
+	echo '<link rel="preload" href="' . esc_url( $fonts . 'iranyekanxfanum-black.woff2' ) . '" as="font" type="font/woff2" crossorigin>';
+}, 1 );
+
+add_action( 'wp_head', function() {
+	if ( ! is_singular( 'post' ) ) return;
+	?>
+	<style id="cloz-post-a11y">
+	.single-post #bijan-breadcrumbs a,
+	.single-post #post-categories a,
+	.single-post .required-field-message,
+	.single-post .bijan_comment_star-title,
+	.single-post #commentform label { color:#50525b !important; }
+	.single-post #commentform input:not([type="submit"]),
+	.single-post #commentform textarea { color:#30323a !important; }
+	.single-post #commentform input::placeholder,
+	.single-post #commentform textarea::placeholder { color:#555861 !important; opacity:1; }
+	.single-post #commentform #submit { background:#087b79 !important; color:#fff !important; }
+	.single-post .postTitle { color:#08725f !important; }
+	.single-post .list-posts .post-texts { background:#484a50 !important; }
+	.single-post #footer-more-info-subtitle { color:#b8bac1 !important; }
+	</style>
+	<?php
+}, 2 );
+
+// CompressX converts images after FlyingPress has optimized the page. This
+// outer buffer therefore runs after that conversion, but before FlyingPress
+// writes its cache, preserving the top image's reserved space and priority.
+add_action( 'template_redirect', function() {
+	if ( ! is_singular( 'post' ) ) return;
+	ob_start( function( $html ) {
+		return preg_replace_callback(
+			'/(<figure\\b[^>]*\\bclass=["\'][^"\']*\\bpost-thumbnail\\b[^"\']*["\'][^>]*>.*?<picture\\b)([^>]*)(>.*?<img\\b)([^>]*)(>.*?<\\/picture>)/is',
+			function( $match ) {
+				$picture_attributes = preg_replace( '/\\sloading=["\']lazy["\']/i', '', $match[2] );
+				$image_attributes   = preg_replace( '/\\sloading=["\']lazy["\']/i', ' loading="eager"', $match[4] );
+				$image_attributes   = preg_replace( '/\\sfetchpriority=["\'](?:low|auto)["\']/i', ' fetchpriority="high"', $image_attributes );
+				if ( ! preg_match( '/\\sfetchpriority=/i', $image_attributes ) ) $match[3] = preg_replace( '/(<img\\b)/i', '$1 fetchpriority="high"', $match[3], 1 );
+				return $match[1] . $picture_attributes . $match[3] . $image_attributes . $match[5];
+			},
+			$html,
+			1
+		);
+	} );
+}, 999 );
+
+add_filter( 'flying_press_optimization:after', function( $html ) {
+	if ( ! is_singular( 'post' ) ) return $html;
+	$html = preg_replace(
+		'/(<figure\\b[^>]*\\bclass=["\'][^"\']*\\bpost-thumbnail\\b[^"\']*["\'][^>]*>\\s*<a\\b[^>]*)\\s+aria-hidden=["\']true["\']/i',
+		'$1',
+		$html,
+		1
+	);
+	$html = preg_replace( '/<textarea\\b(?![^>]*\\baria-label=)(?=[^>]*\\bid=["\']comment["\'])/i', '<textarea aria-label="متن دیدگاه"', $html, 1 );
+	return $html;
+}, 40 );

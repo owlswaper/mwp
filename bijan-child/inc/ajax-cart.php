@@ -84,7 +84,7 @@ final class Cloz_Ajax_Cart {
 		if ( $product->is_type( 'simple' ) && $product->is_purchasable() && $product->supports( 'ajax_add_to_cart' ) ) {
 			$label = sprintf( 'افزودن %s به سبد خرید', $product_name );
 			return sprintf(
-				'<button type="button" class="%1$s add_to_cart_button ajax_add_to_cart cloz-ajax-add-to-cart" data-product_id="%2$d" data-product_sku="%3$s" data-quantity="%4$s" aria-label="%5$s">%6$s<span class="screen-reader-text">%5$s</span></button>',
+				'<button type="button" class="%1$s add_to_cart_button cloz-ajax-add-to-cart" data-product_id="%2$d" data-product_sku="%3$s" data-quantity="%4$s" aria-label="%5$s">%6$s<span class="screen-reader-text">%5$s</span></button>',
 				esc_attr( $base_classes ),
 				absint( $product_id ),
 				esc_attr( $product->get_sku() ),

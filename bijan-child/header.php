@@ -82,7 +82,7 @@ if( $disable_footer ) {
 						<div class="page-width">
 							<div class="header" id="header">
 								<?php echo file_get_contents( BIJAN_DIR . "assets/img/curves/header.svg" ) ?>
-								<button type="button" id="header-toggle-mobile-menu" class="hide-desktop toggle-mobile-menu" aria-label="باز کردن منوی اصلی" aria-controls="mobile-menu-container" aria-expanded="false" onkeydown="if ((event.key === 'Enter' || event.key === ' ') && !this.dataset.keyboardPending) { event.preventDefault(); this.dataset.keyboardPending = 'true'; var button = this; var timer = setInterval(function () { var events = window.jQuery && window.jQuery._data ? window.jQuery._data(button, 'events') : null; if (events && events.click) { clearInterval(timer); delete button.dataset.keyboardPending; button.click(); } }, 50); setTimeout(function () { clearInterval(timer); delete button.dataset.keyboardPending; }, 10000); }"><i class="bijan-icon-grid" aria-hidden="true"></i></button>
+								<button type="button" id="header-toggle-mobile-menu" class="hide-desktop toggle-mobile-menu" aria-label="باز کردن منوی اصلی" aria-controls="mobile-menu-container" aria-expanded="false"><i class="bijan-icon-grid" aria-hidden="true"></i></button>
 								<div id="branding"><?php get_template_part( "templates/header/branding" ); ?></div>
 								<nav id="header-search-wrap" class="show-only-desktop"><?php get_template_part( "templates/header/search" ); ?></nav>
 								<div id="header-actions" class="show-only-desktop"><?php get_template_part( "templates/header/actions" ); ?></div>
@@ -91,7 +91,7 @@ if( $disable_footer ) {
 					</header>
 
 					<?php
-					if( $options['show_bottom_header'] ) {
+					if( $options['show_bottom_header'] && !wp_is_mobile() ) {
 						if( $options['show-header-menu'] || $options['show-header-second-menu'] ) {
 							if( has_nav_menu( 'main-menu' ) || has_nav_menu( 'header-second-menu' ) ) {
 								?>

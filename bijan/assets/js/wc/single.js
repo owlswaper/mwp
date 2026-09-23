@@ -104,6 +104,7 @@ function checkSliders() {
 			direction: sliderDirection,
 			spaceBetween: 12,
 			slidesPerView: 1,
+			lazyPreloadPrevNext: 0,
 			navigation: {
 				nextEl: ".swiper-button-next",
 				prevEl: ".swiper-button-prev",
@@ -126,6 +127,7 @@ function checkSliders() {
 			loop: true,
 			direction: 'horizontal',
 			slidesPerView: 1,
+			lazyPreloadPrevNext: 0,
 			navigation: {
 				nextEl: ".swiper-button-next",
 				prevEl: ".swiper-button-prev",
@@ -153,6 +155,7 @@ function checkSliders() {
 		if(localize.lightbox === '1') {
 			let lightGalleryConfig = {
 				zoomFromOrigin: true,
+				preload: 0,
 				selector: 'a',
 				plugins: [lgZoom, lgVideo],
 				videojs: true,

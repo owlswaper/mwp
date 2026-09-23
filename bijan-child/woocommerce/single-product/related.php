@@ -25,12 +25,12 @@ if ( $related_products ) :
 		if ( $heading ) {
 			$options = Options::get_options( [
 				'wc-single-end-products-title_icon' => 'bijan-icon-flash',
-				'wc-single-end-products-title_tag'  => 'h3',
+				'wc-single-end-products-title_tag'  => 'h2',
 			] );
 			echo '<div class="related-product-title">';
 			get_template_part( 'templates/components/section_title', null, [
 				'icon'  => $options['wc-single-end-products-title_icon'],
-				'tag'   => $options['wc-single-end-products-title_tag'],
+				'tag'   => 'h2',
 				'title' => $heading,
 				'link'  => $shop_page,
 			] );

@@ -17,6 +17,7 @@ final class Bijan_Product_Community {
 	const MAX_IMAGES    = 4;
 	const MAX_IMAGE_SIZE = 5242880; // 5 MB.
 	private static $related_render_ids = [];
+	private static $related_buffering = false;
 
 	public static function init() {
 		add_action( 'wp', [ __CLASS__, 'replace_product_sections' ], 99 );
@@ -37,6 +38,7 @@ final class Bijan_Product_Community {
 		add_filter( 'woocommerce_related_products', [ __CLASS__, 'filter_related_products' ], PHP_INT_MAX, 3 );
 		add_filter( 'woocommerce_product_related_posts_shuffle', '__return_false', PHP_INT_MAX );
 		add_filter( 'woocommerce_product_is_visible', [ __CLASS__, 'keep_related_out_of_stock_visible' ], PHP_INT_MAX, 2 );
+		add_filter( 'wp_get_attachment_image_attributes', [ __CLASS__, 'related_image_attributes' ], PHP_INT_MAX, 3 );
 		add_filter( 'woocommerce_product_tabs', [ __CLASS__, 'register_community_tabs' ], 40 );
 		add_action( 'admin_menu', [ __CLASS__, 'admin_menu' ], 30 );
 		add_action( 'admin_post_bijan_community_action', [ __CLASS__, 'admin_action' ] );
@@ -181,15 +183,33 @@ final class Bijan_Product_Community {
 		// Archive thumbnails may be hard-cropped by WooCommerce. Related cards
 		// need the uncropped single-product source so the whole item remains visible.
 		add_filter( 'single_product_archive_thumbnail_size', [ __CLASS__, 'related_image_size' ], PHP_INT_MAX );
+		if ( wp_is_mobile() ) {
+			self::$related_buffering = true;
+			ob_start();
+		}
 	}
 
 	public static function finish_related_render() {
 		remove_filter( 'single_product_archive_thumbnail_size', [ __CLASS__, 'related_image_size' ], PHP_INT_MAX );
 		self::$related_render_ids = [];
+		if ( self::$related_buffering ) {
+			$html = ob_get_clean();
+			self::$related_buffering = false;
+			echo '<div id="cloz-related-placeholder" class="cloz-product-lazy" data-template="cloz-related-template" style="min-height:458px" aria-hidden="true"></div>';
+			echo '<template id="cloz-related-template">' . $html . '</template>';
+		}
+
 	}
 
 	public static function related_image_size( $size = null ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.Found
-		return 'woocommerce_single';
+		return 'medium';
+	}
+
+	public static function related_image_attributes( $attributes, $attachment, $size ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.Found
+		if ( self::$related_render_ids ) {
+			$attributes['sizes'] = '(max-width: 1200px) 150px, 230px';
+		}
+		return $attributes;
 	}
 
 	public static function keep_related_out_of_stock_visible( $visible, $product_id ) {

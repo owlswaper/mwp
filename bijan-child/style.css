@@ -12,6 +12,38 @@ Text Domain: bijan-child
 Template: bijan
 */
 
+/* Keep the server-rendered first product image visible before deferred JS. */
+.single-product .woocommerce-product-gallery {
+	opacity: 1 !important;
+}
+
+.single-product .product-main-slider:not(.swiper-initialized) .swiper-slide:first-child img {
+	filter: grayscale(0);
+}
+
+/* Avoid laying out distant mobile sections during the initial paint. */
+@media screen and (max-width: 600px) {
+	.single-product .related {
+		content-visibility: auto;
+		contain-intrinsic-size: auto 450px;
+	}
+
+	.single-product .woocommerce-tabs {
+		content-visibility: auto;
+		contain-intrinsic-size: auto 1700px;
+	}
+
+	.single-product .cloz-fulfilment-summary {
+		content-visibility: auto;
+		contain-intrinsic-size: auto 286px;
+	}
+
+	.single-product #site-footer {
+		content-visibility: auto;
+		contain-intrinsic-size: auto 675px;
+	}
+}
+
 /* Mobile slide-out menu: keep the search visible and scroll only the menu. */
 @media screen and (max-width: 1200px) {
 	/* Keep the main header and bottom navigation in sync with side panels. */
@@ -257,5 +289,45 @@ Template: bijan
 
 	.products-style-1 .product:has(.product-bottom .price del) .shape-curve {
 		bottom: 88px;
+	}
+}
+
+#header-toggle-mobile-menu {
+	appearance: none;
+	padding: 0;
+	border: 0;
+	background: transparent;
+	font-family: inherit;
+	line-height: 2;
+	height: 2em;
+}
+
+#site-footer #footer-about > p,
+#site-footer #footer-copyright > p {
+	color: #9d9ea6;
+}
+
+/* Product-page accessibility. */
+.single-product #bijan-breadcrumbs .breadcrumb-item-active,
+.single-product .product-head-meta.wishlist-button,
+.single-product .woocommerce-tabs #tab-description a {
+	color: #008480;
+}
+
+.single-product .woocommerce-tabs #tab-description p > a {
+	text-decoration: underline;
+	text-underline-offset: 2px;
+}
+
+.single-product #product-head-secondary-top .quantity .qty,
+.single-product .woocommerce-product-details__short-description {
+	color: #74757c;
+}
+
+@media (max-width: 768px) {
+	.single-product #product-head-secondary-top .quantity button {
+		min-width: 24px;
+		min-height: 24px;
+		padding: 0;
 	}
 }

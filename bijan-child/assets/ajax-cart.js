@@ -4,10 +4,35 @@
 	if (!window.ClozAjaxCart || !window.fetch || !window.FormData) {
 		return;
 	}
+	if (window.ClozAjaxCartInitialized) {
+		return;
+	}
+	window.ClozAjaxCartInitialized = true;
 
 	var config = window.ClozAjaxCart;
 	var toast;
 	var closeTimer;
+	var submittedActions = Object.create(null);
+
+	function createActionId() {
+		if (window.crypto && typeof window.crypto.randomUUID === 'function') {
+			return window.crypto.randomUUID();
+		}
+
+		return String(Date.now()) + '-' + Math.random().toString(36).slice(2);
+	}
+
+	function getActionId(button, event) {
+		// A real click/submit always starts a new cart action. A click replayed by
+		// a delayed-script loader is untrusted and therefore keeps the old id.
+		if (event && event.isTrusted) {
+			button.dataset.clozCartActionId = createActionId();
+		} else if (!button.dataset.clozCartActionId) {
+			button.dataset.clozCartActionId = createActionId();
+		}
+
+		return button.dataset.clozCartActionId;
+	}
 
 	function getToast() {
 		if (!toast) {
@@ -141,9 +166,18 @@
 		}
 	}
 
-	function submitRequest(formData, button) {
+	function submitRequest(formData, button, actionId) {
 		if (!button || button.classList.contains('cloz-cart-is-loading')) {
 			return;
+		}
+		if (actionId && submittedActions[actionId]) {
+			return;
+		}
+		if (actionId) {
+			submittedActions[actionId] = true;
+			window.setTimeout(function () {
+				delete submittedActions[actionId];
+			}, 60000);
 		}
 
 		setLoading(button, true);
@@ -179,7 +213,7 @@
 	}
 
 	function handleLoopClick(event) {
-		var button = event.target.closest('.cloz-ajax-add-to-cart, .ajax_add_to_cart.add_to_cart_button[data-product_id]');
+		var button = event.target.closest('.cloz-ajax-add-to-cart');
 		if (!button || button.closest('form.cart')) {
 			return;
 		}
@@ -196,7 +230,7 @@
 		var data = new FormData();
 		data.append('product_id', productId);
 		data.append('quantity', button.getAttribute('data-quantity') || '1');
-		submitRequest(data, button);
+		submitRequest(data, button, getActionId(button, event));
 	}
 
 	function handleProductSubmit(event) {
@@ -206,7 +240,7 @@
 		}
 
 		var button = event.submitter || form.querySelector('.single_add_to_cart_button, button[name="add-to-cart"]');
-		if (!button || button.matches('.disabled, .wc-variation-selection-needed') || form.querySelector('button.single_add_to_cart_button[type="button"]')) {
+		if (!button || button.type === 'button' || (button.matches('.disabled, .wc-variation-selection-needed') && !form.querySelector('[name="variation_id"]'))) {
 			return;
 		}
 
@@ -237,10 +271,30 @@
 			data.append('product_id', data.get('add-to-cart'));
 		}
 
-		submitRequest(data, button);
+		var actionId = button.dataset.clozCartActionId
+			? getActionId(button)
+			: getActionId(button, event);
+		submitRequest(data, button, actionId);
 	}
 
 	document.addEventListener('click', handleLoopClick, true);
+	document.addEventListener('click', function (event) {
+		// Let the native button submit the form, but keep delayed-script loaders
+		// from capturing and replaying the same click after the AJAX request.
+		var button = event.target.closest('form.cart .single_add_to_cart_button, form.cart button[name="add-to-cart"]');
+		if (!button) {
+			return;
+		}
+		getActionId(button, event);
+		event.stopImmediatePropagation();
+	});
+	document.addEventListener('click', function (event) {
+		// Variation controls are already live; keep their clicks from starting and
+		// replaying FlyingPress' non-critical script queue.
+		if (event.target.closest('.product-attribute-dropdown, .product-head-variation-item')) {
+			event.stopImmediatePropagation();
+		}
+	});
 	document.addEventListener('submit', handleProductSubmit, true);
 	document.addEventListener('click', function (event) {
 		if (event.target.closest('.cloz-cart-toast__close')) {

@@ -308,7 +308,15 @@ add_action( 'wp_footer', 'bijan_mobile_account_menu' );
 if( !function_exists( "bijan_redux_prevent_icons_request" ) ) {
 	function bijan_redux_prevent_icons_request( $response, $parsed_args, $url ) {
 		if( !is_admin() ) {
-			return $url === BIJAN_URI . "assets/css/iconly.min.css";
+			if ( $url === BIJAN_URI . "assets/css/iconly.min.css" ) {
+				return [
+					'headers'       => [],
+					'body'          => '',
+					'response'      => [ 'code' => 200, 'message' => 'OK' ],
+					'cookies'       => [],
+					'http_response' => null,
+				];
+			}
 		}
 		return $response;
 	}

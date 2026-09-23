@@ -52,6 +52,7 @@ if( is_string( $account_btn_link ) ) {
 	$account_btn_args = Elementor::get_link_attributes( $args['link'] );
 }
 $account_btn_args['class'] = array_merge( ['account-btn-link'], $args['link_classes'] );
+$account_btn_args['aria-label'] = esc_attr__( 'My account', 'woocommerce' );
 if( $args['link_id'] ) {
 	$account_btn_args['id'] = $args['link_id'];
 }

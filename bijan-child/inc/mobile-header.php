@@ -53,7 +53,7 @@ function clz_contact_page_url() {
 }
 
 /**
- * Load the small state-sync script after the parent theme's main script.
+ * Load the tiny menu controller independently from the delayed parent bundle.
  */
 function clz_enqueue_mobile_header_script() {
 	$file = trailingslashit( get_stylesheet_directory() ) . 'assets/mobile-header.js';
@@ -62,7 +62,7 @@ function clz_enqueue_mobile_header_script() {
 	wp_enqueue_script(
 		'clz-mobile-header',
 		$url,
-		array( 'bijan' ),
+		array(),
 		file_exists( $file ) ? (string) filemtime( $file ) : BIJAN_CHILD_VERSION,
 		true
 	);

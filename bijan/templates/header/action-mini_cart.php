@@ -14,7 +14,7 @@ $args = Utils::check_default( $args, [
 $cart_count = WC::get_cart_count();
 ?>
 <div class="header-cart-wrap header-action header-action-cart">
-	<a href="<?php echo wc_get_cart_url() ?>" class="header-action-btn header-cart-btn">
+	<a href="<?php echo wc_get_cart_url() ?>" class="header-action-btn header-cart-btn" aria-label="<?php echo esc_attr__( 'View cart', 'woocommerce' ) ?>">
 		<div class="header-cart-texts">
 			<div class="header-cart-count-wrap"<?php echo $cart_count === 0 ? ' style="display:none"' : '' ?>>
 				<span class="cart-count"><?php echo $cart_count ?></span>
