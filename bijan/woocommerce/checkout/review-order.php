@@ -126,6 +126,7 @@ defined( 'ABSPATH' ) || exit;
 	?>
 
 	<?php echo apply_filters( 'woocommerce_order_button_html', '<button type="submit" class="button button-center rounded alt button-large' . esc_attr( wc_wp_theme_get_element_class_name( 'button' ) ? ' ' . wc_wp_theme_get_element_class_name( 'button' ) : '' ) . '" name="woocommerce_checkout_place_order" id="place_order" value="' . esc_attr( $options['wc_pay_order_text'] ) . '" data-value="' . esc_attr( $options['wc_pay_order_text'] ) . '">' . esc_html( $options['wc_pay_order_text'] ) . '</button>' ); // @codingStandardsIgnoreLine ?>
+	<p class="clz-checkout-assurance">پس از بررسی اطلاعات، برای پرداخت امن به درگاه بانکی منتقل می‌شوید.</p>
 
 	<?php do_action( 'woocommerce_review_order_after_submit' ); ?>
 	</div>

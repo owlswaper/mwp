@@ -35,6 +35,14 @@ body.woocommerce-checkout form.checkout {
 	margin-top: 8px;
 }
 
+body.woocommerce-checkout form.checkout::before {
+	content: "تکمیل اطلاعات و پرداخت امن";
+	display: block;
+	margin: 0 0 14px;
+	color: var(--clz-checkout-muted);
+	font-size: .82rem;
+}
+
 body.woocommerce-checkout form.checkout > .bijan-section,
 body.woocommerce-checkout #order_review > .bijan-section {
 	border: 1px solid var(--clz-checkout-border);
@@ -204,6 +212,27 @@ body.woocommerce-checkout #ship-to-different-address {
 	margin-bottom: 22px;
 }
 
+body.woocommerce-checkout .clz-payment-title {
+	position: relative;
+	margin: 0 0 24px;
+	padding-inline-start: 18px;
+	color: var(--clz-checkout-text);
+	font-size: clamp(1rem, 1.6vw, 1.2rem);
+	font-weight: 750;
+}
+
+body.woocommerce-checkout .clz-payment-title::before {
+	content: "";
+	position: absolute;
+	inset-inline-start: 0;
+	top: 50%;
+	width: 5px;
+	height: 24px;
+	border-radius: 8px;
+	background: var(--clz-checkout-accent);
+	transform: translateY(-50%);
+}
+
 body.woocommerce-checkout #ship-to-different-address label {
 	min-height: 46px;
 	padding: 10px 13px;
@@ -213,8 +242,57 @@ body.woocommerce-checkout #ship-to-different-address label {
 }
 
 body.woocommerce-checkout #order_review {
+	position: relative;
 	gap: 22px;
 	margin-top: 26px;
+}
+
+/*
+ * WooCommerce uses blockUI while recalculating delivery and payment options.
+ * Keep the controls locked to prevent conflicting requests, but do not wash out
+ * the customer's completed form. A compact status badge communicates progress.
+ */
+body.woocommerce-checkout.clz-checkout-updating form.checkout .blockUI.blockOverlay,
+body.woocommerce-checkout.clz-checkout-updating #order_review .blockUI.blockOverlay,
+body.woocommerce-checkout.clz-checkout-updating #payment .blockUI.blockOverlay {
+	background: transparent !important;
+	opacity: 0 !important;
+}
+
+body.woocommerce-checkout.clz-checkout-updating #order_review::after {
+	content: "در حال به‌روزرسانی مبلغ و روش ارسال…";
+	position: absolute;
+	z-index: 50;
+	top: 14px;
+	inset-inline-end: 14px;
+	max-width: calc(100% - 28px);
+	padding: 8px 34px 8px 12px;
+	border: 1px solid var(--clz-checkout-border);
+	border-radius: 12px;
+	background: rgba(255, 255, 255, .96);
+	color: var(--clz-checkout-text);
+	box-shadow: 0 7px 24px rgba(35, 42, 55, .1);
+	font-size: .72rem;
+	pointer-events: none;
+}
+
+body.woocommerce-checkout.clz-checkout-updating #order_review::before {
+	content: "";
+	position: absolute;
+	z-index: 51;
+	top: 24px;
+	inset-inline-end: 25px;
+	width: 11px;
+	height: 11px;
+	border: 2px solid color-mix(in srgb, var(--clz-checkout-accent) 25%, #fff);
+	border-top-color: var(--clz-checkout-accent);
+	border-radius: 50%;
+	animation: clz-checkout-spin .65s linear infinite;
+	pointer-events: none;
+}
+
+@keyframes clz-checkout-spin {
+	to { transform: rotate(360deg); }
 }
 
 body.woocommerce-checkout #order_review > .bijan-section {
@@ -242,6 +320,25 @@ body.woocommerce-checkout #place_order {
 	font-size: 1rem;
 	font-weight: 750;
 	box-shadow: 0 10px 25px color-mix(in srgb, var(--clz-checkout-accent) 25%, transparent);
+}
+
+body.woocommerce-checkout.clz-checkout-submitting #place_order {
+	cursor: wait;
+	opacity: .78;
+}
+
+body.woocommerce-checkout .clz-checkout-assurance {
+	margin: 10px 0 0;
+	color: var(--clz-checkout-muted);
+	font-size: .72rem;
+	line-height: 1.9;
+	text-align: center;
+}
+
+body.woocommerce-checkout .woocommerce-error,
+body.woocommerce-checkout .woocommerce-info,
+body.woocommerce-checkout .woocommerce-message {
+	border-radius: 14px;
 }
 
 @media screen and (max-width: 900px) {
@@ -281,6 +378,11 @@ body.woocommerce-checkout #place_order {
 
 	body.woocommerce-checkout #order_review {
 		margin-top: 18px;
+	}
+
+	body.woocommerce-checkout #place_order {
+		min-height: 56px;
+		font-size: .95rem;
 	}
 }
 

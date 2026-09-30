@@ -9,7 +9,7 @@ defined( 'ABSPATH' ) || exit;
 
 final class Cloz_Ajax_Cart {
 	const ACTION = 'cloz_add_to_cart';
-	const CACHE_REVISION = '2026-09-23-single-add-v1';
+	const CACHE_REVISION = '2026-10-01-checkout-cart-v2';
 
 	public static function init() {
 		// WooCommerce's normal form handler also watches for an `add-to-cart`
@@ -21,7 +21,67 @@ final class Cloz_Ajax_Cart {
 		add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueue_assets' ), 30 );
 		add_action( 'wp_footer', array( __CLASS__, 'render_toast' ), 50 );
 		add_action( 'wc_ajax_' . self::ACTION, array( __CLASS__, 'add_to_cart' ) );
+		// The parent registers its fragment callback during init priority 0.
+		add_action( 'init', array( __CLASS__, 'replace_fragment_builder' ), 1 );
 		add_filter( 'woocommerce_loop_add_to_cart_link', array( __CLASS__, 'normalize_loop_cart_control' ), PHP_INT_MAX, 3 );
+	}
+
+	/**
+	 * Replace the parent fragment callback with a version which reuses the mini
+	 * cart WooCommerce already rendered for the canonical widget fragment.
+	 */
+	public static function replace_fragment_builder() {
+		remove_filter( 'woocommerce_add_to_cart_fragments', 'bijan_wc_add_to_cart_fragments', 10 );
+		add_filter( 'woocommerce_add_to_cart_fragments', array( __CLASS__, 'add_theme_fragments' ), 10 );
+	}
+
+	public static function add_theme_fragments( $fragments ) {
+		$widget_fragment = isset( $fragments['div.widget_shopping_cart_content'] )
+			? (string) $fragments['div.widget_shopping_cart_content']
+			: '';
+		$mini_cart = preg_replace(
+			'#^\s*<div\s+class=(?:"|\')widget_shopping_cart_content(?:"|\')>\s*(.*)\s*</div>\s*$#s',
+			'$1',
+			$widget_fragment
+		);
+
+		if ( ! is_string( $mini_cart ) || $mini_cart === $widget_fragment ) {
+			if ( function_exists( 'bijan_wc_get_mini_cart_html' ) ) {
+				$mini_cart = bijan_wc_get_mini_cart_html();
+			} else {
+				ob_start();
+				woocommerce_mini_cart();
+				$mini_cart = ob_get_clean();
+			}
+		}
+
+		$options = class_exists( '\\Bijan\\Utils\\Options' )
+			? \Bijan\Utils\Options::get_options( array( 'show_bottom_nav' => true ) )
+			: array( 'show_bottom_nav' => true );
+		$cart_count = class_exists( '\\MJ\\Whitebox\\Utils\\WC' )
+			? \MJ\Whitebox\Utils\WC::get_cart_count()
+			: WC()->cart->get_cart_contents_count();
+
+		$fragments['.header-mini-cart-content'] = '<div class="header-mini-cart-content">' . $mini_cart . '</div>';
+		$fragments['.header-cart-texts'] = sprintf(
+			'<div class="header-cart-texts"><div class="header-cart-count-wrap"%1$s><span class="cart-count">%2$s</span><span class="header-cart-count-label">%3$s</span></div><div class="header-cart-total"%1$s>%4$s</div><div class="header-cart-empty"%5$s>%6$s</div></div>',
+			0 === $cart_count ? ' style="display:none"' : '',
+			esc_html( $cart_count ),
+			esc_html_x( 'Product', 'Header cart count label', 'bijan' ),
+			0 === $cart_count ? '' : WC()->cart->get_cart_subtotal(),
+			$cart_count > 0 ? ' style="display:none"' : '',
+			esc_html__( 'The cart is empty.', 'bijan' )
+		);
+		$fragments['.bottom-nav-cart-count'] = '<div class="bottom-nav-cart-count cart-count bijan-count-badge">' . esc_html( $cart_count ) . '</div>';
+
+		$show_bottom_nav = class_exists( '\\Bijan\\Utils' )
+			? \Bijan\Utils::to_bool( $options['show_bottom_nav'] )
+			: ! empty( $options['show_bottom_nav'] );
+		if ( $show_bottom_nav ) {
+			$fragments['.bottom-nav-cart-wrap'] = '<div class="bottom-nav-cart-wrap">' . $mini_cart . '</div>';
+		}
+
+		return $fragments;
 	}
 
 	public static function refresh_page_cache_once() {
@@ -58,7 +118,7 @@ final class Cloz_Ajax_Cart {
 	}
 
 	public static function enqueue_assets() {
-		if ( is_admin() || ! class_exists( 'WooCommerce' ) || ! class_exists( 'WC_AJAX' ) ) {
+		if ( is_admin() || ( function_exists( 'is_checkout' ) && is_checkout() ) || ! class_exists( 'WooCommerce' ) || ! class_exists( 'WC_AJAX' ) ) {
 			return;
 		}
 
@@ -79,6 +139,7 @@ final class Cloz_Ajax_Cart {
 				'endpoint'        => WC_AJAX::get_endpoint( self::ACTION ),
 				'cartUrl'         => wc_get_cart_url(),
 				'timeout'         => 5000,
+				'requestTimeout'  => 20000,
 				'chooseOptions'   => 'لطفاً گزینه‌های محصول را انتخاب کنید.',
 				'genericError'    => 'افزودن محصول انجام نشد. لطفاً دوباره تلاش کنید.',
 				'successTitle'    => 'به سبد خرید اضافه شد',
@@ -293,9 +354,13 @@ final class Cloz_Ajax_Cart {
 	}
 
 	private static function get_fragments() {
-		ob_start();
-		woocommerce_mini_cart();
-		$mini_cart = ob_get_clean();
+		if ( function_exists( 'bijan_wc_get_mini_cart_html' ) ) {
+			$mini_cart = bijan_wc_get_mini_cart_html();
+		} else {
+			ob_start();
+			woocommerce_mini_cart();
+			$mini_cart = ob_get_clean();
+		}
 
 		return apply_filters(
 			'woocommerce_add_to_cart_fragments',
@@ -324,7 +389,7 @@ final class Cloz_Ajax_Cart {
 	}
 
 	public static function render_toast() {
-		if ( is_admin() || ! class_exists( 'WooCommerce' ) ) {
+		if ( is_admin() || ( function_exists( 'is_checkout' ) && is_checkout() ) || ! class_exists( 'WooCommerce' ) ) {
 			return;
 		}
 		?>

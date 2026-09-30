@@ -282,7 +282,13 @@ if( !function_exists( "bijan_bottom_nav" ) ) {
 
 			<?php if( Utils::is_wc_active() && $has_cart ) { ?>
 				<div class="bottom-nav-cart-wrap">
-					<?php woocommerce_mini_cart() ?>
+					<?php
+					if ( function_exists( 'bijan_wc_get_mini_cart_html' ) ) {
+						echo bijan_wc_get_mini_cart_html(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+					} else {
+						woocommerce_mini_cart();
+					}
+					?>
 				</div>
 			<?php } ?>
 		</div>

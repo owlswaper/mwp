@@ -42,6 +42,8 @@ require_once trailingslashit( get_stylesheet_directory() ) . 'inc/blog-author.ph
 add_action( 'template_redirect', function() {
 	$is_product = function_exists( 'is_product' ) && is_product();
 	$is_category = function_exists( 'is_product_category' ) && is_product_category();
+	$is_cart = function_exists( 'is_cart' ) && is_cart();
+	$is_checkout = function_exists( 'is_checkout' ) && is_checkout() && ! is_order_received_page();
 	if ( ! class_exists( '\\FlyingPress\\Config' ) ) {
 		return;
 	}
@@ -75,9 +77,29 @@ add_action( 'template_redirect', function() {
 			'cloz-ajax-cart-js',
 		] );
 		$critical[] = 'cloz-archive-ajax-filters-js';
+	} elseif ( $is_checkout ) {
+		$critical = array_merge( $critical, [
+			'jquery-core-js',
+			'woocommerce-js',
+			'wc-checkout-js',
+			'wc-country-select-js',
+			'wc-address-i18n-js',
+			'selectWoo-js',
+			'bijan-wc-js',
+			'clz-checkout-js',
+		] );
+	} elseif ( $is_cart ) {
+		$critical = array_merge( $critical, [
+			'jquery-core-js',
+			'woocommerce-js',
+			'wc-cart-js',
+			'wc-country-select-js',
+			'selectWoo-js',
+			'bijan-wc-js',
+		] );
 	}
 
-	if ( $is_product || $is_category ) {
+	if ( $is_product || $is_category || $is_cart || $is_checkout ) {
 		\FlyingPress\Config::$config['js_delay_method'] = 'user-interaction';
 	}
 	\FlyingPress\Config::$config['js_delay_excludes'] = array_values( array_unique( array_merge(

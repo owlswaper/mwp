@@ -181,20 +181,36 @@
 		}
 
 		setLoading(button, true);
+		var controller = typeof window.AbortController === 'function' ? new window.AbortController() : null;
+		var didTimeout = false;
+		var requestTimer = controller ? window.setTimeout(function () {
+			didTimeout = true;
+			controller.abort();
+		}, Number(config.requestTimeout || 20000)) : null;
 
 		fetch(config.endpoint, {
 			method: 'POST',
 			credentials: 'same-origin',
+			cache: 'no-store',
 			headers: {
 				'X-Requested-With': 'XMLHttpRequest'
 			},
-			body: formData
+			body: formData,
+			signal: controller ? controller.signal : undefined
 		})
 			.then(function (response) {
-				if (!response.ok) {
-					throw new Error(config.genericError);
-				}
-				return response.json();
+				return response.text().then(function (body) {
+					var payload;
+					try {
+						payload = JSON.parse(body);
+					} catch (ignore) {
+						payload = null;
+					}
+					if (!response.ok) {
+						throw new Error(payload && payload.data && payload.data.message ? payload.data.message : config.genericError);
+					}
+					return payload;
+				});
 			})
 			.then(function (response) {
 				if (!response || !response.success) {
@@ -205,9 +221,15 @@
 				showToast('success', response.data.item || {}, '');
 			})
 			.catch(function (error) {
-				showToast('error', null, cleanText(error && error.message ? error.message : config.genericError));
+				var message = didTimeout
+					? 'پاسخ سرور طولانی شد. پیش از تلاش دوباره، سبد خرید را بررسی کنید.'
+					: (error && error.message ? error.message : config.genericError);
+				showToast('error', null, cleanText(message));
 			})
 			.finally(function () {
+				if (requestTimer) {
+					window.clearTimeout(requestTimer);
+				}
 				setLoading(button, false);
 			});
 	}

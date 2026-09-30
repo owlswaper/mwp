@@ -4,6 +4,25 @@ use Bijan\Utils;
 use Bijan\Utils\Options;
 use MJ\Whitebox\Utils\WC as WhiteboxWC;
 
+/**
+ * Render the mini-cart at most once per request. The header, mobile drawer and
+ * fragment response all show the same cart state, so repeated template renders
+ * only add database/template work without changing the output.
+ */
+if( !function_exists( 'bijan_wc_get_mini_cart_html' ) ) {
+	function bijan_wc_get_mini_cart_html() {
+		static $html = null;
+
+		if( $html === null ) {
+			ob_start();
+			woocommerce_mini_cart();
+			$html = ob_get_clean();
+		}
+
+		return $html;
+	}
+}
+
 // Cart
 if( !function_exists( 'bijan_wc_add_to_cart_fragments' ) ) {
 	function bijan_wc_add_to_cart_fragments( $fragments ) {
@@ -13,7 +32,7 @@ if( !function_exists( 'bijan_wc_add_to_cart_fragments' ) ) {
 		ob_start();
 		?>
 		<div class="header-mini-cart-content">
-			<?php woocommerce_mini_cart() ?>
+			<?php echo bijan_wc_get_mini_cart_html(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 		</div>
 		<?php
 		$fragments['.header-mini-cart-content'] = ob_get_clean();
@@ -38,7 +57,7 @@ if( !function_exists( 'bijan_wc_add_to_cart_fragments' ) ) {
 			ob_start();
 			?>
 			<div class="bottom-nav-cart-wrap">
-				<?php woocommerce_mini_cart() ?>
+				<?php echo bijan_wc_get_mini_cart_html(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 			</div>
 			<?php
 			$fragments['.bottom-nav-cart-wrap'] = ob_get_clean();

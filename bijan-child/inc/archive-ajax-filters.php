@@ -65,6 +65,7 @@ final class Cloz_Archive_Ajax_Filters {
 
 		header( 'X-Robots-Tag: noindex, nofollow', true );
 		header( 'Cache-Control: private, no-store, no-cache, must-revalidate, max-age=0', true );
+		header_remove( 'CDN-Cache-Control' );
 		header( 'Vary: X-Cloz-Archive-Ajax', false );
 	}
 

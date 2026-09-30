@@ -33,7 +33,13 @@ $cart_count = WC::get_cart_count();
 	<?php if( Utils::to_bool( $args['show-mini-cart'] ) ) { ?>
 		<div class="header-mini-cart-wrap bijan-popover">
 			<div class="header-mini-cart-content">
-				<?php woocommerce_mini_cart() ?>
+				<?php
+				if ( function_exists( 'bijan_wc_get_mini_cart_html' ) ) {
+					echo bijan_wc_get_mini_cart_html(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+				} else {
+					woocommerce_mini_cart();
+				}
+				?>
 			</div>
 		</div>
 	<?php } ?>

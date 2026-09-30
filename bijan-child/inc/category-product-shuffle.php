@@ -196,6 +196,17 @@ final class Bijan_Category_Product_Shuffle {
 			return;
 		}
 
+		$is_private_request = is_user_logged_in()
+			|| wp_doing_ajax()
+			|| 'POST' === strtoupper( (string) ( $_SERVER['REQUEST_METHOD'] ?? '' ) )
+			|| ( function_exists( 'WC' ) && WC()->cart && ! WC()->cart->is_empty() );
+
+		if ( $is_private_request ) {
+			header( 'Cache-Control: private, no-store, no-cache, must-revalidate, max-age=0', true );
+			header_remove( 'CDN-Cache-Control' );
+			return;
+		}
+
 		$seconds_to_boundary = max(
 			1,
 			( ( self::current_bucket() + 1 ) * self::INTERVAL ) - time()
