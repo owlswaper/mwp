@@ -25,8 +25,8 @@ require_once trailingslashit( get_stylesheet_directory() ) . 'inc/checkout-custo
 // Mobile header/menu behavior and the quick support action.
 require_once trailingslashit( get_stylesheet_directory() ) . 'inc/mobile-header.php';
 
-// Purpose-built, action-first contact page.
-require_once trailingslashit( get_stylesheet_directory() ) . 'inc/contact-page.php';
+// Store information pages, canonical URLs and readable customer policies.
+require_once trailingslashit( get_stylesheet_directory() ) . 'inc/information-pages.php';
 
 // Clearer product attributes plus the fixed shipping and returns guide.
 require_once trailingslashit( get_stylesheet_directory() ) . 'inc/product-tabs.php';

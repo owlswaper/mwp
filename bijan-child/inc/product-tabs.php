@@ -76,11 +76,11 @@ function cloz_render_shipping_returns_summary() {
 		</header>
 
 		<div class="cloz-fulfilment-summary__items" role="list">
-			<div role="listitem"><strong>زمان تحویل</strong><span>تهران و کرج تا ۴۸ ساعت، سایر استان‌ها تا ۷۲ ساعت</span></div>
+			<div role="listitem"><strong>زمان حمل با دیجی‌پی</strong><span>از تحویل به سرویس حمل: تهران ۲ ساعت، سایر نقاط ایران ۷۲ ساعت؛ آماده‌سازی جداست</span></div>
 			<div role="listitem"><strong>پیگیری سفارش</strong><span>زمان تحویل و تغییر وضعیت سفارش از طریق پیامک اطلاع‌رسانی می‌شود</span></div>
 			<div role="listitem"><strong>شرایط مرجوعی</strong><span>در صورت ایراد یا مغایرت محصول، درخواست توسط پشتیبانی بررسی می‌شود</span></div>
 		</div>
-		<p class="cloz-fulfilment-summary__note">مرجوعی به دلیل تغییر نظر یا پشیمانی از خرید امکان‌پذیر نیست؛ لغو سفارش تا پیش از شروع بسته‌بندی با هماهنگی پشتیبانی امکان دارد.</p>
+		<p class="cloz-fulfilment-summary__note">لغو پیش از پیامک آماده‌سازی با هماهنگی پشتیبانی انجام می‌شود. جزئیات <?php echo clz_information_link( 'shipping', 'ارسال' ); ?> و <?php echo clz_information_link( 'returns', 'مرجوعی و حق انصراف قانونی' ); ?> را بخوان.</p>
 	</section>
 	<?php
 }

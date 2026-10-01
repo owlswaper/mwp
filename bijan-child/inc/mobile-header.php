@@ -11,13 +11,14 @@ defined( 'ABSPATH' ) || exit;
  * @return string
  */
 function clz_contact_page_url() {
+	if ( function_exists( 'clz_information_url' ) ) { return clz_information_url( 'contact' ); }
 	static $url = null;
 
 	if ( null !== $url ) {
 		return $url;
 	}
 
-	$paths = array( 'contact-us', 'contact', 'تماس-با-ما' );
+	$paths = array( 'contact', 'contact-us', 'تماس-با-ما' );
 
 	foreach ( $paths as $path ) {
 		$page = get_page_by_path( $path, OBJECT, 'page' );
@@ -47,7 +48,7 @@ function clz_contact_page_url() {
 		}
 	}
 
-	$url = home_url( '/contact-us/' );
+	$url = home_url( '/contact/' );
 
 	return $url;
 }
