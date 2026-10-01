@@ -1,6 +1,9 @@
 <?php
 /** Readable store pages with native editable content. */
 defined( 'ABSPATH' ) || exit;
+// template-loader includes this file in global scope. Keep all presentation data
+// local: WP_Query::the_post() replaces the global $pages with pagination content.
+( static function () {
 $key = clz_information_key();
 $pages = clz_information_pages();
 if ( ! isset( $pages[ $key ] ) ) { return; }
@@ -19,4 +22,6 @@ get_header();
 		</ul></nav>
 	</main>
 </div>
-<?php get_footer();
+<?php
+get_footer();
+} )();

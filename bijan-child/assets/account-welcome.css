@@ -1,0 +1,5 @@
+/* Scope alignment to the welcome text; retain the account layout and controls. */
+#myaccount-head #myaccount-head-welcome {
+	direction: rtl;
+	text-align: right;
+}

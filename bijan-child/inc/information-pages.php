@@ -155,7 +155,7 @@ function clz_information_trust_seals() {
 			</a><p>با انتخاب نشان، مشخصات و وضعیت اعتبار را در سامانه رسمی اینماد بررسی کن.</p>
 		</section>
 		<section aria-labelledby="clz-zarinpal-title"><h2 id="clz-zarinpal-title">نشان زرین‌پال</h2>
-			<div id="zarinpal"><script src="https://www.zarinpal.com/webservice/TrustCode" type="text/javascript"></script></div>
+			<div id="zarinpal"><script id="clz-zarinpal-trust" data-cfasync="false" src="https://www.zarinpal.com/webservice/TrustCode" type="text/javascript"></script></div>
 			<p>نشان از سرویس رسمی زرین‌پال دریافت می‌شود. برای بررسی اطلاعات، نشان را انتخاب کن.</p>
 		</section>
 	</div>

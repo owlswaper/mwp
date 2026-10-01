@@ -27,6 +27,7 @@ require_once trailingslashit( get_stylesheet_directory() ) . 'inc/mobile-header.
 
 // Store information pages, canonical URLs and readable customer policies.
 require_once trailingslashit( get_stylesheet_directory() ) . 'inc/information-pages.php';
+require_once trailingslashit( get_stylesheet_directory() ) . 'inc/store-presentation.php';
 
 // Clearer product attributes plus the fixed shipping and returns guide.
 require_once trailingslashit( get_stylesheet_directory() ) . 'inc/product-tabs.php';
@@ -51,6 +52,10 @@ add_action( 'template_redirect', function() {
 	$critical = [
 		'clz-mobile-header-js',
 	];
+	if ( function_exists( 'clz_information_key' ) && 'licenses' === clz_information_key() ) {
+		// The official badge uses document.write and must run while parsing the page.
+		$critical[] = 'www.zarinpal.com/webservice/TrustCode';
+	}
 	if ( $is_product ) {
 		$critical = array_merge( $critical, [
 			'jquery-core-js',

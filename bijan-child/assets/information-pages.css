@@ -7,10 +7,13 @@ body.page #page-body.clz-info {
 	padding: 24px 0 clamp(64px, 8vw, 100px);
 	background: var(--body, #fff);
 	color: var(--clz-info-ink);
+	font-family: var(--main-font, inherit);
 	font-size: 16px;
 	line-height: 2;
 }
 .clz-info, .clz-info * { box-sizing: border-box; }
+.clz-info h1, .clz-info h2, .clz-info h3, .clz-info p, .clz-info a,
+.clz-info summary, .clz-info table, .clz-info dt, .clz-info dd { font-family: inherit; }
 .clz-info .clz-info-shell { width: min(1120px, calc(100% - 48px)); margin-inline: auto; }
 .clz-info .clz-info-breadcrumb { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; color: var(--clz-info-muted); font-size: 13px; }
 .clz-info a { color: var(--clz-info-ink); text-decoration: underline; text-underline-offset: 5px; text-decoration-thickness: 1px; }
@@ -45,13 +48,25 @@ body.page #page-body.clz-info {
 .clz-info .clz-info-facts > div { padding: 12px 0; border-bottom: 1px solid var(--clz-info-line); }
 .clz-info .clz-info-facts dt { font-size: 13px; color: var(--clz-info-muted); }
 .clz-info .clz-info-facts dd { margin: 2px 0 0; font-size: 18px; font-weight: 700; }
-/* Contact: channels side by side; one accent, no app-specific colors. */
+/* Contact: clear channels in a reading column, with order help alongside them. */
 .clz-info--contact .clz-info-content { max-width: none; }
-.clz-info .clz-info-contact-methods { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; padding: 12px 0 36px; }
-.clz-info .clz-info-contact-methods > section { padding-top: 20px; border-top: 2px solid var(--clz-info-accent); }
-.clz-info .clz-info-contact-methods h2 { font-size: 21px; }
-.clz-info .clz-info-contact-methods p { font-size: 15px; }
-.clz-info .clz-info-phone { display: inline-block; font-size: 24px; font-weight: 700; margin-bottom: 16px; }
+.clz-info .clz-contact-hours { display: flex; flex-wrap: wrap; gap: 4px 20px; padding: 14px 0; margin-bottom: 32px; border-block: 1px solid var(--clz-info-line); font-size: 14px; }
+.clz-info .clz-contact-hours strong { display: inline-flex; align-items: center; gap: 10px; }
+.clz-info .clz-contact-hours strong::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--clz-info-accent); }
+.clz-info .clz-contact-hours span { color: var(--clz-info-muted); }
+.clz-info .clz-contact-shortcuts { display: flex; flex-wrap: wrap; gap: 4px 24px; margin: -20px 0 28px; font-size: 14px; }
+.clz-info .clz-contact-shortcuts a { display: inline-flex; align-items: center; min-height: 44px; }
+.clz-info .clz-contact-layout { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: clamp(32px, 5vw, 72px); align-items: start; margin-bottom: 36px; }
+.clz-info .clz-contact-channel { padding: 0 0 30px; }
+.clz-info .clz-contact-channel + .clz-contact-channel { padding-top: 26px; border-top: 1px solid var(--clz-info-line); }
+.clz-info .clz-contact-channel h2 { font-size: 22px; }
+.clz-info .clz-contact-response { color: var(--clz-info-muted); font-size: 14px; }
+.clz-info .clz-contact-hint { color: var(--clz-info-muted); font-size: 13px; line-height: 2; }
+.clz-info .clz-contact-order-help { padding: 24px; background: var(--gray-600-50, #f8f8f8); border-radius: 10px; border-top: 3px solid var(--clz-info-accent); }
+.clz-info .clz-contact-order-help h2 { font-size: 20px; }
+.clz-info .clz-contact-order-help h3 { margin-top: 24px; font-size: 16px; }
+.clz-info .clz-contact-order-help p, .clz-info .clz-contact-order-help li { font-size: 14px; }
+.clz-info .clz-info-phone { display: inline-block; font-size: 26px; font-weight: 700; line-height: 1.6; }
 .clz-info .clz-info-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin: 16px 0; }
 .clz-info a.clz-info-button { display: inline-flex; justify-content: center; align-items: center; min-height: 46px; padding: 9px 16px; border: 1px solid var(--clz-info-accent); border-radius: 8px; background: var(--clz-info-accent); color: #171717; font-size: 14px; font-weight: 700; line-height: 1.8; text-decoration: none; }
 .clz-info a.clz-info-button--outline { background: transparent; color: var(--clz-info-ink); border-color: var(--clz-info-line); }
@@ -86,7 +101,8 @@ body.page #page-body.clz-info {
 .clz-info #zarinpal { margin: auto; min-height: 130px; display: flex; justify-content: center; align-items: center; }
 .clz-info #zarinpal img { width: 80px; height: auto; }
 @media (max-width: 900px) {
-	.clz-info .clz-info-contact-methods { grid-template-columns: 1fr; gap: 30px; }
+	.clz-info .clz-contact-layout { grid-template-columns: 1fr; gap: 0; }
+	.clz-info .clz-contact-order-help { margin-bottom: 12px; }
 	.clz-info .clz-info-about-intro { grid-template-columns: 1fr; gap: 28px; }
 	.clz-info .clz-info-facts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 24px; padding: 0; border: 0; }
 }
