@@ -173,8 +173,8 @@ function clz_information_trust_seals() {
 	ob_start(); ?>
 	<div class="clz-info-seals">
 		<section aria-labelledby="clz-enamad-title"><h2 id="clz-enamad-title">نماد اعتماد الکترونیکی</h2>
-			<a href="https://trustseal.enamad.ir/?id=717705&amp;Code=UEnBF1rDytYpVBldZUl8B2x8IG25l7jI" target="_blank" rel="noopener noreferrer" referrerpolicy="origin" aria-label="مشاهده اعتبار نماد اعتماد الکترونیکی فروشگاه">
-				<img src="https://trustseal.enamad.ir/logo.aspx?id=717705&amp;Code=UEnBF1rDytYpVBldZUl8B2x8IG25l7jI" alt="نماد اعتماد الکترونیکی فروشگاه" loading="lazy" decoding="async" referrerpolicy="origin" width="120" height="130" style="cursor:pointer;object-fit:contain">
+			<a href="https://trustseal.enamad.ir/?id=717705&amp;Code=UEnBF1rDytYpVBldZUl8B2x8IG25l7jI" target="_blank" rel="noopener" referrerpolicy="origin" aria-label="مشاهده اعتبار نماد اعتماد الکترونیکی فروشگاه">
+				<img src="https://trustseal.enamad.ir/logo.aspx?id=717705&amp;Code=UEnBF1rDytYpVBldZUl8B2x8IG25l7jI" code="UEnBF1rDytYpVBldZUl8B2x8IG25l7jI" alt="نماد اعتماد الکترونیکی فروشگاه" loading="lazy" decoding="async" referrerpolicy="origin" width="120" height="130" style="cursor:pointer;object-fit:contain">
 			</a><p>با انتخاب نشان، مشخصات و وضعیت اعتبار را در سامانه رسمی اینماد بررسی کنید.</p>
 		</section>
 		<section aria-labelledby="clz-zarinpal-title"><h2 id="clz-zarinpal-title">نشان زرین‌پال</h2>
