@@ -228,18 +228,19 @@ final class CLZ_Order_Tracking {
 		] );
 		ob_start(); ?>
 		<section class="clz-tracker" dir="rtl" aria-labelledby="clz-track-title">
-			<header class="clz-track-heading"><h1 id="clz-track-title">پیگیری سفارش</h1><p>وضعیت سفارش، جزئیات خرید و لینک رهگیری مرسوله را در این صفحه مشاهده کنید.</p></header>
+			<header class="clz-track-heading"><nav aria-label="مسیر صفحه"><a href="<?php echo esc_url( home_url( '/' ) ); ?>">کلوز</a><span aria-hidden="true"> / </span><span>پیگیری سفارش</span></nav><h1 id="clz-track-title">پیگیری سفارش</h1><p>از آماده‌سازی تا تحویل؛ آخرین وضعیت سفارش و لینک رهگیری بسته را اینجا ببینید.</p></header>
 			<?php if ( ! is_user_logged_in() ) : ?>
-			<div class="clz-track-login"><h2>ابتدا وارد حساب خود شوید</h2><p>پس از ورود، سفارش‌های حساب شما نمایش داده می‌شوند. برای پیگیری سفارش با شماره همراه متفاوت نیز می‌توانید کد اختصاصی همان سفارش را وارد کنید؛ در این مرحله پیامک تأیید جداگانه‌ای ارسال نمی‌شود.</p><a class="clz-track-button" href="<?php echo esc_url( wc_get_page_permalink( 'myaccount' ) ); ?>">ورود به حساب کاربری</a></div>
+			<div class="clz-track-login"><h2>برای پیگیری، وارد حساب شوید</h2><p>سفارش‌های حساب شما مستقیم نمایش داده می‌شوند. برای سفارشی که با حساب دیگری ثبت شده است، شماره سفارش و شماره همراه واردشده هنگام خرید را نیاز دارید.</p><a class="clz-track-button" href="<?php echo esc_url( wc_get_page_permalink( 'myaccount' ) ); ?>">ورود به حساب کاربری</a></div>
 			<?php else : ?>
-			<details class="clz-track-lookup"><summary>پیگیری با کد اختصاصی سفارش</summary><p>اگر سفارش در فهرست حساب شما نیست یا با شماره دیگری ثبت شده، کد اختصاصی آن را وارد کنید. این کد با شماره سفارش و کد رهگیری شرکت حمل تفاوت دارد و در جزئیات سفارش و ایمیل خرید درج می‌شود.</p>
-			<form id="clz-track-code-form"><label for="clz-track-code">کد اختصاصی سفارش</label><div class="clz-track-input"><input id="clz-track-code" name="tracking_code" dir="ltr" autocomplete="off" maxlength="32" spellcheck="false" required placeholder="BJN-XXXXXXXXXXXX"><button type="submit">مشاهده سفارش</button></div><small>این کد را فقط در اختیار شخصی بگذارید که اجازه مشاهده سفارش را دارد.</small></form></details>
-			<div class="clz-track-message" role="status" aria-live="polite"></div>
-			<button type="button" data-track-reset>دریافت دوباره سفارش‌ها</button>
-			<div id="clz-track-results" aria-live="polite" aria-busy="true"><p data-track-loading>در حال دریافت سفارش‌های شما…</p></div>
-			<noscript><p>برای پیگیری در این صفحه، جاوااسکریپت مرورگر را فعال کنید یا سفارش را از <a href="<?php echo esc_url( wc_get_account_endpoint_url( 'orders' ) ); ?>">حساب کاربری</a> مشاهده کنید.</p></noscript>
+			<div class="clz-track-workspace"><div class="clz-track-main">
+			<section class="clz-track-lookup" aria-labelledby="clz-lookup-title"><h2 id="clz-lookup-title">سفارش را پیدا کنید</h2><p>با شماره سفارش یا شماره همراه، سفارش‌های این حساب را پیدا کنید. برای سفارش با حساب دیگر، هر دو بخش را کامل کنید؛ شماره همراه می‌تواند با شماره حساب فعلی متفاوت باشد.</p>
+			<form id="clz-track-lookup-form"><div class="clz-track-fields"><div><label for="clz-track-number">شماره سفارش</label><input id="clz-track-number" name="order_number" dir="ltr" inputmode="numeric" autocomplete="off" maxlength="12" placeholder="مثلاً ۱۲۳۴"><small>همان عدد درج‌شده در رسید و جزئیات خرید</small></div><div><label for="clz-track-phone">شماره همراه سفارش</label><input id="clz-track-phone" name="phone" dir="ltr" inputmode="tel" autocomplete="tel" maxlength="20" placeholder="۰۹۱۲۱۲۳۴۵۶۷"><small>شماره‌ای که موقع ثبت سفارش وارد کرده‌اید</small></div></div><div class="clz-track-submit"><button type="submit"><span>مشاهده وضعیت سفارش</span></button><small>بدون پیامک تأیید اضافه</small></div></form>
+			</section><div class="clz-track-message" role="status" aria-live="polite"></div>
+			<div class="clz-track-list-tools"><h2>سفارش‌های حساب شما</h2><button type="button" data-track-reset aria-label="به‌روزرسانی سفارش‌های حساب">به‌روزرسانی</button></div>
+			<div id="clz-track-results" aria-live="polite" aria-busy="true"><div class="clz-track-loading" data-track-loading><span aria-hidden="true"></span><p>در حال دریافت سفارش‌ها…</p></div></div>
+			<noscript><p>جاوااسکریپت مرورگر را فعال کنید یا سفارش را از <a href="<?php echo esc_url( wc_get_account_endpoint_url( 'orders' ) ); ?>">حساب کاربری</a> ببینید.</p></noscript></div>
+			<aside class="clz-track-guide"><h2>راهنمای پیگیری</h2><dl><div><dt>شماره سفارش را ندارید؟</dt><dd>رسید خرید، جزئیات سفارش یا پیام‌های فروشگاه را بررسی کنید.</dd></div><div><dt>لینک رهگیری نمایش داده نمی‌شود؟</dt><dd>پس از ثبت لینک شرکت حمل توسط فروشگاه، در نتیجه پیگیری نمایش داده می‌شود.</dd></div><div><dt>زمان رسیدن بسته</dt><dd>از تحویل بسته به دیجی‌پی: تهران ۲۴ ساعت، سایر نقاط ایران ۷۲ ساعت. آماده‌سازی جداگانه انجام می‌شود.</dd></div></dl><a href="<?php echo esc_url( home_url( '/shipping/' ) ); ?>">جزئیات روش ارسال</a><div class="clz-track-guide-contact"><h3>به کمک نیاز دارید؟</h3><p>هر روز از ۸ تا ۲۲ پاسخ‌گوی شما هستیم.</p><a class="clz-track-button clz-track-button--secondary" href="<?php echo esc_url( home_url( '/contact/' ) ); ?>">تماس با پشتیبانی کلوز</a></div></aside></div>
 			<?php endif; ?>
-			<footer class="clz-track-help"><p>پس از تحویل بسته به دیجی‌پی، زمان اعلام‌شده برای تهران ۲۴ ساعت و سایر نقاط ایران ۷۲ ساعت است. زمان آماده‌سازی سفارش جداگانه محاسبه می‌شود.</p><p><a href="<?php echo esc_url( home_url( '/shipping/' ) ); ?>">راهنمای ارسال</a> · <a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>">تماس با پشتیبانی کلوز</a></p></footer>
 		</section>
 		<?php return ob_get_clean();
 	}
@@ -259,12 +260,32 @@ final class CLZ_Order_Tracking {
 
 	private static function rate_hit( $scope, $identifier, $limit, $ttl ) {
 		$key = self::rate_key( $scope, $identifier );
-		$record = get_transient( $key );
-		if ( ! is_array( $record ) || $record['until'] <= time() ) $record = [ 'count' => 0, 'until' => time() + $ttl ];
-		if ( $record['count'] >= $limit ) return false;
-		$record['count']++;
-		set_transient( $key, $record, max( 1, $record['until'] - time() ) );
-		return true;
+		$lock_key = $key . '_lock';
+		$lease = [ 'token' => wp_generate_uuid4(), 'at' => time() ];
+		$locked = false;
+		for ( $attempt = 0; $attempt < 10; $attempt++ ) {
+			wp_cache_delete( $lock_key, 'options' );
+			$old = get_option( $lock_key );
+			if ( is_array( $old ) && (int) $old['at'] < time() - 30 ) delete_option( $lock_key );
+			if ( add_option( $lock_key, $lease, '', false ) ) { $locked = true; break; }
+			usleep( 20000 );
+		}
+		if ( ! $locked ) self::lookup_limit( 2 );
+		try {
+			if ( ! wp_using_ext_object_cache() ) {
+				wp_cache_delete( '_transient_' . $key, 'options' );
+				wp_cache_delete( '_transient_timeout_' . $key, 'options' );
+			}
+			$record = get_transient( $key );
+			if ( ! is_array( $record ) || $record['until'] <= time() ) $record = [ 'count' => 0, 'until' => time() + $ttl ];
+			if ( $record['count'] >= $limit ) return false;
+			$record['count']++;
+			set_transient( $key, $record, max( 1, $record['until'] - time() ) );
+			return true;
+		} finally {
+			wp_cache_delete( $lock_key, 'options' );
+			if ( get_option( $lock_key ) === $lease ) delete_option( $lock_key );
+		}
 	}
 
 	private static function access_token() {
@@ -333,19 +354,54 @@ final class CLZ_Order_Tracking {
 	public static function ajax_lookup() {
 		self::verify_ajax();
 		$identifier = (string) get_current_user_id();
-		if ( get_transient( self::rate_key( 'failed_lookup', $identifier ) ) ) {
-			$record = get_transient( self::rate_key( 'failed_lookup', $identifier ) );
-			if ( is_array( $record ) && $record['count'] >= 12 && $record['until'] > time() ) wp_send_json_error( [ 'message' => 'چند کد نامعتبر وارد شده است. لطفاً پنج دقیقه دیگر دوباره تلاش کنید.' ], 429 );
+		$ip = isset( $_SERVER['REMOTE_ADDR'] ) ? (string) $_SERVER['REMOTE_ADDR'] : 'unknown';
+		if ( ! self::rate_hit( 'lookup_network', $ip, 120, 15 * MINUTE_IN_SECONDS ) ) self::lookup_limit( 900 );
+		self::guard_failed_lookup( 'failed_lookup', $identifier );
+		$number_input = $_POST['order_number'] ?? '';
+		$phone_input = $_POST['phone'] ?? '';
+		$number = is_string( $number_input ) && strlen( $number_input ) <= 48 ? trim( self::normalize_digits( wp_unslash( $number_input ) ) ) : '';
+		$phone = is_string( $phone_input ) && strlen( $phone_input ) <= 60 ? self::normalize_phone( wp_unslash( $phone_input ) ) : '';
+		if ( $phone ) self::guard_failed_lookup( 'failed_phone', $phone );
+		$order = false;
+		if ( '' === $number && $phone ) {
+			$orders = self::own_orders_by_phone( $phone );
+			if ( $orders ) wp_send_json_success( [ 'html' => self::orders_html( $orders, self::access_token() ), 'view' => 'list' ] );
 		}
-		$input = $_POST['tracking_code'] ?? '';
-		$code = is_string( $input ) && strlen( $input ) <= 128 ? strtoupper( trim( self::normalize_digits( wp_unslash( $input ) ) ) ) : '';
-		$orders = preg_match( '/^BJN-[A-Z0-9]{12,16}$/D', $code ) ? self::orders_by_code( $code ) : [];
-		$order = $orders ? reset( $orders ) : false;
-		if ( ! $order || ! hash_equals( (string) $order->get_meta( self::META_CODE, true ), $code ) ) {
+		if ( preg_match( '/^[1-9][0-9]{0,11}$/D', $number ) ) {
+			// The core WooCommerce tracking filter supports sequential-number plugins.
+			$order_id = absint( apply_filters( 'woocommerce_shortcode_order_tracking_order_id', $number ) );
+			$order = $order_id ? wc_get_order( $order_id ) : false;
+		}
+		if ( ! $order || 'shop_order' !== $order->get_type() || ( $phone ? ! hash_equals( $phone, self::normalize_phone( $order->get_billing_phone() ) ) : (int) $order->get_customer_id() !== get_current_user_id() ) || $number !== self::normalize_digits( (string) $order->get_order_number() ) ) {
 			self::rate_hit( 'failed_lookup', $identifier, 12, 5 * MINUTE_IN_SECONDS );
-			wp_send_json_error( [ 'message' => 'سفارشی با این کد پیدا نشد. کد اختصاصی سفارش را بررسی کنید یا با پشتیبانی تماس بگیرید.' ], 404 );
+			if ( $phone ) self::rate_hit( 'failed_phone', $phone, 12, 15 * MINUTE_IN_SECONDS );
+			wp_send_json_error( [ 'message' => 'سفارشی با این اطلاعات پیدا نشد. اطلاعات را بررسی کنید؛ برای سفارشی خارج از این حساب، شماره سفارش و شماره همراه خرید را با هم وارد کنید.' ], 404 );
 		}
-		wp_send_json_success( [ 'html' => self::order_detail_html( $order ) ] );
+		$owned = (int) $order->get_customer_id() === get_current_user_id();
+		wp_send_json_success( [ 'html' => self::order_detail_html( $order, ! $owned ), 'view' => 'detail' ] );
+	}
+
+	private static function own_orders_by_phone( $phone ) {
+		$found = [];
+		$tail = substr( $phone, 1 );
+		foreach ( [ $phone, '+98' . $tail, '98' . $tail, '0098' . $tail ] as $variant ) {
+			$orders = wc_get_orders( [ 'type' => 'shop_order', 'customer_id' => get_current_user_id(), 'billing_phone' => $variant, 'limit' => 12, 'orderby' => 'date', 'order' => 'DESC' ] );
+			foreach ( $orders as $order ) {
+				if ( (int) $order->get_customer_id() === get_current_user_id() && hash_equals( $phone, self::normalize_phone( $order->get_billing_phone() ) ) ) $found[ $order->get_id() ] = $order;
+			}
+		}
+		usort( $found, static function ( $a, $b ) { return ( $b->get_date_created() ? $b->get_date_created()->getTimestamp() : 0 ) <=> ( $a->get_date_created() ? $a->get_date_created()->getTimestamp() : 0 ); } );
+		return array_slice( $found, 0, 12 );
+	}
+
+	private static function lookup_limit( $seconds ) {
+		if ( ! headers_sent() ) header( 'Retry-After: ' . $seconds );
+		wp_send_json_error( [ 'message' => 'برای محافظت از اطلاعات سفارش، درخواست‌های پیگیری موقتاً محدود شده‌اند. لطفاً کمی بعد دوباره تلاش کنید.', 'retryAfter' => $seconds ], 429 );
+	}
+
+	private static function guard_failed_lookup( $scope, $identifier ) {
+		$record = get_transient( self::rate_key( $scope, $identifier ) );
+		if ( is_array( $record ) && $record['count'] >= 12 && $record['until'] > time() ) self::lookup_limit( max( 1, $record['until'] - time() ) );
 	}
 
 	public static function ajax_detail() {
@@ -382,10 +438,10 @@ final class CLZ_Order_Tracking {
 
 	private static function orders_html( $orders, $access ) {
 		if ( ! $orders ) {
-			return '<div class="clz-track-empty"><i>⌕</i><h2>سفارشی پیدا نشد</h2><p>هنوز سفارشی به این حساب متصل نیست. اگر کد اختصاصی سفارش را دارید، از بخش پیگیری با کد استفاده کنید.</p></div>';
+			return '<div class="clz-track-empty"><i>⌕</i><h2>سفارشی پیدا نشد</h2><p>هنوز سفارشی به این حساب متصل نیست. برای سفارش با حساب دیگر، شماره سفارش و شماره همراه خرید را در فرم بالا وارد کنید.</p></div>';
 		}
 		ob_start();
-		?><div class="clz-orders-head"><div><span>سفارش‌های شما</span><h2><?php echo esc_html( sprintf( '%s سفارش', number_format_i18n( count( $orders ) ) ) ); ?></h2></div><button type="button" data-track-reset>به‌روزرسانی فهرست</button></div><div class="clz-orders-grid"><?php
+		?><div class="clz-orders-head"><div><span>سفارش‌های شما</span><h2><?php echo esc_html( sprintf( '%s سفارش', number_format_i18n( count( $orders ) ) ) ); ?></h2></div></div><div class="clz-orders-grid"><?php
 		foreach ( $orders as $order ) {
 			self::ensure_order_meta( $order );
 			$status_key = self::tracking_status( $order );
@@ -395,7 +451,7 @@ final class CLZ_Order_Tracking {
 			<article class="clz-order-card" style="--status-color:<?php echo esc_attr( $status['color'] ); ?>">
 				<header><div><small>شماره سفارش</small><strong>#<?php echo esc_html( $order->get_order_number() ); ?></strong></div><span><?php echo esc_html( $status['label'] ); ?></span></header>
 				<div class="clz-order-card-meta"><p><small>تاریخ ثبت</small><b><?php echo esc_html( wc_format_datetime( $order->get_date_created(), 'Y/m/d' ) ); ?></b></p><p><small>مبلغ سفارش</small><b><?php echo wp_kses_post( $order->get_formatted_order_total() ); ?></b></p><p><small>تعداد کالا</small><b><?php echo esc_html( number_format_i18n( $order->get_item_count() ) ); ?></b></p></div>
-				<footer><code><?php echo esc_html( $order->get_meta( self::META_CODE, true ) ); ?></code><button type="button" data-track-order="<?php echo esc_attr( $order->get_id() ); ?>" data-track-access="<?php echo esc_attr( $access ); ?>">مشاهده جزئیات <span>←</span></button></footer>
+				<footer><button type="button" data-track-order="<?php echo esc_attr( $order->get_id() ); ?>" data-track-access="<?php echo esc_attr( $access ); ?>">مشاهده جزئیات <span>←</span></button></footer>
 			</article>
 			<?php
 		}
@@ -403,7 +459,7 @@ final class CLZ_Order_Tracking {
 		return ob_get_clean();
 	}
 
-	private static function order_detail_html( $order ) {
+	private static function order_detail_html( $order, $limited = false ) {
 		self::ensure_order_meta( $order );
 		$status_key = self::tracking_status( $order );
 		$statuses = self::statuses();
@@ -421,7 +477,7 @@ final class CLZ_Order_Tracking {
 		ob_start();
 		?>
 		<div class="clz-order-detail" tabindex="-1">
-			<div class="clz-detail-actions"><button type="button" data-track-back>بازگشت به فهرست</button><code><?php echo esc_html( $order->get_meta( self::META_CODE, true ) ); ?></code></div>
+			<div class="clz-detail-actions"><button type="button" data-track-back>بازگشت به فهرست</button><span>شماره سفارش <bdi>#<?php echo esc_html( $order->get_order_number() ); ?></bdi></span></div>
 			<header class="clz-detail-head"><div><span>سفارش <?php echo esc_html( '#' . $order->get_order_number() ); ?></span><h2><?php echo esc_html( self::status_label( $order ) ); ?></h2><p>وضعیت سفارش در فروشگاه: <?php echo esc_html( wc_get_order_status_name( $order->get_status() ) ); ?></p><p>ثبت‌شده در <?php echo esc_html( wc_format_datetime( $order->get_date_created(), 'Y/m/d ساعت H:i' ) ); ?></p></div><i style="--status-color:<?php echo esc_attr( $statuses[ $status_key ]['color'] ); ?>"><?php echo esc_html( $statuses[ $status_key ]['icon'] ); ?></i></header>
 			<?php if ( 'cancelled' === $status_key ) : ?><div class="clz-cancelled-note">این سفارش فعال نیست. وضعیت لغو، پرداخت ناموفق یا استرداد وجه را در بخش وضعیت سفارش بررسی کنید. برای راهنمایی بیشتر با پشتیبانی تماس بگیرید.</div><?php elseif ( 'completed' === $status_key ) : ?><p>سفارش در فروشگاه تکمیل شده است. برای اطلاع از تحویل مرسوله، لینک شرکت حمل را بررسی کنید؛ تکمیل سفارش به‌تنهایی تأیید دریافت بسته نیست.</p><?php else : ?>
 			<div class="clz-track-timeline">
@@ -432,13 +488,13 @@ final class CLZ_Order_Tracking {
 			<?php if ( $delivery_day || $from || $to ) : ?><div class="clz-delivery-box"><i>⌁</i><div><span>بازه تقریبی تحویل</span><strong><?php echo esc_html( $delivery_day ? wp_date( 'Y/m/d', strtotime( $delivery_day ) ) : 'تاریخ در حال هماهنگی' ); ?><?php echo ( $from || $to ) ? esc_html( '، ساعت ' . ( $from ?: '—' ) . ' تا ' . ( $to ?: '—' ) ) : ''; ?></strong><small>این بازه ممکن است با توجه به شرایط ارسال کمی تغییر کند.</small></div></div><?php endif; ?>
 			<section class="clz-carrier-link"><h3>رهگیری مرسوله</h3><?php $tracking_url = self::clean_tracking_url( $order->get_meta( self::META_URL, true ) ); ?>
 			<?php if ( $tracking_url ) : ?><a class="clz-track-button" href="<?php echo esc_url( $tracking_url ); ?>" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">مشاهده وضعیت در سامانه شرکت حمل</a><p>این لینک، وضعیت مرسوله را در سامانه شرکت حمل نمایش می‌دهد.</p><?php else : ?><p>لینک رهگیری مرسوله هنوز ثبت نشده است. پس از ثبت توسط فروشگاه، در همین بخش نمایش داده می‌شود. برای پیگیری می‌توانید با شماره سفارش به پشتیبانی پیام بدهید.</p><?php endif; ?></section>
-			<div class="clz-detail-grid">
+			<?php if ( $limited ) : ?><p class="clz-track-private-note">وضعیت ارسال این سفارش نمایش داده شده است. جزئیات شخصی و مالی خرید در حساب ثبت‌کننده سفارش قابل مشاهده است.</p><?php else : ?><div class="clz-detail-grid">
 				<section><h3>اقلام سفارش</h3><div class="clz-detail-items">
 				<?php foreach ( $order->get_items() as $item ) : $product = $item->get_product(); ?>
 					<div><?php echo $product ? $product->get_image( 'woocommerce_thumbnail' ) : wc_placeholder_img( 'woocommerce_thumbnail' ); ?><p><strong><?php echo esc_html( $item->get_name() ); ?></strong><small>تعداد: <?php echo esc_html( $item->get_quantity() ); ?></small></p><b><?php echo wp_kses_post( $order->get_formatted_line_subtotal( $item ) ); ?></b></div>
 				<?php endforeach; ?></div><footer><span>مبلغ نهایی</span><strong><?php echo wp_kses_post( $order->get_formatted_order_total() ); ?></strong></footer></section>
 				<aside><h3>اطلاعات ارسال</h3><dl><div><dt>تحویل‌گیرنده</dt><dd><?php echo esc_html( trim( $order->get_formatted_billing_full_name() ) ?: '—' ); ?></dd></div><div><dt>شماره همراه</dt><dd dir="ltr"><?php echo esc_html( self::mask_phone( self::normalize_phone( $order->get_billing_phone() ) ?: $order->get_billing_phone() ) ); ?></dd></div><div><dt>مقصد</dt><dd><?php echo esc_html( implode( '، ', array_filter( [ $order->get_shipping_state() ?: $order->get_billing_state(), $order->get_shipping_city() ?: $order->get_billing_city() ] ) ) ?: '—' ); ?></dd></div><div><dt>روش ارسال</dt><dd><?php echo esc_html( $order->get_shipping_method() ?: '—' ); ?></dd></div></dl></aside>
-			</div>
+			</div><?php endif; ?>
 		</div>
 		<?php
 		return ob_get_clean();
@@ -446,15 +502,15 @@ final class CLZ_Order_Tracking {
 
 	public static function customer_tracking_code( $order ) {
 		self::ensure_order_meta( $order );
-		echo '<p class="clz-customer-code"><strong>کد پیگیری سفارش:</strong> <code dir="ltr">' . esc_html( $order->get_meta( self::META_CODE, true ) ) . '</code></p>';
+		echo '<p class="clz-customer-code"><strong>شماره سفارش برای پیگیری:</strong> <code dir="ltr">' . esc_html( $order->get_order_number() ) . '</code>؛ همراه شماره موبایل ثبت‌شده در خرید.</p>';
 	}
 
 	public static function email_tracking_code( $order, $sent_to_admin, $plain_text, $email ) {
 		if ( $sent_to_admin || ! $order instanceof WC_Order ) return;
 		self::ensure_order_meta( $order );
-		$code = $order->get_meta( self::META_CODE, true );
-		if ( $plain_text ) echo "\nکد پیگیری سفارش: " . $code . "\n";
-		else echo '<p><strong>کد پیگیری سفارش:</strong> <code dir="ltr">' . esc_html( $code ) . '</code></p>';
+		$code = $order->get_order_number();
+		if ( $plain_text ) echo "\nشماره سفارش برای پیگیری: " . $code . "\n";
+		else echo '<p><strong>شماره سفارش برای پیگیری:</strong> <code dir="ltr">' . esc_html( $code ) . '</code></p>';
 	}
 
 	public static function ensure_page() {
@@ -480,7 +536,7 @@ final class CLZ_Order_Tracking {
 		if ( ! $order instanceof WC_Order || ! current_user_can( 'edit_shop_order', $order->get_id() ) ) return;
 		self::ensure_order_meta( $order );
 		wp_nonce_field( 'clz_order_shipping_' . $order->get_id(), 'clz_order_shipping_nonce' );
-		echo '<h3>ارسال و پیگیری کلوز</h3><p>شماره سفارش: ' . esc_html( $order->get_order_number() ) . '<br>کد اختصاصی: <code>' . esc_html( $order->get_meta( self::META_CODE, true ) ) . '</code></p>';
+		echo '<h3>ارسال و پیگیری کلوز</h3><p>شماره سفارش برای پیگیری: <code>' . esc_html( $order->get_order_number() ) . '</code>؛ همراه شماره موبایل ثبت‌شده در خرید.</p>';
 		$options = array_map( static function( $status ) { return $status['label']; }, array_intersect_key( self::statuses(), array_flip( [ 'registered', 'preparing', 'shipped', 'delivered' ] ) ) );
 		woocommerce_wp_select( [ 'id' => 'clz_shipping_status', 'label' => 'مرحله ارسال', 'value' => $order->get_meta( self::META_STATUS, true ), 'options' => [ '' => 'انتخاب مرحله ارسال' ] + $options, 'description' => 'مرحله آماده‌سازی، ارسال یا تحویل واقعی را ثبت کنید. لغو، پرداخت ناموفق و استرداد وجه از وضعیت اصلی ووکامرس خوانده می‌شوند.' ] );
 		woocommerce_wp_text_input( [ 'id' => 'clz_tracking_url', 'label' => 'لینک رهگیری مرسوله', 'type' => 'url', 'value' => $order->get_meta( self::META_URL, true ), 'description' => 'نشانی کامل رهگیری در سامانه شرکت حمل، با https://. این لینک در صفحه پیگیری مشتری نمایش داده می‌شود.' ] );
@@ -557,7 +613,7 @@ final class CLZ_Order_Tracking {
 		$values = [
 			'{order_id}'       => $order->get_order_number(),
 			'{status}'         => self::statuses()[ $status_key ]['label'],
-			'{tracking_code}'  => $order->get_meta( self::META_CODE, true ),
+			'{tracking_code}'  => $order->get_order_number(),
 			'{customer_name}'  => trim( $order->get_billing_first_name() . ' ' . $order->get_billing_last_name() ),
 			'{delivery_date}'  => $delivery_day ? wp_date( 'Y/m/d', strtotime( $delivery_day ) ) : '-',
 			'{delivery_window}'=> ( $from || $to ) ? ( $from ?: '-' ) . '-' . ( $to ?: '-' ) : '-',

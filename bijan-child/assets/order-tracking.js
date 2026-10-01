@@ -5,10 +5,18 @@
         if (!root.length || !window.clzTracking || !clzTracking.loggedIn) return;
         var results = root.find('#clz-track-results'), message = root.find('.clz-track-message');
         var page = 1, pending = false;
+        function digits(value) {
+            return String(value).replace(/[۰-۹٠-٩]/g, function (digit) {
+                var persian = '۰۱۲۳۴۵۶۷۸۹', arabic = '٠١٢٣٤٥٦٧٨٩';
+                var index = persian.indexOf(digit);
+                return String(index < 0 ? arabic.indexOf(digit) : index);
+            });
+        }
         function request(action, data, done) {
             if (pending) return;
             pending = true;
             message.text('');
+            root.find('#clz-track-lookup-form button span').text('در حال بررسی…');
             results.attr('aria-busy', 'true');
             root.find('button').prop('disabled', true);
             $.ajax({url: clzTracking.ajaxUrl, method: 'POST', dataType: 'json', timeout: 20000,
@@ -24,16 +32,19 @@
                 results.find('[data-track-loading]').remove();
                 results.attr('aria-busy', 'false');
                 root.find('button').prop('disabled', false);
+                root.find('#clz-track-lookup-form button span').text('مشاهده وضعیت سفارش');
             });
         }
         function showDetail(data) {
             results.html(data.html);
+            root.find('.clz-track-list-tools h2').text(data.view === 'list' ? 'سفارش‌های پیدا شده در این حساب' : 'نتیجه پیگیری سفارش');
             var detail = results.find('.clz-order-detail');
             if (detail.length) detail[0].focus();
         }
         function loadList(nextPage) {
             request('clz_tracking_list', {page: nextPage}, function (data) {
                 page = data.page;
+                root.find('.clz-track-list-tools h2').text('سفارش‌های حساب شما');
                 results.html(data.html);
                 if (data.pages > 1) {
                     var nav = $('<nav class="clz-track-pagination" aria-label="صفحه‌های سفارش‌ها"></nav>');
@@ -44,11 +55,23 @@
                 }
             });
         }
-        root.on('submit', '#clz-track-code-form', function (event) {
+        root.on('submit', '#clz-track-lookup-form', function (event) {
             event.preventDefault();
-            var code = $('#clz-track-code').val().trim();
-            if (!code) { message.text('لطفاً کد اختصاصی سفارش را وارد کنید.'); return; }
-            request('clz_tracking_lookup', {tracking_code: code}, showDetail);
+            var number = digits(root.find('#clz-track-number').val()).trim();
+            var phone = digits(root.find('#clz-track-phone').val()).replace(/[\s\-()]/g, '');
+            if (!number && !phone) {
+                message.text('شماره سفارش یا شماره همراه را وارد کنید.');
+                root.find('#clz-track-number').trigger('focus'); return;
+            }
+            if (number && !/^[1-9][0-9]{0,11}$/.test(number)) {
+                message.text('شماره سفارش را با اعداد روی رسید خرید وارد کنید.');
+                root.find('#clz-track-number').trigger('focus'); return;
+            }
+            if (phone && !/^(?:0|\+98|0098|98)?9[0-9]{9}$/.test(phone)) {
+                message.text('شماره همراه ثبت‌شده هنگام خرید را کامل وارد کنید.');
+                root.find('#clz-track-phone').trigger('focus'); return;
+            }
+            request('clz_tracking_lookup', {order_number: number, phone: phone}, showDetail);
         });
         root.on('click', '[data-track-order]', function () {
             request('clz_tracking_detail', {order_id: $(this).attr('data-track-order'), access: $(this).attr('data-track-access')}, showDetail);

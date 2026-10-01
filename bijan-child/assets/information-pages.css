@@ -1,4 +1,5 @@
 /* One palette from the theme, distinct layouts driven by the page's purpose. */
+.clz-info .clz-info-updated{font-size:13px;color:var(--text-200,#626875);margin:28px 0 0}
 body.page #page-body.clz-info {
 	--clz-info-ink: var(--text-100, #2e313c);
 	--clz-info-muted: var(--text-200, #4e5364);

@@ -10,13 +10,7 @@
 			<div class="clz-info-actions"><a class="clz-info-button" href="https://www.goftino.com/c/h6q2ir" target="_blank" rel="noopener noreferrer">گفت‌وگو با پشتیبانی</a></div>
 			<p class="clz-contact-hint">پاسخ پشتیبانی را در همان صفحه گفت‌وگو مشاهده کنید.</p>
 		</section>
-		<section class="clz-contact-channel" aria-labelledby="clz-contact-call">
-			<h2 id="clz-contact-call">تماس و پیامک</h2>
-			<p>اگر ترجیح می‌دهید مستقیم صحبت کنید، تماس بگیرید؛ برای پیام متنی هم همین شماره در دسترس است.</p>
-			<p><a class="clz-info-phone" href="tel:+989981687867" dir="ltr">۰۹۹۸ ۱۶۸ ۷۸۶۷</a></p>
-			<p class="clz-contact-response">زمان معمول پاسخ در ساعات کاری: تا ۱ ساعت</p>
-			<div class="clz-info-actions"><a class="clz-info-button clz-info-button--outline" href="tel:+989981687867">تماس بگیرید</a><a class="clz-info-button clz-info-button--outline" href="sms:+989981687867">پیامک ارسال کنید</a></div>
-		</section>
+		[clz_contact_call]
 		<section class="clz-contact-channel" aria-labelledby="clz-contact-message">
 			<h2 id="clz-contact-message">پیام در تلگرام یا بله</h2>
 			<p>از پیام‌رسانی استفاده کنید که برای شما راحت‌تر است. شناسه ما در هر دو <bdi dir="ltr">@real_call_margin</bdi> است.</p>

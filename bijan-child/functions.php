@@ -28,7 +28,9 @@ require_once trailingslashit( get_stylesheet_directory() ) . 'inc/mobile-header.
 // Store information pages, canonical URLs and readable customer policies.
 require_once trailingslashit( get_stylesheet_directory() ) . 'inc/information-pages.php';
 require_once trailingslashit( get_stylesheet_directory() ) . 'inc/store-presentation.php';
+require_once trailingslashit( get_stylesheet_directory() ) . 'inc/store-contact.php';
 require_once trailingslashit( get_stylesheet_directory() ) . 'inc/trust-seals.php';
+require_once trailingslashit( get_stylesheet_directory() ) . 'inc/final-store-update.php';
 
 // Clearer product attributes plus the fixed shipping and returns guide.
 require_once trailingslashit( get_stylesheet_directory() ) . 'inc/product-tabs.php';
