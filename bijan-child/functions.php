@@ -52,6 +52,9 @@ add_action( 'template_redirect', function() {
 	$critical = [
 		'clz-mobile-header-js',
 	];
+	if ( class_exists( 'CLZ_Order_Tracking' ) && CLZ_Order_Tracking::is_tracking_page() ) {
+		$critical = array_merge( $critical, [ 'jquery-core-js', 'jquery-migrate-js', 'bijan-utils-js', 'bijan-auth-modal-js', 'clz-order-tracking-js' ] );
+	}
 	if ( function_exists( 'clz_information_key' ) && 'licenses' === clz_information_key() ) {
 		// The official badge uses document.write and must run while parsing the page.
 		$critical[] = 'www.zarinpal.com/webservice/TrustCode';

@@ -76,11 +76,11 @@ function cloz_render_shipping_returns_summary() {
 		</header>
 
 		<div class="cloz-fulfilment-summary__items" role="list">
-			<div role="listitem"><strong>زمان حمل با دیجی‌پی</strong><span>از تحویل به سرویس حمل: تهران ۲ ساعت، سایر نقاط ایران ۷۲ ساعت؛ آماده‌سازی جداست</span></div>
-			<div role="listitem"><strong>پیگیری سفارش</strong><span>زمان تحویل و تغییر وضعیت سفارش از طریق پیامک اطلاع‌رسانی می‌شود</span></div>
+			<div role="listitem"><strong>زمان حمل با دیجی‌پی</strong><span>از تحویل به سرویس حمل: تهران ۲۴ ساعت، سایر نقاط ایران ۷۲ ساعت؛ آماده‌سازی جداست</span></div>
+			<div role="listitem"><strong>پیگیری سفارش</strong><span>پس از ورود به حساب، وضعیت سفارش و لینک رهگیری ثبت‌شده را در صفحه پیگیری ببینید</span></div>
 			<div role="listitem"><strong>شرایط مرجوعی</strong><span>در صورت ایراد یا مغایرت محصول، درخواست توسط پشتیبانی بررسی می‌شود</span></div>
 		</div>
-		<p class="cloz-fulfilment-summary__note">لغو پیش از پیامک آماده‌سازی با هماهنگی پشتیبانی انجام می‌شود. جزئیات <?php echo clz_information_link( 'shipping', 'ارسال' ); ?> و <?php echo clz_information_link( 'returns', 'مرجوعی و حق انصراف قانونی' ); ?> را بخوان.</p>
+		<p class="cloz-fulfilment-summary__note">لغو پیش از پیامک آماده‌سازی با هماهنگی پشتیبانی انجام می‌شود. جزئیات <?php echo clz_information_link( 'shipping', 'ارسال' ); ?> و <?php echo clz_information_link( 'returns', 'مرجوعی و حق انصراف قانونی' ); ?> را بخوانید.</p>
 	</section>
 	<?php
 }
