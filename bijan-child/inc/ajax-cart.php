@@ -9,7 +9,7 @@ defined( 'ABSPATH' ) || exit;
 
 final class Cloz_Ajax_Cart {
 	const ACTION = 'cloz_add_to_cart';
-	const CACHE_REVISION = '2026-10-01-checkout-cart-v2';
+	const CACHE_REVISION = '2026-10-05-cart-confirmation-v3';
 
 	public static function init() {
 		// WooCommerce's normal form handler also watches for an `add-to-cart`
@@ -138,7 +138,6 @@ final class Cloz_Ajax_Cart {
 			array(
 				'endpoint'        => WC_AJAX::get_endpoint( self::ACTION ),
 				'cartUrl'         => wc_get_cart_url(),
-				'timeout'         => 5000,
 				'requestTimeout'  => 20000,
 				'chooseOptions'   => 'لطفاً گزینه‌های محصول را انتخاب کنید.',
 				'genericError'    => 'افزودن محصول انجام نشد. لطفاً دوباره تلاش کنید.',
@@ -394,19 +393,22 @@ final class Cloz_Ajax_Cart {
 		}
 		?>
 		<div id="cloz-cart-toast-region" class="cloz-cart-toast-region" aria-live="polite" aria-atomic="true">
-			<aside id="cloz-cart-toast" class="cloz-cart-toast" aria-hidden="true">
-				<button type="button" class="cloz-cart-toast__close" aria-label="<?php echo esc_attr( 'بستن پیام' ); ?>">&times;</button>
-				<div class="cloz-cart-toast__visual">
-					<img class="cloz-cart-toast__image" src="" alt="" width="72" height="72">
-					<span class="cloz-cart-toast__status" aria-hidden="true">&#10003;</span>
-				</div>
-				<div class="cloz-cart-toast__content">
+			<aside id="cloz-cart-toast" class="cloz-cart-toast" aria-hidden="true" hidden>
+				<div class="cloz-cart-toast__header">
 					<strong class="cloz-cart-toast__title">به سبد خرید اضافه شد</strong>
-					<span class="cloz-cart-toast__product"></span>
-					<span class="cloz-cart-toast__meta"></span>
+					<button type="button" class="cloz-cart-toast__close" aria-label="<?php echo esc_attr( 'بستن پیام' ); ?>">&times;</button>
+				</div>
+				<div class="cloz-cart-toast__details">
+					<div class="cloz-cart-toast__visual">
+						<img class="cloz-cart-toast__image" alt="" width="72" height="72" hidden>
+						<span class="cloz-cart-toast__status" aria-hidden="true">&#10003;</span>
+					</div>
+					<div class="cloz-cart-toast__content">
+						<span class="cloz-cart-toast__product"></span>
+						<span class="cloz-cart-toast__meta"></span>
+					</div>
 				</div>
 				<a class="cloz-cart-toast__action" href="<?php echo esc_url( wc_get_cart_url() ); ?>">مشاهده سبد خرید</a>
-				<span class="cloz-cart-toast__progress" aria-hidden="true"></span>
 			</aside>
 		</div>
 		<?php

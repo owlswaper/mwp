@@ -28,6 +28,11 @@ final class Cloz_Archive_Ajax_Filters {
 		add_action( 'dynamic_sidebar_before', [ __CLASS__, 'start_sidebar_capture' ], 0, 2 );
 		add_action( 'dynamic_sidebar_after', [ __CLASS__, 'finish_sidebar_capture' ], PHP_INT_MAX, 2 );
 		add_filter( 'get_pagenum_link', [ __CLASS__, 'clean_pagination_link' ], PHP_INT_MAX );
+		add_action( 'woocommerce_after_shop_loop', [ __CLASS__, 'print_page_data' ], 9 );
+		add_action( 'woocommerce_before_shop_loop', [ __CLASS__, 'ensure_archive_container' ], 31 );
+		add_filter( 'rank_math/frontend/canonical', [ __CLASS__, 'category_canonical' ], 99 );
+		add_filter( 'wpseo_canonical', [ __CLASS__, 'category_canonical' ], 99 );
+		add_action( 'wp_head', [ __CLASS__, 'fallback_category_canonical' ], 20 );
 	}
 
 	/**
@@ -118,7 +123,49 @@ final class Cloz_Archive_Ajax_Filters {
 			'url'   => self::canonical_archive_url(),
 			'state' => self::sanitize_state( wp_unslash( $_GET ) ),
 			'key'   => self::REQUEST_KEY,
+			'infinite' => is_product_category(),
+			'paginationBase' => $GLOBALS['wp_rewrite']->pagination_base ?? 'page',
 		] );
+	}
+
+	/** Keep category-only views compatible with the balanced archive wrappers. */
+	public static function ensure_archive_container() {
+		// WooCommerce skips catalog_ordering for category-only display modes.
+		if ( self::is_product_archive() && empty( $GLOBALS['cloz_archive_wrapper_open'] ) ) {
+			wc_get_template( 'loop/orderby.php', [
+				'orderby' => isset( $_GET['orderby'] ) ? wc_clean( wp_unslash( $_GET['orderby'] ) ) : '',
+			] );
+		}
+	}
+
+	/** Small server-derived contract; no second product query or REST endpoint. */
+	public static function print_page_data() {
+		if ( ! is_product_category() ) {
+			return;
+		}
+		$page = max( 1, (int) wc_get_loop_prop( 'current_page', 1 ) );
+		$total = max( 1, (int) wc_get_loop_prop( 'total_pages', 1 ) );
+		printf(
+			'<span class="cloz-archive-page-data" hidden data-page="%1$d" data-pages="%2$d" data-url="%3$s" data-next="%4$s" data-order-window="%5$d"></span>',
+			$page,
+			$total,
+			esc_url( get_pagenum_link( $page ) ),
+			$page < $total ? esc_url( get_pagenum_link( $page + 1 ) ) : '',
+			(int) floor( time() / ( 12 * HOUR_IN_SECONDS ) )
+		);
+	}
+
+	/** Each crawlable category page has its own canonical, including page 2+. */
+	public static function category_canonical( $url ) {
+		return is_product_category()
+			? self::clean_pagination_link( get_pagenum_link( max( 1, (int) get_query_var( 'paged' ), (int) get_query_var( 'product-page' ), absint( $_GET['product-page'] ?? 1 ) ) ) )
+			: $url;
+	}
+
+	public static function fallback_category_canonical() {
+		if ( is_product_category() && ! defined( 'RANK_MATH_VERSION' ) && ! defined( 'WPSEO_VERSION' ) ) {
+			echo '<link rel="canonical" href="' . esc_url( self::category_canonical( '' ) ) . '" />' . "\n";
+		}
 	}
 
 	/**
@@ -241,7 +288,7 @@ final class Cloz_Archive_Ajax_Filters {
 			&& ! empty( $_POST[ self::REQUEST_KEY ] );
 	}
 
-	private static function is_product_archive() {
+	public static function is_product_archive() {
 		return function_exists( 'is_shop' )
 			&& ( is_shop() || is_product_taxonomy() || is_post_type_archive( 'product' ) || ( is_search() && 'product' === get_query_var( 'post_type' ) ) );
 	}

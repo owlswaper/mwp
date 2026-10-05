@@ -15,6 +15,7 @@ require_once trailingslashit( get_stylesheet_directory() ) . 'inc/category-produ
 
 // Link-free AJAX filtering and ordering on WooCommerce archives.
 require_once trailingslashit( get_stylesheet_directory() ) . 'inc/archive-ajax-filters.php';
+require_once trailingslashit( get_stylesheet_directory() ) . 'inc/category-discovery.php';
 
 // One fast AJAX add-to-cart flow for loops, custom sections and product forms.
 require_once trailingslashit( get_stylesheet_directory() ) . 'inc/ajax-cart.php';
@@ -88,6 +89,7 @@ add_action( 'template_redirect', function() {
 			'cloz-ajax-cart-js',
 		] );
 		$critical[] = 'cloz-archive-ajax-filters-js';
+		$critical[] = 'cloz-category-discovery-js';
 	} elseif ( $is_checkout ) {
 		$critical = array_merge( $critical, [
 			'jquery-core-js',
@@ -545,32 +547,7 @@ function display_category_intro_and_subcats() {
 			</div>
         <?php endif; ?>
         
-        <?php if (!empty($subcats)): ?>
-            <div class="cloz-subcategories-grid">
-                <?php foreach ($subcats as $subcat): ?>
-                    <?php 
-                    $image_url = '';
-                    if (!empty($subcat['image_id'])) {
-                        $image_url = wp_get_attachment_image_url($subcat['image_id'], 'medium');
-                    }
-                    
-                    $link = !empty($subcat['link']) ? esc_url($subcat['link']) : '#';
-                    $title = !empty($subcat['title']) ? esc_html($subcat['title']) : 'بدون عنوان';
-                    ?>
-                    
-                    <a href="<?php echo $link; ?>" class="cloz-subcat-card">
-                        <div class="cloz-subcat-image-wrapper">
-                            <?php if ($image_url): ?>
-                                <img src="<?php echo esc_url($image_url); ?>" 
-                                     alt="<?php echo $title; ?>" 
-                                     class="cloz-subcat-image">
-                            <?php endif; ?>
-                        </div>
-                        <div class="cloz-subcat-title"><?php echo $title; ?></div>
-                    </a>
-                <?php endforeach; ?>
-            </div>
-        <?php endif; ?>
+        <?php cloz_render_category_discovery( $subcats ); ?>
     </div>
     <?php
 }
@@ -608,8 +585,7 @@ function cloz_category_long_description() {
 
     if (!$content) return;
 
-    // بستن divهای احتمالی
-    echo '</div></div></div>';
+    // Keep archive content inside its real container for AJAX replacement.
 
     echo '<section class="cloz-long-desc-section">';
 
@@ -795,8 +771,6 @@ function cloz_category_long_description() {
 
     echo '</section>';
 
-    // بازکردن divها
-    echo '<div><div><div>';
 }
 
 
@@ -829,8 +803,6 @@ function display_category_faq_manual() {
     
     if (empty($faqs)) return;
     
-    // بستن divها
-    echo '</div></div></div>';
     
     ?>
     <section class="category-faq-section">
@@ -1017,33 +989,9 @@ function display_category_faq_manual() {
         }
     </style>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const faqItems = document.querySelectorAll('.faq-item');
-            
-            faqItems.forEach(item => {
-                const question = item.querySelector('.faq-question');
-                
-                question.addEventListener('click', function() {
-                    const isActive = item.classList.contains('active');
-                    
-                    faqItems.forEach(i => {
-                        i.classList.remove('active');
-                        i.querySelector('.faq-question').setAttribute('aria-expanded', 'false');
-                    });
-                    
-                    if (!isActive) {
-                        item.classList.add('active');
-                        question.setAttribute('aria-expanded', 'true');
-                    }
-                });
-            });
-        });
-    </script>
+
     <?php
     
-    // بازکردن divها
-    echo '<div><div><div>';
 }
 
 
@@ -1337,7 +1285,6 @@ add_action( 'wp_head', function() {
 	.single-post #commentform #submit { background:#087b79 !important; color:#fff !important; }
 	.single-post .postTitle { color:#08725f !important; }
 	.single-post .list-posts .post-texts { background:#484a50 !important; }
-	.single-post #footer-more-info-subtitle { color:#b8bac1 !important; }
 	</style>
 	<?php
 }, 2 );

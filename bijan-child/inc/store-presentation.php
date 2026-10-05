@@ -79,3 +79,10 @@ function clz_account_welcome_styles() {
 	wp_enqueue_style( 'clz-account-welcome', trailingslashit( get_stylesheet_directory_uri() ) . 'assets/account-welcome.css', array( 'bijan-child-style' ), (string) filemtime( $file ) );
 }
 add_action( 'wp_enqueue_scripts', 'clz_account_welcome_styles', 30 );
+
+/** Footer-only styles; native menu destinations and surrounding sections stay intact. */
+function cloz_enqueue_footer_styles() {
+	$path = trailingslashit( get_stylesheet_directory() ) . 'assets/footer.css';
+	wp_enqueue_style( 'cloz-footer', trailingslashit( get_stylesheet_directory_uri() ) . 'assets/footer.css', [ 'bijan-child-style' ], (string) filemtime( $path ) );
+}
+add_action( 'wp_enqueue_scripts', 'cloz_enqueue_footer_styles', 70 );

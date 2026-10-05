@@ -11,7 +11,7 @@
 
 	var config = window.ClozAjaxCart;
 	var toast;
-	var closeTimer;
+	var lastCartTrigger;
 	var submittedActions = Object.create(null);
 
 	function createActionId() {
@@ -60,8 +60,6 @@
 		var meta = element.querySelector('.cloz-cart-toast__meta');
 		var action = element.querySelector('.cloz-cart-toast__action');
 
-		element.classList.remove('is-visible', 'is-error', 'is-restarting');
-		void element.offsetWidth;
 		element.classList.toggle('is-error', isError);
 		title.textContent = isError ? config.errorTitle : config.successTitle;
 
@@ -75,8 +73,13 @@
 		} else {
 			var quantity = item && item.quantity ? item.quantity : 1;
 			var count = item && item.count ? Number(item.count) : 1;
-			image.src = item && item.image ? item.image : '';
-			image.hidden = !image.src;
+			if (item && item.image) {
+				image.src = item.image;
+				image.hidden = false;
+			} else {
+				image.removeAttribute('src');
+				image.hidden = true;
+			}
 			product.textContent = count > 1 ? count + ' محصول به سبد خرید اضافه شد' : (item.name || 'محصول');
 			meta.textContent = (count === 1 && quantity > 1 ? 'تعداد: ' + quantity : '') +
 				(item && item.meta ? ((count === 1 && quantity > 1 ? ' — ' : '') + item.meta) : '');
@@ -86,12 +89,9 @@
 			element.setAttribute('role', 'status');
 		}
 
-		element.style.setProperty('--cloz-toast-duration', Number(config.timeout || 5000) + 'ms');
+		element.hidden = false;
 		element.setAttribute('aria-hidden', 'false');
 		element.classList.add('is-visible');
-
-		window.clearTimeout(closeTimer);
-		closeTimer = window.setTimeout(hideToast, Number(config.timeout || 5000));
 	}
 
 	function hideToast() {
@@ -102,9 +102,13 @@
 		element.classList.remove('is-visible');
 		element.setAttribute('aria-hidden', 'true');
 		if (document.activeElement && element.contains(document.activeElement)) {
-			document.activeElement.blur();
+			if (lastCartTrigger && lastCartTrigger.isConnected) {
+				lastCartTrigger.focus({ preventScroll: true });
+			} else {
+				document.activeElement.blur();
+			}
 		}
-		window.clearTimeout(closeTimer);
+		element.hidden = true;
 	}
 
 	function setLoading(button, loading) {
@@ -170,6 +174,7 @@
 		if (!button || button.classList.contains('cloz-cart-is-loading')) {
 			return;
 		}
+		lastCartTrigger = button;
 		if (actionId && submittedActions[actionId]) {
 			return;
 		}
@@ -274,6 +279,7 @@
 
 		var variation = form.querySelector('[name="variation_id"]');
 		if (variation && Number(variation.value || 0) < 1) {
+			lastCartTrigger = button;
 			event.preventDefault();
 			event.stopPropagation();
 			event.stopImmediatePropagation();

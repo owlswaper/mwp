@@ -22,6 +22,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+$GLOBALS['cloz_archive_wrapper_open'] = true;
+
 $options = Options::get_options( [
 	'wc-show-archive-order'	=> true,
 ] );

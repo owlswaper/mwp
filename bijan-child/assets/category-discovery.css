@@ -1,0 +1,81 @@
+/* Native horizontal scrolling: vertical gestures and the page remain untouched. */
+.cloz-category-discovery {
+	--discovery-accent: var(--primary-100, #087b79);
+	width: 100%;
+	min-width: 0;
+	margin-block: 12px 8px;
+}
+.cloz-discovery-header { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 10px; }
+.cloz-discovery-heading { margin: 0; color: var(--text-100, #25333c); font-size: .9rem; font-weight: 750; line-height: 1.7; }
+.cloz-discovery-actions { display: flex; align-items: center; gap: 6px; }
+.cloz-discovery-actions[hidden], .cloz-discovery-actions [hidden] { display: none !important; }
+.cloz-discovery-actions button {
+	display: grid;
+	place-items: center;
+	width: 38px;
+	height: 38px;
+	padding: 0;
+	border: 1px solid #dce5e7;
+	border-radius: 50%;
+	background: #fff;
+	color: #3c515a;
+	font: inherit;
+	cursor: pointer;
+	transition: background-color .18s ease, border-color .18s ease;
+}
+.cloz-discovery-actions button:hover { background: #eef7f6; border-color: var(--discovery-accent); }
+.cloz-discovery-actions button:disabled { opacity: .35; cursor: default; }
+.cloz-discovery-actions svg { width: 17px; height: 17px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.cloz-discovery-prev svg { transform: rotate(180deg); }
+[dir="rtl"] .cloz-discovery-prev svg { transform: none; }
+[dir="rtl"] .cloz-discovery-next svg { transform: rotate(180deg); }
+.cloz-discovery-rail {
+	display: flex;
+	gap: 14px;
+	width: 100%;
+	min-width: 0;
+	padding: 3px 3px 12px;
+	box-sizing: border-box;
+	overflow-x: auto;
+	overflow-y: hidden;
+	scroll-snap-type: x proximity;
+	scroll-padding-inline: 3px;
+	scrollbar-width: thin;
+	scrollbar-color: #bdcece transparent;
+	overscroll-behavior-x: contain;
+	-webkit-overflow-scrolling: touch;
+}
+.cloz-discovery-card {
+	display: flex;
+	flex-direction: column;
+	flex: 0 0 clamp(164px, 17vw, 208px);
+	min-width: 0;
+	align-self: stretch;
+	border: 1px solid #e2e9e9;
+	border-radius: 15px;
+	background: #fff;
+	color: #2a3e45;
+	text-decoration: none;
+	scroll-snap-align: start;
+	box-shadow: 0 2px 7px rgb(20 50 50 / 3%);
+	transition: border-color .18s ease, box-shadow .18s ease;
+	overflow: hidden;
+}
+.cloz-discovery-card:hover { border-color: #8bbfba; box-shadow: 0 4px 12px rgb(20 50 50 / 7%); color: var(--discovery-accent); }
+.cloz-discovery-image-wrap { display: block; width: 100%; aspect-ratio: 4 / 3; background: #f2f5f5; overflow: hidden; }
+.cloz-discovery-image { display: block; width: 100%; height: 100%; margin: 0 !important; object-fit: cover; }
+.cloz-discovery-title { display: flex; flex: 1; align-items: center; justify-content: center; min-height: 48px; padding: 10px 12px; box-sizing: border-box; text-align: center; font-size: .82rem; font-weight: 650; line-height: 1.65; overflow-wrap: anywhere; }
+.cloz-discovery-card:focus-visible, .cloz-discovery-rail:focus-visible, .cloz-discovery-actions button:focus-visible { outline: 3px solid var(--discovery-accent); outline-offset: 3px; }
+.cloz-discovery-card:focus-visible { outline-offset: -3px; }
+@media (max-width: 768px) {
+	.cloz-category-discovery { margin-block: 8px 4px; }
+	.cloz-discovery-header { margin-bottom: 7px; }
+	.cloz-discovery-heading { font-size: .82rem; }
+	.cloz-discovery-rail { gap: 10px; }
+	.cloz-discovery-card { flex-basis: clamp(144px, 39vw, 176px); border-radius: 13px; }
+	.cloz-discovery-title { min-height: 45px; padding: 8px 10px; font-size: .8rem; }
+	.cloz-discovery-actions button { width: 36px; height: 36px; }
+}
+@media (prefers-reduced-motion: reduce) {
+	.cloz-discovery-card, .cloz-discovery-actions button { transition: none; }
+}

@@ -57,6 +57,9 @@ function clz_contact_page_url() {
  * Load the tiny menu controller independently from the delayed parent bundle.
  */
 function clz_enqueue_mobile_header_script() {
+	$css = 'assets/navigation-drawer.css';
+	wp_enqueue_style( 'clz-navigation-drawer', trailingslashit( get_stylesheet_directory_uri() ) . $css, array( 'bijan-child-style' ), (string) filemtime( trailingslashit( get_stylesheet_directory() ) . $css ) );
+
 	$file = trailingslashit( get_stylesheet_directory() ) . 'assets/mobile-header.js';
 	$url  = trailingslashit( get_stylesheet_directory_uri() ) . 'assets/mobile-header.js';
 
